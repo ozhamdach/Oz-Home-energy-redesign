@@ -9,7 +9,7 @@
 
 <section class="section">
   <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
-    <form id="projectEnquiryForm" data-prototype-form novalidate>
+    <form id="projectEnquiryForm" data-prototype-form data-service-field="interest" method="post" action="#" novalidate>
       <div class="form-field">
         <label for="companyName">Business / organisation name</label>
         <input type="text" id="companyName" name="companyName" required autocomplete="organization">
@@ -52,21 +52,29 @@
         <textarea id="details" name="details" placeholder="Site size, approximate roof or ground space, operating hours, known switchboard/supply details, timeframe — whatever you have."></textarea>
         <p class="hint">Recent electricity bills help us scope faster — you'll be able to attach these once this form is connected to our lead system.</p>
       </div>
-      <!-- Attribution fields for HighLevel — populated by tracking script prior to launch -->
+      <!-- Attribution fields: populated from sessionStorage by site.js (see
+           the sitewide captureAttribution/populateAttributionFields functions),
+           consistent with the assessment and service-request forms. -->
       <input type="hidden" name="utm_source" value="">
       <input type="hidden" name="utm_medium" value="">
       <input type="hidden" name="utm_campaign" value="">
+      <input type="hidden" name="utm_term" value="">
+      <input type="hidden" name="utm_content" value="">
       <input type="hidden" name="gclid" value="">
-      <input type="hidden" name="page_url" value="">
+      <input type="hidden" name="fbclid" value="">
+      <input type="hidden" name="landing_page" value="">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="selected_service" value="">
+      <input type="hidden" name="submitted_at" value="">
       <button class="btn btn-primary btn-block" type="submit">Submit Project Enquiry</button>
-      <p class="hint" style="margin-top:14px;">By submitting, you agree to be contacted about your enquiry. See our <a href="/privacy-policy/">Privacy Policy</a>. [OWNER CONFIRMATION REQUIRED — final consent wording for legal review]</p>
-      <p class="owner-flag" style="margin-top:10px;">Owner confirmation required — this form is a front-end prototype only. It must be connected to HighLevel (or another CRM) before it can receive live enquiries. See the HighLevel integration specification.</p>
+      <p class="hint" style="margin-top:14px;">By submitting, you agree to be contacted about your enquiry. See our <a href="/privacy-policy/">Privacy Policy</a>.</p>
+      <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet — call us instead if you need a response now.</span></p>
     </form>
 
     <aside>
       <div class="card">
         <h3 class="mt-0">Prefer to talk first?</h3>
-        <p>Call <a href="tel:0420113216">0420 113 216</a> or email <span class="owner-flag">[OWNER CONFIRMATION REQUIRED — business email address]</span>.</p>
+        <p>Call <a href="tel:0420113216">0420 113 216</a> and we'll talk through your project directly.</p>
       </div>
       <div class="card" style="margin-top:20px;">
         <h3 class="mt-0">What happens next</h3>

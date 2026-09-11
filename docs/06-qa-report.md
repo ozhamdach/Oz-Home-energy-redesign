@@ -1,6 +1,72 @@
 # QA Report
 
-## Automated checks (this session)
+## Production-readiness pass (this session) — automated results
+
+Ran a purpose-built Playwright suite (`qa2.js`, not committed — see
+`scripts/qa-playwright.js` for the maintained equivalent) covering every
+item from the working brief's testing checklist, against a local static
+server serving `site/`. **Final result: all checks passed.**
+
+| Check | Result |
+|---|---|
+| All 26 pages load (200, no console errors, no thrown JS) | ✅ Pass |
+| Exactly one `<h1>` per page | ✅ Pass, all 26 |
+| Unique `<title>` per page | ✅ Pass, no duplicates |
+| Valid JSON-LD (parses as JSON) on every page | ✅ Pass |
+| No visible placeholder/owner-confirmation text on any page | ✅ Pass (after fixing a false-positive in the test itself — see below) |
+| No horizontal overflow at 375/390/768/1024/1080/1366/1440px, all 26 pages | ✅ Pass — 182 page/width combinations, zero overflow |
+| Desktop nav dropdown at 1080/1366/1440px: opens on click, `aria-expanded` toggles correctly, Escape closes **and returns focus to the trigger button**, click-outside closes, Enter key opens (keyboard), no native/grey button styling, header items don't overlap | ✅ Pass at all three widths |
+| `.page-banner .btn-secondary` renders white text (was invisible dark-on-dark before the fix) | ✅ Pass |
+| Assessment step 1 options stack to one column at 375px (was forced 2-column via an inline style before the fix) | ✅ Pass |
+| All 6 assessment `?goal=` query-string preselection routes | ✅ Pass, all 6 |
+| Full assessment flow: 5 steps, fieldset validation blocks/announces on missing required selection, billing-frequency toggle shows the right bill-range select, Back preserves entered data, consent-gated submit, `selected_service`/`submitted_at` populated correctly | ✅ Pass, every assertion |
+| Branded 404 page: correct copy, CTAs, phone number, `noindex` | ✅ Pass |
+| Light rendering unaffected by OS dark-mode preference (confirms the removed partial dark-mode override left no artifacts) | ✅ Pass — verified with `colorScheme: 'dark'` emulation |
+| Screenshots: home (mobile + desktop), open nav dropdown, Residential Solar, Battery Storage, Commercial, assessment step 1 + step 5, 404 | ✅ Captured |
+
+**One real methodology bug in the test itself, caught and fixed before
+trusting the result:** the "no visible placeholder text" check initially
+flagged all 26 pages — it was matching an HTML *comment* (`<!-- OWNER
+CONFIRMATION REQUIRED: replace with a real 1200×630 ... -->` in
+`src/layout.html`, present on every page via the shared template), which is
+never rendered to a user and isn't a real violation. Fixed by stripping
+`<!--...-->` before the check, matching what "the public interface" actually
+means (rendered output, not raw HTML source) — re-ran clean.
+
+### Two real defects fixed this pass (found by inspecting the implementation, not just running tests)
+
+1. **Every nav dropdown selector — CSS and JS — targeted `.primary-nav > li`,
+   but the real markup is `.primary-nav > ul > li`.** Because of this,
+   dropdowns never opened on hover, click, or keyboard on the live preview,
+   and the top-level nav links/buttons had no custom styling applied at
+   all (rendering with default browser button chrome — the exact "grey
+   browser-button styling" the brief flagged). Fixed by correcting every
+   selector, rewriting the open/close logic to be driven entirely by JS
+   (a `.is-open` class kept in lockstep with `aria-expanded`, rather than a
+   CSS `:hover` trigger that could desync from the ARIA state), and adding
+   `focusout`-based closing plus Escape-returns-focus-to-trigger.
+2. **`.page-banner .btn-secondary` rendered near-invisible dark-on-dark
+   text.** `.page-banner` has a dark background; `.btn-secondary`'s default
+   styling is dark text with a light border, and the light-text override
+   only applied to `.section-inverse`/`.hero`, not `.page-banner` — meaning
+   every single service page's "Call 0420 113 216" button in the hero was
+   effectively unreadable. Added `.page-banner` to the light-variant
+   selector.
+
+Also fixed as part of the same pass (each verified individually): the
+mobile assessment step 1 grid (an inline `style="grid-template-columns:1fr
+1fr"` defeated the responsive class beneath it, forcing 2 columns even at
+375px); the incomplete automatic dark-mode override was removed outright
+rather than patched (several components — the header's translucent
+background, `.dropdown-panel`'s white background, card borders/shadows —
+set colours directly rather than through the CSS custom properties the
+dark-mode media query redefined, so the previous partial override produced
+light text on a light background under a dark OS preference — worse than no
+dark mode).
+
+## Prior session's QA (kept for history)
+
+## Automated checks (earlier session)
 
 **Link integrity** — every internal `href` in every built page was extracted
 and cross-checked against the actual set of built pages

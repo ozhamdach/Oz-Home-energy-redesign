@@ -73,10 +73,12 @@ const homeHtml = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
 fs.writeFileSync(path.join(OUT, 'index.html'), rewriteHtml(homeHtml, ''), 'utf8');
 count++;
 
-// A GitHub Pages project site 404 falls back to /404.html if present;
-// reuse the home page shell so a mistyped/removed URL still looks intentional
-// rather than showing GitHub's bare default 404.
-fs.writeFileSync(path.join(OUT, '404.html'), rewriteHtml(homeHtml, ''), 'utf8');
+// GitHub Pages serves this file (with a real 404 status) for any unmatched
+// route under the project site — site/404.html is the same branded page
+// scripts/build.js writes for the real domain; just needs the same
+// root-relative-to-relative path rewrite as every other page here.
+const notFoundHtml = fs.readFileSync(path.join(SITE, '404.html'), 'utf8');
+fs.writeFileSync(path.join(OUT, '404.html'), rewriteHtml(notFoundHtml, ''), 'utf8');
 
 console.log(`Built ${count} pages into ${OUT} (relative paths, subpath-safe)`);
 

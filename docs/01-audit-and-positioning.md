@@ -66,9 +66,14 @@ report (`06-qa-report.md`) for the specific checklist to re-run.
 > electrical contractor, not sold as four separate products.
 
 This positioning is expressed structurally throughout the redesign: the
-homepage's "Generate → Store → Charge → Control" section, the "Why Oz Home
-Energy" points that foreground electrical infrastructure, and every service
-page's cross-links back to switchboard/electrical considerations.
+homepage's "Generate → Store → Charge → Control" section, the "Why Us"
+points on `/about/` that foreground electrical infrastructure, and every
+service page's cross-links back to switchboard/electrical considerations.
+
+**Update (production-readiness pass):** the homepage was restructured from
+13 sections down to roughly 8 — see `06-qa-report.md` and this repo's PR
+description for the full list of changes made in that pass, including
+navigation, accessibility and copy-accuracy fixes.
 
 ## What was deliberately NOT invented
 

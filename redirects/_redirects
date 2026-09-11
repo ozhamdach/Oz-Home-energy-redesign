@@ -1,0 +1,41 @@
+# Production redirect configuration for ozhomeenergy.com.au
+#
+# Format: Netlify/Cloudflare Pages-style `_redirects` (source destination code).
+# This is a starting, host-agnostic file to translate into whatever the
+# production host actually needs (nginx `return 301`, Apache `.htaccess`
+# RewriteRule, or your hosting platform's redirect rules) — GitHub Pages,
+# where this preview is hosted, cannot serve server-side redirects at all,
+# so nothing here is live; it is prepared for the real production host.
+#
+# CONFIRMED mappings (new URL exists on this site, old→new is unambiguous):
+/battery-storage-installation/  /battery-storage/              301
+/battery-storage-installation   /battery-storage/               301
+/about-us/                       /about/                        301
+/about-us                        /about/                        301
+/solar-panel-bird-proofing/      /bird-proofing/                301
+/solar-panel-bird-proofing       /bird-proofing/                301
+/terms-and-conditions/           /terms/                        301
+/terms-and-conditions            /terms/                        301
+
+# NOT included below — deliberately, per working rule "do not guess":
+#
+# /commercial-project-enquires  — brief flags this needs investigation
+#   before mapping. It may have been serving commercial ELECTRICAL enquiries
+#   rather than the new dedicated /commercial-project-enquiry/ form. Before
+#   finalising: check Search Console for what this URL currently ranks for
+#   and what its backlinks/referrers expect, and check any ad campaigns or
+#   business cards printing this URL. See docs/03-seo-redirects-metadata.md.
+#
+# Existing location pages — this rebuild ships ONE consolidated /locations/
+#   page (seeon the design-system doc for why). Do NOT redirect every old
+#   location URL here to /locations/ without first exporting the current
+#   site's actual location URL list from Search Console/a full crawl — some
+#   may carry meaningful direct traffic or backlinks that a blanket redirect
+#   would silently swallow. Add each one here individually once confirmed.
+#
+# Full current-site URL list — this sandbox could not crawl ozhomeenergy.com.au
+#   directly (see docs/01-audit-and-positioning.md), so this file only covers
+#   the specific old URLs named in the working brief. Before go-live, export
+#   every indexed URL (Search Console → Pages, plus a full crawl) and add a
+#   1:1 mapping for anything not already covered by the confirmed rules above
+#   or by the sitemap in docs/02-sitemap-and-design-system.md.

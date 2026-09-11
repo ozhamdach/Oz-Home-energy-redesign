@@ -34,6 +34,18 @@ cd site && python3 -m http.server 8811
 Re-run `node scripts/build.js` after editing anything under `src/` — the
 files in `site/**/index.html` are generated output, not hand-edited.
 
+`node scripts/build.js` defaults to **preview mode** (`noindex, nofollow`,
+`robots.txt` disallows all crawling) — this is what's actually deployed to
+the public GitHub Pages preview below. Only ever pass
+`BUILD_TARGET=production` when building for the real ozhomeenergy.com.au
+domain, never for a preview host.
+
+For a GitHub Pages-safe build (relative paths, since Pages serves this repo
+from a `/<repo>/` subpath rather than domain root), also run
+`node scripts/build-pages.js`, which reads `site/` and writes `pages-dist/`.
+The live preview auto-deploys via `.github/workflows/deploy-pages.yml` on
+every push to this branch.
+
 ## What this is (and isn't)
 
 This is a **static front-end prototype**: real, final copy; a complete
@@ -43,5 +55,7 @@ submits anywhere yet**. See `docs/04-highlevel-integration.md` for exactly
 what's needed to connect them to HighLevel, and
 `docs/07-owner-confirmations.md` for every claim, asset or credential that
 needs sign-off before this goes live. Nothing fabricated (reviews, project
-case studies, accreditations, pricing, statistics) appears anywhere —
-those sections are explicit, labelled placeholders by design.
+case studies, accreditations, pricing, statistics) appears anywhere — where
+real content isn't available yet, that section is omitted from the public
+page entirely (never shown as an empty or placeholder-labelled box); see
+`docs/07-owner-confirmations.md` for what's needed to bring each one back.

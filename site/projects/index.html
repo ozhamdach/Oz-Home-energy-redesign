@@ -6,7 +6,11 @@
 <title>Projects & Case Studies | Oz Home Energy</title>
 <meta name="description" content="Real Oz Home Energy installations — solar, battery, EV charging and electrical projects across Sydney, shown with genuine detail and photography.">
 <link rel="canonical" href="https://www.ozhomeenergy.com.au/projects/">
-<meta name="robots" content="index, follow">
+<!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
+     only becomes "index, follow" when scripts/build.js is run with
+     BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
+     a preview build; keep this in sync with site/robots.txt. -->
+<meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Projects & Case Studies | Oz Home Energy">
@@ -27,7 +31,6 @@
   "name": "Oz Home Energy",
   "url": "https://www.ozhomeenergy.com.au",
   "telephone": "+61420113216",
-  "priceRange": "$$",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
     "@type": "PostalAddress",
@@ -109,13 +112,13 @@
           </div>
         </li>
         <li><a href="/projects/">Projects</a></li>
-        <li><a href="/about/">Why Oz Home Energy</a></li>
-        <li><a href="/learning-centre/">Learn</a></li>
+        <li><a href="/about/">Why Us</a></li>
         <li>
           <button type="button" aria-haspopup="true" aria-expanded="false">Support
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <div class="dropdown-panel">
+            <a href="/learning-centre/">Learning Centre</a>
             <a href="/service-request/">Service Request</a>
             <a href="/solar-servicing/">Solar Servicing</a>
             <a href="/panel-cleaning/">Panel Cleaning</a>
@@ -164,11 +167,11 @@
       </div>
     </details>
     <a class="top-link" href="/projects/">Projects</a>
-    <a class="top-link" href="/about/">Why Oz Home Energy</a>
-    <a class="top-link" href="/learning-centre/">Learn</a>
+    <a class="top-link" href="/about/">Why Us</a>
     <details>
       <summary>Support <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
       <div class="sub-links">
+        <a href="/learning-centre/">Learning Centre</a>
         <a href="/service-request/">Service Request</a>
         <a href="/solar-servicing/">Solar Servicing</a>
         <a href="/panel-cleaning/">Panel Cleaning</a>
@@ -190,62 +193,26 @@
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Projects</p>
     <p class="eyebrow">Projects</p>
     <h1>Real installations, shown with real detail</h1>
-    <p class="lede">Every project below is a genuine Oz Home Energy installation — the property, the system installed, the design decisions behind it, and the outcome. No stock photography, no invented figures.</p>
+    <p class="lede">We're building this page out with genuine Oz Home Energy installations — the property, the system installed, the design decisions behind it, and the outcome. No stock photography, no invented figures.</p>
   </div>
 </section>
 
 <section class="section">
-  <div class="container">
-    <div class="card" style="text-align:center;margin-bottom:48px;">
-      <p class="owner-flag">Owner confirmation required</p>
-      <p style="max-width:64ch;margin:12px auto 0;">This page is built and ready to publish real projects. Each case study below is a placeholder showing the intended format — customer objective, property situation, system installed, design considerations, photographs and outcome. Supply project detail, photography and any customer-authorised quotes to populate this page before launch.</p>
-    </div>
-
-    <div class="grid grid-3">
-      <article class="img-card">
-        <div class="media"><div class="placeholder-media">[REPLACE WITH REAL PROJECT PHOTO]</div></div>
-        <div class="body">
-          <span class="badge">Residential Solar &amp; Battery</span>
-          <h3>[OWNER CONFIRMATION REQUIRED: project title / suburb]</h3>
-          <p>[OWNER CONFIRMATION REQUIRED — one-line project summary: property type, system size, key design consideration]</p>
-        </div>
-      </article>
-      <article class="img-card">
-        <div class="media"><div class="placeholder-media">[REPLACE WITH REAL PROJECT PHOTO]</div></div>
-        <div class="body">
-          <span class="badge">EV Charging</span>
-          <h3>[OWNER CONFIRMATION REQUIRED: project title / suburb]</h3>
-          <p>[OWNER CONFIRMATION REQUIRED — one-line project summary]</p>
-        </div>
-      </article>
-      <article class="img-card">
-        <div class="media"><div class="placeholder-media">[REPLACE WITH REAL PROJECT PHOTO]</div></div>
-        <div class="body">
-          <span class="badge">Commercial Solar</span>
-          <h3>[OWNER CONFIRMATION REQUIRED: project title / suburb]</h3>
-          <p>[OWNER CONFIRMATION REQUIRED — one-line project summary]</p>
-        </div>
-      </article>
-    </div>
+  <div class="container container-narrow text-center">
+    <p>Project write-ups are added as installations are completed and customers agree to have their project featured. In the meantime, get in touch and we're happy to talk through recent, similar work directly.</p>
   </div>
 </section>
 
 <section class="section section-alt">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Featured case study format</p>
-      <h2>What each project page will include</h2>
+      <p class="eyebrow">What a project write-up includes</p>
+      <h2>The detail behind every case study</h2>
     </div>
-    <div class="grid grid-2" style="align-items:center;gap:40px;">
-      <div class="placeholder-media" style="min-height:320px;">[REPLACE WITH REAL PROJECT PHOTOS: 3–5 images per project]</div>
-      <div>
-        <p><strong>Customer objective</strong> — what the customer was trying to achieve.</p>
-        <p><strong>Property situation</strong> — roof type, orientation, existing system if any, any site constraints.</p>
-        <p><strong>System installed</strong> — panel, inverter and battery model and size, or scope of electrical work.</p>
-        <p><strong>Design considerations</strong> — shading, switchboard condition, three-phase supply, access, approvals.</p>
-        <p><strong>Result</strong> — scope and workmanship outcome. Savings or performance figures are only published where they've been measured and the customer has approved sharing them.</p>
-        <p><strong>Customer review</strong> — included only where the customer has authorised it.</p>
-      </div>
+    <div class="grid grid-3">
+      <div class="card"><h3>The brief</h3><p>What the customer was trying to achieve, and the property's roof, orientation and any existing system.</p></div>
+      <div class="card"><h3>The design</h3><p>System installed, and the design considerations — shading, switchboard condition, three-phase supply, access or approvals.</p></div>
+      <div class="card"><h3>The result</h3><p>Scope and workmanship outcome. Savings or performance figures are only published where they've been measured and the customer has approved sharing them.</p></div>
     </div>
   </div>
 </section>
@@ -254,7 +221,7 @@
   <div class="container container-narrow">
     <h2>Want your project to look like this?</h2>
     <div class="cta-row">
-      <a class="btn btn-primary" href="/assessment/">Start My Free Energy Assessment</a>
+      <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216</a>
     </div>
   </div>
@@ -268,12 +235,9 @@
         <a href="/" class="wordmark" style="text-decoration:none;">Oz Home Energy</a>
         <p>Installer-led solar, battery, EV charging and electrical work for Sydney homes and businesses.</p>
         <p class="footer-licence">NSW Electrical Contractor Licence 382607C</p>
-        <div class="footer-social" aria-label="Social profiles">
-          <!-- OWNER CONFIRMATION REQUIRED: confirm active profiles before publishing links -->
-          <a href="#" aria-label="Oz Home Energy on Facebook"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5Z" stroke="currentColor" stroke-width="1.4"/></svg></a>
-          <a href="#" aria-label="Oz Home Energy on Instagram"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.4"/><circle cx="16.5" cy="7.5" r="0.8" fill="currentColor"/></svg></a>
-          <a href="#" aria-label="Oz Home Energy on LinkedIn"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 10v6M8 8v.01M12 16v-3.5c0-1.4 1-2.5 2.2-2.5S16 11.1 16 12.5V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></a>
-        </div>
+        <!-- Social links removed: no confirmed, active profile URLs yet.
+             Restore footer-social here (see git history) once genuine
+             profile links are supplied — see docs/07-owner-confirmations.md. -->
       </div>
 
       <div>

@@ -9,13 +9,36 @@ account**, because no HighLevel credentials or sub-account access were
 available in this session — this document specifies exactly what needs to be
 built, and by whom, to make it live.
 
+## System of record
+
+**HighLevel is the customer, communications and pipeline system of
+record** for every lead this site generates. **GreenSketch only enters the
+picture after a lead is qualified** and ready for technical system design,
+product selection, pricing or a formal quotation — it is not a lead-capture
+tool and should never receive a raw, unqualified form submission directly.
+
 ## Forms requiring HighLevel connection
+
+All three forms now capture the same attribution field set consistently
+(this was inconsistent before this pass — assessment had it, the other two
+didn't; fixed by generalising the capture/populate logic in `site/js/main.js`
+so it works by field `name` on any form, not just the assessment page).
 
 | Form | Page | Fields captured |
 |---|---|---|
-| Energy Assessment (multi-step) | `/assessment/` | goal, propertyOwner, suburb, propertyType, hasSolar, hasBattery, hasEv, billAmount, billUpload (file), fullName, phoneNum, emailAddr, contactMethod, contactTime, consent, + attribution fields |
-| Commercial Project Enquiry | `/commercial-project-enquiry/` | companyName, contactName, role, email, phone, siteAddress, interest[] (checkboxes), details, + attribution fields |
-| Service Request | `/service-request/` | srName, srPhone, srAddress, srType, srDetails, srPhoto (file) |
+| Energy Assessment (multi-step) | `/assessment/` | goal, propertyOwner, suburb, propertyType, hasSolar, hasBattery, hasEv, billFrequency, billAmountQuarterly, billAmountMonthly, billUpload (file), fullName, phoneNum, emailAddr, contactMethod, contactTime, consent, selected_service, submitted_at, + attribution fields |
+| Commercial Project Enquiry | `/commercial-project-enquiry/` | companyName, contactName, role, email, phone, siteAddress, interest[] (checkboxes), details, selected_service, submitted_at, + attribution fields |
+| Service Request | `/service-request/` | srName, srPhone, srAddress, srType, srDetails, srPhoto (file), selected_service, submitted_at, + attribution fields |
+
+`selected_service` and `submitted_at` are populated client-side at submit
+time (see `data-service-field` on each `<form>` and the shared handler in
+`site/js/main.js`) specifically so HighLevel receives a normalised "what did
+they actually ask about" value and an ISO timestamp on every lead, regardless
+of which form it came through.
+
+Attribution fields, present on all three forms: `utm_source`, `utm_medium`,
+`utm_campaign`, `utm_term`, `utm_content`, `gclid`, `fbclid`, `landing_page`,
+`referrer`.
 
 ## Recommended implementation approach
 
@@ -41,7 +64,11 @@ apply.
 Map each captured field to a HighLevel **custom field** on the Contact
 record (create custom fields for anything not in HighLevel's default
 schema — e.g. `property_type`, `has_solar`, `has_battery`, `has_ev`,
-`bill_range`, `goal`, `preferred_contact_method`, `preferred_contact_time`).
+`bill_frequency`, `bill_range`, `goal`, `preferred_contact_method`,
+`preferred_contact_time`). Map both `billAmountQuarterly` and
+`billAmountMonthly` to the same `bill_range` custom field (only one is ever
+populated, based on the `billFrequency` answer) rather than creating two
+separate CRM fields.
 Standard fields (`fullName` → first/last name, `emailAddr` → email,
 `phoneNum` → phone, `suburb`/`siteAddress` → address) map to HighLevel's
 built-in Contact fields directly.
@@ -90,20 +117,53 @@ tracking fields (HighLevel captures some of this automatically via its
 tracking script — reconcile rather than duplicate once the HighLevel
 tracking snippet is installed sitewide).
 
+## Server-side safety requirements (not optional)
+
+None of this exists yet — GitHub Pages is a static host with no backend at
+all, so every item below is a requirement for whatever secure
+server-side/serverless endpoint eventually fronts these forms, not something
+this preview can demonstrate:
+
+- **Server-side validation** — re-validate every field server-side; never
+  trust that the browser's `required`/`type="email"` etc. was actually
+  enforced (a direct POST to the endpoint bypasses all client-side checks).
+- **Spam protection** — a honeypot field and/or a challenge (e.g. Cloudflare
+  Turnstile, hCaptcha) before forwarding to HighLevel; a public lead form
+  with no protection will attract bot submissions within days of going live.
+- **Rate limiting** — per-IP and/or per-session submission limits on the
+  endpoint, independent of anything HighLevel itself does downstream.
+- **File upload safety** (bill photos, site photos) — enforce a max file
+  size and an allow-list of MIME types server-side (not just the `accept`
+  attribute, which is a UI hint only and enforces nothing); scan or at
+  minimum re-encode uploaded images before they reach any storage HighLevel
+  or GreenSketch can read from.
+- **No credentials in the browser** — the HighLevel API key/webhook secret
+  lives only in the server-side endpoint's environment, never in any file
+  this repository ships to a visitor's browser (see the checklist below).
+
 ## What must be verified before claiming this "works"
 
-- [ ] Webhook/API credentials configured as environment secrets, never
-      hardcoded in front-end JS (no API key belongs in a static HTML/JS file
-      that ships to every visitor's browser)
+- [ ] A secure server-side/serverless endpoint exists and is what these
+      forms actually POST to — GitHub Pages cannot host this itself (see
+      "Because GitHub Pages is static" in the working brief this doc was
+      written against)
+- [ ] Webhook/API credentials configured as environment secrets on that
+      endpoint, never hardcoded in front-end JS
+- [ ] Server-side validation, spam protection, rate limiting and file-upload
+      safety (above) are actually implemented, not just planned
 - [ ] Test submission end-to-end for all three forms, confirmed to land in
       the correct HighLevel pipeline with correct tags
 - [ ] File upload tested with a real PDF/image bill
 - [ ] Auto-reply and internal-notification workflows tested, not just built
 - [ ] Consent/privacy checkbox wording finalised by Oz Home Energy /legal
       before the form is used to collect real personal information (see
-      the `[OWNER CONFIRMATION REQUIRED]` notes on each form)
+      `07-owner-confirmations.md`)
 - [ ] GrowthLocal or any other legacy vendor script fully removed from
       customer-facing pages once HighLevel is the sole lead-capture system
+- [ ] Until every item above is done, the GitHub Pages preview must keep
+      showing its "this is a design preview" notice on all three forms and
+      must not be treated as capable of collecting genuine customer
+      information
 
 Nothing above is claimed as working in this build — every integration point
 is a specification, not a tested connection.

@@ -9,7 +9,7 @@
 
 <section class="section">
   <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
-    <form id="serviceRequestForm" data-prototype-form novalidate>
+    <form id="serviceRequestForm" data-prototype-form data-service-field="srType" method="post" action="#" novalidate>
       <div class="grid grid-2">
         <div class="form-field">
           <label for="srName">Full name</label>
@@ -46,8 +46,19 @@
           <input type="file" id="srPhoto" name="srPhoto" accept="image/*">
         </div>
       </div>
+      <input type="hidden" name="utm_source" value="">
+      <input type="hidden" name="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" value="">
+      <input type="hidden" name="utm_term" value="">
+      <input type="hidden" name="utm_content" value="">
+      <input type="hidden" name="gclid" value="">
+      <input type="hidden" name="fbclid" value="">
+      <input type="hidden" name="landing_page" value="">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="selected_service" value="">
+      <input type="hidden" name="submitted_at" value="">
       <button class="btn btn-primary btn-block" type="submit">Submit Service Request</button>
-      <p class="owner-flag" style="margin-top:14px;">Owner confirmation required — connect to HighLevel service-request pipeline before launch.</p>
+      <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet — call us instead if you need help now.</span></p>
     </form>
     <aside>
       <div class="card">

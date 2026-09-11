@@ -3,7 +3,7 @@
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Contact / Energy Assessment</p>
     <p class="eyebrow">Free Energy Assessment</p>
     <h1>Let's understand your property first</h1>
-    <p class="lede">Seven short steps — no pressure, no obligation. We'll use your answers to understand what's realistic for your property before anyone talks about a quote.</p>
+    <p class="lede">Five short steps — no pressure, no obligation. We'll use your answers to understand what's realistic for your property before anyone talks about a quote.</p>
   </div>
 </section>
 
@@ -12,40 +12,42 @@
     <div class="grid grid-2" style="gap:48px;align-items:flex-start;">
       <div class="assess-wrap" style="max-width:none;">
         <div class="assess-progress">
-          <div class="bar"><div class="fill" id="assessFill"></div></div>
-          <div class="meta"><span id="assessStepLabel">Step 1 of 7</span><span id="assessStepName">What do you need help with?</span></div>
+          <div class="bar" id="assessProgressBar" role="progressbar" aria-label="Assessment progress" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><div class="fill" id="assessFill"></div></div>
+          <div class="meta"><span id="assessStepLabel">Step 1 of 5</span><span id="assessStepName">What do you need help with?</span></div>
         </div>
 
-        <form id="assessmentForm" novalidate>
+        <form id="assessmentForm" method="post" action="#" novalidate>
           <!-- STEP 1 -->
           <div class="assess-step is-active" data-step="1">
             <h2>What do you need help with?</h2>
             <p class="step-sub">Choose the option closest to your situation. You can change this later if needed.</p>
-            <div class="radio-cards" style="grid-template-columns:1fr 1fr;">
-              <div class="radio-card"><input type="radio" id="goal1" name="goal" value="Lower my electricity bills" required><label for="goal1">Lower my electricity bills</label></div>
-              <div class="radio-card"><input type="radio" id="goal2" name="goal" value="Add a battery to existing solar"><label for="goal2">Add a battery to existing solar</label></div>
-              <div class="radio-card"><input type="radio" id="goal3" name="goal" value="Install new solar and battery"><label for="goal3">Install new solar and battery</label></div>
-              <div class="radio-card"><input type="radio" id="goal4" name="goal" value="Charge my EV at home"><label for="goal4">Charge my EV at home</label></div>
-              <div class="radio-card"><input type="radio" id="goal5" name="goal" value="Upgrade my electrical system"><label for="goal5">Upgrade my electrical system</label></div>
-              <div class="radio-card"><input type="radio" id="goal6" name="goal" value="Plan a commercial project"><label for="goal6">Plan a commercial project</label></div>
-            </div>
+            <fieldset class="assess-fieldset">
+              <legend class="visually-hidden">What do you need help with?</legend>
+              <div class="radio-cards radio-cards-wide">
+                <div class="radio-card"><input type="radio" id="goal1" name="goal" value="Lower my electricity bills" required><label for="goal1">Lower my electricity bills</label></div>
+                <div class="radio-card"><input type="radio" id="goal2" name="goal" value="Install new solar — with or without a battery"><label for="goal2">Install new solar — with or without a battery</label></div>
+                <div class="radio-card"><input type="radio" id="goal3" name="goal" value="Add a battery to existing solar"><label for="goal3">Add a battery to existing solar</label></div>
+                <div class="radio-card"><input type="radio" id="goal4" name="goal" value="Charge my EV at home"><label for="goal4">Charge my EV at home</label></div>
+                <div class="radio-card"><input type="radio" id="goal5" name="goal" value="Upgrade my electrical system"><label for="goal5">Upgrade my electrical system</label></div>
+                <div class="radio-card"><input type="radio" id="goal6" name="goal" value="Plan a commercial project"><label for="goal6">Plan a commercial project</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="goalError">Please choose an option to continue.</p>
+            </fieldset>
           </div>
 
           <!-- STEP 2 -->
           <div class="assess-step" data-step="2">
-            <h2>Residential or commercial?</h2>
-            <p class="step-sub">This helps us route your enquiry to the right team.</p>
-            <div class="radio-cards">
-              <div class="radio-card"><input type="radio" id="type1" name="propertyOwner" value="Residential" required><label for="type1">Residential — my home</label></div>
-              <div class="radio-card"><input type="radio" id="type2" name="propertyOwner" value="Commercial"><label for="type2">Commercial — my business</label></div>
-            </div>
-          </div>
-
-          <!-- STEP 3 -->
-          <div class="assess-step" data-step="3">
-            <h2>About your property</h2>
-            <p class="step-sub">Just enough to understand your site before we go further.</p>
-            <div class="form-field">
+            <h2>About you and your property</h2>
+            <p class="step-sub">This helps us route your enquiry to the right team and understand your site.</p>
+            <fieldset class="assess-fieldset">
+              <legend class="visually-hidden">Residential or commercial?</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="type1" name="propertyOwner" value="Residential" required><label for="type1">Residential — my home</label></div>
+                <div class="radio-card"><input type="radio" id="type2" name="propertyOwner" value="Commercial"><label for="type2">Commercial — my business</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="propertyOwnerError">Please choose an option to continue.</p>
+            </fieldset>
+            <div class="form-field" style="margin-top:20px;">
               <label for="suburb">Suburb or postcode</label>
               <input type="text" id="suburb" name="suburb" required autocomplete="postal-code">
             </div>
@@ -62,10 +64,10 @@
             </div>
           </div>
 
-          <!-- STEP 4 -->
-          <div class="assess-step" data-step="4">
-            <h2>What's already on your property?</h2>
-            <p class="step-sub">Tell us what you currently have, if anything — it changes what we need to check.</p>
+          <!-- STEP 3 -->
+          <div class="assess-step" data-step="3">
+            <h2>Your current setup and electricity bill</h2>
+            <p class="step-sub">Tell us what's already there, if anything, and roughly what you pay — this is the single most useful input for sizing a system correctly.</p>
             <div class="form-field">
               <label for="hasSolar">Do you currently have solar?</label>
               <select id="hasSolar" name="hasSolar">
@@ -94,21 +96,36 @@
                 <option>Not currently</option>
               </select>
             </div>
-          </div>
-
-          <!-- STEP 5 -->
-          <div class="assess-step" data-step="5">
-            <h2>Your electricity bill</h2>
-            <p class="step-sub">This is the single most useful piece of information for sizing a system correctly.</p>
             <div class="form-field">
-              <label for="billAmount">Approximate bill amount</label>
-              <select id="billAmount" name="billAmount">
+              <label for="billFrequency">How often do you get an electricity bill?</label>
+              <select id="billFrequency" name="billFrequency">
+                <option value="">Select an option</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="not-sure">Not sure</option>
+              </select>
+            </div>
+            <div class="form-field" data-frequency-group="quarterly">
+              <label for="billAmountQuarterly">Approximate bill amount (quarterly)</label>
+              <select id="billAmountQuarterly" name="billAmountQuarterly">
                 <option value="">Select a range</option>
                 <option>Under $200 / quarter</option>
                 <option>$200–$500 / quarter</option>
                 <option>$500–$1,000 / quarter</option>
                 <option>$1,000–$2,500 / quarter</option>
                 <option>Over $2,500 / quarter</option>
+                <option>Not sure</option>
+              </select>
+            </div>
+            <div class="form-field" data-frequency-group="monthly" hidden>
+              <label for="billAmountMonthly">Approximate bill amount (monthly)</label>
+              <select id="billAmountMonthly" name="billAmountMonthly">
+                <option value="">Select a range</option>
+                <option>Under $70 / month</option>
+                <option>$70–$170 / month</option>
+                <option>$170–$330 / month</option>
+                <option>$330–$830 / month</option>
+                <option>Over $830 / month</option>
                 <option>Not sure</option>
               </select>
             </div>
@@ -125,8 +142,8 @@
             </div>
           </div>
 
-          <!-- STEP 6 -->
-          <div class="assess-step" data-step="6">
+          <!-- STEP 4 -->
+          <div class="assess-step" data-step="4">
             <h2>Your details</h2>
             <p class="step-sub">So we can get back to you with what we've found.</p>
             <div class="form-field">
@@ -145,8 +162,8 @@
             </div>
           </div>
 
-          <!-- STEP 7 -->
-          <div class="assess-step" data-step="7">
+          <!-- STEP 5 -->
+          <div class="assess-step" data-step="5">
             <h2>How should we reach you?</h2>
             <p class="step-sub">Last step — tell us how and when you'd prefer to be contacted.</p>
             <div class="form-field">
@@ -171,11 +188,11 @@
             <div class="form-field">
               <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;">
                 <input type="checkbox" id="consent" name="consent" required style="margin-top:4px;">
-                <span>I agree to be contacted about my enquiry and have read the <a href="/privacy-policy/">Privacy Policy</a>. [OWNER CONFIRMATION REQUIRED — final consent wording for legal review]</span>
+                <span>I agree to be contacted about my enquiry and have read the <a href="/privacy-policy/">Privacy Policy</a>.</span>
               </label>
             </div>
 
-            <!-- Attribution fields, populated by assessment.js on load -->
+            <!-- Attribution fields, populated from sessionStorage by site.js -->
             <input type="hidden" name="utm_source" id="utm_source">
             <input type="hidden" name="utm_medium" id="utm_medium">
             <input type="hidden" name="utm_campaign" id="utm_campaign">
@@ -185,6 +202,8 @@
             <input type="hidden" name="fbclid" id="fbclid">
             <input type="hidden" name="landing_page" id="landing_page">
             <input type="hidden" name="referrer" id="referrer">
+            <input type="hidden" name="selected_service" id="selected_service">
+            <input type="hidden" name="submitted_at" id="submitted_at">
           </div>
 
           <div class="assess-nav">
@@ -195,7 +214,7 @@
           </div>
         </form>
 
-        <div id="assessSuccess" style="display:none;"></div>
+        <div id="assessSuccess" style="display:none;" aria-live="polite"></div>
       </div>
 
       <aside>
@@ -211,6 +230,7 @@
           <h3 class="mt-0">Licensed &amp; local</h3>
           <p>NSW Electrical Contractor Licence 382607C · Sydney-based · Residential &amp; commercial</p>
         </div>
+        <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet.</span></p>
       </aside>
     </div>
   </div>

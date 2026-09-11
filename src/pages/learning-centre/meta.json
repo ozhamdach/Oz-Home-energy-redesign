@@ -1,0 +1,9 @@
+{
+  "title": "Learning Centre | Oz Home Energy",
+  "description": "Plain-English answers to common solar, battery, EV charging and electrical questions from a licensed NSW electrical contractor.",
+  "canonical": "/learning-centre/",
+  "breadcrumbs": [
+    { "name": "Home", "url": "/" },
+    { "name": "Learning Centre", "url": "/learning-centre/" }
+  ]
+}

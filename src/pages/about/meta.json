@@ -1,0 +1,9 @@
+{
+  "title": "About Oz Home Energy | Sydney Electrical & Energy Contractor",
+  "description": "Oz Home Energy is a Sydney-based, installer-led electrical and energy company for solar, battery, EV charging and electrical work. Licence 382607C.",
+  "canonical": "/about/",
+  "breadcrumbs": [
+    { "name": "Home", "url": "/" },
+    { "name": "About", "url": "/about/" }
+  ]
+}

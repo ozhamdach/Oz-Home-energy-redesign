@@ -1,0 +1,68 @@
+<section class="page-banner">
+  <div class="container">
+    <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Service Request</p>
+    <p class="eyebrow">Support</p>
+    <h1>Need help with an existing system?</h1>
+    <p class="lede">If something installed by Oz Home Energy needs attention — a fault, a question about performance, or a general check-up — let us know here.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
+    <form id="serviceRequestForm" data-prototype-form novalidate>
+      <div class="grid grid-2">
+        <div class="form-field">
+          <label for="srName">Full name</label>
+          <input type="text" id="srName" name="srName" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="srPhone">Phone</label>
+          <input type="tel" id="srPhone" name="srPhone" required autocomplete="tel">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="srAddress">Property address</label>
+        <input type="text" id="srAddress" name="srAddress" required autocomplete="street-address">
+      </div>
+      <div class="form-field">
+        <label for="srType">What do you need help with?</label>
+        <select id="srType" name="srType" required>
+          <option value="">Select an option</option>
+          <option>System fault or error message</option>
+          <option>Performance seems lower than expected</option>
+          <option>General servicing / check-up</option>
+          <option>Question about my system</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="srDetails">Details</label>
+        <textarea id="srDetails" name="srDetails" placeholder="What's happening, and when you first noticed it."></textarea>
+      </div>
+      <div class="form-field">
+        <label for="srPhoto">Photo of the issue (optional)</label>
+        <div class="file-drop">
+          <p>Attach a photo of an error message, damage or the equipment involved.</p>
+          <input type="file" id="srPhoto" name="srPhoto" accept="image/*">
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Submit Service Request</button>
+      <p class="owner-flag" style="margin-top:14px;">Owner confirmation required — connect to HighLevel service-request pipeline before launch.</p>
+    </form>
+    <aside>
+      <div class="card">
+        <h3 class="mt-0">Urgent electrical issue?</h3>
+        <p>If you have an urgent electrical safety concern, call <a href="tel:0420113216">0420 113 216</a> directly rather than submitting a form.</p>
+      </div>
+      <div class="card" style="margin-top:20px;">
+        <h3 class="mt-0">Related support pages</h3>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+          <li><a href="/solar-servicing/">Solar servicing</a></li>
+          <li><a href="/panel-cleaning/">Panel cleaning</a></li>
+          <li><a href="/bird-proofing/">Bird-proofing</a></li>
+          <li><a href="/faqs/">Frequently asked questions</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>

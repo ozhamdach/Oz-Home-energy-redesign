@@ -38,6 +38,11 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # This repo has never had Pages enabled before, so ask the action
+          # to create/enable the Pages site (build type: workflow) itself
+          # rather than erroring when it can't find an existing one.
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

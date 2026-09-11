@@ -1,0 +1,9 @@
+{
+  "title": "Service Request | Oz Home Energy Support",
+  "description": "Existing customer with a fault, question or servicing need? Submit a service request and our team will follow up.",
+  "canonical": "/service-request/",
+  "breadcrumbs": [
+    { "name": "Home", "url": "/" },
+    { "name": "Service Request", "url": "/service-request/" }
+  ]
+}

@@ -1,0 +1,217 @@
+<section class="page-banner" style="padding-block:44px 32px;">
+  <div class="container">
+    <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Contact / Energy Assessment</p>
+    <p class="eyebrow">Free Energy Assessment</p>
+    <h1>Let's understand your property first</h1>
+    <p class="lede">Seven short steps — no pressure, no obligation. We'll use your answers to understand what's realistic for your property before anyone talks about a quote.</p>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="grid grid-2" style="gap:48px;align-items:flex-start;">
+      <div class="assess-wrap" style="max-width:none;">
+        <div class="assess-progress">
+          <div class="bar"><div class="fill" id="assessFill"></div></div>
+          <div class="meta"><span id="assessStepLabel">Step 1 of 7</span><span id="assessStepName">What do you need help with?</span></div>
+        </div>
+
+        <form id="assessmentForm" novalidate>
+          <!-- STEP 1 -->
+          <div class="assess-step is-active" data-step="1">
+            <h2>What do you need help with?</h2>
+            <p class="step-sub">Choose the option closest to your situation. You can change this later if needed.</p>
+            <div class="radio-cards" style="grid-template-columns:1fr 1fr;">
+              <div class="radio-card"><input type="radio" id="goal1" name="goal" value="Lower my electricity bills" required><label for="goal1">Lower my electricity bills</label></div>
+              <div class="radio-card"><input type="radio" id="goal2" name="goal" value="Add a battery to existing solar"><label for="goal2">Add a battery to existing solar</label></div>
+              <div class="radio-card"><input type="radio" id="goal3" name="goal" value="Install new solar and battery"><label for="goal3">Install new solar and battery</label></div>
+              <div class="radio-card"><input type="radio" id="goal4" name="goal" value="Charge my EV at home"><label for="goal4">Charge my EV at home</label></div>
+              <div class="radio-card"><input type="radio" id="goal5" name="goal" value="Upgrade my electrical system"><label for="goal5">Upgrade my electrical system</label></div>
+              <div class="radio-card"><input type="radio" id="goal6" name="goal" value="Plan a commercial project"><label for="goal6">Plan a commercial project</label></div>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="assess-step" data-step="2">
+            <h2>Residential or commercial?</h2>
+            <p class="step-sub">This helps us route your enquiry to the right team.</p>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="type1" name="propertyOwner" value="Residential" required><label for="type1">Residential — my home</label></div>
+              <div class="radio-card"><input type="radio" id="type2" name="propertyOwner" value="Commercial"><label for="type2">Commercial — my business</label></div>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="assess-step" data-step="3">
+            <h2>About your property</h2>
+            <p class="step-sub">Just enough to understand your site before we go further.</p>
+            <div class="form-field">
+              <label for="suburb">Suburb or postcode</label>
+              <input type="text" id="suburb" name="suburb" required autocomplete="postal-code">
+            </div>
+            <div class="form-field">
+              <label for="propertyType">Property type</label>
+              <select id="propertyType" name="propertyType" required>
+                <option value="">Select an option</option>
+                <option>Free-standing house</option>
+                <option>Townhouse</option>
+                <option>Unit / apartment</option>
+                <option>Commercial building</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="assess-step" data-step="4">
+            <h2>What's already on your property?</h2>
+            <p class="step-sub">Tell us what you currently have, if anything — it changes what we need to check.</p>
+            <div class="form-field">
+              <label for="hasSolar">Do you currently have solar?</label>
+              <select id="hasSolar" name="hasSolar">
+                <option value="">Select an option</option>
+                <option>No</option>
+                <option>Yes, and it's working fine</option>
+                <option>Yes, but I think it needs attention</option>
+                <option>Not sure</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="hasBattery">Do you currently have a battery?</label>
+              <select id="hasBattery" name="hasBattery">
+                <option value="">Select an option</option>
+                <option>No</option>
+                <option>Yes</option>
+                <option>Not sure</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="hasEv">Are you charging or planning to charge an EV?</label>
+              <select id="hasEv" name="hasEv">
+                <option value="">Select an option</option>
+                <option>Already own an EV</option>
+                <option>Planning to buy one</option>
+                <option>Not currently</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- STEP 5 -->
+          <div class="assess-step" data-step="5">
+            <h2>Your electricity bill</h2>
+            <p class="step-sub">This is the single most useful piece of information for sizing a system correctly.</p>
+            <div class="form-field">
+              <label for="billAmount">Approximate bill amount</label>
+              <select id="billAmount" name="billAmount">
+                <option value="">Select a range</option>
+                <option>Under $200 / quarter</option>
+                <option>$200–$500 / quarter</option>
+                <option>$500–$1,000 / quarter</option>
+                <option>$1,000–$2,500 / quarter</option>
+                <option>Over $2,500 / quarter</option>
+                <option>Not sure</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="billUpload">Upload a recent bill (optional)</label>
+              <div class="file-drop">
+                <p>A recent electricity bill lets us size a system more precisely than an estimate alone.</p>
+                <input type="file" id="billUpload" name="billUpload" accept="image/*,.pdf">
+              </div>
+            </div>
+            <div class="why-we-ask">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <p>We ask about your bill because it tells us far more about the right system size than roof space alone. Nothing here is used for anything other than preparing your assessment.</p>
+            </div>
+          </div>
+
+          <!-- STEP 6 -->
+          <div class="assess-step" data-step="6">
+            <h2>Your details</h2>
+            <p class="step-sub">So we can get back to you with what we've found.</p>
+            <div class="form-field">
+              <label for="fullName">Full name</label>
+              <input type="text" id="fullName" name="fullName" required autocomplete="name">
+            </div>
+            <div class="grid grid-2">
+              <div class="form-field">
+                <label for="phoneNum">Phone</label>
+                <input type="tel" id="phoneNum" name="phoneNum" required autocomplete="tel">
+              </div>
+              <div class="form-field">
+                <label for="emailAddr">Email</label>
+                <input type="email" id="emailAddr" name="emailAddr" required autocomplete="email">
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 7 -->
+          <div class="assess-step" data-step="7">
+            <h2>How should we reach you?</h2>
+            <p class="step-sub">Last step — tell us how and when you'd prefer to be contacted.</p>
+            <div class="form-field">
+              <label for="contactMethod">Preferred contact method</label>
+              <select id="contactMethod" name="contactMethod" required>
+                <option value="">Select an option</option>
+                <option>Phone call</option>
+                <option>Text message</option>
+                <option>Email</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="contactTime">Best time to reach you</label>
+              <select id="contactTime" name="contactTime">
+                <option value="">Select an option</option>
+                <option>Morning</option>
+                <option>Afternoon</option>
+                <option>Evening</option>
+                <option>Anytime on a weekday</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;">
+                <input type="checkbox" id="consent" name="consent" required style="margin-top:4px;">
+                <span>I agree to be contacted about my enquiry and have read the <a href="/privacy-policy/">Privacy Policy</a>. [OWNER CONFIRMATION REQUIRED — final consent wording for legal review]</span>
+              </label>
+            </div>
+
+            <!-- Attribution fields, populated by assessment.js on load -->
+            <input type="hidden" name="utm_source" id="utm_source">
+            <input type="hidden" name="utm_medium" id="utm_medium">
+            <input type="hidden" name="utm_campaign" id="utm_campaign">
+            <input type="hidden" name="utm_term" id="utm_term">
+            <input type="hidden" name="utm_content" id="utm_content">
+            <input type="hidden" name="gclid" id="gclid">
+            <input type="hidden" name="fbclid" id="fbclid">
+            <input type="hidden" name="landing_page" id="landing_page">
+            <input type="hidden" name="referrer" id="referrer">
+          </div>
+
+          <div class="assess-nav">
+            <button type="button" class="btn btn-secondary" id="assessBack">Back</button>
+            <span class="spacer"></span>
+            <button type="button" class="btn btn-primary" id="assessNext">Continue</button>
+            <button type="submit" class="btn btn-primary" id="assessSubmit" style="display:none;">Submit My Assessment</button>
+          </div>
+        </form>
+
+        <div id="assessSuccess" style="display:none;"></div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3 class="mt-0">Prefer to skip the form?</h3>
+          <p>Call <a href="tel:0420113216">0420 113 216</a> and we'll ask these questions over the phone instead.</p>
+        </div>
+        <div class="card" style="margin-top:20px;">
+          <h3 class="mt-0">What happens after you submit</h3>
+          <p>We review your answers, and where a site visit is needed to check your switchboard, roof or supply, we'll arrange a time that suits you. You'll then receive a tailored design and quotation, supported by GreenSketch.</p>
+        </div>
+        <div class="card" style="margin-top:20px;">
+          <h3 class="mt-0">Licensed &amp; local</h3>
+          <p>NSW Electrical Contractor Licence 382607C · Sydney-based · Residential &amp; commercial</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,77 @@
+<section class="page-banner">
+  <div class="container">
+    <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span><a href="/commercial-solar/">For Business</a><span class="sep">/</span>Project Enquiry</p>
+    <p class="eyebrow">For Business</p>
+    <h1>Tell us about your commercial project</h1>
+    <p class="lede">Share some basic detail about your site and what you're looking to achieve. A member of our team will follow up to discuss scope and, where useful, arrange a site assessment.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
+    <form id="projectEnquiryForm" data-prototype-form novalidate>
+      <div class="form-field">
+        <label for="companyName">Business / organisation name</label>
+        <input type="text" id="companyName" name="companyName" required autocomplete="organization">
+      </div>
+      <div class="grid grid-2">
+        <div class="form-field">
+          <label for="contactName">Your name</label>
+          <input type="text" id="contactName" name="contactName" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="role">Role</label>
+          <input type="text" id="role" name="role" autocomplete="organization-title">
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" required autocomplete="tel">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="siteAddress">Site address</label>
+        <input type="text" id="siteAddress" name="siteAddress" required autocomplete="street-address">
+      </div>
+      <fieldset class="form-field" style="border:none;padding:0;">
+        <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">What are you interested in? (select all that apply)</legend>
+        <div class="radio-cards">
+          <div class="radio-card"><input type="checkbox" id="intSolar" name="interest" value="Commercial Solar"><label for="intSolar">Commercial Solar</label></div>
+          <div class="radio-card"><input type="checkbox" id="intBattery" name="interest" value="Commercial Batteries"><label for="intBattery">Commercial Batteries</label></div>
+          <div class="radio-card"><input type="checkbox" id="intEv" name="interest" value="Commercial EV Charging"><label for="intEv">Commercial EV Charging</label></div>
+          <div class="radio-card"><input type="checkbox" id="intElec" name="interest" value="Commercial Electrical"><label for="intElec">Commercial Electrical</label></div>
+        </div>
+      </fieldset>
+      <div class="form-field">
+        <label for="details">Project details</label>
+        <textarea id="details" name="details" placeholder="Site size, approximate roof or ground space, operating hours, known switchboard/supply details, timeframe — whatever you have."></textarea>
+        <p class="hint">Recent electricity bills help us scope faster — you'll be able to attach these once this form is connected to our lead system.</p>
+      </div>
+      <!-- Attribution fields for HighLevel — populated by tracking script prior to launch -->
+      <input type="hidden" name="utm_source" value="">
+      <input type="hidden" name="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" value="">
+      <input type="hidden" name="gclid" value="">
+      <input type="hidden" name="page_url" value="">
+      <button class="btn btn-primary btn-block" type="submit">Submit Project Enquiry</button>
+      <p class="hint" style="margin-top:14px;">By submitting, you agree to be contacted about your enquiry. See our <a href="/privacy-policy/">Privacy Policy</a>. [OWNER CONFIRMATION REQUIRED — final consent wording for legal review]</p>
+      <p class="owner-flag" style="margin-top:10px;">Owner confirmation required — this form is a front-end prototype only. It must be connected to HighLevel (or another CRM) before it can receive live enquiries. See the HighLevel integration specification.</p>
+    </form>
+
+    <aside>
+      <div class="card">
+        <h3 class="mt-0">Prefer to talk first?</h3>
+        <p>Call <a href="tel:0420113216">0420 113 216</a> or email <span class="owner-flag">[OWNER CONFIRMATION REQUIRED — business email address]</span>.</p>
+      </div>
+      <div class="card" style="margin-top:20px;">
+        <h3 class="mt-0">What happens next</h3>
+        <p>We'll review your enquiry, ask any follow-up questions by phone or email, and arrange a site assessment where one is needed before a design and quotation can be prepared.</p>
+      </div>
+    </aside>
+  </div>
+</section>

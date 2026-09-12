@@ -36,6 +36,12 @@ fs.copyFileSync(path.join(SITE, 'robots.txt'), path.join(OUT, 'robots.txt'));
 fs.copyFileSync(path.join(SITE, 'sitemap.xml'), path.join(OUT, 'sitemap.xml'));
 
 const ATTR_RE = /(href|src)="(\/[^"]*)"/g;
+// srcset carries one or more "<url> <descriptor>" candidates separated by
+// commas (e.g. `<source srcset="/img/photos/x-480.avif 480w, ...">` in the
+// real-photo <picture> markup) — ATTR_RE above only ever matches a single
+// bare URL in href/src, so responsive image sources need their own pass or
+// they'd stay root-relative (wrong) under the GitHub Pages subpath.
+const SRCSET_RE = /srcset="([^"]*)"/g;
 
 function rewriteValue(value, prefix) {
   const m = value.match(/^([^?#]*)([?#].*)?$/);
@@ -49,8 +55,25 @@ function rewriteValue(value, prefix) {
   return prefix + resolved + rest;
 }
 
+function rewriteSrcsetValue(value, prefix) {
+  return value
+    .split(',')
+    .map((candidate) => {
+      const trimmed = candidate.trim();
+      if (!trimmed) return trimmed;
+      const spaceIdx = trimmed.indexOf(' ');
+      const url = spaceIdx === -1 ? trimmed : trimmed.slice(0, spaceIdx);
+      const descriptor = spaceIdx === -1 ? '' : trimmed.slice(spaceIdx);
+      if (!url.startsWith('/')) return trimmed;
+      return rewriteValue(url, prefix) + descriptor;
+    })
+    .join(', ');
+}
+
 function rewriteHtml(html, prefix) {
-  return html.replace(ATTR_RE, (m, attr, value) => `${attr}="${rewriteValue(value, prefix)}"`);
+  return html
+    .replace(ATTR_RE, (m, attr, value) => `${attr}="${rewriteValue(value, prefix)}"`)
+    .replace(SRCSET_RE, (m, value) => `srcset="${rewriteSrcsetValue(value, prefix)}"`);
 }
 
 // Every page is one level deep (site/<slug>/index.html) except the home
@@ -82,7 +105,7 @@ fs.writeFileSync(path.join(OUT, '404.html'), rewriteHtml(notFoundHtml, ''), 'utf
 
 console.log(`Built ${count} pages into ${OUT} (relative paths, subpath-safe)`);
 
-// Sanity check: no root-relative refs should remain
+// Sanity check: no root-relative refs (href/src or srcset candidates) should remain
 let leftover = 0;
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -90,8 +113,12 @@ function walk(dir) {
     if (entry.isDirectory()) walk(p);
     else if (entry.name.endsWith('.html')) {
       const txt = fs.readFileSync(p, 'utf8');
-      const matches = txt.match(ATTR_RE);
-      if (matches) leftover += matches.length;
+      const attrMatches = txt.match(ATTR_RE);
+      if (attrMatches) leftover += attrMatches.length;
+      const srcsetMatches = [...txt.matchAll(SRCSET_RE)].filter((m) =>
+        m[1].split(',').some((c) => c.trim().startsWith('/'))
+      );
+      leftover += srcsetMatches.length;
     }
   }
 }

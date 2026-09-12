@@ -12,7 +12,20 @@ const { chromium } = require('playwright');
 
 const BASE = process.env.QA_BASE_URL || 'http://localhost:8811';
 const widths = [375, 768, 1024, 1440];
-const pages = ['/', '/assessment/', '/residential-solar/', '/commercial-project-enquiry/', '/about/'];
+const pages = [
+  '/',
+  '/assessment/',
+  '/residential-solar/',
+  '/commercial-project-enquiry/',
+  '/about/',
+  // Pages that gained real photography this pass — see docs/asset-manifest.md
+  '/battery-storage/',
+  '/ev-charging/',
+  '/commercial-solar/',
+  '/commercial-batteries/',
+  '/switchboard-upgrades/',
+  '/projects/',
+];
 const errors = [];
 
 async function run(label, fn) {
@@ -53,10 +66,31 @@ async function run(label, fn) {
           () => document.documentElement.scrollWidth - document.documentElement.clientWidth
         );
         if (overflow > 1) errors.push(`${path} @${width}: horizontal overflow ${overflow}px`);
+
+        // Every <img> must actually load (naturalWidth > 0 — a broken path,
+        // 404, or unsupported format all leave it at 0) and carry
+        // meaningful alt text — see docs/asset-manifest.md.
+        const imgIssues = await page.evaluate(() =>
+          Array.from(document.images).map((img) => ({
+            src: img.currentSrc || img.src,
+            broken: img.complete && img.naturalWidth === 0,
+            alt: img.getAttribute('alt'),
+          }))
+        );
+        for (const img of imgIssues) {
+          if (img.broken) errors.push(`${path} @${width}: broken image ${img.src}`);
+          if (img.alt === null) errors.push(`${path} @${width}: <img> missing alt attribute (${img.src})`);
+        }
+
         if (path === '/' && width === 375) await page.screenshot({ path: `qa-screenshots/home-375.png`, fullPage: true });
         if (path === '/' && width === 1440) await page.screenshot({ path: `qa-screenshots/home-1440.png`, fullPage: true });
         if (path === '/assessment/' && width === 375)
           await page.screenshot({ path: `qa-screenshots/assessment-375.png`, fullPage: true });
+        const photoPages = ['/battery-storage/', '/ev-charging/', '/commercial-solar/', '/about/', '/projects/'];
+        if ((width === 375 || width === 1440) && photoPages.includes(path)) {
+          const slug = path.replace(/\//g, '') || 'home';
+          await page.screenshot({ path: `qa-screenshots/${slug}-${width}.png`, fullPage: true });
+        }
         await page.close();
       });
     }

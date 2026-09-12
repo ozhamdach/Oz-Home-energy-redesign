@@ -159,7 +159,15 @@ for (const file of files) {
   const imgTags = html.match(/<img\b[^>]*>/g) || [];
   for (const tag of imgTags) {
     const altMatch = tag.match(/alt="([^"]*)"/);
-    if (!altMatch || !altMatch[1].trim()) fail(`${rel}: <img> missing meaningful alt text: ${tag}`);
+    // An empty alt is only valid a11y practice for a genuinely decorative
+    // image — one explicitly marked aria-hidden="true" (its meaning, if any,
+    // must already be conveyed elsewhere, e.g. an aria-label on a parent
+    // link). Anything else with empty/missing alt is a real content image
+    // missing its description.
+    const isDecorative = /aria-hidden="true"/.test(tag);
+    if ((!altMatch || !altMatch[1].trim()) && !isDecorative) {
+      fail(`${rel}: <img> missing meaningful alt text: ${tag}`);
+    }
     const srcMatch = tag.match(/src="([^"]*)"/);
     if (srcMatch && srcMatch[1].startsWith('/')) {
       const assetPath = path.join(SITE_DIR, srcMatch[1]);

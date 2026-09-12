@@ -3,9 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ANALYTICS: NOT ACTIVE. See docs/analytics-integration.md before enabling
+     anything here — activating a tag without confirming the production
+     tracking plan first (GTM container ID, whether GA4/Ads/Meta Pixel are
+     already live elsewhere) risks double-counting conversions. The line
+     below only declares the dataLayer array (standard, recommended GTM
+     practice — queueing events before the container script itself loads)
+     and does not transmit anything anywhere by itself: with no GTM
+     container script installed, nothing ever reads this array. This build
+     already pushes phone-click, email-click, form-start and form-step
+     events into it (see site/js/main.js and site/js/assessment.js), so
+     wiring up real analytics later needs no further code changes here —
+     only inserting the real container snippet Google Tag Manager gives you
+     (head + body <noscript>, per Google's own install instructions) in
+     place of this comment. -->
+<script>window.dataLayer = window.dataLayer || [];</script>
 <title>Projects & Case Studies | Oz Home Energy</title>
-<meta name="description" content="Real Oz Home Energy installations — solar, battery, EV charging and electrical projects across Sydney, shown with genuine detail and photography.">
-<link rel="canonical" href="https://www.ozhomeenergy.com.au/projects/">
+<meta name="description" content="Real Oz Home Energy installations — solar, battery, EV charging and electrical projects across Sydney, published with genuine detail once completed and customer-approved.">
+<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
+     production site's www subdomain redirects to this apex domain, so every
+     canonical/OG/schema URL below uses it consistently — pointing them at
+     www would canonicalise against a redirecting hostname. See
+     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+<link rel="canonical" href="https://ozhomeenergy.com.au/projects/">
 <!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
      only becomes "index, follow" when scripts/build.js is run with
      BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
@@ -14,10 +34,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Projects & Case Studies | Oz Home Energy">
-<meta property="og:description" content="Real Oz Home Energy installations — solar, battery, EV charging and electrical projects across Sydney, shown with genuine detail and photography.">
-<meta property="og:url" content="https://www.ozhomeenergy.com.au/projects/">
-<!-- OWNER CONFIRMATION REQUIRED: replace with a real 1200x630 installation photograph before launch -->
-<meta property="og:image" content="https://www.ozhomeenergy.com.au/img/favicon.svg">
+<meta property="og:description" content="Real Oz Home Energy installations — solar, battery, EV charging and electrical projects across Sydney, published with genuine detail once completed and customer-approved.">
+<meta property="og:url" content="https://ozhomeenergy.com.au/projects/">
+<meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Oz Home Energy — Sydney solar, battery, EV charging and electrical contractor">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,8 +51,8 @@
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Oz Home Energy",
-  "url": "https://www.ozhomeenergy.com.au",
-  "telephone": "+61420113216",
+  "url": "https://ozhomeenergy.com.au",
+  "telephone": "+61435336336",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
     "@type": "PostalAddress",
@@ -54,13 +76,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://www.ozhomeenergy.com.au/"
+      "item": "https://ozhomeenergy.com.au/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Projects",
-      "item": "https://www.ozhomeenergy.com.au/projects/"
+      "item": "https://ozhomeenergy.com.au/projects/"
     }
   ]
 }
@@ -80,7 +102,7 @@
   <div class="container header-inner">
     <a class="brand-logo" href="/" aria-label="Oz Home Energy — home">
       <span class="mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#fff"/></svg>
+        <img src="/img/brand/oz-home-energy-icon.svg" alt="" aria-hidden="true" width="40" height="40" loading="eager">
       </span>
       <span class="wordmark">Oz Home Energy<span>Solar · Battery · EV · Electrical</span></span>
     </a>
@@ -131,11 +153,11 @@
     </nav>
 
     <div class="header-actions">
-      <a class="phone-link" href="tel:0420113216">
+      <a class="phone-link" href="tel:+61435336336">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 1h2a2 2 0 0 1 2 1.72c.12.9.34 1.79.65 2.65a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.43-1.42a2 2 0 0 1 2.11-.45c.86.31 1.75.53 2.65.65A2 2 0 0 1 22 16.92Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        0420 113 216
+        0435 336 336
       </a>
-      <a class="btn btn-primary mobile-call-btn" href="tel:0420113216" aria-label="Call 0420 113 216">
+      <a class="btn btn-primary mobile-call-btn" href="tel:+61435336336" aria-label="Call 0435 336 336">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 1h2a2 2 0 0 1 2 1.72c.12.9.34 1.79.65 2.65a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.43-1.42a2 2 0 0 1 2.11-.45c.86.31 1.75.53 2.65.65A2 2 0 0 1 22 16.92Z" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a class="btn btn-primary desktop-cta" href="/assessment/">Start Your Assessment</a>
@@ -182,7 +204,7 @@
     </details>
     <div class="mobile-cta">
       <a class="btn btn-primary btn-block" href="/assessment/">Start Your Assessment</a>
-      <a class="btn btn-secondary btn-block" href="tel:0420113216">Call 0420 113 216</a>
+      <a class="btn btn-secondary btn-block" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
   </div>
 </header>
@@ -193,13 +215,13 @@
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Projects</p>
     <p class="eyebrow">Projects</p>
     <h1>Real installations, shown with real detail</h1>
-    <p class="lede">We're building this page out with genuine Oz Home Energy installations — the property, the system installed, the design decisions behind it, and the outcome. No stock photography, no invented figures.</p>
+    <p class="lede">Genuine Oz Home Energy installations, published with the property, the system installed, the design decisions behind it and the outcome. No stock photography, no invented figures.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="container container-narrow text-center">
-    <p>Project write-ups are added as installations are completed and customers agree to have their project featured. In the meantime, get in touch and we're happy to talk through recent, similar work directly.</p>
+    <p>Project write-ups are published here once an installation is complete and the customer has agreed to have it featured. None are published yet — call us and we're happy to talk through recent, similar work directly.</p>
   </div>
 </section>
 
@@ -217,12 +239,142 @@
   </div>
 </section>
 
+<!-- RECENT WORK — genuine photography, not attached to named case studies
+     yet (no customer names, locations, system sizes or results are stated
+     here — see docs/asset-manifest.md). Full written case studies are
+     added above once completed and customer-approved. -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Recent work</p>
+      <h2>A look at real installations</h2>
+    </div>
+    <div class="photo-gallery">
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/ground-mount-close-480.avif 480w, /img/photos/ground-mount-close-800.avif 800w, /img/photos/ground-mount-close-1200.avif 1200w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/ground-mount-close-480.webp 480w, /img/photos/ground-mount-close-800.webp 800w, /img/photos/ground-mount-close-1200.webp 1200w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/ground-mount-close-1200.jpg" width="1200" height="1600" loading="lazy" alt="A ground-mounted solar panel array viewed from below, showing the racking and panel underside">
+          </picture>
+        </div>
+        <figcaption>Ground-mounted solar array</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/commercial-panel-detail-480.avif 480w, /img/photos/commercial-panel-detail-800.avif 800w, /img/photos/commercial-panel-detail-1536.avif 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/commercial-panel-detail-480.webp 480w, /img/photos/commercial-panel-detail-800.webp 800w, /img/photos/commercial-panel-detail-1536.webp 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/commercial-panel-detail-1536.jpg" width="1536" height="1152" loading="lazy" alt="Close-up view of commercial rooftop solar panels reflecting a cloudy sky">
+          </picture>
+        </div>
+        <figcaption>Commercial rooftop solar</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/residential-solar-rooftop-2-480.avif 480w, /img/photos/residential-solar-rooftop-2-800.avif 800w, /img/photos/residential-solar-rooftop-2-1536.avif 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/residential-solar-rooftop-2-480.webp 480w, /img/photos/residential-solar-rooftop-2-800.webp 800w, /img/photos/residential-solar-rooftop-2-1536.webp 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/residential-solar-rooftop-2-1536.jpg" width="1536" height="1152" loading="lazy" alt="Solar panels installed on a corrugated metal roof beside a red dirt access track">
+          </picture>
+        </div>
+        <figcaption>Rooftop solar installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/commercial-lift-team-1-480.avif 480w, /img/photos/commercial-lift-team-1-800.avif 800w, /img/photos/commercial-lift-team-1-1536.avif 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/commercial-lift-team-1-480.webp 480w, /img/photos/commercial-lift-team-1-800.webp 800w, /img/photos/commercial-lift-team-1-1536.webp 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/commercial-lift-team-1-1536.jpg" width="1536" height="1152" loading="lazy" alt="Installers on an elevated work platform beside commercial rooftop solar panels under a cloudy sky">
+          </picture>
+        </div>
+        <figcaption>Commercial installation team</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/battery-fox-detail-480.avif 480w, /img/photos/battery-fox-detail-800.avif 800w, /img/photos/battery-fox-detail-1320.avif 1320w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/battery-fox-detail-480.webp 480w, /img/photos/battery-fox-detail-800.webp 800w, /img/photos/battery-fox-detail-1320.webp 1320w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/battery-fox-detail-1320.jpg" width="1320" height="1757" loading="lazy" alt="A Fox ESS battery unit installed on an exterior wall with warning signage displayed beside it">
+          </picture>
+        </div>
+        <figcaption>Battery storage installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/battery-white-unit-480.avif 480w, /img/photos/battery-white-unit-800.avif 800w, /img/photos/battery-white-unit-1200.avif 1200w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/battery-white-unit-480.webp 480w, /img/photos/battery-white-unit-800.webp 800w, /img/photos/battery-white-unit-1200.webp 1200w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/battery-white-unit-1200.jpg" width="1200" height="1600" loading="lazy" alt="A white battery storage unit installed outside against a brick wall">
+          </picture>
+        </div>
+        <figcaption>Battery storage installation</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALLATION & COMMISSIONING IN PROGRESS — explicitly progress imagery,
+     never presented as completed work (open switchboards, exposed wiring
+     mid-connection). See docs/asset-manifest.md. -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Behind the scenes</p>
+      <h2>Installation and commissioning in progress</h2>
+      <p class="lede">Genuine in-progress photography — open switchboards and partially wired equipment shown here are mid-installation, not finished work.</p>
+    </div>
+    <div class="photo-gallery">
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/process-switchboard-open-2-480.avif 480w, /img/photos/process-switchboard-open-2-707.avif 707w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/process-switchboard-open-2-480.webp 480w, /img/photos/process-switchboard-open-2-707.webp 707w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/process-switchboard-open-2-707.jpg" width="707" height="532" loading="lazy" alt="An open switchboard cabinet with wiring being connected during an installation">
+          </picture>
+        </div>
+        <figcaption>Switchboard installation in progress</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/process-commercial-array-lift-480.avif 480w, /img/photos/process-commercial-array-lift-800.avif 800w, /img/photos/process-commercial-array-lift-1536.avif 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/process-commercial-array-lift-480.webp 480w, /img/photos/process-commercial-array-lift-800.webp 800w, /img/photos/process-commercial-array-lift-1536.webp 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/process-commercial-array-lift-1536.jpg" width="1536" height="1152" loading="lazy" alt="View from an elevated work platform over a partially completed commercial rooftop solar installation">
+          </picture>
+        </div>
+        <figcaption>Commercial installation in progress</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/process-commercial-commissioning-1-480.avif 480w, /img/photos/process-commercial-commissioning-1-800.avif 800w, /img/photos/process-commercial-commissioning-1-1536.avif 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/process-commercial-commissioning-1-480.webp 480w, /img/photos/process-commercial-commissioning-1-800.webp 800w, /img/photos/process-commercial-commissioning-1-1536.webp 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/process-commercial-commissioning-1-1536.jpg" width="1536" height="1152" loading="lazy" alt="An open commercial switchboard beside a newly installed battery unit during commissioning">
+          </picture>
+        </div>
+        <figcaption>Commercial battery commissioning in progress</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/process-commercial-commissioning-2-480.avif 480w, /img/photos/process-commercial-commissioning-2-800.avif 800w, /img/photos/process-commercial-commissioning-2-1536.avif 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <source type="image/webp" srcset="/img/photos/process-commercial-commissioning-2-480.webp 480w, /img/photos/process-commercial-commissioning-2-800.webp 800w, /img/photos/process-commercial-commissioning-2-1536.webp 1536w" sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw">
+            <img src="/img/photos/process-commercial-commissioning-2-1536.jpg" width="1536" height="1152" loading="lazy" alt="An open commercial switchboard cabinet with wiring visible during installation, beside a solar inverter">
+          </picture>
+        </div>
+        <figcaption>Commercial switchboard installation in progress</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <section class="section final-cta">
   <div class="container container-narrow">
     <h2>Want your project to look like this?</h2>
     <div class="cta-row">
       <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
-      <a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216</a>
+      <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
   </div>
 </section>
@@ -290,7 +442,7 @@
     <div class="footer-bottom">
       <div>
         <div>Oz Home Energy · Sydney, NSW · NSW Electrical Contractor Licence 382607C</div>
-        <div>Phone <a href="tel:0420113216">0420 113 216</a></div>
+        <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
       </div>
       <ul class="legal-links">
         <li>&copy; <span id="footerYear">2026</span> Oz Home Energy</li>

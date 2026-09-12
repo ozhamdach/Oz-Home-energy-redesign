@@ -1,12 +1,21 @@
 # Photography & Asset Requirements
 
+**Update: real, owner-approved photography now covers most of the list
+below** — see `docs/asset-manifest.md` for exactly which photo was used
+where. This document is kept as the original shoot brief/priority list for
+whatever's still outstanding (named case-study projects, a confirmed
+before/after switchboard pair, additional team/vehicle shots).
+
 No stock photography, AI-generated imagery, or images of installations not
 actually completed by Oz Home Energy appear anywhere in this build. Every
-image slot is a clearly labelled placeholder (`.placeholder-media` — a
-dashed-border diagonal-hatch block with a bracketed instruction, e.g.
-`[REPLACE WITH REAL PHOTO: ...]`) so nothing can accidentally ship or be
-mistaken for a real installation. This list is the shoot brief for replacing
-them.
+image slot without a real photo yet renders as a deliberate on-brand icon
+panel (`.visual-panel` in `site/css/styles.css`), never a dashed
+"placeholder" box with instructional text — nothing here could be mistaken
+for a real installation, and nothing looks unfinished either. See
+`docs/asset-manifest.md` for the exact dimensions, crop, filename and
+required alt text used for the real photos now in place, and for the
+EXIF-stripping/responsive-image pipeline every photo goes through before
+publishing.
 
 ## Priority 1 — needed to launch the homepage credibly
 
@@ -67,11 +76,15 @@ them.
 
 ## Where each image slot lives in the code
 
-Every placeholder in `site/**/index.html` carries the exact instruction as
-visible text inside a `.placeholder-media` div, so a non-technical reviewer
-can grep the built HTML for `REPLACE WITH REAL PHOTO` and get the full list
-with page context:
+Real photos now in place use `<div class="photo-frame"><picture>…</picture></div>`
+in `src/pages/<slug>/content.html` — see `docs/asset-manifest.md` for the
+full list of which slug is used where. Any slot still waiting on real
+photography is a `<span class="visual-panel">…svg icon…</span>` block —
+grep for it to find every remaining slot with page context:
 
 ```
-grep -rn "REPLACE WITH REAL" site --include=*.html
+grep -rln "visual-panel" src/pages
 ```
+
+See `docs/asset-manifest.md` for exactly which real file replaces which
+slot, and the `<picture>`/`srcset` markup pattern to replace it with.

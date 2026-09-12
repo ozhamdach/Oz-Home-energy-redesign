@@ -3,9 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ANALYTICS: NOT ACTIVE. See docs/analytics-integration.md before enabling
+     anything here — activating a tag without confirming the production
+     tracking plan first (GTM container ID, whether GA4/Ads/Meta Pixel are
+     already live elsewhere) risks double-counting conversions. The line
+     below only declares the dataLayer array (standard, recommended GTM
+     practice — queueing events before the container script itself loads)
+     and does not transmit anything anywhere by itself: with no GTM
+     container script installed, nothing ever reads this array. This build
+     already pushes phone-click, email-click, form-start and form-step
+     events into it (see site/js/main.js and site/js/assessment.js), so
+     wiring up real analytics later needs no further code changes here —
+     only inserting the real container snippet Google Tag Manager gives you
+     (head + body <noscript>, per Google's own install instructions) in
+     place of this comment. -->
+<script>window.dataLayer = window.dataLayer || [];</script>
 <title>Solar, Battery & EV Charging Sydney | Oz Home Energy</title>
 <meta name="description" content="Installer-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.">
-<link rel="canonical" href="https://www.ozhomeenergy.com.au/">
+<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
+     production site's www subdomain redirects to this apex domain, so every
+     canonical/OG/schema URL below uses it consistently — pointing them at
+     www would canonicalise against a redirecting hostname. See
+     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+<link rel="canonical" href="https://ozhomeenergy.com.au/">
 <!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
      only becomes "index, follow" when scripts/build.js is run with
      BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
@@ -15,9 +35,11 @@
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Solar, Battery & EV Charging Sydney | Oz Home Energy">
 <meta property="og:description" content="Installer-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.">
-<meta property="og:url" content="https://www.ozhomeenergy.com.au/">
-<!-- OWNER CONFIRMATION REQUIRED: replace with a real 1200x630 installation photograph before launch -->
-<meta property="og:image" content="https://www.ozhomeenergy.com.au/img/favicon.svg">
+<meta property="og:url" content="https://ozhomeenergy.com.au/">
+<meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Oz Home Energy — Sydney solar, battery, EV charging and electrical contractor">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,8 +51,8 @@
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Oz Home Energy",
-  "url": "https://www.ozhomeenergy.com.au",
-  "telephone": "+61420113216",
+  "url": "https://ozhomeenergy.com.au",
+  "telephone": "+61435336336",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
     "@type": "PostalAddress",
@@ -54,7 +76,7 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://www.ozhomeenergy.com.au/"
+      "item": "https://ozhomeenergy.com.au/"
     }
   ]
 }
@@ -74,7 +96,7 @@
   <div class="container header-inner">
     <a class="brand-logo" href="/" aria-label="Oz Home Energy — home">
       <span class="mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#fff"/></svg>
+        <img src="/img/brand/oz-home-energy-icon.svg" alt="" aria-hidden="true" width="40" height="40" loading="eager">
       </span>
       <span class="wordmark">Oz Home Energy<span>Solar · Battery · EV · Electrical</span></span>
     </a>
@@ -125,11 +147,11 @@
     </nav>
 
     <div class="header-actions">
-      <a class="phone-link" href="tel:0420113216">
+      <a class="phone-link" href="tel:+61435336336">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 1h2a2 2 0 0 1 2 1.72c.12.9.34 1.79.65 2.65a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.43-1.42a2 2 0 0 1 2.11-.45c.86.31 1.75.53 2.65.65A2 2 0 0 1 22 16.92Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        0420 113 216
+        0435 336 336
       </a>
-      <a class="btn btn-primary mobile-call-btn" href="tel:0420113216" aria-label="Call 0420 113 216">
+      <a class="btn btn-primary mobile-call-btn" href="tel:+61435336336" aria-label="Call 0435 336 336">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 1h2a2 2 0 0 1 2 1.72c.12.9.34 1.79.65 2.65a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.43-1.42a2 2 0 0 1 2.11-.45c.86.31 1.75.53 2.65.65A2 2 0 0 1 22 16.92Z" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a class="btn btn-primary desktop-cta" href="/assessment/">Start Your Assessment</a>
@@ -176,7 +198,7 @@
     </details>
     <div class="mobile-cta">
       <a class="btn btn-primary btn-block" href="/assessment/">Start Your Assessment</a>
-      <a class="btn btn-secondary btn-block" href="tel:0420113216">Call 0420 113 216</a>
+      <a class="btn btn-secondary btn-block" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
   </div>
 </header>
@@ -184,13 +206,21 @@
 <main id="main">
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-media">
+    <picture>
+      <source type="image/avif" srcset="/img/photos/ground-mount-wide-640.avif 640w, /img/photos/ground-mount-wide-1200.avif 1200w, /img/photos/ground-mount-wide-2048.avif 2048w" sizes="100vw">
+      <source type="image/webp" srcset="/img/photos/ground-mount-wide-640.webp 640w, /img/photos/ground-mount-wide-1200.webp 1200w, /img/photos/ground-mount-wide-2048.webp 2048w" sizes="100vw">
+      <img src="/img/photos/ground-mount-wide-2048.jpg" width="2048" height="1152" fetchpriority="high" alt="Ground-mounted solar panel array installed on rural land with red dirt and native bushland">
+    </picture>
+  </div>
+  <div class="hero-overlay"></div>
   <div class="container hero-inner">
     <p class="eyebrow">Solar · Batteries · EV Charging · Electrical</p>
     <h1>Lower energy bills start here.</h1>
     <p class="lede">An installer-led electrical and energy company: solar, battery, EV charging and electrical work designed around your property and your electricity use.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
-      <a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216</a>
+      <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
     <p class="hero-trust">Licensed NSW Electrical Contractor 382607C <span class="dot"></span> Sydney-based <span class="dot"></span> Residential &amp; commercial</p>
   </div>
@@ -206,6 +236,38 @@
       <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Residential &amp; commercial capability</li>
       <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Direct support after installation</li>
     </ul>
+  </div>
+</section>
+
+<!-- TRUST / APPROVED INSTALLER STRIP -->
+<section class="trust-strip">
+  <div class="container trust-strip-inner">
+    <span class="trust-strip-label">Approved installer</span>
+    <span class="trust-badge-card">
+      <picture>
+        <source type="image/avif" srcset="/img/photos/trust-ohme-badge-320.avif 320w, /img/photos/trust-ohme-badge-480.avif 480w" sizes="160px">
+        <source type="image/webp" srcset="/img/photos/trust-ohme-badge-320.webp 320w, /img/photos/trust-ohme-badge-480.webp 480w" sizes="160px">
+        <img src="/img/photos/trust-ohme-badge-480.jpg" width="1257" height="1066" loading="lazy" alt="Ohme approved installer badge">
+      </picture>
+    </span>
+    <span class="trust-badge-card">
+      <picture>
+        <source type="image/avif" srcset="/img/photos/trust-tesla-badge-320.avif 320w, /img/photos/trust-tesla-badge-480.avif 480w" sizes="160px">
+        <source type="image/webp" srcset="/img/photos/trust-tesla-badge-320.webp 320w, /img/photos/trust-tesla-badge-480.webp 480w" sizes="160px">
+        <img src="/img/photos/trust-tesla-badge-480.jpg" width="1920" height="780" loading="lazy" alt="Tesla Powerwall Certified Installer badge">
+      </picture>
+    </span>
+  </div>
+</section>
+
+<!-- REVIEWS (genuine HighLevel widget only — see site/js/reviews.js) -->
+<section class="section" id="reviewsSection">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Reviews</p>
+      <h2>What customers say</h2>
+    </div>
+    <div class="review-widget" id="reviewWidget" aria-live="polite"></div>
   </div>
 </section>
 
@@ -252,7 +314,7 @@
     <div class="section-head center">
       <p class="eyebrow">How it fits together</p>
       <h2>One connected energy system, not four separate purchases</h2>
-      <p class="lede" style="margin-inline:auto;">Solar, batteries, EV charging and your home's electrical infrastructure only work well together when they're designed together. That's the difference between a system that's installed and a system that's engineered.</p>
+      <p class="lede" style="margin-inline:auto;">Solar, batteries, EV charging and your home's electrical infrastructure only work well together when they're designed together. That's the difference between a system that's installed and a system that's properly designed and integrated.</p>
     </div>
     <div class="flow-diagram">
       <div class="flow-step">
@@ -341,7 +403,7 @@
       <div class="process-item">
         <p class="step-no">Step 3</p>
         <h3>You receive a tailored design and quotation</h3>
-        <p>System design and quoting is supported by GreenSketch, giving you a clear proposal matched to your property.</p>
+        <p>A tailored system design and clear written proposal matched to your property.</p>
       </div>
       <div class="process-item">
         <p class="step-no">Step 4</p>
@@ -353,6 +415,31 @@
   </div>
 </section>
 
+<!-- USEFUL FAQS (a short, real sample — full list at /faqs/) -->
+<section class="section">
+  <div class="container container-narrow">
+    <div class="section-head center">
+      <p class="eyebrow">Common questions</p>
+      <h2>Before you get in touch</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>What size solar system suits my home?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="answer"><p>System size is a balance of your roof space and orientation, how much electricity you use during daylight hours, your DNSP-approved export limit, and your budget. We work from your electricity bill and household routine first, rather than sizing purely to "fill the roof."</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>Can my switchboard support an EV charger or a battery?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="answer"><p>Many older switchboards don't have available capacity without an upgrade — this is one of the first things we check, before discussing which equipment to install.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need council or strata approval for solar?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="answer"><p>Most standalone houses don't need council approval for a standard rooftop system. Strata properties, heritage-listed homes and some local planning overlays can have extra requirements — we'll flag this during your assessment if it's likely to apply.</p></div>
+      </details>
+    </div>
+    <p class="text-center" style="margin-top:24px;"><a class="btn btn-ghost" href="/faqs/">See all frequently asked questions →</a></p>
+  </div>
+</section>
+
 <!-- FINAL CTA -->
 <section class="section section-inverse final-cta">
   <div class="container container-narrow">
@@ -360,7 +447,7 @@
     <h2>Start with your electricity bill. We'll help you understand the next practical step.</h2>
     <div class="cta-row">
       <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
-      <a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216</a>
+      <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
   </div>
 </section>
@@ -428,7 +515,7 @@
     <div class="footer-bottom">
       <div>
         <div>Oz Home Energy · Sydney, NSW · NSW Electrical Contractor Licence 382607C</div>
-        <div>Phone <a href="tel:0420113216">0420 113 216</a></div>
+        <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
       </div>
       <ul class="legal-links">
         <li>&copy; <span id="footerYear">2026</span> Oz Home Energy</li>
@@ -441,6 +528,6 @@
 </footer>
 
 <script src="/js/main.js" defer></script>
-
+<script src="/js/reviews.js" defer></script>
 </body>
 </html>

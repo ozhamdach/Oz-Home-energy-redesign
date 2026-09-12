@@ -1,7 +1,8 @@
 {
   "title": "Projects & Case Studies | Oz Home Energy",
-  "description": "Real Oz Home Energy installations — solar, battery, EV charging and electrical projects across Sydney, shown with genuine detail and photography.",
+  "description": "Real Oz Home Energy installations — solar, battery, EV charging and electrical projects across Sydney, published with genuine detail once completed and customer-approved.",
   "canonical": "/projects/",
+  "publishGate": "projects",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Projects", "url": "/projects/" }

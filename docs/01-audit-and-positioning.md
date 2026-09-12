@@ -81,9 +81,14 @@ Per the brief's instruction, none of the following are published anywhere in
 this build — every instance is marked `[OWNER CONFIRMATION REQUIRED]` in the
 HTML and listed centrally in `07-owner-confirmations.md`:
 
-NETCC membership · Tesla Certified Installer status · SAA accreditation ·
-review totals/ratings · installation totals · years in business · manufacturer
-partnerships · finance availability · specific rebate amounts · guaranteed
-savings/payback claims · superiority claims ("best", "leading", "number one") ·
-product pricing/availability · client or project names · workmanship
-guarantees beyond actual contract terms.
+NETCC membership · Tesla Certified Installer status · review totals/ratings ·
+installation totals · years in business · manufacturer partnerships ·
+finance availability · specific rebate amounts · guaranteed savings/payback
+claims · superiority claims ("best", "leading", "number one") · product
+pricing/availability · client or project names · workmanship guarantees
+beyond actual contract terms.
+
+**Update:** SAA accreditation has since been owner-confirmed (number
+S5265652) and is now published — see `docs/07-owner-confirmations.md`. It's
+recorded as its own distinct credential, not merged into the electrical
+contractor licence line.

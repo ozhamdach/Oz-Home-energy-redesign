@@ -1,22 +1,33 @@
-<section class="page-banner" style="padding-block:44px 32px;">
+<section class="page-banner assess-banner" style="padding-block:20px 16px;">
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Contact / Energy Assessment</p>
-    <p class="eyebrow">Free Energy Assessment</p>
-    <h1>Let's understand your property first</h1>
-    <p class="lede">Five short steps — no pressure, no obligation. We'll use your answers to understand what's realistic for your property before anyone talks about a quote.</p>
+    <h1 style="font-size:clamp(1.5rem, 1.2rem + 1.6vw, 2.1rem); margin-bottom:6px;">Let's understand your property first</h1>
+    <p class="lede" style="font-size:0.95rem; margin-bottom:0;">Five short steps — no pressure, no obligation.</p>
   </div>
 </section>
 
-<section class="section-tight">
+<section class="section-tight" style="padding-block:20px clamp(40px, 6vw, 72px);">
   <div class="container">
     <div class="grid grid-2" style="gap:48px;align-items:flex-start;">
       <div class="assess-wrap" style="max-width:none;">
-        <div class="assess-progress">
+        <div class="assess-progress" style="margin-bottom:20px;">
           <div class="bar" id="assessProgressBar" role="progressbar" aria-label="Assessment progress" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><div class="fill" id="assessFill"></div></div>
           <div class="meta"><span id="assessStepLabel">Step 1 of 5</span><span id="assessStepName">What do you need help with?</span></div>
         </div>
 
-        <form id="assessmentForm" method="post" action="#" novalidate>
+        <!-- No HighLevel connection yet. This maps most closely to the
+             "Detailed Contact/Quote form" verified on the current live site
+             (form ID 7CTbeFedTXyoPJoS2CmH) — that ID is reference-only and
+             is NOT used to construct any embed markup here (see
+             docs/owner-inputs-required.md: "do not guess or construct
+             embed markup from a form ID"). Wiring this up means either (a)
+             replacing this custom-built form with the exact embed snippet
+             HighLevel exports for that form, or (b) keeping this front end
+             and POSTing to a secure server-side endpoint per
+             docs/04-highlevel-integration.md — either way, a person with
+             HighLevel account access has to supply the real snippet or
+             endpoint; nothing here should be guessed. -->
+        <form id="assessmentForm" method="post" data-hl-form-ref="7CTbeFedTXyoPJoS2CmH (reference only, unwired)" novalidate>
           <!-- STEP 1 -->
           <div class="assess-step is-active" data-step="1">
             <h2>What do you need help with?</h2>
@@ -220,11 +231,11 @@
       <aside>
         <div class="card">
           <h3 class="mt-0">Prefer to skip the form?</h3>
-          <p>Call <a href="tel:0420113216">0420 113 216</a> and we'll ask these questions over the phone instead.</p>
+          <p>Call <a href="tel:+61435336336">0435 336 336</a> and we'll ask these questions over the phone instead.</p>
         </div>
         <div class="card" style="margin-top:20px;">
           <h3 class="mt-0">What happens after you submit</h3>
-          <p>We review your answers, and where a site visit is needed to check your switchboard, roof or supply, we'll arrange a time that suits you. You'll then receive a tailored design and quotation, supported by GreenSketch.</p>
+          <p>We review your answers, and where a site visit is needed to check your switchboard, roof or supply, we'll arrange a time that suits you. You'll then receive a tailored system design and clear written proposal.</p>
         </div>
         <div class="card" style="margin-top:20px;">
           <h3 class="mt-0">Licensed &amp; local</h3>

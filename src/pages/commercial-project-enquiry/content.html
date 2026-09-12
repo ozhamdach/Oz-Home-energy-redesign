@@ -9,7 +9,12 @@
 
 <section class="section">
   <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
-    <form id="projectEnquiryForm" data-prototype-form data-service-field="interest" method="post" action="#" novalidate>
+    <!-- No verified HighLevel form exists for commercial project enquiries
+         specifically — do not reuse the homepage quick-quote or detailed
+         contact/quote form IDs for this. A dedicated commercial form must
+         be confirmed or created in HighLevel first; see
+         docs/owner-inputs-required.md. -->
+    <form id="projectEnquiryForm" data-prototype-form data-service-field="interest" method="post" data-hl-form-ref="none verified — do not reuse another form's ID" novalidate>
       <div class="form-field">
         <label for="companyName">Business / organisation name</label>
         <input type="text" id="companyName" name="companyName" required autocomplete="organization">
@@ -74,7 +79,7 @@
     <aside>
       <div class="card">
         <h3 class="mt-0">Prefer to talk first?</h3>
-        <p>Call <a href="tel:0420113216">0420 113 216</a> and we'll talk through your project directly.</p>
+        <p>Call <a href="tel:+61435336336">0435 336 336</a> and we'll talk through your project directly.</p>
       </div>
       <div class="card" style="margin-top:20px;">
         <h3 class="mt-0">What happens next</h3>

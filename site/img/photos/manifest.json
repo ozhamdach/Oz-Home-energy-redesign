@@ -1,0 +1,201 @@
+{
+  "battery-fox-detail": {
+    "height": 1757,
+    "width": 1320,
+    "widths": [
+      480,
+      800,
+      1320
+    ]
+  },
+  "battery-fox-installed": {
+    "height": 944,
+    "width": 707,
+    "widths": [
+      480,
+      707
+    ]
+  },
+  "battery-sungrow-installed": {
+    "height": 1536,
+    "width": 1152,
+    "widths": [
+      480,
+      800,
+      1152
+    ]
+  },
+  "battery-white-unit": {
+    "height": 1600,
+    "width": 1200,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "commercial-array-team": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      640,
+      1200,
+      1536
+    ]
+  },
+  "commercial-lift-team-1": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "commercial-lift-team-2": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "commercial-panel-detail": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "ev-tesla-wall-connector": {
+    "height": 1360,
+    "width": 707,
+    "widths": [
+      480,
+      707
+    ]
+  },
+  "fleet-van": {
+    "height": 880,
+    "width": 1320,
+    "widths": [
+      480,
+      800,
+      1320
+    ]
+  },
+  "ground-mount-close": {
+    "height": 1600,
+    "width": 1200,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "ground-mount-wide": {
+    "height": 1152,
+    "width": 2048,
+    "widths": [
+      640,
+      1200,
+      2048
+    ]
+  },
+  "process-commercial-array-lift": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "process-commercial-commissioning-1": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "process-commercial-commissioning-2": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "process-switchboard-open-1": {
+    "height": 1536,
+    "width": 707,
+    "widths": [
+      480,
+      707
+    ]
+  },
+  "process-switchboard-open-2": {
+    "height": 532,
+    "width": 707,
+    "widths": [
+      480,
+      707
+    ]
+  },
+  "residential-solar-rooftop-1": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "residential-solar-rooftop-2": {
+    "height": 1152,
+    "width": 1536,
+    "widths": [
+      480,
+      800,
+      1536
+    ]
+  },
+  "residential-solar-rooftop-3": {
+    "height": 944,
+    "width": 707,
+    "widths": [
+      480,
+      707
+    ]
+  },
+  "team-installers": {
+    "height": 829,
+    "width": 571,
+    "widths": [
+      480,
+      571
+    ]
+  },
+  "trust-ohme-badge": {
+    "height": 1066,
+    "width": 1257,
+    "widths": [
+      320,
+      480
+    ]
+  },
+  "trust-tesla-badge": {
+    "height": 780,
+    "width": 1920,
+    "widths": [
+      320,
+      480
+    ]
+  }
+}

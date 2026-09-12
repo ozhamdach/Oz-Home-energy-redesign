@@ -1,34 +1,62 @@
 # Master List — Everything Requiring Owner Confirmation Before Publishing
 
+**Superseded by `docs/owner-inputs-required.md`.** That document is now the
+current, maintained master checklist (it folds in this pass's additional
+claims, the HighLevel integration checklist, and the legal/business detail
+list). This file is kept for the detailed historical audit context below,
+but treat the newer document as authoritative for what's still outstanding.
+
 Nothing on this list is published as fact anywhere in this build. Search the
 built site for any stray marker with:
 `grep -rn "OWNER CONFIRMATION REQUIRED" site --include=*.html` — this should
 return nothing (only HTML comments, invisible to users, may reference this
 doc). If it returns visible page text, that's a bug — file it.
 
-## ⚠️ Phone number conflict — resolve before anything else
+## ✅ Phone number conflict — resolved
 
-This build uses **0420 113 216** everywhere, consistently. But the working
-brief for this pass states that previous public information has also shown
-**0435 366 366**. **This has not been resolved — nobody has told this build
-which number is actually correct**, and guessing is explicitly out of scope.
+**Owner-confirmed:** the official Oz Home Energy public phone number is
+**0435 336 336** (`tel:+61435336336`). This matches the number printed on
+the branded van livery (`fleet-van` / `van-wrap-rear-side.png`, `/about/` —
+see `docs/asset-manifest.md`), which turned out to be the correct number,
+not a third conflicting variant as originally flagged below.
 
-**Action required:** confirm the one correct number, then:
-1. Search this repo for `0420113216` and `0420 113 216` (every `tel:` link
-   and every visible phone number) and replace sitewide if the other number
-   is correct.
-2. Check whatever the real production HighLevel account, Google Business
-   Profile, and any live ad campaigns currently show — these need to match
-   too, not just the website.
-3. Until this is resolved, do not treat this preview's phone number as
-   confirmed-correct just because it's consistent — consistency here only
-   means the same unverified number was used everywhere.
+Every static occurrence of the two earlier, now-superseded numbers —
+**0420 113 216** (used sitewide throughout the previous passes) and
+**0435 366 366** (the previously-flagged alternate) — has been replaced
+sitewide with 0435 336 336, including every `tel:` link, visible phone
+number, footer/header CTA, JSON-LD `telephone` field, and legal-page
+contact detail. No HighLevel dynamic-number-insertion or call-tracking
+script exists in this build to preserve — every phone number here is a
+static fallback.
+
+**Still to confirm with the owner:** the real production HighLevel account,
+Google Business Profile, and any live ad campaigns should be checked to
+show this same number — this repo only controls the website's own copy.
+The van livery's "Smart Energy Council" membership badge is still not
+asserted anywhere in this site's own copy — do not add that claim to any
+page without separate confirmation.
+
+<details>
+<summary>Original (resolved) conflict writeup, kept for audit history</summary>
+
+This build used **0420 113 216** everywhere, consistently. But the working
+brief for a previous pass stated that public information had also shown
+**0435 366 366**, and neither had been confirmed. A third variant,
+**0435 336 336**, was then found printed on the supplied van livery photo
+and was *not* treated as confirmation at the time — it has since been
+confirmed by the owner as the correct number, resolving this conflict.
+
+</details>
 
 ## Accreditations & claims (do not publish without evidence)
+- [x] NSW Electrical Contractor Licence 382607C — ✅ owner-confirmed current
+      and active; see `docs/owner-inputs-required.md`
+- [x] SAA accreditation — ✅ owner-confirmed, number **S5265652**; recorded
+      as its own distinct credential (About page), not combined with the
+      electrical licence — see `docs/owner-inputs-required.md`
 - [ ] NETCC membership — shown on the live site; **treated as unverified**
       here until documentary confirmation is supplied
 - [ ] Tesla Certified Installer status
-- [ ] SAA accreditation
 - [ ] Any manufacturer partnership claims
 - [ ] Years in business
 - [ ] Total installation count
@@ -88,21 +116,29 @@ actually operates before this goes further:
 - [ ] Current product availability
 
 ## Photography — see docs/05-photography-shotlist.md for the full shot list
-No stock, AI-generated or placeholder-labelled imagery exists anywhere in
-this build. Every spot a photo will eventually go currently renders as a
-deliberate on-brand icon panel instead (see `.visual-panel` in
-`site/css/styles.css`) — not a dashed "placeholder" box. Sections that
-depend entirely on real content with no reasonable icon-only substitute
-(reviews, project case studies, the About page team) are omitted outright
-rather than shown empty. Needed before these can be replaced with real
-photography:
-- [ ] Homepage hero (installation or team, wide shot)
-- [ ] Residential rooftop solar installation
-- [ ] Battery/inverter installation
-- [ ] EV charger installation
-- [ ] Switchboard/electrical work (ideally before/after)
-- [ ] Commercial project (rooftop array or plant room)
-- [ ] 3–5 photos per project for `/projects/` case studies
+
+**Update: real, owner-approved photography has now been added** — see
+`docs/asset-manifest.md` for exactly which photo went where. The list
+below is kept for what's still outstanding:
+- [x] Homepage hero (ground-mounted solar array)
+- [x] Residential rooftop solar installation
+- [x] Battery/inverter installation
+- [x] EV charger installation
+- [x] Switchboard/electrical work (in-progress installation photography — no before/after pair supplied)
+- [x] Commercial project (rooftop array with installation team)
+- [x] Team photo (About page)
+- [x] Branded vehicle photo (About page)
+- [ ] Named, written project case studies for `/projects/` — genuine photos now exist
+      there ("Recent work" and "installation in progress" galleries), but no
+      customer names, locations, system sizes or results are stated anywhere;
+      a full case-study write-up still needs the customer's agreement per
+      `docs/01-audit-and-positioning.md`
+- [ ] A confirmed "before" switchboard photo to pair with the in-progress one used
+- [ ] Reviews — still no genuine review data exists; the reviews section remains omitted
+
+Anywhere a photo still doesn't exist, the spot continues to render as the
+on-brand icon panel (`.visual-panel` in `site/css/styles.css`) rather than a
+placeholder box.
 - [ ] Team and/or vehicle photography for `/about/`
 
 ## Legal

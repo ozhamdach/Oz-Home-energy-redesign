@@ -98,9 +98,12 @@ button styling instead of this stylesheet's. Both are fixed; see
   375px to 1440px+ rather than jumping at breakpoints
 - `--radius-sm/md/lg`: 6/12/20px — moderate, not pill-shaped
 - Shadows are restrained (`--shadow-sm/md`) — no glow, no neon
-- Full dark-mode token set included (`prefers-color-scheme` + `[data-theme]`)
-  even though the primary brand experience is light, for system-level
-  consistency and accessibility
+- Light-only by design, deliberately: an earlier `prefers-color-scheme`
+  override only redefined a handful of CSS custom properties while several
+  components set their own colours directly, producing light-text-on-light
+  in a system dark-mode browser — worse than no dark mode. Removed rather
+  than shipped half-working; see the comment above `:root` in
+  `site/css/styles.css` for what a proper reintroduction needs to audit.
 
 ### Components
 Buttons (`.btn-primary/.btn-secondary/.btn-ghost`), header with dropdown +

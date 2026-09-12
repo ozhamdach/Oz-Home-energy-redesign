@@ -1,65 +1,120 @@
-# Photography Asset Manifest
+# Real Photography & Brand Asset Manifest
 
-Structured, implementation-ready spec for every real photograph this build
-needs. No stock, AI-generated, competitor or manufacturer-catalogue imagery
-is used anywhere — see `docs/05-photography-shotlist.md` for the fuller shot
-brief and priority ordering; this document is the exact dimensions/crop/
-filename/alt-text spec once real photos exist, plus the processing pipeline
-they go through before publishing.
+This documents the genuine Oz Home Energy photography and brand assets
+integrated into the site (supplied as `Oz-Home-Energy-Website-Assets.zip`,
+owner-confirmed as authorised for publication — see
+`assets/original-photography/README-ASSET-MANIFEST.md`).
 
-Until a row below is fulfilled, its spot in the design renders as the
-on-brand `.visual-panel` icon treatment (see `site/css/styles.css`) — never
-an empty box, a dashed placeholder, or "coming soon" text. Swapping in the
-real photo means replacing the `<span class="visual-panel">…</span>` block
-at that spot with a `<picture>`/`<img>` using the `srcset`/sizes/filenames
-below.
+## Where things live
 
-## Manifest
+- **`assets/original-photography/`** — every original file supplied, preserved
+  unmodified (including the master logo PDF, the two exact-duplicate rooftop
+  photos, and the vehicle-wrap design mockup sheet — see "Not used publicly"
+  below). Not served by the website; kept for provenance and reprocessing.
+- **`site/img/photos/`** — the responsive derivatives actually served, generated
+  by `scripts/process-photos.py` (AVIF + WebP + JPEG at 2-3 widths each, plus
+  `manifest.json` recording each photo's intrinsic width/height/available
+  widths). Re-run that script after adding or replacing source photography.
+- **`site/img/brand/`** — `oz-home-energy-logo.svg` (full logo, used in the
+  header) and `oz-home-energy-icon.svg` (the house+bolt mark only, cropped
+  from the same source file — used for the favicon).
+- **`scripts/photo-tag.js`** — a dev helper that prints a correct `<picture>`
+  block for a given photo slug, reading widths from `manifest.json`, so
+  wiring a photo into a page doesn't mean hand-typing (and risking
+  transcription errors in) a `srcset`.
 
-| # | Shot | Used on | Recommended source dimensions | Crop / aspect | Filename (`site/img/photos/…`) | Required alt text (adapt bracketed detail to the actual photo) |
-|---|---|---|---|---|---|---|
-| 1 | Homepage hero | `/` hero | ≥ 2400×1350 landscape | 16:9, safe area keeps subject out of the left third (headline sits there) | `home-hero.jpg` | "Oz Home Energy [installer/team] installing [solar panels / a battery / an EV charger] at a Sydney property" |
-| 2 | Crew / team | `/about/` | ≥ 2000×1500 | 4:3, group clearly visible, outdoors or on-site preferred over studio | `team-about.jpg` | "The Oz Home Energy installation team on site in Sydney" |
-| 3 | Branded van | `/about/`, footer/contact context | ≥ 2000×1500 | 4:3 or 3:2, van signage legible, on-location not showroom | `branded-van.jpg` | "Oz Home Energy branded service vehicle" |
-| 4 | Solar roof installation | `/residential-solar/` solution module, homepage "Generate" | ≥ 2000×1500 | 4:3, roofline and panel layout both visible, avoid blown-out sky | `residential-solar-install.jpg` | "Solar panel array installed on a Sydney home's roof by Oz Home Energy" |
-| 5 | Battery installation | `/battery-storage/` solution module, homepage "Store" | ≥ 1600×2000 or 1600×1600 | 3:4 or 1:1, wall-mounted unit(s) plus visible cabling/labelling | `battery-install.jpg` | "Home battery storage unit installed and wired by Oz Home Energy" |
-| 6 | EV charger installation | `/ev-charging/` solution module, homepage "Charge" | ≥ 1600×2000 or 1600×1600 | 3:4 or 1:1, charger + cable management, ideally with a vehicle in frame | `ev-charger-install.jpg` | "Home EV charger installed on a garage wall by Oz Home Energy" |
-| 7 | Switchboard / electrical work | `/residential-electrical/`, `/switchboard-upgrades/`, homepage "Control" | ≥ 1600×2000 | 3:4, before/after pair preferred (see #7a/#7b) | `switchboard-after.jpg` (+ `switchboard-before.jpg` if supplied) | "Upgraded, labelled switchboard installed by Oz Home Energy" / "Old switchboard before replacement" |
-| 8 | Commercial project | `/commercial-solar/` and related commercial pages | ≥ 2400×1350 | 16:9, rooftop array or plant room, wide establishing shot | `commercial-project.jpg` | "Commercial solar installation on a Sydney business rooftop" |
-| 9 | Panel cleaning | `/panel-cleaning/` | ≥ 2000×1500 | 4:3, cleaning in progress or clear before/after | `panel-cleaning.jpg` | "Solar panels being professionally cleaned by Oz Home Energy" |
-| 10 | Bird-proofing | `/bird-proofing/` | ≥ 2000×1500 | 4:3, close-up of mesh fitted at panel edge | `bird-proofing-mesh.jpg` | "Bird-proofing mesh fitted around the edge of a solar panel array" |
-| 11–13 | Three case studies (3–5 photos each: wide establishing shot, workmanship close-up, installer at work) | `/projects/` (see `src/data/site-status.json` — this page stays unpublished/noindexed in production until these exist) | ≥ 2000×1500 per photo | 4:3 or 16:9 per shot, consistent within a set | `project-1-01.jpg`, `project-1-02.jpg`, … (one numbered folder/prefix per case study) | Specific per photo, describing the actual property/system/stage shown — never generic |
+## What was fixed before anything was published
 
-## Processing pipeline (applies to every row above once supplied)
+- **Exact duplicates removed**: `rooftop-solar/regional-rooftop-overview-03.jpg`
+  and `-04.jpg` were byte-identical (verified by MD5) to `-01.jpg` and
+  `-02.jpg` respectively — not processed or used.
+- **Black letterbox borders cropped** from five source photos that had them
+  (verified by pixel-row-brightness analysis, not guessed): `residential-rooftop-solar.jpg`,
+  `fox-battery-context.jpg`, `tesla-wall-connector.jpg`,
+  `switchboard-work-in-progress-02.jpg`, and `van-wrap-rear-side.png`. Exact
+  crop boxes are recorded in `scripts/process-photos.py`.
+- **EXIF/GPS stripped** from every derivative — verified empty after
+  processing (`Image.getexif()` returns `{}`).
+- **Auto-orientation applied** before cropping/resizing (`ImageOps.exif_transpose`).
+- **Not used publicly**: `vehicle-branding/van-wrap-side.jpg` (a flattened
+  4-panel design-mockup sheet, redundant with the real logo already used
+  sitewide and the real in-traffic van photo) — kept in
+  `assets/original-photography/` only.
 
-1. **Strip EXIF/geolocation data** from every original before it enters the
-   repository or any build pipeline — residential job-site photos routinely
-   carry GPS coordinates in EXIF, which must never be published (a privacy
-   and, for some customers, a safety issue). `exiftool -all= <file>` (or
-   equivalent) as a mandatory pre-commit step for this specific folder.
-2. **Generate responsive WebP/AVIF derivatives** at minimum 3 widths (e.g.
-   480/960/1920px) per source image, with the original JPG kept as the
-   `<img>` fallback inside a `<picture>` element:
-   ```html
-   <picture>
-     <source type="image/avif" srcset="…-480.avif 480w, …-960.avif 960w, …-1920.avif 1920w" sizes="…">
-     <source type="image/webp" srcset="…-480.webp 480w, …-960.webp 960w, …-1920.webp 1920w" sizes="…">
-     <img src="…-960.jpg" width="…" height="…" loading="lazy" alt="…">
-   </picture>
-   ```
-   `loading="lazy"` on every image below the fold; the hero image should NOT
-   be lazy-loaded (it's above the fold on page load).
-3. **Always set explicit `width`/`height`** (or `aspect-ratio` in CSS) to
-   prevent layout shift when the real image replaces the `.visual-panel`
-   block.
-4. **Alt text is required, not optional**, and must describe the specific
-   photo (subject, system type, context) — the table above gives a
-   template, not filler text to publish verbatim across every photo of that
-   type.
+## Where each photo was placed
 
-## Consent and photography rights
+| Photo | Page(s) | Notes |
+|---|---|---|
+| `ground-mount-wide` | Homepage hero background | Manifest's suggested hero candidate |
+| `trust-ohme-badge`, `trust-tesla-badge` | Homepage, restrained trust strip (`.trust-strip`) below the proof strip | Not used as hero imagery, per instruction |
+| `residential-solar-rooftop-1` (regional-rooftop-overview-01) | `/residential-solar/` | |
+| `battery-fox-installed` (fox-battery-context, cropped) | `/battery-storage/` | |
+| `ev-tesla-wall-connector` (cropped) | `/ev-charging/` | |
+| `commercial-array-team` | `/commercial-solar/` | Manifest's "strongest commercial image" |
+| `battery-sungrow-installed` | `/commercial-batteries/` | |
+| `process-switchboard-open-1` | `/switchboard-upgrades/` | Captioned/alt-texted as mid-installation, not a finished board |
+| `team-installers` | `/about/` (Licensing & compliance section) | |
+| `fleet-van` (van-wrap-rear-side, cropped) | `/about/` (new "On the road" section) | Not used as the site's main hero |
+| `ground-mount-close`, `commercial-panel-detail`, `residential-solar-rooftop-2`, `commercial-lift-team-1/2`, `battery-fox-detail`, `battery-white-unit` | `/projects/` "Recent work" gallery | Genuine photos, no case-study narrative attached — no location, system size, savings or customer identity is stated anywhere |
+| `process-switchboard-open-2`, `process-commercial-array-lift`, `process-commercial-commissioning-1/2` | `/projects/` "Installation and commissioning in progress" gallery | Explicitly captioned as in-progress/commissioning — open switchboards and exposed wiring are never presented as completed work |
 
-Per `docs/05-photography-shotlist.md`: commercial site photography only
-where the client has given permission; any residential customer or their
-property shown needs the customer's consent, tracked the same way project
-case-study consent is tracked in `docs/owner-inputs-required.md`.
+Photos supplied but not placed on any page (kept only in
+`assets/original-photography/`): the two exact-duplicate rooftop photos and
+the van-wrap mockup sheet, as above.
+
+## ⚠️ Phone number discrepancy found in the vehicle photography
+
+The van livery shown in `fleet-van` (and in the unused mockup sheet) prints
+**0435 336 336** — a *third* variant, distinct from both the number this
+site uses everywhere (`0420 113 216`) and the previously-flagged alternate
+(`0435 366 366`). This was not edited or hidden (it's part of an authentic
+photo), but **it is not treated as confirmation of any number** — see
+`docs/07-owner-confirmations.md` / `docs/owner-inputs-required.md` for the
+standing instruction that this conflict must be resolved by the owner
+before launch, not inferred from any single source. The van photo also
+displays a "Smart Energy Council" membership badge as part of its design —
+this is not asserted anywhere in this site's own copy or schema, and should
+not be treated as a confirmed claim.
+
+## Alt text policy applied
+
+Every `<img>` added describes only what is visibly in the photo (equipment
+brand where legible — Fox, Sungrow, Tesla — generic description of people
+as "installers", setting details actually visible). No alt text states a
+location, system capacity, customer name, or result — none of that is
+knowable from the photo alone, per the brief's instruction not to invent
+specifications or outcomes.
+
+## Regenerating derivatives
+
+```
+pip install pillow pillow-avif-plugin
+python3 scripts/process-photos.py
+```
+
+This is a content-authoring tool, not a site runtime dependency — the
+built website has no Python dependency; only whoever next updates the
+photography needs it installed locally.
+
+## Still needed (not covered by the supplied asset pack)
+
+The pack above covered most of the original shot list in
+`docs/05-photography-shotlist.md`, but not all of it. Specs for what's
+still missing, in the same format used when the rest of this manifest was
+originally drafted:
+
+| Shot | Used on | Recommended source dimensions | Crop / aspect | Required alt text (adapt to the actual photo) |
+|---|---|---|---|---|
+| Panel cleaning | `/panel-cleaning/` | ≥ 2000×1500 | 4:3, cleaning in progress or clear before/after | "Solar panels being professionally cleaned by Oz Home Energy" |
+| Bird-proofing | `/bird-proofing/` | ≥ 2000×1500 | 4:3, close-up of mesh fitted at panel edge | "Bird-proofing mesh fitted around the edge of a solar panel array" |
+| Switchboard "before" | `/switchboard-upgrades/`, `/residential-electrical/` | ≥ 1600×2000 | 3:4 | "Old switchboard before replacement" — to pair with the in-progress photo already in place |
+| Additional case-study sets (2 more, 3–5 photos each) | `/projects/` | ≥ 2000×1500 per photo | 4:3 or 16:9, consistent within a set | Specific per photo — never generic |
+
+Until these exist, `/panel-cleaning/` and `/bird-proofing/` keep their
+`.visual-panel` icon treatment, and `/projects/` stays as the "Recent work"
+/ "in progress" photo galleries above rather than named, written case
+studies (see `docs/07-owner-confirmations.md`).
+
+Processing requirements for any of these follow the same pipeline
+documented above (EXIF/GPS strip, auto-orient, AVIF/WebP/JPEG responsive
+derivatives, explicit width/height, factual alt text).

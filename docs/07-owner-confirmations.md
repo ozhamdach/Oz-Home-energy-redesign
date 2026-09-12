@@ -30,6 +30,16 @@ which number is actually correct**, and guessing is explicitly out of scope.
    confirmed-correct just because it's consistent — consistency here only
    means the same unverified number was used everywhere.
 
+**Update — a third number found in supplied vehicle photography:** the
+branded van photo (`fleet-van` / `van-wrap-rear-side.png`, added to
+`/about/` — see `docs/asset-manifest.md`) prints **0435 336 336**, distinct
+from both numbers above. This was not edited out (it's part of an
+authentic, owner-approved photo) and is not treated as confirmation of
+anything — it just makes this conflict more urgent to resolve, not less.
+The same van design also shows a "Smart Energy Council" membership badge,
+which is not asserted anywhere in this site's own copy — do not add that
+claim to any page copy without separate confirmation.
+
 ## Accreditations & claims (do not publish without evidence)
 - [ ] NETCC membership — shown on the live site; **treated as unverified**
       here until documentary confirmation is supplied
@@ -94,21 +104,29 @@ actually operates before this goes further:
 - [ ] Current product availability
 
 ## Photography — see docs/05-photography-shotlist.md for the full shot list
-No stock, AI-generated or placeholder-labelled imagery exists anywhere in
-this build. Every spot a photo will eventually go currently renders as a
-deliberate on-brand icon panel instead (see `.visual-panel` in
-`site/css/styles.css`) — not a dashed "placeholder" box. Sections that
-depend entirely on real content with no reasonable icon-only substitute
-(reviews, project case studies, the About page team) are omitted outright
-rather than shown empty. Needed before these can be replaced with real
-photography:
-- [ ] Homepage hero (installation or team, wide shot)
-- [ ] Residential rooftop solar installation
-- [ ] Battery/inverter installation
-- [ ] EV charger installation
-- [ ] Switchboard/electrical work (ideally before/after)
-- [ ] Commercial project (rooftop array or plant room)
-- [ ] 3–5 photos per project for `/projects/` case studies
+
+**Update: real, owner-approved photography has now been added** — see
+`docs/asset-manifest.md` for exactly which photo went where. The list
+below is kept for what's still outstanding:
+- [x] Homepage hero (ground-mounted solar array)
+- [x] Residential rooftop solar installation
+- [x] Battery/inverter installation
+- [x] EV charger installation
+- [x] Switchboard/electrical work (in-progress installation photography — no before/after pair supplied)
+- [x] Commercial project (rooftop array with installation team)
+- [x] Team photo (About page)
+- [x] Branded vehicle photo (About page)
+- [ ] Named, written project case studies for `/projects/` — genuine photos now exist
+      there ("Recent work" and "installation in progress" galleries), but no
+      customer names, locations, system sizes or results are stated anywhere;
+      a full case-study write-up still needs the customer's agreement per
+      `docs/01-audit-and-positioning.md`
+- [ ] A confirmed "before" switchboard photo to pair with the in-progress one used
+- [ ] Reviews — still no genuine review data exists; the reviews section remains omitted
+
+Anywhere a photo still doesn't exist, the spot continues to render as the
+on-brand icon panel (`.visual-panel` in `site/css/styles.css`) rather than a
+placeholder box.
 - [ ] Team and/or vehicle photography for `/about/`
 
 ## Legal

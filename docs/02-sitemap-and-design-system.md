@@ -67,12 +67,23 @@ useful content worth its own search listing.
 - **For Business** — Commercial Solar · Commercial Batteries · Commercial EV
   Charging · Commercial Electrical · Project Enquiry
 - **Projects** (direct link)
-- **Why Oz Home Energy** (direct link → `/about/`)
-- **Learn** (direct link → `/learning-centre/`)
-- **Support** — Service Request · Solar Servicing · Panel Cleaning ·
-  Bird-Proofing · FAQs · Contact (→ `/assessment/`)
+- **Why Us** (direct link → `/about/`)
+- **Support** — Learning Centre · Service Request · Solar Servicing · Panel
+  Cleaning · Bird-Proofing · FAQs · Contact (→ `/assessment/`)
 - **Start Your Assessment** — primary button, always visible ≥860px; phone
   number visible ≥720px; both collapse into the mobile menu below that.
+
+**Simplified this pass** from the original 6 top-level items to 5: "Learn"
+folded into the Support dropdown (as "Learning Centre"), and "Why Oz Home
+Energy" shortened to "Why Us". This was a direct fix for a real layout bug —
+at 1080px (the narrowest width the desktop nav appears at) the original 6
+items plus the phone number and CTA button didn't fit the available width
+and wrapped. The nav's underlying selectors were also broken: every CSS/JS
+rule targeted `.primary-nav > li`, but the real markup is
+`.primary-nav > ul > li` — so dropdowns never opened (on hover, click, or
+keyboard) and the top-level links/buttons rendered with default browser
+button styling instead of this stylesheet's. Both are fixed; see
+`06-qa-report.md` for how this was verified.
 
 ## Design system
 

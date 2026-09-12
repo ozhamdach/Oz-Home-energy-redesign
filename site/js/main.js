@@ -30,6 +30,23 @@
     }
   })();
 
+  // Populate every form's attribution hidden fields from the sessionStorage
+  // captured above — generic by field `name`, so it works the same way on
+  // all three lead forms (assessment, project enquiry, service request)
+  // rather than each page wiring this up separately.
+  (function populateAttributionFields() {
+    try {
+      var stored = JSON.parse(sessionStorage.getItem('ohe_attribution') || '{}');
+      Object.keys(stored).forEach(function (k) {
+        document.querySelectorAll('input[name="' + k + '"]').forEach(function (el) {
+          el.value = stored[k];
+        });
+      });
+    } catch (err) {
+      /* attribution is best-effort */
+    }
+  })();
+
   // Footer year
   var y = document.getElementById('footerYear');
   if (y) y.textContent = new Date().getFullYear();
@@ -52,38 +69,55 @@
     });
   }
 
-  // Desktop dropdown click support (keeps hover/focus for pointer + keyboard users)
-  var navItems = document.querySelectorAll('.primary-nav > li');
+  // Desktop dropdown menus. Markup is <nav class="primary-nav"><ul><li>…,
+  // so items live two levels down, not one — a bare ".primary-nav > li"
+  // selector (in JS or CSS) never matches anything in that structure.
+  var navItems = document.querySelectorAll('.primary-nav > ul > li');
+
+  function closeDropdown(li) {
+    li.classList.remove('is-open');
+    var b = li.querySelector(':scope > button');
+    if (b) b.setAttribute('aria-expanded', 'false');
+  }
+  function closeAllDropdowns(except) {
+    navItems.forEach(function (li) {
+      if (li !== except) closeDropdown(li);
+    });
+  }
+
   navItems.forEach(function (li) {
     var btn = li.querySelector(':scope > button');
     if (!btn) return;
     btn.addEventListener('click', function () {
       var isOpen = li.classList.contains('is-open');
-      navItems.forEach(function (other) {
-        other.classList.remove('is-open');
-        var b = other.querySelector(':scope > button');
-        if (b) b.setAttribute('aria-expanded', 'false');
-      });
+      closeAllDropdowns();
       if (!isOpen) {
         li.classList.add('is-open');
         btn.setAttribute('aria-expanded', 'true');
       }
     });
+    // Close this dropdown once focus moves somewhere outside it entirely
+    // (covers Tabbing past the last link, not just a mouse click outside).
+    li.addEventListener('focusout', function (e) {
+      if (!li.contains(e.relatedTarget)) closeDropdown(li);
+    });
   });
+
   document.addEventListener('click', function (e) {
-    if (!e.target.closest('.primary-nav')) {
-      navItems.forEach(function (li) {
-        li.classList.remove('is-open');
-        var b = li.querySelector(':scope > button');
-        if (b) b.setAttribute('aria-expanded', 'false');
-      });
-    }
+    if (!e.target.closest('.primary-nav')) closeAllDropdowns();
   });
+
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
+      var openItem = null;
       navItems.forEach(function (li) {
-        li.classList.remove('is-open');
+        if (li.classList.contains('is-open')) openItem = li;
       });
+      closeAllDropdowns();
+      if (openItem) {
+        var btn = openItem.querySelector(':scope > button');
+        if (btn) btn.focus();
+      }
       if (mobileNav && mobileNav.classList.contains('is-open')) {
         mobileNav.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
@@ -94,7 +128,8 @@
 
   // Prototype form handling: no live backend is connected yet, so submissions
   // are validated client-side and replaced with a clear placeholder confirmation
-  // rather than posting anywhere. Wire to HighLevel before launch.
+  // rather than posting anywhere. Wire to HighLevel before launch — see
+  // docs/04-highlevel-integration.md for the field mapping and routing spec.
   document.querySelectorAll('form[data-prototype-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -102,6 +137,24 @@
         form.reportValidity();
         return;
       }
+
+      var tsField = form.querySelector('input[name="submitted_at"]');
+      if (tsField) tsField.value = new Date().toISOString();
+
+      var serviceFieldName = form.getAttribute('data-service-field');
+      var serviceOut = form.querySelector('input[name="selected_service"]');
+      if (serviceFieldName && serviceOut) {
+        var vals = [];
+        form.querySelectorAll('[name="' + serviceFieldName + '"]').forEach(function (f) {
+          if (f.type === 'checkbox' || f.type === 'radio') {
+            if (f.checked) vals.push(f.value);
+          } else if (f.value) {
+            vals.push(f.value);
+          }
+        });
+        serviceOut.value = vals.join(', ');
+      }
+
       var wrap = document.createElement('div');
       wrap.className = 'assess-success';
       wrap.innerHTML =

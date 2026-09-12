@@ -61,30 +61,16 @@
   --header-h: 76px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #131313;
-    --bg-alt: #1a1a1a;
-    --bg-inverse: #050505;
-    --bg-accent: #10204d;
-    --text: #f2f1ec;
-    --text-muted: #b7b4a9;
-    --border: #34332c;
-    --brand: #4d78ff;
-    --brand-hover: #7396ff;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #131313;
-  --bg-alt: #1a1a1a;
-  --bg-inverse: #050505;
-  --bg-accent: #10204d;
-  --text: #f2f1ec;
-  --text-muted: #b7b4a9;
-  --border: #34332c;
-  --brand: #4d78ff;
-  --brand-hover: #7396ff;
-}
+/* Intentionally light-only for this launch. An earlier pass added a
+   prefers-color-scheme override that only redefined a handful of CSS
+   custom properties (--bg, --text, etc.) — but many components here set
+   their own colours directly (the header's rgba(255,255,255,.96)
+   background, .dropdown-panel's #fff, card borders/shadows tuned for a
+   light ground, and more) rather than reading those tokens. The result was
+   light-text-on-light-background in a system dark-mode browser, which is
+   worse than no dark mode at all. Re-add this properly — auditing and
+   re-theming every component against a real dark palette, then checking
+   contrast — rather than re-enabling a partial override. */
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -175,8 +161,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .btn-primary:hover { background: var(--brand-hover); }
 .btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
 .btn-secondary:hover { border-color: var(--text); }
-.section-inverse .btn-secondary, .hero .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.5); }
-.section-inverse .btn-secondary:hover, .hero .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+/* Any dark-background surface needs the light variant explicitly — .btn-secondary's
+   default (dark text, light border) is invisible against a dark background, which
+   is exactly what was happening on every page's .page-banner hero. */
+.section-inverse .btn-secondary, .hero .btn-secondary, .page-banner .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.6); }
+.section-inverse .btn-secondary:hover, .hero .btn-secondary:hover, .page-banner .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.12); }
+.section-inverse .btn-secondary:focus-visible, .hero .btn-secondary:focus-visible, .page-banner .btn-secondary:focus-visible { outline-color: #fff; }
 .btn-ghost { background: transparent; color: var(--brand); padding: 8px 4px; min-height: auto; }
 .btn-ghost:hover { text-decoration: underline; }
 .btn-block { width: 100%; }
@@ -207,22 +197,31 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .primary-nav { display: none; }
 @media (min-width: 1080px) {
-  .primary-nav { display: flex; align-items: center; gap: 4px; margin-left: 20px; margin-right: auto; }
-  .primary-nav > li { position: relative; list-style: none; }
-  .primary-nav > li > a, .primary-nav > li > button {
-    font-family: var(--font-heading); font-weight: 600; font-size: 0.94rem; color: var(--text);
-    text-decoration: none; padding: 10px 14px; border-radius: var(--radius-sm); background: none; border: none; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 6px;
+  /* The nav markup is <nav class="primary-nav"><ul><li>…, so every rule
+     below must target .primary-nav > ul > li — a bare ">li" child
+     combinator never matched anything, which is why these dropdowns
+     previously didn't open on hover, click or keyboard, and the top-level
+     links/buttons rendered with default browser button chrome instead of
+     this stylesheet's styling. */
+  .primary-nav { display: flex; align-items: center; gap: 2px; margin-left: 16px; margin-right: auto; }
+  .primary-nav > ul { display: flex; align-items: center; gap: 2px; margin: 0; padding: 0; list-style: none; }
+  .primary-nav > ul > li { position: relative; list-style: none; }
+  .primary-nav > ul > li > a, .primary-nav > ul > li > button {
+    font-family: var(--font-heading); font-weight: 600; font-size: 0.92rem; color: var(--text);
+    text-decoration: none; padding: 10px 10px; border-radius: var(--radius-sm); background: none; border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; min-height: 44px;
   }
-  .primary-nav > li > a:hover, .primary-nav > li > button:hover { color: var(--brand); }
+  .primary-nav > ul > li > a:hover, .primary-nav > ul > li > button:hover { color: var(--brand); }
   .dropdown-panel {
     display: none; position: absolute; top: calc(100% + 6px); left: 0; min-width: 280px;
     background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
     box-shadow: var(--shadow-md); padding: 10px; z-index: 50;
   }
-  .primary-nav > li:hover .dropdown-panel,
-  .primary-nav > li:focus-within .dropdown-panel,
-  .primary-nav > li.is-open .dropdown-panel { display: block; }
+  /* Visibility is driven entirely by the .is-open class (site.js), which is
+     the same state the button's aria-expanded reflects — a single source
+     of truth, rather than a CSS :hover trigger that could show the panel
+     while aria-expanded still said "false". */
+  .primary-nav > ul > li.is-open .dropdown-panel { display: block; }
   .dropdown-panel a {
     display: block; padding: 10px 12px; border-radius: var(--radius-sm); color: var(--text);
     text-decoration: none; font-size: 0.95rem;
@@ -362,12 +361,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .img-card h3 { font-size: 1.1rem; margin-bottom: 6px; }
 .img-card p { color: var(--text-muted); font-size: 0.94rem; margin-bottom: 10px; }
 
-.placeholder-media {
+/* Visual panel: the shipped look wherever a photograph will eventually go.
+   Real Oz Home Energy photography is not yet in the repository (see the
+   shot list in docs/05-photography-shotlist.md) — rather than show a
+   dashed "placeholder" box in the public interface, every one of these
+   spots renders as a deliberate, on-brand icon panel. Swapping in a real
+   photo later means replacing the <span class="visual-panel"> block with
+   a <picture>/<img> (srcset, width/height, alt) — the surrounding layout
+   (.solution-media, .img-card .media) already sizes correctly either way. */
+.visual-panel {
   width: 100%; height: 100%; min-height: 220px; display: flex; align-items: center; justify-content: center;
-  background: repeating-linear-gradient(135deg, var(--grey-100), var(--grey-100) 10px, #fff 10px, #fff 20px);
-  border: 1px dashed var(--charcoal-300); color: var(--charcoal-500); font-size: 0.78rem; text-align: center; padding: 16px;
-  font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  background: linear-gradient(145deg, var(--blue-100), var(--bg-alt));
 }
+.visual-panel svg { width: 25%; min-width: 56px; max-width: 88px; height: auto; color: var(--brand); opacity: 0.85; }
 
 /* ---------- Why us ---------- */
 .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -458,8 +464,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .form-field.error input, .form-field.error select { border-color: #c0322b; }
 .form-field .error-msg { color: #c0322b; font-size: 0.82rem; margin-top: 6px; display: none; }
 .form-field.error .error-msg { display: block; }
+/* Standalone error message for a fieldset/radio-group (not a single .form-field) */
+p.error-msg { color: #c0322b; font-size: 0.85rem; margin-top: 10px; display: none; }
+p.error-msg.is-visible { display: block; }
+fieldset.assess-fieldset { border: none; margin: 0; padding: 0; }
+fieldset.assess-fieldset.is-invalid .radio-cards { outline: 2px solid #c0322b; outline-offset: 6px; border-radius: 12px; }
 .radio-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (max-width: 560px) { .radio-cards { grid-template-columns: 1fr; } }
+/* For option lists that read better as a firm 2-up grid on larger screens
+   (e.g. six short pathway choices) — still collapses to one column below
+   560px like the base .radio-cards, never a hard-coded inline override
+   that can't respond to viewport width at all. */
+.radio-cards-wide { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 560px) { .radio-cards-wide { grid-template-columns: 1fr; } }
 .radio-card { position: relative; }
 .radio-card input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; cursor: pointer; margin: 0; }
 .radio-card label {
@@ -505,4 +522,12 @@ table.data-table tr:last-child td { border-bottom: none; }
 .text-center { text-align: center; }
 .mt-0 { margin-top: 0; }
 .badge { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-accent); color: var(--brand); font-family: var(--font-heading); font-weight: 600; font-size: 0.78rem; padding: 6px 12px; border-radius: 999px; }
-.owner-flag { display: inline-block; background: #fff4e0; color: #7a4b00; border: 1px solid #e8c98a; font-size: 0.72rem; font-weight: 600; padding: 3px 9px; border-radius: 5px; font-family: var(--font-heading); letter-spacing: 0.02em; }
+/* Customer-facing, calm notice that a form is a design preview and does not
+   yet submit anywhere — used on the three lead-capture forms only. Not a
+   developer note: written for the person filling in the form. */
+.preview-note {
+  display: flex; gap: 10px; align-items: flex-start; background: var(--bg-alt);
+  border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px;
+  font-size: 0.86rem; color: var(--text-muted); margin-top: 16px;
+}
+.preview-note svg { width: 18px; height: 18px; color: var(--brand); flex-shrink: 0; margin-top: 1px; }

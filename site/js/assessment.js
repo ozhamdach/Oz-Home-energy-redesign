@@ -9,6 +9,7 @@
   var current = 1;
 
   var fill = document.getElementById('assessFill');
+  var progressBar = document.getElementById('assessProgressBar');
   var stepLabel = document.getElementById('assessStepLabel');
   var stepName = document.getElementById('assessStepName');
   var backBtn = document.getElementById('assessBack');
@@ -17,12 +18,10 @@
 
   var stepNames = {
     1: 'What do you need help with?',
-    2: 'Residential or commercial?',
-    3: 'About your property',
-    4: "What's already on your property?",
-    5: 'Your electricity bill',
-    6: 'Your details',
-    7: 'How should we reach you?',
+    2: 'About you and your property',
+    3: 'Your current setup and electricity bill',
+    4: 'Your details',
+    5: 'How should we reach you?',
   };
 
   function showStep(n, moveFocus) {
@@ -30,6 +29,7 @@
       s.classList.toggle('is-active', parseInt(s.getAttribute('data-step'), 10) === n);
     });
     fill.style.width = Math.round((n / total) * 100) + '%';
+    if (progressBar) progressBar.setAttribute('aria-valuenow', String(n));
     stepLabel.textContent = 'Step ' + n + ' of ' + total;
     stepName.textContent = stepNames[n] || '';
     backBtn.style.visibility = n === 1 ? 'hidden' : 'visible';
@@ -49,16 +49,20 @@
     return steps[current - 1];
   }
 
+  function showFieldsetError(fieldset, show) {
+    fieldset.classList.toggle('is-invalid', show);
+    var msg = fieldset.querySelector('.error-msg');
+    if (msg) msg.classList.toggle('is-visible', show);
+  }
+
   function validateStep(stepEl) {
-    var fields = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
     var valid = true;
+
+    // Plain required inputs/selects/textareas (not radios/checkboxes)
+    var fields = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
     var radioGroupNames = {};
     fields.forEach(function (f) {
-      if (f.type === 'radio') {
-        // HTML only needs `required` on one radio per group for native
-        // validation, so this only tells us the group's NAME is required —
-        // the actual "is anything checked" check below must look at every
-        // radio sharing that name, not just the one(s) carrying the attribute.
+      if (f.type === 'radio' || f.type === 'checkbox') {
         radioGroupNames[f.name] = true;
         return;
       }
@@ -67,21 +71,25 @@
         f.reportValidity();
       }
     });
+
+    // Required radio/checkbox groups: a native `required` on only one member
+    // is enough for the browser, but we must check every member sharing
+    // that name for "is anything selected" — see git history for the bug
+    // this fixes (only the first-in-group option validated correctly).
     Object.keys(radioGroupNames).forEach(function (name) {
       var group = Array.prototype.slice.call(stepEl.querySelectorAll('input[name="' + name + '"]'));
       var anyChecked = group.some(function (r) {
         return r.checked;
       });
+      var fieldset = group[0] && group[0].closest('fieldset');
       if (!anyChecked) {
         valid = false;
-        group[0].closest('.radio-cards').style.outline = '2px solid #c0322b';
-        group[0].closest('.radio-cards').style.outlineOffset = '4px';
-        group[0].closest('.radio-cards').style.borderRadius = '12px';
-      } else {
-        var box = group[0].closest('.radio-cards');
-        if (box) box.style.outline = 'none';
+        if (fieldset) showFieldsetError(fieldset, true);
+      } else if (fieldset) {
+        showFieldsetError(fieldset, false);
       }
     });
+
     return valid;
   }
 
@@ -100,6 +108,20 @@
     }
   });
 
+  // Billing frequency toggles which "approximate bill amount" range select
+  // is shown — monthly and quarterly bills need differently-scaled ranges,
+  // rather than forcing everyone into quarterly figures.
+  var billFrequency = document.getElementById('billFrequency');
+  if (billFrequency) {
+    billFrequency.addEventListener('change', function () {
+      var showMonthly = billFrequency.value === 'monthly';
+      var monthlyField = form.querySelector('[data-frequency-group="monthly"]');
+      var quarterlyField = form.querySelector('[data-frequency-group="quarterly"]');
+      if (monthlyField) monthlyField.hidden = !showMonthly;
+      if (quarterlyField) quarterlyField.hidden = showMonthly;
+    });
+  }
+
   // Pre-fill attribution hidden fields from sessionStorage (captured sitewide in main.js)
   try {
     var stored = JSON.parse(sessionStorage.getItem('ohe_attribution') || '{}');
@@ -115,8 +137,8 @@
   (function preselectGoal() {
     var goalMap = {
       'lower-bills': 'Lower my electricity bills',
+      'new-solar': 'Install new solar — with or without a battery',
       'add-battery': 'Add a battery to existing solar',
-      'new-solar-battery': 'Install new solar and battery',
       'ev-charging': 'Charge my EV at home',
       'electrical-upgrade': 'Upgrade my electrical system',
       commercial: 'Plan a commercial project',
@@ -148,6 +170,11 @@
     var typeEl = form.querySelector('input[name="propertyOwner"]:checked');
     var suburb = document.getElementById('suburb').value;
     var name = document.getElementById('fullName').value;
+
+    var serviceOut = document.getElementById('selected_service');
+    if (serviceOut) serviceOut.value = goalEl ? goalEl.value : '';
+    var tsOut = document.getElementById('submitted_at');
+    if (tsOut) tsOut.value = new Date().toISOString();
 
     var wrap = document.getElementById('assessSuccess');
     form.style.display = 'none';

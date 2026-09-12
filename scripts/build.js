@@ -15,6 +15,10 @@ const layout = fs.readFileSync(path.join(ROOT, 'src', 'layout.html'), 'utf8');
 const header = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header.html'), 'utf8');
 const footer = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer.html'), 'utf8');
 
+// Defaults to PREVIEW (noindex/nofollow) — see the matching comment near
+// robots.txt generation below for when/how this flips to production.
+const IS_PRODUCTION = process.env.BUILD_TARGET === 'production';
+
 function fill(tpl, vars) {
   return tpl.replace(/{{(\w+)}}/g, (m, key) => (key in vars ? vars[key] : ''));
 }
@@ -64,17 +68,31 @@ for (const dir of pageDirs) {
     extraScript = meta.extraScripts.map((s) => `<script src="${s}" defer></script>`).join('\n');
   }
 
+  // The 404 page is never indexed, in preview or production — a "not found"
+  // page ranking in search results is a bug in every configuration.
+  const is404 = meta.canonical === '/404.html';
+
   const html = fill(layout, {
     TITLE: meta.title,
     DESCRIPTION: meta.description,
     CANONICAL: meta.canonical,
     SCHEMA: schema,
+    ROBOTS_META: is404 ? 'noindex, nofollow' : IS_PRODUCTION ? 'index, follow' : 'noindex, nofollow',
     EXTRA_HEAD: meta.extraHead || '',
     HEADER: header,
     BODY: body,
     FOOTER: footer,
     EXTRA_SCRIPT: extraScript,
   });
+
+  if (is404) {
+    // Ships at the site root as a literal 404.html — the filename GitHub
+    // Pages (and most static hosts) look for to serve a real 404 status on
+    // any unmatched route, rather than a folder needing /404.html/ as a URL.
+    fs.writeFileSync(path.join(SITE_DIR, '404.html'), html, 'utf8');
+    console.log('Built /404.html');
+    continue;
+  }
 
   const outDir = meta.canonical === '/' ? SITE_DIR : path.join(SITE_DIR, meta.canonical.replace(/^\/|\/$/g, ''));
   fs.mkdirSync(outDir, { recursive: true });
@@ -97,10 +115,15 @@ fs.writeFileSync(
   'utf8'
 );
 
+// robots.txt mirrors the same IS_PRODUCTION flag used for ROBOTS_META above —
+// defaults to blocking crawling (preview), only opens up with
+// BUILD_TARGET=production for the real ozhomeenergy.com.au domain.
 fs.writeFileSync(
   path.join(SITE_DIR, 'robots.txt'),
-  `User-agent: *\nAllow: /\nSitemap: https://www.ozhomeenergy.com.au/sitemap.xml\n`,
+  IS_PRODUCTION
+    ? `User-agent: *\nAllow: /\nSitemap: https://www.ozhomeenergy.com.au/sitemap.xml\n`
+    : `User-agent: *\nDisallow: /\n`,
   'utf8'
 );
 
-console.log(`\nBuilt ${builtPages.length} pages.`);
+console.log(`\nBuilt ${builtPages.length} pages (${IS_PRODUCTION ? 'production' : 'preview'} robots.txt).`);

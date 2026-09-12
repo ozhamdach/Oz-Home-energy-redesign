@@ -48,23 +48,44 @@ any unverified superlative — consistent with the claims policy.
 
 ## Redirect map
 
-301 redirects to implement at the platform/DNS level (exact mechanism
-depends on final hosting decision — see `04-highlevel-integration.md`):
+A real, host-agnostic redirect **configuration** now exists at
+`redirects/_redirects` (Netlify/Cloudflare Pages format — translate into
+nginx/Apache/whatever the production host actually needs) and
+`redirects/redirects.json` (the same mappings, for programmatic use). This
+is deliberately smaller than a full site migration's redirect map — it only
+contains routes this build can confirm with confidence:
 
-| Old URL (as reported in brief) | New URL | Reason |
+| Old URL | New URL | Confidence |
 |---|---|---|
-| `/commercial-project-enquires` (or `/commercial-project-enquiries` if that's the live spelling) | `/commercial-project-enquiry/` | Corrects misspelling; preserves link equity from any existing backlinks/ads |
-| Any `/…assesment…` URL variant | matching corrected URL (e.g. `/assessment/`) | Corrects misspelling |
-| Any location subpage not represented above | `/locations/` | Consolidates repeated/duplicate location content into one authoritative page |
-| Any legacy service URL not listed in the sitemap above | closest matching new URL (map 1:1 by service, not by category) | Preserve ranking equity; avoid soft-404s |
+| `/battery-storage-installation` | `/battery-storage/` | Confirmed — unambiguous 1:1 match |
+| `/about-us` | `/about/` | Confirmed — unambiguous 1:1 match |
+| `/solar-panel-bird-proofing` | `/bird-proofing/` | Confirmed — unambiguous 1:1 match |
+| `/terms-and-conditions` | `/terms/` | Confirmed — unambiguous 1:1 match |
 
-**Action required before launch:** export the full current URL list from
-Search Console / the existing HighLevel site (Site Map export or crawl) and
-map every indexed URL to its new destination — this document can only
-redirect what the brief specifically identified, since the live site itself
-could not be crawled from this sandbox (see `01-audit-and-positioning.md`).
-Do not delete pages without a corresponding redirect; every 404 is lost
-equity and, at volume, a crawl-budget and trust signal.
+**Deliberately NOT included, and why** (per the working rule "do not guess"):
+
+- **`/commercial-project-enquires`** — its current intent may match
+  commercial *electrical* services rather than the new dedicated
+  `/commercial-project-enquiry/` form. Before mapping it anywhere, check
+  Search Console for what it currently ranks for, and check any live ad
+  campaigns or printed material pointing at it.
+- **Existing location pages** — this rebuild ships one consolidated
+  `/locations/` page by design (see `02-sitemap-and-design-system.md` for
+  why), but that does **not** mean every old location URL should blindly
+  301 there. Some may carry direct traffic or backlinks a blanket redirect
+  would silently swallow. Map each one individually once the current
+  location-page URL list is confirmed.
+- **Every other current-site URL** — this sandbox could not crawl
+  `ozhomeenergy.com.au` directly (see `01-audit-and-positioning.md`), so
+  this redirect file only covers the specific old URLs the working brief
+  named. Before go-live: export the full indexed URL list from Search
+  Console (Pages report) plus a full crawl, and add a 1:1 mapping for
+  anything not already covered above or by the sitemap in
+  `02-sitemap-and-design-system.md`. Do not delete pages without a
+  corresponding redirect — every 404 is lost equity and, at volume, a
+  crawl-budget and trust signal. **Verify every mapping against Search
+  Console before finalising** — this file is a starting point, not a
+  substitute for that audit.
 
 ## Internal linking
 

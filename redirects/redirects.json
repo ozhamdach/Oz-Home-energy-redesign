@@ -1,0 +1,9 @@
+{
+  "_comment": "Confirmed 301 redirects only — see _redirects in this folder and docs/03-seo-redirects-metadata.md for what's deliberately NOT included yet and why (commercial-project-enquires ambiguity, existing location pages, and the fact that the full current-site URL list has not been exported from Search Console). Host-agnostic JSON for whatever production redirect mechanism is used (Cloudflare Worker, Express middleware, nginx map file generator, etc.).",
+  "redirects": [
+    { "from": "/battery-storage-installation", "to": "/battery-storage/", "status": 301 },
+    { "from": "/about-us", "to": "/about/", "status": 301 },
+    { "from": "/solar-panel-bird-proofing", "to": "/bird-proofing/", "status": 301 },
+    { "from": "/terms-and-conditions", "to": "/terms/", "status": 301 }
+  ]
+}

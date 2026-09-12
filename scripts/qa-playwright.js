@@ -94,6 +94,10 @@ async function run(label, fn) {
     // select the SECOND option in the group (not the one carrying `required`)
     // to specifically catch the "only first radio validated" class of bug
     await page.check('#type2');
+    // Step 2 also asks suburb + property type (merged from the old 7-step
+    // flow's separate step 3) — both required before it'll advance.
+    await page.fill('#suburb', 'Sydney');
+    await page.selectOption('#propertyType', 'Commercial building');
     await page.click('#assessNext');
     const step3active = await page.evaluate(() => document.querySelector('[data-step="3"]').classList.contains('is-active'));
     if (!step3active) errors.push('Assessment step 2 -> 3 did not advance after selecting the second (Commercial) option');
@@ -101,6 +105,8 @@ async function run(label, fn) {
     await page.click('#assessBack');
     const backToStep2 = await page.evaluate(() => document.querySelector('[data-step="2"]').classList.contains('is-active'));
     if (!backToStep2) errors.push('Assessment Back button did not return to step 2');
+    const suburbPreserved = await page.inputValue('#suburb');
+    if (suburbPreserved !== 'Sydney') errors.push('Suburb value lost when navigating back to step 2');
 
     await page.close();
   });

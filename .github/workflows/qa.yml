@@ -1,0 +1,34 @@
+name: QA
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build site (production + Pages variants)
+        run: |
+          node scripts/build.js
+          node scripts/build-pages.js
+
+      - name: Install Playwright + Chromium
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Serve the built site
+        run: |
+          (cd site && python3 -m http.server 8811 &)
+          # Give the server a moment to bind before the suite starts hitting it.
+          for i in $(seq 1 10); do
+            curl -sf http://localhost:8811/ >/dev/null && break
+            sleep 1
+          done
+
+      - name: Run QA suite
+        run: node scripts/qa-playwright.js

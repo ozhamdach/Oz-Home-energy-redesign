@@ -180,7 +180,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   height: var(--header-h);
 }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); gap: 16px; }
-.brand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); flex-shrink: 0; }
+/* flex-shrink is intentionally NOT 0 here (a previous pass set it to 0,
+   which silently defeated the min-width:0 fix below — min-width is
+   meaningless on an item that's forbidden from shrinking at all). The two
+   header-actions buttons (call + hamburger) must stay full-size for tap
+   targets, so the logo is the only thing that can give up space — without
+   this, at a 320px viewport the hamburger is pushed ~23px past the right
+   edge of the screen, off-screen and untappable on real narrow phones. */
+.brand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); min-width: 0; }
 /* The real Oz Home Energy mark (house outline + bolt) already carries its
    own brand colours, unlike the old placeholder icon this replaced — no
    background box needed, just size and align it against the wordmark. */
@@ -188,14 +195,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .brand-logo .mark img { width: 100%; height: 100%; }
-.brand-logo .wordmark { font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; line-height: 1.05; white-space: nowrap; }
+/* min-width: 0 + overflow/ellipsis is what actually lets this flex item's
+   text shrink (a nowrap text node has no intrinsic minimum otherwise) —
+   truncates to "Oz Home Ene…" rather than pushing the hamburger off-screen. */
+.brand-logo .wordmark { font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; display: block; }
 .brand-logo .wordmark span { display: none; font-family: var(--font-body); font-weight: 500; font-size: 0.6rem; letter-spacing: 0.16em; color: var(--text-muted); text-transform: uppercase; white-space: nowrap; }
 /* The supporting tagline under the wordmark is decorative — only show it
    once there's comfortable room either side of the header actions, so it
    can never be what pushes the header into horizontal overflow. */
 @media (min-width: 480px) { .brand-logo .wordmark { font-size: 1.3rem; } .brand-logo .wordmark span { display: block; } }
 .header-inner { min-width: 0; }
-.header-inner .brand-logo { min-width: 0; }
 
 .primary-nav { display: none; }
 @media (min-width: 1080px) {
@@ -244,6 +253,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .nav-toggle {
   display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
   background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer;
+  /* Removes the browser's ~300ms tap-recognition delay (it waits to see if
+     a tap is the start of a double-tap-to-zoom gesture before committing to
+     it) so the very first tap always registers immediately, not just on
+     visual double-tap-zoom-disabling viewports. */
+  touch-action: manipulation;
 }
 @media (min-width: 1080px) { .nav-toggle { display: none; } }
 .nav-toggle svg { width: 22px; height: 22px; }
@@ -258,12 +272,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .mobile-nav summary {
   list-style: none; cursor: pointer; padding: 16px 4px; font-family: var(--font-heading);
   font-weight: 600; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center;
+  /* Same tap-delay removal as .nav-toggle above — a native <summary> toggle
+     is otherwise just as subject to the browser's default double-tap-zoom
+     detection window as any other tappable element. */
+  touch-action: manipulation;
 }
 .mobile-nav summary::-webkit-details-marker { display: none; }
 .mobile-nav summary .chev { transition: transform .15s ease; }
 .mobile-nav details[open] summary .chev { transform: rotate(180deg); }
 .mobile-nav .sub-links { padding: 0 4px 16px; display: flex; flex-direction: column; gap: 4px; }
-.mobile-nav .sub-links a { padding: 10px 8px; color: var(--text); text-decoration: none; border-radius: var(--radius-sm); }
+.mobile-nav .sub-links a { padding: 10px 8px; color: var(--text); text-decoration: none; border-radius: var(--radius-sm); touch-action: manipulation; }
 .mobile-nav .sub-links a:hover { background: var(--bg-accent); }
 .mobile-nav > a.top-link { display: block; padding: 16px 4px; font-family: var(--font-heading); font-weight: 600; font-size: 1.05rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
 .mobile-nav .mobile-cta { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
@@ -443,14 +461,32 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Live HighLevel review widget: an iframe embed of the genuine, verified
    review widget URL — never hard-coded/rewritten/manufactured review text.
-   Loaded lazily (only once scrolled near) and only revealed once it
-   actually loads (site/js/reviews.js); .review-widget-section starts
-   [hidden] and is un-hidden on load, or stays hidden permanently if the
-   widget fails to load within a few seconds — a clean, silent failure
-   state rather than a broken embed box. */
-.review-widget-section[hidden] { display: none; }
+   A reachability pre-check runs first (site/js/reviews.js) — an iframe
+   pointed at a request an ad-blocker/tracker-blocker intercepts still
+   fires a normal `load` event with empty content, so waiting on load/error
+   alone previously left a large empty styled box on the page whenever the
+   widget request was blocked. #reviewsSection stays visible showing
+   .review-widget-loading (below) throughout; the widget only replaces it
+   once genuinely loaded, or the whole section hides itself permanently on
+   failure — never an empty box either way.
+   (Note: an earlier version of this rule targeted the class
+   ".review-widget-section", which was never applied to any element in the
+   markup — #reviewsSection is the actual id used in
+   src/pages/home/content.html — so this hidden-state rule silently never
+   matched anything.) */
+#reviewsSection[hidden] { display: none; }
 .review-widget { position: relative; min-height: 420px; border-radius: var(--radius-md); overflow: hidden; background: var(--bg-alt); }
 .review-widget iframe { display: block; width: 100%; height: 420px; border: 0; }
+.review-widget-loading {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px; color: var(--text-muted); font-size: 0.9rem;
+}
+.review-widget-loading .spinner {
+  width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--border);
+  border-top-color: var(--brand); animation: review-spin 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) { .review-widget-loading .spinner { animation: none; } }
+@keyframes review-spin { to { transform: rotate(360deg); } }
 
 /* ---------- Audience split ---------- */
 .split { display: grid; grid-template-columns: 1fr 1fr; }

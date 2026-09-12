@@ -137,18 +137,119 @@ async function run(label, fn) {
     }
   });
 
-  await run('mobile nav toggle', async () => {
-    const page = await context.newPage();
-    await page.setViewportSize({ width: 375, height: 800 });
-    await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
-    await page.click('#navToggle');
-    const isOpen = await page.evaluate(() => document.getElementById('mobileNav').classList.contains('is-open'));
-    if (!isOpen) errors.push('Mobile nav did not open on toggle click');
-    await page.click('#navToggle');
-    const isClosed = await page.evaluate(() => !document.getElementById('mobileNav').classList.contains('is-open'));
-    if (!isClosed) errors.push('Mobile nav did not close on second toggle click');
-    await page.close();
-  });
+  // Real touch interaction, not just class-state checks: a synthetic
+  // page.click() (the previous version of this test) exercises none of the
+  // actual tap/hit-testing path a phone uses, and would have stayed green
+  // straight through the real regression this covers (see the ~320px
+  // hamburger-offscreen overflow bug and the missing touch-action:
+  // manipulation fixed alongside this test — both only show up under real
+  // touch emulation, not a synthetic click). Requires its own hasTouch
+  // context — the shared `context` above has touch disabled.
+  const mobileNavWidths = [
+    [320, 568],
+    [375, 667],
+    [390, 844],
+    [430, 932],
+  ];
+  const mobileDropdowns = [
+    { label: 'Solutions', index: 0, expectHrefPrefix: '/residential-solar/' },
+    { label: 'For Business', index: 1, expectHrefPrefix: '/commercial-solar/' },
+    { label: 'Support', index: 2, expectHrefPrefix: '/learning-centre/' },
+  ];
+  for (const [w, h] of mobileNavWidths) {
+    const touchContext = await browser.newContext({ viewport: { width: w, height: h }, hasTouch: true, isMobile: true });
+    touchContext.setDefaultTimeout(10000);
+    await touchContext.route(/fonts\.(googleapis|gstatic)\.com/, (route) => route.abort());
+
+    for (const dd of mobileDropdowns) {
+      await run(`mobile nav real-tap ${w}x${h} / ${dd.label}`, async () => {
+        const page = await touchContext.newPage();
+        await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
+        const toggle = page.locator('#navToggle');
+        const mobileNav = page.locator('#mobileNav');
+
+        // First tap opens; aria-expanded + aria-label + scroll lock all
+        // need to flip together, not just the CSS class.
+        await toggle.tap();
+        await page.waitForTimeout(150);
+        const opened = await mobileNav.evaluate((el) => el.classList.contains('is-open'));
+        const ariaExpanded = await toggle.getAttribute('aria-expanded');
+        const ariaLabel = await toggle.getAttribute('aria-label');
+        const bodyOverflow = await page.evaluate(() => getComputedStyle(document.body).overflow);
+        if (!opened) errors.push(`mobile nav @${w}x${h}: hamburger did not open menu on first tap`);
+        if (ariaExpanded !== 'true') errors.push(`mobile nav @${w}x${h}: aria-expanded not "true" after opening`);
+        if (ariaLabel !== 'Close menu') errors.push(`mobile nav @${w}x${h}: aria-label did not change to "Close menu" after opening`);
+        if (bodyOverflow !== 'hidden') errors.push(`mobile nav @${w}x${h}: body scroll not locked while menu open`);
+
+        // Tap the actual <summary> for this dropdown — not a class toggle.
+        const summary = page.locator('#mobileNav details > summary').nth(dd.index);
+        await summary.tap();
+        await page.waitForTimeout(150);
+        const details = page.locator('#mobileNav details').nth(dd.index);
+        const isExpanded = await details.evaluate((el) => el.hasAttribute('open'));
+        if (!isExpanded) {
+          errors.push(`mobile nav @${w}x${h} / ${dd.label}: dropdown did not expand on tap`);
+          await page.close();
+          return;
+        }
+
+        // Tap a real link inside it and confirm real navigation — a bare
+        // tap() resolved does NOT mean navigation has started yet, so this
+        // must race waitForNavigation against the tap, not await them
+        // sequentially (a page.waitForLoadState() called only *after* the
+        // tap can resolve against the pre-navigation page and falsely
+        // report success or failure before the real navigation happens).
+        const link = details.locator('.sub-links a').first();
+        const href = await link.getAttribute('href');
+        await Promise.all([
+          page.waitForNavigation({ waitUntil: 'load', timeout: 5000 }).catch(() => {}),
+          link.tap(),
+        ]);
+        const finalUrl = page.url();
+        if (!finalUrl.includes(dd.expectHrefPrefix)) {
+          errors.push(`mobile nav @${w}x${h} / ${dd.label}: tapping link (href=${href}) did not navigate to ${dd.expectHrefPrefix}, landed on ${finalUrl}`);
+        }
+        const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+        if (hasOverflow) errors.push(`mobile nav @${w}x${h} / ${dd.label}: horizontal overflow on landed page`);
+
+        await page.close();
+      });
+    }
+
+    await run(`mobile nav close/escape ${w}x${h}`, async () => {
+      const page = await touchContext.newPage();
+      await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
+      const toggle = page.locator('#navToggle');
+      const mobileNav = page.locator('#mobileNav');
+
+      await toggle.tap();
+      await page.waitForTimeout(150);
+      await toggle.tap();
+      await page.waitForTimeout(150);
+      const closedAgain = await mobileNav.evaluate((el) => el.classList.contains('is-open'));
+      const overflowRestored = await page.evaluate(() => getComputedStyle(document.body).overflow);
+      const labelAfterClose = await toggle.getAttribute('aria-label');
+      if (closedAgain) errors.push(`mobile nav @${w}x${h}: menu did not close on second tap`);
+      if (overflowRestored === 'hidden') errors.push(`mobile nav @${w}x${h}: body scroll not restored after closing`);
+      if (labelAfterClose !== 'Open menu') errors.push(`mobile nav @${w}x${h}: aria-label did not revert to "Open menu" after closing`);
+
+      await toggle.click();
+      await page.waitForTimeout(150);
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(150);
+      const openAfterEscape = await mobileNav.evaluate((el) => el.classList.contains('is-open'));
+      const focusedIsToggle = await page.evaluate(() => document.activeElement === document.getElementById('navToggle'));
+      if (openAfterEscape) errors.push(`mobile nav @${w}x${h}: Escape did not close the menu`);
+      if (!focusedIsToggle) errors.push(`mobile nav @${w}x${h}: keyboard focus not returned to the hamburger after Escape`);
+
+      const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+      if (hasOverflow) errors.push(`mobile nav @${w}x${h}: horizontal overflow at rest`);
+
+      await page.close();
+    });
+
+    await touchContext.close();
+  }
 
   await run('desktop dropdown nav (mouse + keyboard)', async () => {
     const page = await context.newPage();

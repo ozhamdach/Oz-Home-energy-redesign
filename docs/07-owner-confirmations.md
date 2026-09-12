@@ -56,7 +56,10 @@ confirmed by the owner as the correct number, resolving this conflict.
       electrical licence — see `docs/owner-inputs-required.md`
 - [ ] NETCC membership — shown on the live site; **treated as unverified**
       here until documentary confirmation is supplied
-- [ ] Tesla Certified Installer status
+- [ ] Tesla Certified Installer status and Ohme Approved Installer status —
+      **hidden from the public site** (homepage trust strip commented out
+      in `src/pages/home/content.html`) until current, documented written
+      approval is supplied for each; see `docs/asset-manifest.md`
 - [ ] Any manufacturer partnership claims
 - [ ] Years in business
 - [ ] Total installation count

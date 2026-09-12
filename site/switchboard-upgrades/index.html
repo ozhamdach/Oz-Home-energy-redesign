@@ -51,8 +51,11 @@
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Oz Home Energy",
+  "legalName": "Electrical Hub Pty Ltd",
+  "taxID": "72 665 477 556",
   "url": "https://ozhomeenergy.com.au",
   "telephone": "+61435336336",
+  "email": "admin@ozhomeenergy.com.au",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
     "@type": "PostalAddress",
@@ -92,10 +95,11 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
-<!-- Announcement bar: only enable with a verified, currently-running offer. Disabled by default. -->
-<!--
+<!-- Announcement bar: disabled by default. Only enable this once the owner
+     has supplied a specific, currently-running offer's exact text and
+     expiry date — nothing here is a placeholder for something already
+     live; the whole block simply doesn't exist until that's confirmed:
 <div class="announcement">
-  [OWNER CONFIRMATION REQUIRED — verified current offer text and expiry]
 </div>
 -->
 <header class="site-header">
@@ -166,48 +170,64 @@
       </button>
     </div>
   </div>
-
-  <div class="mobile-nav" id="mobileNav">
-    <details>
-      <summary>Solutions <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-      <div class="sub-links">
-        <a href="/residential-solar/">Solar</a>
-        <a href="/battery-storage/">Battery Storage</a>
-        <a href="/solar-battery-upgrades/">Solar &amp; Battery Upgrades</a>
-        <a href="/ev-charging/">EV Charging</a>
-        <a href="/residential-electrical/">Electrical &amp; Switchboards</a>
-      </div>
-    </details>
-    <details>
-      <summary>For Business <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-      <div class="sub-links">
-        <a href="/commercial-solar/">Commercial Solar</a>
-        <a href="/commercial-batteries/">Commercial Batteries</a>
-        <a href="/commercial-ev-charging/">Commercial EV Charging</a>
-        <a href="/commercial-electrical/">Commercial Electrical</a>
-        <a href="/commercial-project-enquiry/">Project Enquiry</a>
-      </div>
-    </details>
-    <a class="top-link" href="/projects/">Projects</a>
-    <a class="top-link" href="/about/">Why Us</a>
-    <details>
-      <summary>Support <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-      <div class="sub-links">
-        <a href="/learning-centre/">Learning Centre</a>
-        <a href="/service-request/">Service Request</a>
-        <a href="/solar-servicing/">Solar Servicing</a>
-        <a href="/panel-cleaning/">Panel Cleaning</a>
-        <a href="/bird-proofing/">Bird-Proofing</a>
-        <a href="/faqs/">Frequently Asked Questions</a>
-        <a href="/assessment/">Contact</a>
-      </div>
-    </details>
-    <div class="mobile-cta">
-      <a class="btn btn-primary btn-block" href="/assessment/">Start Your Assessment</a>
-      <a class="btn btn-secondary btn-block" href="tel:+61435336336">Call 0435 336 336</a>
-    </div>
-  </div>
 </header>
+
+<!-- Deliberately a SIBLING of <header>, not a descendant — .site-header has
+     backdrop-filter (for its translucent blurred sticky look), and per the
+     CSS Filter Effects / Transforms spec, backdrop-filter (like filter,
+     transform, perspective and will-change) makes an element the
+     containing block for any position:fixed descendant. With .mobile-nav
+     nested inside <header>, its "inset: var(--header-h) 0 0 0" resolved
+     against .site-header's own (short, header-height-only) box instead of
+     the viewport — collapsing it to a sliver instead of a full-screen
+     overlay, so an expanded dropdown's links rendered outside that
+     collapsed box with no white backing behind them, visually overlapping
+     whatever page content happened to sit underneath. Functionally the
+     links were still real, tappable DOM elements at their (wrong) rendered
+     position, so a class-state/attribute check alone couldn't see this —
+     only an actual rendered screenshot revealed it. Moving this element
+     out from under <header> restores the viewport as its containing
+     block, without touching the header's own blur effect at all. -->
+<div class="mobile-nav" id="mobileNav">
+  <details>
+    <summary>Solutions <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+    <div class="sub-links">
+      <a href="/residential-solar/">Solar</a>
+      <a href="/battery-storage/">Battery Storage</a>
+      <a href="/solar-battery-upgrades/">Solar &amp; Battery Upgrades</a>
+      <a href="/ev-charging/">EV Charging</a>
+      <a href="/residential-electrical/">Electrical &amp; Switchboards</a>
+    </div>
+  </details>
+  <details>
+    <summary>For Business <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+    <div class="sub-links">
+      <a href="/commercial-solar/">Commercial Solar</a>
+      <a href="/commercial-batteries/">Commercial Batteries</a>
+      <a href="/commercial-ev-charging/">Commercial EV Charging</a>
+      <a href="/commercial-electrical/">Commercial Electrical</a>
+      <a href="/commercial-project-enquiry/">Project Enquiry</a>
+    </div>
+  </details>
+  <a class="top-link" href="/projects/">Projects</a>
+  <a class="top-link" href="/about/">Why Us</a>
+  <details>
+    <summary>Support <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+    <div class="sub-links">
+      <a href="/learning-centre/">Learning Centre</a>
+      <a href="/service-request/">Service Request</a>
+      <a href="/solar-servicing/">Solar Servicing</a>
+      <a href="/panel-cleaning/">Panel Cleaning</a>
+      <a href="/bird-proofing/">Bird-Proofing</a>
+      <a href="/faqs/">Frequently Asked Questions</a>
+      <a href="/assessment/">Contact</a>
+    </div>
+  </details>
+  <div class="mobile-cta">
+    <a class="btn btn-primary btn-block" href="/assessment/">Start Your Assessment</a>
+    <a class="btn btn-secondary btn-block" href="tel:+61435336336">Call 0435 336 336</a>
+  </div>
+</div>
 
 <main id="main">
 <section class="page-banner">
@@ -336,11 +356,12 @@
 
     <div class="footer-bottom">
       <div>
-        <div>Oz Home Energy · Sydney, NSW · NSW Electrical Contractor Licence 382607C</div>
-        <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
+        <div>Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556</div>
+        <div>NSW Electrical Contractor Licence 382607C · Sydney, NSW</div>
+        <div>Phone <a href="tel:+61435336336">0435 336 336</a> · Email <a href="mailto:admin@ozhomeenergy.com.au">admin@ozhomeenergy.com.au</a></div>
       </div>
       <ul class="legal-links">
-        <li>&copy; <span id="footerYear">2026</span> Oz Home Energy</li>
+        <li>&copy; <span id="footerYear">2026</span> Electrical Hub Pty Ltd trading as Oz Home Energy</li>
         <li><a href="/privacy-policy/">Privacy Policy</a></li>
         <li><a href="/terms/">Terms &amp; Conditions</a></li>
         <li><a href="/complaints/">Complaints</a></li>

@@ -57,6 +57,29 @@ const PRODUCTION_ORIGIN = 'https://ozhomeenergy.com.au';
 // SITE_OUT_DIR (see above) needs creating on a fresh checkout/CI run.
 fs.mkdirSync(SITE_DIR, { recursive: true });
 
+// css/js/img are committed directly under site/ (this build only ever
+// generates HTML, never those assets) — fine for the default SITE_DIR,
+// but a throwaway SITE_OUT_DIR starts empty and would otherwise build HTML
+// that references /img/... paths nothing on disk backs, tripping the
+// missing-local-asset check in scripts/qa-static-checks.js for every real
+// <img> the page has (a false failure of the QA harness, not a real broken
+// deploy — see the production-mode QA step in .github/workflows/qa.yml).
+function copyDir(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const s = path.join(src, entry.name);
+    const d = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDir(s, d);
+    else fs.copyFileSync(s, d);
+  }
+}
+const CANONICAL_SITE_DIR = path.join(ROOT, 'site');
+if (path.resolve(SITE_DIR) !== path.resolve(CANONICAL_SITE_DIR)) {
+  for (const dir of ['css', 'js', 'img']) {
+    copyDir(path.join(CANONICAL_SITE_DIR, dir), path.join(SITE_DIR, dir));
+  }
+}
+
 function breadcrumbSchema(crumbs, canonical) {
   const items = crumbs.map((c, i) => ({
     '@type': 'ListItem',

@@ -62,19 +62,17 @@ Photos supplied but not placed on any page (kept only in
 `assets/original-photography/`): the two exact-duplicate rooftop photos and
 the van-wrap mockup sheet, as above.
 
-## ⚠️ Phone number discrepancy found in the vehicle photography
+## ✅ Phone number discrepancy found in the vehicle photography — resolved
 
 The van livery shown in `fleet-van` (and in the unused mockup sheet) prints
-**0435 336 336** — a *third* variant, distinct from both the number this
-site uses everywhere (`0420 113 216`) and the previously-flagged alternate
-(`0435 366 366`). This was not edited or hidden (it's part of an authentic
-photo), but **it is not treated as confirmation of any number** — see
-`docs/07-owner-confirmations.md` / `docs/owner-inputs-required.md` for the
-standing instruction that this conflict must be resolved by the owner
-before launch, not inferred from any single source. The van photo also
-displays a "Smart Energy Council" membership badge as part of its design —
-this is not asserted anywhere in this site's own copy or schema, and should
-not be treated as a confirmed claim.
+**0435 336 336**, which the owner has since confirmed is in fact the
+official Oz Home Energy number — not a third conflicting variant. It has
+replaced the two earlier, now-superseded numbers (`0420 113 216` and
+`0435 366 366`) sitewide; see `docs/07-owner-confirmations.md` /
+`docs/owner-inputs-required.md` for the full resolution note. The van photo
+also displays a "Smart Energy Council" membership badge as part of its
+design — this is still not asserted anywhere in this site's own copy or
+schema, and should not be treated as a confirmed claim.
 
 ## Alt text policy applied
 

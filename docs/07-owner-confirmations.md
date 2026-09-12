@@ -12,33 +12,41 @@ built site for any stray marker with:
 return nothing (only HTML comments, invisible to users, may reference this
 doc). If it returns visible page text, that's a bug — file it.
 
-## ⚠️ Phone number conflict — resolve before anything else
+## ✅ Phone number conflict — resolved
 
-This build uses **0420 113 216** everywhere, consistently. But the working
-brief for this pass states that previous public information has also shown
-**0435 366 366**. **This has not been resolved — nobody has told this build
-which number is actually correct**, and guessing is explicitly out of scope.
+**Owner-confirmed:** the official Oz Home Energy public phone number is
+**0435 336 336** (`tel:+61435336336`). This matches the number printed on
+the branded van livery (`fleet-van` / `van-wrap-rear-side.png`, `/about/` —
+see `docs/asset-manifest.md`), which turned out to be the correct number,
+not a third conflicting variant as originally flagged below.
 
-**Action required:** confirm the one correct number, then:
-1. Search this repo for `0420113216` and `0420 113 216` (every `tel:` link
-   and every visible phone number) and replace sitewide if the other number
-   is correct.
-2. Check whatever the real production HighLevel account, Google Business
-   Profile, and any live ad campaigns currently show — these need to match
-   too, not just the website.
-3. Until this is resolved, do not treat this preview's phone number as
-   confirmed-correct just because it's consistent — consistency here only
-   means the same unverified number was used everywhere.
+Every static occurrence of the two earlier, now-superseded numbers —
+**0420 113 216** (used sitewide throughout the previous passes) and
+**0435 366 366** (the previously-flagged alternate) — has been replaced
+sitewide with 0435 336 336, including every `tel:` link, visible phone
+number, footer/header CTA, JSON-LD `telephone` field, and legal-page
+contact detail. No HighLevel dynamic-number-insertion or call-tracking
+script exists in this build to preserve — every phone number here is a
+static fallback.
 
-**Update — a third number found in supplied vehicle photography:** the
-branded van photo (`fleet-van` / `van-wrap-rear-side.png`, added to
-`/about/` — see `docs/asset-manifest.md`) prints **0435 336 336**, distinct
-from both numbers above. This was not edited out (it's part of an
-authentic, owner-approved photo) and is not treated as confirmation of
-anything — it just makes this conflict more urgent to resolve, not less.
-The same van design also shows a "Smart Energy Council" membership badge,
-which is not asserted anywhere in this site's own copy — do not add that
-claim to any page copy without separate confirmation.
+**Still to confirm with the owner:** the real production HighLevel account,
+Google Business Profile, and any live ad campaigns should be checked to
+show this same number — this repo only controls the website's own copy.
+The van livery's "Smart Energy Council" membership badge is still not
+asserted anywhere in this site's own copy — do not add that claim to any
+page without separate confirmation.
+
+<details>
+<summary>Original (resolved) conflict writeup, kept for audit history</summary>
+
+This build used **0420 113 216** everywhere, consistently. But the working
+brief for a previous pass stated that public information had also shown
+**0435 366 366**, and neither had been confirmed. A third variant,
+**0435 336 336**, was then found printed on the supplied van livery photo
+and was *not* treated as confirmation at the time — it has since been
+confirmed by the owner as the correct number, resolving this conflict.
+
+</details>
 
 ## Accreditations & claims (do not publish without evidence)
 - [ ] NETCC membership — shown on the live site; **treated as unverified**

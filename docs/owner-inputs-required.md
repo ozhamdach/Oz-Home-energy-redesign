@@ -14,17 +14,17 @@ grep -rn "OWNER CONFIRMATION REQUIRED" site --include=*.html
 
 ## 🔴 Blocking — resolve before any of the below matters
 
-### Phone number conflict
-The working brief flags **0420 113 216** as the number this build uses
-everywhere, but earlier public information has also shown **0435 366 366**.
-**This is still unresolved** — confirm the one correct number, then:
-1. Search the repo for `0420113216` / `0420 113 216` and replace sitewide if
-   `0435 366 366` is actually correct.
-2. Check the real HighLevel account, Google Business Profile and any live ad
-   campaigns show the same number.
-3. Do not treat this build's consistent use of one number as evidence it's
-   the *correct* one — consistency here only means the same unverified
-   number was used everywhere.
+### Phone number conflict — ✅ resolved
+Owner-confirmed official number: **0435 336 336** (`tel:+61435336336`). This
+has been replaced sitewide, including every `tel:` link, visible phone
+number, footer/header CTA, JSON-LD `telephone` field, and legal-page
+contact detail — the two earlier, now-superseded numbers (`0420 113 216`,
+used throughout the previous passes, and `0435 366 366`, a previously
+flagged alternate) no longer appear anywhere in this build.
+
+Still outstanding: confirm the real HighLevel account, Google Business
+Profile, and any live ad campaigns show this same number — this repo only
+controls the website's own copy.
 
 ### NSW Electrical Contractor Licence 382607C
 Published sitewide (footer, schema, hero trust strip) as an existing,

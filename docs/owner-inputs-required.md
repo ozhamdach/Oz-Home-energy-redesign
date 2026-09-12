@@ -26,11 +26,17 @@ Still outstanding: confirm the real HighLevel account, Google Business
 Profile, and any live ad campaigns show this same number — this repo only
 controls the website's own copy.
 
-### NSW Electrical Contractor Licence 382607C
-Published sitewide (footer, schema, hero trust strip) as an existing,
-active licence number. **Confirm this is currently correct and active**
-before launch — an incorrect or lapsed licence number displayed publicly is
-a compliance issue, not just a copy error.
+### NSW Electrical Contractor Licence 382607C — ✅ resolved
+Owner-confirmed current and active. Published sitewide (footer, schema,
+hero trust strip, About, FAQs, Privacy Policy, Terms) as exactly
+**"NSW Electrical Contractor Licence 382607C"** — no personal/individual
+name is displayed alongside it anywhere in this build.
+
+### SAA accreditation S5265652 — ✅ confirmed, recorded separately
+Owner-confirmed. Recorded as its own distinct credential (About page's
+"Licensing & compliance" section) — deliberately not combined into the
+same line/string as the electrical contractor licence above, since they're
+two separate accreditations.
 
 ## Specific claims to confirm (this pass's brief)
 
@@ -44,13 +50,13 @@ explicit "yes, that's accurate" before launch, not just consistent phrasing:
 - [ ] "We check switchboard capacity and wiring before quoting" (if/where used — search before launch)
 - [ ] "All electrical work is carried out by licensed electricians" (if/where used — search before launch)
 - [ ] Commercial capability across wider NSW (commercial pages' service-area language)
-- [ ] Any accreditation, certification, award, installation count, savings figure or warranty statement — **none are currently published**; this stays true only as long as nothing is added without going through this checklist first
+- [ ] Any further accreditation, certification, award, installation count, savings figure or warranty statement — aside from the electrical contractor licence and the now owner-confirmed SAA accreditation S5265652 (see above), **none are currently published**; this stays true only as long as nothing else is added without going through this checklist first
 
 Where confirmation is absent for any of the above, the current wording
 stays as restrained/factual rather than being strengthened — see
 `docs/01-audit-and-positioning.md` for the full list of claims deliberately
-never invented (NETCC membership, Tesla Certified Installer status, SAA
-accreditation, review totals, installation totals, years in business,
+never invented (NETCC membership, Tesla Certified Installer status,
+review totals, installation totals, years in business,
 manufacturer partnerships, finance availability, specific rebate amounts,
 guaranteed savings/payback, superiority claims, product pricing, client/
 project names, workmanship guarantees beyond actual contract terms).

@@ -49,10 +49,14 @@ confirmed by the owner as the correct number, resolving this conflict.
 </details>
 
 ## Accreditations & claims (do not publish without evidence)
+- [x] NSW Electrical Contractor Licence 382607C — ✅ owner-confirmed current
+      and active; see `docs/owner-inputs-required.md`
+- [x] SAA accreditation — ✅ owner-confirmed, number **S5265652**; recorded
+      as its own distinct credential (About page), not combined with the
+      electrical licence — see `docs/owner-inputs-required.md`
 - [ ] NETCC membership — shown on the live site; **treated as unverified**
       here until documentary confirmation is supplied
 - [ ] Tesla Certified Installer status
-- [ ] SAA accreditation
 - [ ] Any manufacturer partnership claims
 - [ ] Years in business
 - [ ] Total installation count

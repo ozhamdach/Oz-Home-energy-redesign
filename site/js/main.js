@@ -92,18 +92,18 @@
   // Mobile nav toggle
   var toggle = document.getElementById('navToggle');
   var mobileNav = document.getElementById('mobileNav');
+  function setMobileNavOpen(open) {
+    mobileNav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
   if (toggle && mobileNav) {
     toggle.addEventListener('click', function () {
-      var open = mobileNav.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      document.body.style.overflow = open ? 'hidden' : '';
+      setMobileNavOpen(!mobileNav.classList.contains('is-open'));
     });
     mobileNav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') {
-        mobileNav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
+      if (e.target.tagName === 'A') setMobileNavOpen(false);
     });
   }
 
@@ -157,9 +157,8 @@
         if (btn) btn.focus();
       }
       if (mobileNav && mobileNav.classList.contains('is-open')) {
-        mobileNav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        setMobileNavOpen(false);
+        toggle.focus();
       }
     }
   });

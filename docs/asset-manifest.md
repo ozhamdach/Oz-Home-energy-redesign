@@ -46,7 +46,7 @@ owner-confirmed as authorised for publication — see
 | Photo | Page(s) | Notes |
 |---|---|---|
 | `ground-mount-wide` | Homepage hero background | Manifest's suggested hero candidate |
-| `trust-ohme-badge`, `trust-tesla-badge` | Homepage, restrained trust strip (`.trust-strip`) below the proof strip | Not used as hero imagery, per instruction |
+| `trust-ohme-badge`, `trust-tesla-badge` | ⚠️ Currently **hidden** — see below | Section markup/CSS/assets all still in place, ready to re-enable |
 | `residential-solar-rooftop-1` (regional-rooftop-overview-01) | `/residential-solar/` | |
 | `battery-fox-installed` (fox-battery-context, cropped) | `/battery-storage/` | |
 | `ev-tesla-wall-connector` (cropped) | `/ev-charging/` | |
@@ -73,6 +73,18 @@ replaced the two earlier, now-superseded numbers (`0420 113 216` and
 also displays a "Smart Energy Council" membership badge as part of its
 design — this is still not asserted anywhere in this site's own copy or
 schema, and should not be treated as a confirmed claim.
+
+## ⚠️ Ohme / Tesla approved-installer badges — hidden pending written approval
+
+The homepage's trust strip (Ohme approved installer + Tesla Powerwall
+Certified Installer badges) is **currently hidden** from the public site —
+final written approval for these two specific certification claims is
+unverified. Nothing was deleted: the markup, the `.trust-strip` CSS, and
+both badge image derivatives are all still in place in
+`src/pages/home/content.html` (wrapped in an HTML comment explaining
+exactly what's needed) and `site/img/photos/`. Once the owner supplies
+current, documented written approval for each claim, uncomment the section
+to re-enable it verbatim — no image reprocessing or markup rewrite needed.
 
 ## Alt text policy applied
 

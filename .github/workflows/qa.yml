@@ -11,10 +11,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build site (production + Pages variants)
+      - name: Build preview site (noindex) + Pages variant + redirect config
         run: |
           node scripts/build.js
           node scripts/build-pages.js
+          node scripts/build-redirects.js
+
+      - name: Static QA checks — preview build
+        run: node scripts/qa-static-checks.js
+
+      - name: Build production-mode site into a throwaway dir + static QA
+        run: |
+          SITE_OUT_DIR=site-prod-check BUILD_TARGET=production node scripts/build.js
+          node scripts/qa-static-checks.js --production
+          rm -rf site-prod-check
 
       - name: Install Playwright + Chromium
         run: |
@@ -30,5 +40,13 @@ jobs:
             sleep 1
           done
 
-      - name: Run QA suite
+      - name: Run Playwright QA suite (Chromium — Safari/Firefox not covered)
         run: node scripts/qa-playwright.js
+
+      - name: Upload QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-screenshots
+          path: qa-screenshots/
+          retention-days: 14

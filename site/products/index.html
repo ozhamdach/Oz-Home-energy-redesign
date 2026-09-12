@@ -3,9 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ANALYTICS: NOT ACTIVE. See docs/analytics-integration.md before enabling
+     anything here — activating a tag without confirming the production
+     tracking plan first (GTM container ID, whether GA4/Ads/Meta Pixel are
+     already live elsewhere) risks double-counting conversions. The line
+     below only declares the dataLayer array (standard, recommended GTM
+     practice — queueing events before the container script itself loads)
+     and does not transmit anything anywhere by itself: with no GTM
+     container script installed, nothing ever reads this array. This build
+     already pushes phone-click, email-click, form-start and form-step
+     events into it (see site/js/main.js and site/js/assessment.js), so
+     wiring up real analytics later needs no further code changes here —
+     only inserting the real container snippet Google Tag Manager gives you
+     (head + body <noscript>, per Google's own install instructions) in
+     place of this comment. -->
+<script>window.dataLayer = window.dataLayer || [];</script>
 <title>Products & Brands | Oz Home Energy</title>
 <meta name="description" content="The panels, inverters, batteries and EV chargers Oz Home Energy supplies and supports — a considered product range rather than every brand on the market.">
-<link rel="canonical" href="https://www.ozhomeenergy.com.au/products/">
+<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
+     production site's www subdomain redirects to this apex domain, so every
+     canonical/OG/schema URL below uses it consistently — pointing them at
+     www would canonicalise against a redirecting hostname. See
+     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+<link rel="canonical" href="https://ozhomeenergy.com.au/products/">
 <!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
      only becomes "index, follow" when scripts/build.js is run with
      BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
@@ -15,9 +35,11 @@
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Products & Brands | Oz Home Energy">
 <meta property="og:description" content="The panels, inverters, batteries and EV chargers Oz Home Energy supplies and supports — a considered product range rather than every brand on the market.">
-<meta property="og:url" content="https://www.ozhomeenergy.com.au/products/">
-<!-- OWNER CONFIRMATION REQUIRED: replace with a real 1200x630 installation photograph before launch -->
-<meta property="og:image" content="https://www.ozhomeenergy.com.au/img/favicon.svg">
+<meta property="og:url" content="https://ozhomeenergy.com.au/products/">
+<meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Oz Home Energy — Sydney solar, battery, EV charging and electrical contractor">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +51,7 @@
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Oz Home Energy",
-  "url": "https://www.ozhomeenergy.com.au",
+  "url": "https://ozhomeenergy.com.au",
   "telephone": "+61420113216",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
@@ -54,13 +76,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://www.ozhomeenergy.com.au/"
+      "item": "https://ozhomeenergy.com.au/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Products & Brands",
-      "item": "https://www.ozhomeenergy.com.au/products/"
+      "item": "https://ozhomeenergy.com.au/products/"
     }
   ]
 }
@@ -199,15 +221,15 @@
 
 <section class="section">
   <div class="container container-narrow">
-    <p>We're finalising the specific brands, model ranges and warranty terms we publish here, so this page doesn't yet list individual products. Get in touch and we'll talk you through what's right for your property directly.</p>
+    <p>Specific brands, model ranges and current warranty terms are confirmed with you directly as part of your assessment, rather than listed generically here. Call us or start an assessment and we'll talk you through what's right for your property.</p>
   </div>
 </section>
 
 <section class="section section-alt">
   <div class="container container-narrow">
-    <p class="eyebrow">Design tools</p>
+    <p class="eyebrow">How proposals are built</p>
     <h2>Proposals built around your property</h2>
-    <p>System design and quotation is supported by GreenSketch, allowing a proposal to reflect your specific roof, usage and equipment selection rather than a generic package.</p>
+    <p>Every proposal reflects your specific roof, usage and equipment selection — a tailored system design and clear written proposal, not a generic package.</p>
   </div>
 </section>
 

@@ -3,9 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ANALYTICS: NOT ACTIVE. See docs/analytics-integration.md before enabling
+     anything here — activating a tag without confirming the production
+     tracking plan first (GTM container ID, whether GA4/Ads/Meta Pixel are
+     already live elsewhere) risks double-counting conversions. The line
+     below only declares the dataLayer array (standard, recommended GTM
+     practice — queueing events before the container script itself loads)
+     and does not transmit anything anywhere by itself: with no GTM
+     container script installed, nothing ever reads this array. This build
+     already pushes phone-click, email-click, form-start and form-step
+     events into it (see site/js/main.js and site/js/assessment.js), so
+     wiring up real analytics later needs no further code changes here —
+     only inserting the real container snippet Google Tag Manager gives you
+     (head + body <noscript>, per Google's own install instructions) in
+     place of this comment. -->
+<script>window.dataLayer = window.dataLayer || [];</script>
 <title>Solar Panel Bird-Proofing & Mesh Sydney | Oz Home Energy</title>
 <meta name="description" content="Bird-proofing mesh installation to stop birds nesting under solar panels, protecting your roof and system from damage and mess.">
-<link rel="canonical" href="https://www.ozhomeenergy.com.au/bird-proofing/">
+<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
+     production site's www subdomain redirects to this apex domain, so every
+     canonical/OG/schema URL below uses it consistently — pointing them at
+     www would canonicalise against a redirecting hostname. See
+     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+<link rel="canonical" href="https://ozhomeenergy.com.au/bird-proofing/">
 <!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
      only becomes "index, follow" when scripts/build.js is run with
      BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
@@ -15,9 +35,11 @@
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Solar Panel Bird-Proofing & Mesh Sydney | Oz Home Energy">
 <meta property="og:description" content="Bird-proofing mesh installation to stop birds nesting under solar panels, protecting your roof and system from damage and mess.">
-<meta property="og:url" content="https://www.ozhomeenergy.com.au/bird-proofing/">
-<!-- OWNER CONFIRMATION REQUIRED: replace with a real 1200x630 installation photograph before launch -->
-<meta property="og:image" content="https://www.ozhomeenergy.com.au/img/favicon.svg">
+<meta property="og:url" content="https://ozhomeenergy.com.au/bird-proofing/">
+<meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Oz Home Energy — Sydney solar, battery, EV charging and electrical contractor">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +51,7 @@
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Oz Home Energy",
-  "url": "https://www.ozhomeenergy.com.au",
+  "url": "https://ozhomeenergy.com.au",
   "telephone": "+61420113216",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
@@ -54,13 +76,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://www.ozhomeenergy.com.au/"
+      "item": "https://ozhomeenergy.com.au/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Bird-Proofing",
-      "item": "https://www.ozhomeenergy.com.au/bird-proofing/"
+      "item": "https://ozhomeenergy.com.au/bird-proofing/"
     }
   ]
 }
@@ -195,7 +217,7 @@
     <h1>Solar panel bird-proofing &amp; mesh</h1>
     <p class="lede">Birds nesting under solar panels can cause droppings, noise, blocked drainage and, in some cases, damage to wiring. A properly fitted mesh keeps birds out without affecting panel performance or voiding warranties.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="/service-request/">Request Bird-Proofing</a>
+      <a class="btn btn-primary" href="/service-request/?type=bird-proofing">Request Bird-Proofing</a>
       <a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216</a>
     </div>
   </div>
@@ -216,7 +238,7 @@
   <div class="container container-narrow">
     <h2>Stop birds nesting under your panels</h2>
     <div class="cta-row">
-      <a class="btn btn-primary" href="/service-request/">Request Bird-Proofing</a>
+      <a class="btn btn-primary" href="/service-request/?type=bird-proofing">Request Bird-Proofing</a>
       <a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216</a>
     </div>
   </div>

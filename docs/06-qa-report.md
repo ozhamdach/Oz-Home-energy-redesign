@@ -204,3 +204,46 @@ grep -rniE "netcc|tesla certified|saa accredit|years in business|guaranteed savi
    a pass in Safari/WebKit and Firefox before launch, particularly for the
    `<details>`-based accordions and `backdrop-filter` header blur (has a
    graceful non-blur fallback in unsupported browsers since it's additive).
+
+## Launch-readiness pass 2 — expanded QA acceptance matrix
+
+This pass extended the QA workflow (`.github/workflows/qa.yml`) with a much
+larger acceptance-test matrix, split across two scripts:
+
+- **`scripts/qa-static-checks.js`** (new, no browser needed) — runs once
+  against the preview build and once against a throwaway production-mode
+  build (`SITE_OUT_DIR=site-prod-check BUILD_TARGET=production`), checking:
+  every page has exactly one `<h1>`, a unique `<title>` and meta
+  description, a canonical using the chosen non-www production origin
+  (`https://ozhomeenergy.com.au`); preview output is `noindex, nofollow`
+  everywhere and production output is `index, follow` everywhere except the
+  404 page, legacy bridge pages, and any page whose `publishGate` isn't
+  published yet (see `src/data/site-status.json`); no `<form>` has
+  `action="#"`; no placeholder/"coming soon"/"under construction"/
+  "finalising" language appears in visible HTML (HTML comments are exempt,
+  matching this repo's existing convention); every `<img>` (should any
+  exist) has non-empty alt text and resolves to a real local file; every
+  internal link resolves to an actually-built page; every route in
+  `redirects/legacy-routes.json` has a built bridge page with the right
+  meta-refresh target, noindex, and a working fallback link.
+- **`scripts/qa-playwright.js`** (Chromium only — see the note at the top of
+  that file) — extended with: viewport widths 360/390/768/1024/1440 (was
+  375/768/1024/1440); an assessment above-the-fold check (progress bar +
+  first question both visible without scrolling at four common sizes); a
+  keyboard-operability check for the desktop dropdown nav (Escape closes
+  it, `aria-expanded` toggles correctly); a check that the electrical-
+  upgrade assessment goal skips the solar-bill step entirely (forward and
+  Back); explicit checks on all three lead forms that no success-style
+  affordance (`.assess-success`) can appear and that a "not connected yet"
+  notice (`.lead-pending-notice`) shows instead, with no page navigation
+  (i.e. no live submission attempted); a full legacy-route redirect check
+  (every route in `legacy-routes.json` is visited and asserted to land on
+  its destination); and a nested-404 check that spins up
+  `scripts/qa-pages-server.js` (a small GitHub-Pages-alike static server)
+  and confirms `/Oz-Home-energy-redesign/missing/deep-page` returns a real
+  404 status whose links (anchored to the Pages base path) resolve
+  correctly regardless of depth.
+
+**Safari and Firefox remain unverified** — this repo's QA has only ever run
+against Chromium via Playwright. Do not describe this site as cross-browser
+tested beyond that without an actual WebKit/Firefox pass.

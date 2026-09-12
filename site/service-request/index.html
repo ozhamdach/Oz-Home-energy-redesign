@@ -3,9 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ANALYTICS: NOT ACTIVE. See docs/analytics-integration.md before enabling
+     anything here — activating a tag without confirming the production
+     tracking plan first (GTM container ID, whether GA4/Ads/Meta Pixel are
+     already live elsewhere) risks double-counting conversions. The line
+     below only declares the dataLayer array (standard, recommended GTM
+     practice — queueing events before the container script itself loads)
+     and does not transmit anything anywhere by itself: with no GTM
+     container script installed, nothing ever reads this array. This build
+     already pushes phone-click, email-click, form-start and form-step
+     events into it (see site/js/main.js and site/js/assessment.js), so
+     wiring up real analytics later needs no further code changes here —
+     only inserting the real container snippet Google Tag Manager gives you
+     (head + body <noscript>, per Google's own install instructions) in
+     place of this comment. -->
+<script>window.dataLayer = window.dataLayer || [];</script>
 <title>Service Request | Oz Home Energy Support</title>
 <meta name="description" content="Existing customer with a fault, question or servicing need? Submit a service request and our team will follow up.">
-<link rel="canonical" href="https://www.ozhomeenergy.com.au/service-request/">
+<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
+     production site's www subdomain redirects to this apex domain, so every
+     canonical/OG/schema URL below uses it consistently — pointing them at
+     www would canonicalise against a redirecting hostname. See
+     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+<link rel="canonical" href="https://ozhomeenergy.com.au/service-request/">
 <!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
      only becomes "index, follow" when scripts/build.js is run with
      BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
@@ -15,9 +35,11 @@
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Service Request | Oz Home Energy Support">
 <meta property="og:description" content="Existing customer with a fault, question or servicing need? Submit a service request and our team will follow up.">
-<meta property="og:url" content="https://www.ozhomeenergy.com.au/service-request/">
-<!-- OWNER CONFIRMATION REQUIRED: replace with a real 1200x630 installation photograph before launch -->
-<meta property="og:image" content="https://www.ozhomeenergy.com.au/img/favicon.svg">
+<meta property="og:url" content="https://ozhomeenergy.com.au/service-request/">
+<meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Oz Home Energy — Sydney solar, battery, EV charging and electrical contractor">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +51,7 @@
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Oz Home Energy",
-  "url": "https://www.ozhomeenergy.com.au",
+  "url": "https://ozhomeenergy.com.au",
   "telephone": "+61420113216",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
@@ -54,13 +76,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://www.ozhomeenergy.com.au/"
+      "item": "https://ozhomeenergy.com.au/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Service Request",
-      "item": "https://www.ozhomeenergy.com.au/service-request/"
+      "item": "https://ozhomeenergy.com.au/service-request/"
     }
   ]
 }
@@ -199,7 +221,11 @@
 
 <section class="section">
   <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
-    <form id="serviceRequestForm" data-prototype-form data-service-field="srType" method="post" action="#" novalidate>
+    <!-- No HighLevel connection yet. This maps most closely to the
+         "Service Request" form verified on the current live site (form ID
+         D54fnMMf1LWTXOCNlh28) — reference only, not used to construct any
+         embed markup (see docs/owner-inputs-required.md). -->
+    <form id="serviceRequestForm" data-prototype-form data-service-field="srType" method="post" data-hl-form-ref="D54fnMMf1LWTXOCNlh28 (reference only, unwired)" novalidate>
       <div class="grid grid-2">
         <div class="form-field">
           <label for="srName">Full name</label>
@@ -221,6 +247,9 @@
           <option>System fault or error message</option>
           <option>Performance seems lower than expected</option>
           <option>General servicing / check-up</option>
+          <option value="Solar servicing">Solar servicing</option>
+          <option value="Panel cleaning">Panel cleaning</option>
+          <option value="Bird-proofing">Bird-proofing</option>
           <option>Question about my system</option>
           <option>Other</option>
         </select>
@@ -344,6 +373,6 @@
 </footer>
 
 <script src="/js/main.js" defer></script>
-
+<script src="/js/service-request.js" defer></script>
 </body>
 </html>

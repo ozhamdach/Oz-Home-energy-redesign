@@ -3,9 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ANALYTICS: NOT ACTIVE. See docs/analytics-integration.md before enabling
+     anything here — activating a tag without confirming the production
+     tracking plan first (GTM container ID, whether GA4/Ads/Meta Pixel are
+     already live elsewhere) risks double-counting conversions. The line
+     below only declares the dataLayer array (standard, recommended GTM
+     practice — queueing events before the container script itself loads)
+     and does not transmit anything anywhere by itself: with no GTM
+     container script installed, nothing ever reads this array. This build
+     already pushes phone-click, email-click, form-start and form-step
+     events into it (see site/js/main.js and site/js/assessment.js), so
+     wiring up real analytics later needs no further code changes here —
+     only inserting the real container snippet Google Tag Manager gives you
+     (head + body <noscript>, per Google's own install instructions) in
+     place of this comment. -->
+<script>window.dataLayer = window.dataLayer || [];</script>
 <title>Commercial Solar Installation NSW | Oz Home Energy</title>
 <meta name="description" content="Commercial solar design and installation for businesses across Sydney and NSW. Site assessment, system design and licensed installation from one team.">
-<link rel="canonical" href="https://www.ozhomeenergy.com.au/commercial-solar/">
+<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
+     production site's www subdomain redirects to this apex domain, so every
+     canonical/OG/schema URL below uses it consistently — pointing them at
+     www would canonicalise against a redirecting hostname. See
+     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+<link rel="canonical" href="https://ozhomeenergy.com.au/commercial-solar/">
 <!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
      only becomes "index, follow" when scripts/build.js is run with
      BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
@@ -15,9 +35,11 @@
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Commercial Solar Installation NSW | Oz Home Energy">
 <meta property="og:description" content="Commercial solar design and installation for businesses across Sydney and NSW. Site assessment, system design and licensed installation from one team.">
-<meta property="og:url" content="https://www.ozhomeenergy.com.au/commercial-solar/">
-<!-- OWNER CONFIRMATION REQUIRED: replace with a real 1200x630 installation photograph before launch -->
-<meta property="og:image" content="https://www.ozhomeenergy.com.au/img/favicon.svg">
+<meta property="og:url" content="https://ozhomeenergy.com.au/commercial-solar/">
+<meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Oz Home Energy — Sydney solar, battery, EV charging and electrical contractor">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +51,7 @@
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Oz Home Energy",
-  "url": "https://www.ozhomeenergy.com.au",
+  "url": "https://ozhomeenergy.com.au",
   "telephone": "+61420113216",
   "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
   "address": {
@@ -54,13 +76,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://www.ozhomeenergy.com.au/"
+      "item": "https://ozhomeenergy.com.au/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Commercial Solar",
-      "item": "https://www.ozhomeenergy.com.au/commercial-solar/"
+      "item": "https://ozhomeenergy.com.au/commercial-solar/"
     }
   ]
 }
@@ -227,7 +249,7 @@
     <div class="process-list">
       <div class="process-item"><p class="step-no">Step 1</p><h3>Project enquiry</h3><p>Tell us about the site, your electricity usage and what you're trying to achieve.</p></div>
       <div class="process-item"><p class="step-no">Step 2</p><h3>Site assessment</h3><p>We review recent bills and, where needed, visit site to assess roof, switchboard and supply.</p></div>
-      <div class="process-item"><p class="step-no">Step 3</p><h3>Design &amp; proposal</h3><p>A system design and quotation matched to your site, supported by GreenSketch.</p></div>
+      <div class="process-item"><p class="step-no">Step 3</p><h3>Design &amp; proposal</h3><p>A tailored system design and clear written proposal matched to your site.</p></div>
       <div class="process-item"><p class="step-no">Step 4</p><h3>Install &amp; commission</h3><p>Licensed installation, DNSP approval and commissioning, with documentation for your records.</p></div>
     </div>
   </div>

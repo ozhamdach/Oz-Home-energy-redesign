@@ -2,11 +2,15 @@
 
 No stock photography, AI-generated imagery, or images of installations not
 actually completed by Oz Home Energy appear anywhere in this build. Every
-image slot is a clearly labelled placeholder (`.placeholder-media` — a
-dashed-border diagonal-hatch block with a bracketed instruction, e.g.
-`[REPLACE WITH REAL PHOTO: ...]`) so nothing can accidentally ship or be
-mistaken for a real installation. This list is the shoot brief for replacing
-them.
+image slot instead renders as a deliberate, on-brand icon treatment
+(`.visual-panel` in `site/css/styles.css` — a soft blue-gradient panel with
+a brand-coloured line icon), never a dashed "placeholder" box or bracketed
+"replace this" instruction — nothing here could be mistaken for a real
+installation, and nothing looks unfinished either. This document is the
+shoot brief and priority order; see `docs/asset-manifest.md` for the exact
+dimensions, crop, filename and required alt text once real photos exist,
+and for the EXIF-stripping/responsive-image pipeline every photo goes
+through before publishing.
 
 ## Priority 1 — needed to launch the homepage credibly
 
@@ -67,11 +71,13 @@ them.
 
 ## Where each image slot lives in the code
 
-Every placeholder in `site/**/index.html` carries the exact instruction as
-visible text inside a `.placeholder-media` div, so a non-technical reviewer
-can grep the built HTML for `REPLACE WITH REAL PHOTO` and get the full list
-with page context:
+Every spot a photo will eventually go is a `<span class="visual-panel">…svg
+icon…</span>` block in the relevant `src/pages/<slug>/content.html` — grep
+for it to find every slot with page context:
 
 ```
-grep -rn "REPLACE WITH REAL" site --include=*.html
+grep -rln "visual-panel" src/pages
 ```
+
+See `docs/asset-manifest.md` for exactly which real file replaces which
+slot, and the `<picture>`/`srcset` markup pattern to replace it with.

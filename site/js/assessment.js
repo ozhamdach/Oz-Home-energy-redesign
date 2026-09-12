@@ -24,10 +24,19 @@
     5: 'How should we reach you?',
   };
 
+  // See docs/analytics-integration.md — a no-op until a real GTM container
+  // is installed (site/js/main.js declares the same pushEvent pattern; kept
+  // local here since this file already owns all step-change logic).
+  function pushEvent(name, data) {
+    if (!window.dataLayer) return;
+    window.dataLayer.push(Object.assign({ event: name }, data || {}));
+  }
+
   function showStep(n, moveFocus) {
     steps.forEach(function (s) {
       s.classList.toggle('is-active', parseInt(s.getAttribute('data-step'), 10) === n);
     });
+    pushEvent('form_step', { form_id: 'assessmentForm', step: n });
     fill.style.width = Math.round((n / total) * 100) + '%';
     if (progressBar) progressBar.setAttribute('aria-valuenow', String(n));
     stepLabel.textContent = 'Step ' + n + ' of ' + total;
@@ -93,17 +102,32 @@
     return valid;
   }
 
+  // Step 3 asks about existing solar/battery and the electricity bill — a
+  // useful sizing input for a solar/battery/EV enquiry, but irrelevant (and
+  // a real drop-off risk) for someone who just wants an electrical/
+  // switchboard job looked at. Skip it entirely for that goal rather than
+  // asking every visitor a solar-bill question regardless of what they
+  // came in for.
+  function goalSkipsBillingStep() {
+    var goalEl = form.querySelector('input[name="goal"]:checked');
+    return !!goalEl && goalEl.value === 'Upgrade my electrical system';
+  }
+
   nextBtn.addEventListener('click', function () {
     if (!validateStep(currentStepEl())) return;
-    if (current < total) {
-      current += 1;
+    var next = current + 1;
+    if (next === 3 && goalSkipsBillingStep()) next = 4;
+    if (next <= total) {
+      current = next;
       showStep(current, true);
     }
   });
 
   backBtn.addEventListener('click', function () {
-    if (current > 1) {
-      current -= 1;
+    var prev = current - 1;
+    if (prev === 3 && goalSkipsBillingStep()) prev = 2;
+    if (prev >= 1) {
+      current = prev;
       showStep(current, true);
     }
   });
@@ -162,43 +186,36 @@
     }
   })();
 
+  // No live HighLevel connection exists yet — see the data-hl-form-ref
+  // attribute on this <form> and docs/owner-inputs-required.md's
+  // integration checklist. This deliberately does NOT show any success/
+  // "noted" state: a lead was not received, so nothing here may look like
+  // confirmation that it was. See docs/04-highlevel-integration.md.
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!validateStep(currentStepEl())) return;
 
     var goalEl = form.querySelector('input[name="goal"]:checked');
-    var typeEl = form.querySelector('input[name="propertyOwner"]:checked');
-    var suburb = document.getElementById('suburb').value;
-    var name = document.getElementById('fullName').value;
-
     var serviceOut = document.getElementById('selected_service');
     if (serviceOut) serviceOut.value = goalEl ? goalEl.value : '';
-    var tsOut = document.getElementById('submitted_at');
-    if (tsOut) tsOut.value = new Date().toISOString();
+    // submitted_at is intentionally NOT set here — see main.js's equivalent
+    // note; it should reflect a genuine HighLevel submission, not a click
+    // on a form with nowhere to send it yet.
 
     var wrap = document.getElementById('assessSuccess');
     form.style.display = 'none';
     document.querySelector('.assess-progress').style.display = 'none';
     wrap.style.display = 'block';
     wrap.innerHTML =
-      '<div class="assess-success">' +
-      '<div class="icon-circle"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="#0540C1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-      '<h2>Thanks' + (name ? ', ' + escapeHtml(name.split(' ')[0]) : '') + ' — that\'s been noted.</h2>' +
-      '<p class="lede" style="margin-inline:auto;">This is a design prototype: your answers were not sent anywhere. Once connected to Oz Home Energy\'s CRM, a submission like this — ' +
-      (goalEl ? '"' + escapeHtml(goalEl.value) + '"' : 'your enquiry') +
-      (typeEl ? ' (' + escapeHtml(typeEl.value) + (suburb ? ', ' + escapeHtml(suburb) : '') + ')' : '') +
-      ' — will reach the right pipeline and the right team member automatically.</p>' +
-      '<p><a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216 instead</a></p>' +
+      '<div class="lead-pending-notice" role="status">' +
+      '<div class="icon-circle"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0540C1" stroke-width="1.8"/><path d="M12 8v5m0 3v.01" stroke="#0540C1" stroke-width="2" stroke-linecap="round"/></svg></div>' +
+      '<h2>This form isn’t connected yet</h2>' +
+      '<p class="lede" style="margin-inline:auto;">This website is still in development — nothing you entered was sent anywhere. Please call us directly and we can help right away.</p>' +
+      '<p><a class="btn btn-primary" href="tel:0420113216">Call 0420 113 216</a></p>' +
       '</div>';
     wrap.setAttribute('tabindex', '-1');
     wrap.focus();
   });
-
-  function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
 
   showStep(current);
 })();

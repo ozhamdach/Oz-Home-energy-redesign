@@ -1,0 +1,18 @@
+{
+  "_comment": "Publication gates for sections that are only real once genuine, owner-approved content exists behind them (see docs/owner-inputs-required.md). `published: true` means the production build indexes the page and includes it in primary navigation and the sitemap; `published: false` means the page still builds (so it's reviewable in preview and stays live for development) but a production build marks it noindex and removes it from nav/sitemap — never shown to customers as 'coming soon'. Flip a flag to true only once its `requiredForPublish` conditions are actually met, and record what was supplied in docs/owner-inputs-required.md.",
+  "projects": {
+    "published": false,
+    "requiredForPublish": "At least three owner-approved, real completed-project case studies (see docs/07-owner-confirmations.md and docs/05-photography-shotlist.md).",
+    "currentCount": 0
+  },
+  "products": {
+    "published": false,
+    "requiredForPublish": "Owner-approved brands/models actually supplied, with source-confirmed specifications and warranty wording (see docs/owner-inputs-required.md).",
+    "currentCount": 0
+  },
+  "learningCentre": {
+    "published": true,
+    "requiredForPublish": "Complete, useful articles with no unanswered-question cards. Currently met: every section is a finished, substantive answer, not a stub.",
+    "currentCount": 12
+  }
+}

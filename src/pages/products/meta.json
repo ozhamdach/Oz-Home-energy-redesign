@@ -2,6 +2,7 @@
   "title": "Products & Brands | Oz Home Energy",
   "description": "The panels, inverters, batteries and EV chargers Oz Home Energy supplies and supports — a considered product range rather than every brand on the market.",
   "canonical": "/products/",
+  "publishGate": "products",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Products & Brands", "url": "/products/" }

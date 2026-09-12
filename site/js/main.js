@@ -1,6 +1,44 @@
 (function () {
   'use strict';
 
+  // Analytics integration points — see docs/analytics-integration.md and the
+  // comment on window.dataLayer's declaration in src/layout.html. Pushing to
+  // this array is a no-op for anyone's actual analytics until a real GTM
+  // container is installed; it exists now so wiring one up later needs no
+  // further code changes.
+  function pushEvent(name, data) {
+    if (!window.dataLayer) return;
+    window.dataLayer.push(Object.assign({ event: name }, data || {}));
+  }
+
+  // Phone/email click-to-contact events. No "lead received" event is fired
+  // anywhere client-side — see the note above the prototype-form handler
+  // below for why that has to come from HighLevel/the server side instead.
+  document.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      pushEvent('phone_click', { link_url: a.getAttribute('href') });
+    });
+  });
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      pushEvent('email_click', { link_url: a.getAttribute('href') });
+    });
+  });
+  // One form_start event per form, on first interaction — not on page load,
+  // so this reflects genuine engagement rather than every pageview.
+  document.querySelectorAll('form[data-prototype-form], #assessmentForm').forEach(function (form) {
+    var started = false;
+    form.addEventListener(
+      'focusin',
+      function () {
+        if (started) return;
+        started = true;
+        pushEvent('form_start', { form_id: form.id });
+      },
+      true
+    );
+  });
+
   // Sitewide attribution capture: store first-touch UTM/click params so they
   // survive navigation to the assessment form, even if the visitor lands on
   // a service page first. Never overwrites an existing stored value.
@@ -126,10 +164,13 @@
     }
   });
 
-  // Prototype form handling: no live backend is connected yet, so submissions
-  // are validated client-side and replaced with a clear placeholder confirmation
-  // rather than posting anywhere. Wire to HighLevel before launch — see
-  // docs/04-highlevel-integration.md for the field mapping and routing spec.
+  // No live HighLevel connection exists yet on this form (see the
+  // data-hl-form-ref attribute on the <form> itself, and
+  // docs/owner-inputs-required.md's integration checklist for exactly what
+  // has to be supplied before it can go live). It has no `action`, is
+  // always intercepted here, and — critically — never shows any success
+  // affordance: a lead was NOT received, so nothing here may look like a
+  // confirmation that it was. See docs/04-highlevel-integration.md.
   document.querySelectorAll('form[data-prototype-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -137,9 +178,6 @@
         form.reportValidity();
         return;
       }
-
-      var tsField = form.querySelector('input[name="submitted_at"]');
-      if (tsField) tsField.value = new Date().toISOString();
 
       var serviceFieldName = form.getAttribute('data-service-field');
       var serviceOut = form.querySelector('input[name="selected_service"]');
@@ -154,14 +192,18 @@
         });
         serviceOut.value = vals.join(', ');
       }
+      // submitted_at is intentionally NOT set here — that timestamp should
+      // reflect when a submission genuinely reaches HighLevel, not when a
+      // disabled preview form was clicked.
 
       var wrap = document.createElement('div');
-      wrap.className = 'assess-success';
+      wrap.className = 'lead-pending-notice';
+      wrap.setAttribute('role', 'status');
       wrap.innerHTML =
-        '<div class="icon-circle"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="#0540C1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-        '<h2>Thanks — that\'s been noted.</h2>' +
-        '<p class="lede" style="margin-inline:auto;">This is a design prototype: your details were not sent anywhere. Once this form is connected to Oz Home Energy\'s CRM, submissions here will reach the team directly.</p>' +
-        '<p><a class="btn btn-secondary" href="tel:0420113216">Call 0420 113 216 instead</a></p>';
+        '<div class="icon-circle"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0540C1" stroke-width="1.8"/><path d="M12 8v5m0 3v.01" stroke="#0540C1" stroke-width="2" stroke-linecap="round"/></svg></div>' +
+        '<h2>This form isn’t connected yet</h2>' +
+        '<p class="lede" style="margin-inline:auto;">This website is still in development — nothing you entered was sent anywhere. Please call us directly and we can help right away.</p>' +
+        '<p><a class="btn btn-primary" href="tel:0420113216">Call 0420 113 216</a></p>';
       form.replaceWith(wrap);
       wrap.setAttribute('tabindex', '-1');
       wrap.focus();

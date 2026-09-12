@@ -1,5 +1,11 @@
 # Master List — Everything Requiring Owner Confirmation Before Publishing
 
+**Superseded by `docs/owner-inputs-required.md`.** That document is now the
+current, maintained master checklist (it folds in this pass's additional
+claims, the HighLevel integration checklist, and the legal/business detail
+list). This file is kept for the detailed historical audit context below,
+but treat the newer document as authoritative for what's still outstanding.
+
 Nothing on this list is published as fact anywhere in this build. Search the
 built site for any stray marker with:
 `grep -rn "OWNER CONFIRMATION REQUIRED" site --include=*.html` — this should

@@ -9,7 +9,11 @@
 
 <section class="section">
   <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
-    <form id="serviceRequestForm" data-prototype-form data-service-field="srType" method="post" action="#" novalidate>
+    <!-- No HighLevel connection yet. This maps most closely to the
+         "Service Request" form verified on the current live site (form ID
+         D54fnMMf1LWTXOCNlh28) — reference only, not used to construct any
+         embed markup (see docs/owner-inputs-required.md). -->
+    <form id="serviceRequestForm" data-prototype-form data-service-field="srType" method="post" data-hl-form-ref="D54fnMMf1LWTXOCNlh28 (reference only, unwired)" novalidate>
       <div class="grid grid-2">
         <div class="form-field">
           <label for="srName">Full name</label>
@@ -31,6 +35,9 @@
           <option>System fault or error message</option>
           <option>Performance seems lower than expected</option>
           <option>General servicing / check-up</option>
+          <option value="Solar servicing">Solar servicing</option>
+          <option value="Panel cleaning">Panel cleaning</option>
+          <option value="Bird-proofing">Bird-proofing</option>
           <option>Question about my system</option>
           <option>Other</option>
         </select>

@@ -1,41 +1,69 @@
 # Production redirect configuration for ozhomeenergy.com.au
 #
+# GENERATED FILE — do not hand-edit. Source of truth: redirects/legacy-routes.json
+# (run `node scripts/build-redirects.js` to regenerate).
+#
 # Format: Netlify/Cloudflare Pages-style `_redirects` (source destination code).
-# This is a starting, host-agnostic file to translate into whatever the
-# production host actually needs (nginx `return 301`, Apache `.htaccess`
-# RewriteRule, or your hosting platform's redirect rules) — GitHub Pages,
-# where this preview is hosted, cannot serve server-side redirects at all,
-# so nothing here is live; it is prepared for the real production host.
+# Host-agnostic starting point — translate into whatever the production host
+# actually needs (nginx `return 301`/`302`, Apache `.htaccess` RewriteRule, a
+# platform-specific redirects config, etc). GitHub Pages, where the preview
+# in this repo is hosted, CANNOT serve real server-side redirects at all — see
+# docs/legacy-url-migration.md for what this repo does instead for the preview
+# (a client-side compatibility bridge page, not a substitute for this file).
 #
-# CONFIRMED mappings (new URL exists on this site, old→new is unambiguous):
-/battery-storage-installation/  /battery-storage/              301
-/battery-storage-installation   /battery-storage/               301
-/about-us/                       /about/                        301
-/about-us                        /about/                        301
-/solar-panel-bird-proofing/      /bird-proofing/                301
-/solar-panel-bird-proofing       /bird-proofing/                301
-/terms-and-conditions/           /terms/                        301
-/terms-and-conditions            /terms/                        301
+# 301 = confirmed permanent mapping to a page that now exists.
+# 302 = temporary — a location route preserved so it never 404s, pending real
+#       localized content; do NOT convert to 301 until that content exists.
 
-# NOT included below — deliberately, per working rule "do not guess":
-#
-# /commercial-project-enquires  — brief flags this needs investigation
-#   before mapping. It may have been serving commercial ELECTRICAL enquiries
-#   rather than the new dedicated /commercial-project-enquiry/ form. Before
-#   finalising: check Search Console for what this URL currently ranks for
-#   and what its backlinks/referrers expect, and check any ad campaigns or
-#   business cards printing this URL. See docs/03-seo-redirects-metadata.md.
-#
-# Existing location pages — this rebuild ships ONE consolidated /locations/
-#   page (seeon the design-system doc for why). Do NOT redirect every old
-#   location URL here to /locations/ without first exporting the current
-#   site's actual location URL list from Search Console/a full crawl — some
-#   may carry meaningful direct traffic or backlinks that a blanket redirect
-#   would silently swallow. Add each one here individually once confirmed.
-#
-# Full current-site URL list — this sandbox could not crawl ozhomeenergy.com.au
-#   directly (see docs/01-audit-and-positioning.md), so this file only covers
-#   the specific old URLs named in the working brief. Before go-live, export
-#   every indexed URL (Search Console → Pages, plus a full crawl) and add a
-#   1:1 mapping for anything not already covered by the confirmed rules above
-#   or by the sitemap in docs/02-sitemap-and-design-system.md.
+/home                            /                              301
+/home/                           /                              301
+/solar                           /residential-solar/            301
+/solar/                          /residential-solar/            301
+/solar-installation              /residential-solar/            301
+/solar-installation/             /residential-solar/            301
+/solar--battery-upgrades         /solar-battery-upgrades/       301
+/solar--battery-upgrades/        /solar-battery-upgrades/       301
+/solar-panel-cleaning            /panel-cleaning/               301
+/solar-panel-cleaning/           /panel-cleaning/               301
+/solar-panel-bird-proofing       /bird-proofing/                301
+/solar-panel-bird-proofing/      /bird-proofing/                301
+/ev-charger-installation         /ev-charging/                  301
+/ev-charger-installation/        /ev-charging/                  301
+/battery-storage-installation    /battery-storage/              301
+/battery-storage-installation/   /battery-storage/              301
+/electrical                      /residential-electrical/       301
+/electrical/                     /residential-electrical/       301
+/commercial-project-enquires     /commercial-project-enquiry/   301
+/commercial-project-enquires/    /commercial-project-enquiry/   301
+/about-us                        /about/                        301
+/about-us/                       /about/                        301
+/contact-us                      /assessment/                   301
+/contact-us/                     /assessment/                   301
+/terms-and-conditions            /terms/                        301
+/terms-and-conditions/           /terms/                        301
+/greater-sydney                  /locations/                    302
+/greater-sydney/                 /locations/                    302
+/canterbury-bankstown            /locations/                    302
+/canterbury-bankstown/           /locations/                    302
+/south-western-sydney            /locations/                    302
+/south-western-sydney/           /locations/                    302
+/western-sydney                  /locations/                    302
+/western-sydney/                 /locations/                    302
+/inner-west-sydney               /locations/                    302
+/inner-west-sydney/              /locations/                    302
+/liverpool-and-fairfield         /locations/                    302
+/liverpool-and-fairfield/        /locations/                    302
+/parramatta-and-auburn           /locations/                    302
+/parramatta-and-auburn/          /locations/                    302
+/blacktown-and-penrith           /locations/                    302
+/blacktown-and-penrith/          /locations/                    302
+/campbelltown-and-camden         /locations/                    302
+/campbelltown-and-camden/        /locations/                    302
+
+# NOT included above — every current-site URL not named in the working brief.
+# This sandbox could not crawl ozhomeenergy.com.au directly (see
+# docs/01-audit-and-positioning.md), so this file only covers the specific
+# old URLs the brief named plus the existing location routes. Before go-live,
+# export the full indexed URL list (Search Console -> Pages, plus a full
+# crawl) and add a 1:1 mapping for anything not already covered here — see
+# docs/legacy-url-migration.md.

@@ -48,44 +48,17 @@ any unverified superlative — consistent with the claims policy.
 
 ## Redirect map
 
-A real, host-agnostic redirect **configuration** now exists at
-`redirects/_redirects` (Netlify/Cloudflare Pages format — translate into
-nginx/Apache/whatever the production host actually needs) and
-`redirects/redirects.json` (the same mappings, for programmatic use). This
-is deliberately smaller than a full site migration's redirect map — it only
-contains routes this build can confirm with confidence:
+**Superseded by `docs/legacy-url-migration.md`** — that document is now the
+canonical source for the redirect map, the production-origin decision
+(apex `ozhomeenergy.com.au`, not `www`), the distinction between this
+repo's GitHub Pages compatibility bridge pages and a real production 301/302,
+and host-specific deployment guidance. This section is kept short
+deliberately to avoid two documents disagreeing with each other as the
+mapping evolves.
 
-| Old URL | New URL | Confidence |
-|---|---|---|
-| `/battery-storage-installation` | `/battery-storage/` | Confirmed — unambiguous 1:1 match |
-| `/about-us` | `/about/` | Confirmed — unambiguous 1:1 match |
-| `/solar-panel-bird-proofing` | `/bird-proofing/` | Confirmed — unambiguous 1:1 match |
-| `/terms-and-conditions` | `/terms/` | Confirmed — unambiguous 1:1 match |
-
-**Deliberately NOT included, and why** (per the working rule "do not guess"):
-
-- **`/commercial-project-enquires`** — its current intent may match
-  commercial *electrical* services rather than the new dedicated
-  `/commercial-project-enquiry/` form. Before mapping it anywhere, check
-  Search Console for what it currently ranks for, and check any live ad
-  campaigns or printed material pointing at it.
-- **Existing location pages** — this rebuild ships one consolidated
-  `/locations/` page by design (see `02-sitemap-and-design-system.md` for
-  why), but that does **not** mean every old location URL should blindly
-  301 there. Some may carry direct traffic or backlinks a blanket redirect
-  would silently swallow. Map each one individually once the current
-  location-page URL list is confirmed.
-- **Every other current-site URL** — this sandbox could not crawl
-  `ozhomeenergy.com.au` directly (see `01-audit-and-positioning.md`), so
-  this redirect file only covers the specific old URLs the working brief
-  named. Before go-live: export the full indexed URL list from Search
-  Console (Pages report) plus a full crawl, and add a 1:1 mapping for
-  anything not already covered above or by the sitemap in
-  `02-sitemap-and-design-system.md`. Do not delete pages without a
-  corresponding redirect — every 404 is lost equity and, at volume, a
-  crawl-budget and trust signal. **Verify every mapping against Search
-  Console before finalising** — this file is a starting point, not a
-  substitute for that audit.
+The single source of truth for every mapping is `redirects/legacy-routes.json`;
+`redirects/_redirects` and `redirects/redirects.json` are generated from it
+by `node scripts/build-redirects.js` — don't hand-edit those two.
 
 ## Internal linking
 

@@ -36,6 +36,12 @@ fs.copyFileSync(path.join(SITE, 'robots.txt'), path.join(OUT, 'robots.txt'));
 fs.copyFileSync(path.join(SITE, 'sitemap.xml'), path.join(OUT, 'sitemap.xml'));
 
 const ATTR_RE = /(href|src)="(\/[^"]*)"/g;
+// Legacy-route compatibility bridge pages (scripts/build.js) carry their
+// redirect target inside a <meta http-equiv="refresh" content="0; url=/foo/">
+// tag, not an href/src — needs the exact same root-relative -> relative
+// rewrite as every other link on the page, or the bridge page would loop
+// back into a 404 on GitHub Pages once this page's own URL rewriting runs.
+const REFRESH_RE = /(<meta http-equiv="refresh" content="\d+;\s*url=)(\/[^"]*)(")/g;
 
 function rewriteValue(value, prefix) {
   const m = value.match(/^([^?#]*)([?#].*)?$/);
@@ -50,7 +56,9 @@ function rewriteValue(value, prefix) {
 }
 
 function rewriteHtml(html, prefix) {
-  return html.replace(ATTR_RE, (m, attr, value) => `${attr}="${rewriteValue(value, prefix)}"`);
+  return html
+    .replace(ATTR_RE, (m, attr, value) => `${attr}="${rewriteValue(value, prefix)}"`)
+    .replace(REFRESH_RE, (m, pre, value, post) => `${pre}${rewriteValue(value, prefix)}${post}`);
 }
 
 // Every page is one level deep (site/<slug>/index.html) except the home
@@ -73,22 +81,39 @@ const homeHtml = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
 fs.writeFileSync(path.join(OUT, 'index.html'), rewriteHtml(homeHtml, ''), 'utf8');
 count++;
 
-// GitHub Pages serves this file (with a real 404 status) for any unmatched
-// route under the project site — site/404.html is the same branded page
-// scripts/build.js writes for the real domain; just needs the same
-// root-relative-to-relative path rewrite as every other page here.
+// GitHub Pages serves 404.html (with a real 404 HTTP status) for ANY
+// unmatched route under the project site, at ANY depth — e.g.
+// /Oz-Home-energy-redesign/missing/deep-page. A path-relative rewrite (the
+// same one every other page here gets) breaks for that case: relative links
+// resolve against the *requested* URL's directory, so a link meant to reach
+// the site root instead lands one or more folders too deep, 404-ing again.
+// The fix is to anchor every link in this one file to an absolute path that
+// includes the known GitHub Pages project-site base path — absolute-root
+// paths resolve identically regardless of how deep the missing URL was,
+// unlike this build's usual "../"-style relative rewrite, which assumes
+// every page sits exactly one level below the site root (true for every
+// normal page, never true for a 404 served under an arbitrary missing
+// path). The PAGES_BASE_PATH must match this repo's actual GitHub Pages
+// project path; override it via env if the repo is ever renamed or moved.
+const PAGES_BASE_PATH = process.env.PAGES_BASE_PATH || '/Oz-Home-energy-redesign';
+// Reuses the same rewriteValue()/rewriteHtml() logic (including the
+// "/foo/" -> "foo/index.html" directory-index-safe suffixing) every other
+// page gets — just with an absolute base prefix instead of a "../"-style
+// relative one, so the result is depth-independent instead of depth-0-only.
 const notFoundHtml = fs.readFileSync(path.join(SITE, '404.html'), 'utf8');
-fs.writeFileSync(path.join(OUT, '404.html'), rewriteHtml(notFoundHtml, ''), 'utf8');
+fs.writeFileSync(path.join(OUT, '404.html'), rewriteHtml(notFoundHtml, PAGES_BASE_PATH + '/'), 'utf8');
 
 console.log(`Built ${count} pages into ${OUT} (relative paths, subpath-safe)`);
 
-// Sanity check: no root-relative refs should remain
+// Sanity check: no root-relative refs should remain, EXCEPT 404.html, whose
+// links are deliberately absolute-with-base (see above) rather than
+// relative — that's correct, not leftover, so it's checked separately.
 let leftover = 0;
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(p);
-    else if (entry.name.endsWith('.html')) {
+    else if (entry.name.endsWith('.html') && p !== path.join(OUT, '404.html')) {
       const txt = fs.readFileSync(p, 'utf8');
       const matches = txt.match(ATTR_RE);
       if (matches) leftover += matches.length;
@@ -96,5 +121,14 @@ function walk(dir) {
   }
 }
 walk(OUT);
+
+// 404.html's own sanity check: every href/src must start with PAGES_BASE_PATH
+// (not be genuinely root-relative, and not still be missing it).
+const notFoundOut = fs.readFileSync(path.join(OUT, '404.html'), 'utf8');
+const badRefs = (notFoundOut.match(ATTR_RE) || []).filter((m) => !m.includes(`="${PAGES_BASE_PATH}/`));
+if (badRefs.length) {
+  console.log('404.html has refs not anchored to PAGES_BASE_PATH:', badRefs);
+  leftover += badRefs.length;
+}
 console.log('Leftover root-relative refs:', leftover);
 if (leftover > 0) process.exitCode = 1;

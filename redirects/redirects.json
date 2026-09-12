@@ -1,9 +1,225 @@
 {
-  "_comment": "Confirmed 301 redirects only — see _redirects in this folder and docs/03-seo-redirects-metadata.md for what's deliberately NOT included yet and why (commercial-project-enquires ambiguity, existing location pages, and the fact that the full current-site URL list has not been exported from Search Console). Host-agnostic JSON for whatever production redirect mechanism is used (Cloudflare Worker, Express middleware, nginx map file generator, etc.).",
+  "_comment": "GENERATED FILE — do not hand-edit. Source of truth: redirects/legacy-routes.json (run `node scripts/build-redirects.js` to regenerate). Host-agnostic JSON for whatever production redirect mechanism is used (Cloudflare Worker, Express middleware, nginx map file generator, etc). See docs/legacy-url-migration.md for the full migration plan, including why GitHub Pages (this repo’s preview host) cannot serve any of these as real HTTP redirects.",
   "redirects": [
-    { "from": "/battery-storage-installation", "to": "/battery-storage/", "status": 301 },
-    { "from": "/about-us", "to": "/about/", "status": 301 },
-    { "from": "/solar-panel-bird-proofing", "to": "/bird-proofing/", "status": 301 },
-    { "from": "/terms-and-conditions", "to": "/terms/", "status": 301 }
+    {
+      "from": "/home",
+      "to": "/",
+      "status": 301
+    },
+    {
+      "from": "/home/",
+      "to": "/",
+      "status": 301
+    },
+    {
+      "from": "/solar",
+      "to": "/residential-solar/",
+      "status": 301
+    },
+    {
+      "from": "/solar/",
+      "to": "/residential-solar/",
+      "status": 301
+    },
+    {
+      "from": "/solar-installation",
+      "to": "/residential-solar/",
+      "status": 301
+    },
+    {
+      "from": "/solar-installation/",
+      "to": "/residential-solar/",
+      "status": 301
+    },
+    {
+      "from": "/solar--battery-upgrades",
+      "to": "/solar-battery-upgrades/",
+      "status": 301
+    },
+    {
+      "from": "/solar--battery-upgrades/",
+      "to": "/solar-battery-upgrades/",
+      "status": 301
+    },
+    {
+      "from": "/solar-panel-cleaning",
+      "to": "/panel-cleaning/",
+      "status": 301
+    },
+    {
+      "from": "/solar-panel-cleaning/",
+      "to": "/panel-cleaning/",
+      "status": 301
+    },
+    {
+      "from": "/solar-panel-bird-proofing",
+      "to": "/bird-proofing/",
+      "status": 301
+    },
+    {
+      "from": "/solar-panel-bird-proofing/",
+      "to": "/bird-proofing/",
+      "status": 301
+    },
+    {
+      "from": "/ev-charger-installation",
+      "to": "/ev-charging/",
+      "status": 301
+    },
+    {
+      "from": "/ev-charger-installation/",
+      "to": "/ev-charging/",
+      "status": 301
+    },
+    {
+      "from": "/battery-storage-installation",
+      "to": "/battery-storage/",
+      "status": 301
+    },
+    {
+      "from": "/battery-storage-installation/",
+      "to": "/battery-storage/",
+      "status": 301
+    },
+    {
+      "from": "/electrical",
+      "to": "/residential-electrical/",
+      "status": 301
+    },
+    {
+      "from": "/electrical/",
+      "to": "/residential-electrical/",
+      "status": 301
+    },
+    {
+      "from": "/commercial-project-enquires",
+      "to": "/commercial-project-enquiry/",
+      "status": 301
+    },
+    {
+      "from": "/commercial-project-enquires/",
+      "to": "/commercial-project-enquiry/",
+      "status": 301
+    },
+    {
+      "from": "/about-us",
+      "to": "/about/",
+      "status": 301
+    },
+    {
+      "from": "/about-us/",
+      "to": "/about/",
+      "status": 301
+    },
+    {
+      "from": "/contact-us",
+      "to": "/assessment/",
+      "status": 301
+    },
+    {
+      "from": "/contact-us/",
+      "to": "/assessment/",
+      "status": 301
+    },
+    {
+      "from": "/terms-and-conditions",
+      "to": "/terms/",
+      "status": 301
+    },
+    {
+      "from": "/terms-and-conditions/",
+      "to": "/terms/",
+      "status": 301
+    },
+    {
+      "from": "/greater-sydney",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/greater-sydney/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/canterbury-bankstown",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/canterbury-bankstown/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/south-western-sydney",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/south-western-sydney/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/western-sydney",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/western-sydney/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/inner-west-sydney",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/inner-west-sydney/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/liverpool-and-fairfield",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/liverpool-and-fairfield/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/parramatta-and-auburn",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/parramatta-and-auburn/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/blacktown-and-penrith",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/blacktown-and-penrith/",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/campbelltown-and-camden",
+      "to": "/locations/",
+      "status": 302
+    },
+    {
+      "from": "/campbelltown-and-camden/",
+      "to": "/locations/",
+      "status": 302
+    }
   ]
 }

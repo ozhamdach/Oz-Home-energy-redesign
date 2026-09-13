@@ -1,0 +1,190 @@
+<section class="page-banner" style="padding-block:20px 16px;">
+  <div class="container">
+    <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Commercial Battery Assessment</p>
+    <h1 style="font-size:clamp(1.5rem, 1.2rem + 1.6vw, 2.1rem); margin-bottom:6px;">NSW commercial battery assessment</h1>
+    <p class="lede" style="font-size:0.95rem; margin-bottom:0;">For NSW apartment buildings (4 or more dwellings) and businesses. Two minutes, no obligation.</p>
+  </div>
+</section>
+
+<section class="section-tight" style="padding-block:20px clamp(40px, 6vw, 72px);">
+  <div class="container">
+    <div class="grid grid-2" style="gap:48px;align-items:flex-start;">
+      <div class="assess-wrap" style="max-width:none;">
+
+        <div class="why-we-ask" style="margin-bottom:24px;">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <p>From 1 September 2026, the NSW Peak Demand Reduction Scheme offers incentives for battery storage at eligible apartment buildings (4+ dwellings) and small/medium businesses. This form is a short preliminary check, not a final eligibility decision — that depends on details a site visit confirms. Nothing here is guaranteed or invented; if a question doesn't apply to you, "not sure" is a fine answer.</p>
+        </div>
+
+        <form id="bessForm" method="post" novalidate>
+          <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+            <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.98rem;margin-bottom:10px;">What kind of site is this?</legend>
+            <div class="radio-cards radio-cards-wide">
+              <div class="radio-card"><input type="radio" id="siteType1" name="siteType" value="apartment_4plus" required><label for="siteType1">An apartment building with 4 or more dwellings</label></div>
+              <div class="radio-card"><input type="radio" id="siteType2" name="siteType" value="commercial_business"><label for="siteType2">A commercial or business premises</label></div>
+              <div class="radio-card"><input type="radio" id="siteType3" name="siteType" value="single_home"><label for="siteType3">A single home</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="siteTypeError">Please choose an option to continue.</p>
+          </fieldset>
+
+          <!-- Shown only when siteType = single_home. Not a dead end: this
+               campaign is scoped to apartment/business PDRS activities, but
+               a single-home visitor is still a real prospect for the
+               existing residential battery service — redirected there
+               instead of being left with a form that doesn't apply. -->
+          <div id="singleHomeBlock" hidden class="card" style="margin-bottom:24px;">
+            <h3 class="mt-0">This assessment is for apartment buildings and businesses</h3>
+            <p>The NSW battery incentive this page covers doesn't apply to a single home — but Oz Home Energy still installs residential battery storage, and a quicker path exists for that.</p>
+            <p><a class="btn btn-primary" href="/battery-storage/">Go to residential battery storage</a></p>
+          </div>
+
+          <!-- Shown only when siteType = apartment_4plus -->
+          <div id="apartmentBlock" hidden>
+            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Roughly how many dwellings?</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="dwellingBand1" name="dwellingBand" value="4-9"><label for="dwellingBand1">4–9</label></div>
+                <div class="radio-card"><input type="radio" id="dwellingBand2" name="dwellingBand" value="10-24"><label for="dwellingBand2">10–24</label></div>
+                <div class="radio-card"><input type="radio" id="dwellingBand3" name="dwellingBand" value="25-49"><label for="dwellingBand3">25–49</label></div>
+                <div class="radio-card"><input type="radio" id="dwellingBand4" name="dwellingBand" value="50-plus"><label for="dwellingBand4">50 or more</label></div>
+                <div class="radio-card"><input type="radio" id="dwellingBand5" name="dwellingBand" value="under-4"><label for="dwellingBand5">Fewer than 4</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="dwellingBandError">Please choose an option to continue.</p>
+            </fieldset>
+            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Your role</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="apartmentRole1" name="apartmentRole" value="strata-committee"><label for="apartmentRole1">Strata committee / owners corporation</label></div>
+                <div class="radio-card"><input type="radio" id="apartmentRole2" name="apartmentRole" value="strata-manager"><label for="apartmentRole2">Strata or building manager</label></div>
+                <div class="radio-card"><input type="radio" id="apartmentRole3" name="apartmentRole" value="resident"><label for="apartmentRole3">Resident or owner, no formal authority</label></div>
+                <div class="radio-card"><input type="radio" id="apartmentRole4" name="apartmentRole" value="other"><label for="apartmentRole4">Other</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="apartmentRoleError">Please choose an option to continue.</p>
+            </fieldset>
+          </div>
+
+          <!-- Shown only when siteType = commercial_business -->
+          <div id="businessBlock" hidden>
+            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Your role</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="businessRole1" name="businessRole" value="owner-director"><label for="businessRole1">Owner / director</label></div>
+                <div class="radio-card"><input type="radio" id="businessRole2" name="businessRole" value="facilities-manager"><label for="businessRole2">Facilities / operations manager</label></div>
+                <div class="radio-card"><input type="radio" id="businessRole3" name="businessRole" value="consultant-broker"><label for="businessRole3">Consultant or broker acting for the business</label></div>
+                <div class="radio-card"><input type="radio" id="businessRole4" name="businessRole" value="other"><label for="businessRole4">Other</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="businessRoleError">Please choose an option to continue.</p>
+            </fieldset>
+            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Approximate quarterly electricity bill</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="billBand1" name="billBand" value="under-5k"><label for="billBand1">Under $5,000</label></div>
+                <div class="radio-card"><input type="radio" id="billBand2" name="billBand" value="5k-20k"><label for="billBand2">$5,000 – $20,000</label></div>
+                <div class="radio-card"><input type="radio" id="billBand3" name="billBand" value="20k-50k"><label for="billBand3">$20,000 – $50,000</label></div>
+                <div class="radio-card"><input type="radio" id="billBand4" name="billBand" value="over-50k"><label for="billBand4">Over $50,000</label></div>
+                <div class="radio-card"><input type="radio" id="billBand5" name="billBand" value="not-sure"><label for="billBand5">Not sure</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="billBandError">Please choose an option to continue.</p>
+            </fieldset>
+          </div>
+
+          <!-- Shown for apartment_4plus and commercial_business, hidden for single_home -->
+          <div id="commonBlock" hidden>
+            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Is there an existing battery on site?</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="hasBattery1" name="hasBattery" value="yes"><label for="hasBattery1">Yes</label></div>
+                <div class="radio-card"><input type="radio" id="hasBattery2" name="hasBattery" value="no"><label for="hasBattery2">No</label></div>
+                <div class="radio-card"><input type="radio" id="hasBattery3" name="hasBattery" value="not-sure"><label for="hasBattery3">Not sure</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="hasBatteryError">Please choose an option to continue.</p>
+            </fieldset>
+
+            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Solar status</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="solarStatus1" name="solarStatus" value="existing"><label for="solarStatus1">Existing solar</label></div>
+                <div class="radio-card"><input type="radio" id="solarStatus2" name="solarStatus" value="planned"><label for="solarStatus2">No solar yet, planning one</label></div>
+                <div class="radio-card"><input type="radio" id="solarStatus3" name="solarStatus" value="none"><label for="solarStatus3">No solar, none planned</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="solarStatusError">Please choose an option to continue.</p>
+            </fieldset>
+
+            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
+              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Project timeframe</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="timeframe1" name="timeframe" value="asap"><label for="timeframe1">As soon as possible</label></div>
+                <div class="radio-card"><input type="radio" id="timeframe2" name="timeframe" value="3-6-months"><label for="timeframe2">3–6 months</label></div>
+                <div class="radio-card"><input type="radio" id="timeframe3" name="timeframe" value="6-12-months"><label for="timeframe3">6–12 months</label></div>
+                <div class="radio-card"><input type="radio" id="timeframe4" name="timeframe" value="researching"><label for="timeframe4">Just researching</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="timeframeError">Please choose an option to continue.</p>
+            </fieldset>
+
+            <div class="grid grid-2">
+              <div class="form-field">
+                <label for="projectSuburb">Suburb</label>
+                <input type="text" id="projectSuburb" name="projectSuburb" required autocomplete="address-level2">
+              </div>
+              <div class="form-field">
+                <label for="projectPostcode">Postcode</label>
+                <input type="text" id="projectPostcode" name="projectPostcode" required inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="postal-code">
+              </div>
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-field">
+                <label for="fullName">Your name</label>
+                <input type="text" id="fullName" name="fullName" required autocomplete="name">
+              </div>
+              <div class="form-field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required autocomplete="tel">
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+
+            <div class="form-field" style="margin-top:8px;">
+              <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
+                <input type="checkbox" id="bessConsent" name="bessConsent" required style="margin-top:3px;">
+                <span>I consent to Oz Home Energy contacting me about this enquiry, including by phone, SMS and email. See our <a href="/privacy-policy/">Privacy Policy</a>.</span>
+              </label>
+              <p class="error-msg" role="alert" id="bessConsentError">Please provide consent to continue — we can't follow up without it.</p>
+            </div>
+
+            <!-- Attribution (populated by site/js/main.js's populateAttributionFields,
+                 same sitewide mechanism as the other three lead forms — see
+                 docs/08-commercial-battery-assessment-funnel.md §4). -->
+            <input type="hidden" name="utm_source" value="">
+            <input type="hidden" name="utm_medium" value="">
+            <input type="hidden" name="utm_campaign" value="">
+            <input type="hidden" name="utm_term" value="">
+            <input type="hidden" name="utm_content" value="">
+            <input type="hidden" name="gclid" value="">
+            <input type="hidden" name="fbclid" value="">
+            <input type="hidden" name="campaign_id" value="">
+            <input type="hidden" name="adset_id" value="">
+            <input type="hidden" name="ad_id" value="">
+            <input type="hidden" name="placement" value="">
+            <input type="hidden" name="landing_page" value="">
+            <input type="hidden" name="referrer" value="">
+
+            <button class="btn btn-primary btn-block" type="submit" id="bessSubmit" style="margin-top:8px;">Request my preliminary assessment</button>
+            <div id="bessFormStatus" aria-live="polite" role="status" style="margin-top:14px;"></div>
+            <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet — call us instead if you need a response now.</span></p>
+          </div>
+        </form>
+      </div>
+
+      <aside class="card" style="position:sticky;top:24px;">
+        <h3 class="mt-0">Licensed &amp; local</h3>
+        <p>NSW Electrical Contractor Licence 382607C · Sydney-based · Residential &amp; commercial</p>
+        <p class="hint">This is a preliminary check, not a final eligibility decision. Battery capacity, product approval and installer accreditation are confirmed during a real site assessment — this form is deliberately short and never claims eligibility on its own.</p>
+        <p><a href="tel:+61435336336">Call 0435 336 336</a> if you'd rather talk it through directly.</p>
+      </aside>
+    </div>
+  </div>
+</section>

@@ -45,7 +45,10 @@
   (function captureAttribution() {
     try {
       var params = new URLSearchParams(window.location.search);
-      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+      // campaign_id/adset_id/ad_id/placement added for the Meta paid-social
+      // funnel (see docs/08-commercial-battery-assessment-funnel.md §4) —
+      // plain ad-attribution identifiers, not PII, safe to capture sitewide.
+      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_id', 'adset_id', 'ad_id', 'placement'];
       var stored = JSON.parse(sessionStorage.getItem('ohe_attribution') || '{}');
       var changed = false;
       keys.forEach(function (k) {

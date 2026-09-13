@@ -23,6 +23,22 @@ const PRODUCTION_ORIGIN = 'https://ozhomeenergy.com.au';
 const legacyRoutes = JSON.parse(fs.readFileSync(path.join(ROOT, 'redirects', 'legacy-routes.json'), 'utf8')).routes;
 const siteStatus = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'site-status.json'), 'utf8'));
 
+// Slugs whose own src/pages/<dir>/meta.json sets `"noindex": true` (see
+// scripts/build.js) — a real, working page with no standalone search
+// value (currently just the lead-form thank-you page), as opposed to
+// isGated()'s "not published yet" pages below. Read directly from meta.json
+// rather than hardcoding page names here, so this stays correct as more
+// pages opt in.
+const explicitNoindexSlugs = new Set();
+const SRC_PAGES = path.join(ROOT, 'src', 'pages');
+for (const dir of fs.readdirSync(SRC_PAGES, { withFileTypes: true })) {
+  if (!dir.isDirectory()) continue;
+  const metaPath = path.join(SRC_PAGES, dir.name, 'meta.json');
+  if (!fs.existsSync(metaPath)) continue;
+  const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+  if (meta.noindex === true) explicitNoindexSlugs.add(meta.canonical.replace(/^\/|\/$/g, ''));
+}
+
 const failures = [];
 const fail = (msg) => failures.push(msg);
 
@@ -127,9 +143,9 @@ for (const file of files) {
       fail(`${rel}: preview build must be noindex, nofollow (found "${robots}")`);
     }
   } else {
-    if (is404 || isBridge || isGated(slug)) {
+    if (is404 || isBridge || isGated(slug) || explicitNoindexSlugs.has(slug)) {
       if (!robots || !robots.startsWith('noindex')) {
-        fail(`${rel}: expected noindex in production (404/legacy-bridge/unpublished-gate page), found "${robots}"`);
+        fail(`${rel}: expected noindex in production (404/legacy-bridge/unpublished-gate/explicit-noindex page), found "${robots}"`);
       }
     } else if (robots !== 'index, follow') {
       fail(`${rel}: production build must be index, follow for a real published page (found "${robots}")`);

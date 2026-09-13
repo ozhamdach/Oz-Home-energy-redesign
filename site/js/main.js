@@ -48,7 +48,9 @@
       // campaign_id/adset_id/ad_id/placement added for the Meta paid-social
       // funnel (see docs/08-commercial-battery-assessment-funnel.md §4) —
       // plain ad-attribution identifiers, not PII, safe to capture sitewide.
-      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_id', 'adset_id', 'ad_id', 'placement'];
+      // site_source_name/creative_strategy added for the BESS3/BESS4 funnel
+      // v2 pass — Meta's own attribution parameter names, non-PII.
+      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_id', 'adset_id', 'ad_id', 'placement', 'site_source_name', 'creative_strategy'];
       var stored = JSON.parse(sessionStorage.getItem('ohe_attribution') || '{}');
       var changed = false;
       keys.forEach(function (k) {

@@ -17,6 +17,13 @@ const SITE_DIR = path.join(ROOT, process.env.SITE_OUT_DIR || 'site');
 const layout = fs.readFileSync(path.join(ROOT, 'src', 'layout.html'), 'utf8');
 let header = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header.html'), 'utf8');
 let footer = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer.html'), 'utf8');
+// Minimal chrome for dedicated paid-traffic landing pages (meta.landingChrome
+// = true): brand + click-to-call + one CTA in the header, legal-minimum
+// links only in the footer — no primary nav, no sitemap columns, so a
+// visitor who clicked a Meta ad has nowhere to leak out to except the form
+// itself or genuinely necessary legal/contact links.
+let landingHeader = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header-landing.html'), 'utf8');
+let landingFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-landing.html'), 'utf8');
 
 // Defaults to PREVIEW (noindex/nofollow) — see the matching comment near
 // robots.txt generation below for when/how this flips to production.
@@ -42,6 +49,8 @@ function applyNavGating(html) {
 }
 header = applyNavGating(header);
 footer = applyNavGating(footer);
+landingHeader = applyNavGating(landingHeader);
+landingFooter = applyNavGating(landingFooter);
 
 function fill(tpl, vars) {
   return tpl.replace(/{{(\w+)}}/g, (m, key) => (key in vars ? vars[key] : ''));
@@ -156,9 +165,9 @@ for (const dir of pageDirs) {
     SCHEMA: schema,
     ROBOTS_META: robotsMeta,
     EXTRA_HEAD: meta.extraHead || '',
-    HEADER: header,
+    HEADER: meta.landingChrome ? landingHeader : header,
     BODY: body,
-    FOOTER: footer,
+    FOOTER: meta.landingChrome ? landingFooter : footer,
     EXTRA_SCRIPT: extraScript,
   });
 

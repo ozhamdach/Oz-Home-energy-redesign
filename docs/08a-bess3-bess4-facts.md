@@ -53,6 +53,51 @@ All three new activities (BESS3, BESS4, BESS5) are eligible for certificate
 creation for implementations **on or after 1 September 2026** — already
 in effect as of this document's writing (today's date is 2026-09-13).
 
+## Re-verification pass (v2 funnel rebuild)
+
+**Date: 2026-09-13.** Attempted direct `WebFetch` of the two URLs supplied
+as authoritative for this pass — both blocked by this sandbox's network
+egress proxy, same limitation as the first pass:
+- `https://www.energysustainabilityschemes.nsw.gov.au/pdrs-rule-and-changes` — `EGRESS_BLOCKED`
+- `https://www.energy.nsw.gov.au/business-and-industry/programs-grants-and-schemes/business-equipment/batteries-businesses-incentive` — `EGRESS_BLOCKED`
+
+Fell back to `WebSearch` again (not subject to the same block) for the
+specific additional facts this pass's routing rules depend on. **These
+remain third-party-corroborated, not a direct primary-source read** —
+flagged accordingly in the scheme-claim register in
+`docs/08c-v2-deliverables.md`.
+
+- **Data centre / residential exclusion (BESS4):** re-confirmed — explicitly
+  excluded, consistent with the first pass.
+- **Once-per-site rule:** BESS4/BESS5 "can only be claimed once per site" —
+  if a BESS4/BESS5 discount/activity was already claimed at a site, it
+  cannot be claimed again. An **existing battery alone does not disqualify**
+  a site — only a prior *claimed BESS activity* at that site does. This
+  directly supports the brief's routing rule: existing battery → manual
+  review (not auto-reject); prior activity/uncertain → manual review.
+- **90-day solar/battery window:** confirmed, but with an important
+  correction to the brief's framing — installing new solar within
+  approximately 90 days of the battery (or vice versa) is **not a strict
+  eligibility gate**; it affects which (higher) incentive tier applies,
+  and requires the new solar capacity to be at least roughly a quarter of
+  the battery's usable capacity to reach that higher tier. Solar is
+  **not mandatory** for BESS4 eligibility itself. The funnel's copy for
+  this question is worded to reflect "may affect the pathway," not
+  "required for eligibility."
+- **Off-grid exclusion:** the brief states off-grid business sites are not
+  eligible under current business guidance. WebSearch could not
+  independently corroborate this specific point (no source found
+  explicitly discussing off-grid status) — **this fact is UNVERIFIED**,
+  carried into the routing logic only because it was supplied as a stated
+  input, not independently confirmed. Flagged in the scheme-claim register
+  for a human to confirm against the primary source directly.
+- **Non-Class-2 apartment buildings:** no independent source found
+  addressing what happens when a building is confirmed not BCA Class 2.
+  The routing logic treats this as `manual_eligibility_review` (the more
+  conservative of the two options the brief allows), not an automatic
+  rejection, since a building's actual classification is a technical
+  determination a short lead form cannot make.
+
 ## Why the landing page never claims "eligible"
 
 None of the above can be confirmed from a short lead-generation form: exact

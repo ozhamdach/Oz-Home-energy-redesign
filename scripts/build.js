@@ -136,9 +136,17 @@ for (const dir of pageDirs) {
   const gate = meta.publishGate ? siteStatus[meta.publishGate] : null;
   const gateUnpublished = gate ? !gate.published : false;
 
+  // meta.noindex: true is for pages that are real, working destinations —
+  // not gated on missing owner content like publishGate above — but have
+  // no standalone search value and shouldn't be a page a stranger can land
+  // on cold from Google (a lead-capture thank-you page, reached only by a
+  // genuine successful submission redirect, is the first use of this).
+  const explicitNoindex = meta.noindex === true;
+
   let robotsMeta;
   if (is404) robotsMeta = 'noindex, nofollow';
   else if (!IS_PRODUCTION) robotsMeta = 'noindex, nofollow';
+  else if (explicitNoindex) robotsMeta = 'noindex, follow';
   else robotsMeta = gateUnpublished ? 'noindex, follow' : 'index, follow';
 
   const html = fill(layout, {
@@ -168,7 +176,7 @@ for (const dir of pageDirs) {
   fs.writeFileSync(path.join(outDir, 'index.html'), html, 'utf8');
   // Unpublished-gate pages are still built (reviewable, and always in the
   // preview build) but never listed in the sitemap once in production.
-  if (!(IS_PRODUCTION && gateUnpublished)) builtPages.push(meta.canonical);
+  if (!(IS_PRODUCTION && gateUnpublished) && !explicitNoindex) builtPages.push(meta.canonical);
   console.log(`Built ${meta.canonical}${IS_PRODUCTION && gateUnpublished ? ' (production: noindex, kept out of sitemap/nav — publishGate not yet published)' : ''}`);
 }
 

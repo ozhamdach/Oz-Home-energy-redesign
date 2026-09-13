@@ -1,0 +1,10 @@
+{
+  "title": "NSW Commercial Battery Assessment — BESS3 & BESS4 | Oz Home Energy",
+  "description": "Preliminary battery storage assessment for NSW apartment buildings (4+ dwellings) and businesses. Licensed NSW electrical contractor. No obligation.",
+  "canonical": "/commercial-battery-assessment/",
+  "breadcrumbs": [
+    { "name": "Home", "url": "/" },
+    { "name": "Commercial Battery Assessment", "url": "/commercial-battery-assessment/" }
+  ],
+  "extraScripts": ["/js/commercial-battery-assessment.js"]
+}

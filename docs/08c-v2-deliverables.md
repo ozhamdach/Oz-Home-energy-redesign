@@ -150,19 +150,33 @@ retained for assessment, not rejected." No path ever produces `eligible`.
 
 ## 6. Automated test results
 
-See the full run output captured this session (37 automated checks across
-routing, validation, consent, back-navigation, attribution, duplicate
-handling, server error and the happy path) — summarised in the table
-below, generated from `v2-full-suite.js` (throwaway test harness, not
-committed — see the method note in `docs/08b-funnel-test-plan.md`).
+All runs this session, against a local rebuild of this exact branch,
+served on `localhost`, with a disposable local Node server standing in
+for HighLevel (the same "safe local/intercepted CRM destination" method
+as `docs/08b-funnel-test-plan.md`) — nothing sent to any real or
+third-party endpoint. Test scripts are throwaway harness code, not
+committed to the repo; this document is the durable record.
 
-[Populated after the test run below.]
+| Suite | Result |
+|---|---|
+| Routing scenarios (16): BESS3 plausible, apartment under 4, non-Class-2, BESS4 plausible, data centre, individual home, outside NSW (postcode), outside NSW (explicit no), off-grid, existing battery, prior activity (yes), prior activity (unsure), unknown capacity, capacity >200kWh, non-decision-maker (tenant), non-decision-maker (no authority) | **16/16 PASS** — each produced exactly the classification in §5's table |
+| Validation/field scenarios (9): missing required answers, invalid postcode format, invalid email format, required-consent blocks submission, optional marketing-consent does not block, marketing-consent timestamp captured when checked, `null` when unchecked, back-navigation retains stage 1 + stage 2 answers | **9/9 PASS** |
+| Server error / duplicate handling (4): simulated server error does not redirect or show success, duplicate email submission still reaches the CRM adapter (not silently dropped client-side) and both attempts are recorded server-side for the CRM's own dedup logic to resolve | **4/4 PASS** |
+| Happy path (1): successful submission redirects to thank-you page, classification is never the literal string `eligible` | **1/1 PASS** |
+| **Full suite total** | **36/36 PASS**, run twice (before and after the heading-hierarchy fix in §8 — no regression) |
+| Accessibility-specific checks (11): every `aria-describedby` resolves to a real element, every fieldset has a legend, no heading-level skip, focus moves to the error summary on a failed Continue, error-summary links focus the actual field, stage-change announcements update, `prefers-reduced-motion` disables transitions, tap targets ≥44px (radio-card labels, desktop CTA, mobile call button — each measured on the viewport where it's actually visible) | **11/11 PASS** (first run found 2 real bugs — see §8 — both fixed, then reconfirmed clean) |
+| Sitewide regression (`scripts/qa-static-checks.js` preview + `--production`, `scripts/qa-playwright.js`) | **PASS**, no regression to any existing page, form, or the mobile nav |
+
+**48 total automated assertions this session, all passing on the final
+build.**
 
 ## 7. Screenshots
 
-Sent separately: 375px, 390px, 430px, tablet (820px), desktop (1440px) —
-stage 1 (with the apartment branch expanded), stage 2, stage 3, and the
-thank-you page. All confirmed zero horizontal overflow at every width.
+Captured and sent to the user separately: 375px, 390px, 430px, tablet
+(820px), desktop (1440px) — stage 1, stage 2, stage 3 at every width; the
+thank-you page and the apartment-branch view at desktop; a validation
+error state at every width. All confirmed zero horizontal overflow
+(`scrollWidth - clientWidth === 0`) at every tested width.
 
 ## 8. Accessibility findings
 
@@ -181,6 +195,13 @@ assumed):**
 - No click-to-call element existed on mobile at all (`.phone-link` is
   desktop-only; the landing header hadn't included the icon-only
   `.mobile-call-btn` counterpart). Fixed.
+- A heading-hierarchy skip (H1 → H3), found by an automated heading-level
+  scan: the two intro cards ("Apartment buildings" / "Business premises")
+  used `<h3>` but appear in document order before the form section's own
+  `<h2>` ("NSW Commercial Battery Site Check") — an H1→H3 skip. Fixed by
+  making both `<h2>` (they're top-level content blocks alongside the form
+  section, not children of it); the form's own stage headings stayed
+  `<h3>` as children of that `<h2>`.
 
 **Implemented:**
 - `aria-describedby` linking every stage-1/3 text/email/tel field to its

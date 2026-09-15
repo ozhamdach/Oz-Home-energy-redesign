@@ -2,7 +2,7 @@
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Contact / Energy Assessment</p>
     <h1 style="font-size:clamp(1.5rem, 1.2rem + 1.6vw, 2.1rem); margin-bottom:6px;">Let's understand your property first</h1>
-    <p class="lede" style="font-size:0.95rem; margin-bottom:0;">Five short steps — no pressure, no obligation.</p>
+    <p class="lede" style="font-size:0.95rem; margin-bottom:0;">A short form — no pressure, no obligation.</p>
   </div>
 </section>
 
@@ -10,222 +10,33 @@
   <div class="container">
     <div class="grid grid-2" style="gap:48px;align-items:flex-start;">
       <div class="assess-wrap" style="max-width:none;">
-        <div class="assess-progress" style="margin-bottom:20px;">
-          <div class="bar" id="assessProgressBar" role="progressbar" aria-label="Assessment progress" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><div class="fill" id="assessFill"></div></div>
-          <div class="meta"><span id="assessStepLabel">Step 1 of 5</span><span id="assessStepName">What do you need help with?</span></div>
-        </div>
-
-        <!-- No HighLevel connection yet. This maps most closely to the
-             "Detailed Contact/Quote form" verified on the current live site
-             (form ID 7CTbeFedTXyoPJoS2CmH) — that ID is reference-only and
-             is NOT used to construct any embed markup here (see
-             docs/owner-inputs-required.md: "do not guess or construct
-             embed markup from a form ID"). Wiring this up means either (a)
-             replacing this custom-built form with the exact embed snippet
-             HighLevel exports for that form, or (b) keeping this front end
-             and POSTing to a secure server-side endpoint per
-             docs/04-highlevel-integration.md — either way, a person with
-             HighLevel account access has to supply the real snippet or
-             endpoint; nothing here should be guessed. -->
-        <form id="assessmentForm" method="post" data-hl-form-ref="7CTbeFedTXyoPJoS2CmH (reference only, unwired)" novalidate>
-          <!-- STEP 1 -->
-          <div class="assess-step is-active" data-step="1">
-            <h2>What do you need help with?</h2>
-            <p class="step-sub">Choose the option closest to your situation. You can change this later if needed.</p>
-            <fieldset class="assess-fieldset">
-              <legend class="visually-hidden">What do you need help with?</legend>
-              <div class="radio-cards radio-cards-wide">
-                <div class="radio-card"><input type="radio" id="goal1" name="goal" value="Lower my electricity bills" required><label for="goal1">Lower my electricity bills</label></div>
-                <div class="radio-card"><input type="radio" id="goal2" name="goal" value="Install new solar — with or without a battery"><label for="goal2">Install new solar — with or without a battery</label></div>
-                <div class="radio-card"><input type="radio" id="goal3" name="goal" value="Add a battery to existing solar"><label for="goal3">Add a battery to existing solar</label></div>
-                <div class="radio-card"><input type="radio" id="goal4" name="goal" value="Charge my EV at home"><label for="goal4">Charge my EV at home</label></div>
-                <div class="radio-card"><input type="radio" id="goal5" name="goal" value="Upgrade my electrical system"><label for="goal5">Upgrade my electrical system</label></div>
-                <div class="radio-card"><input type="radio" id="goal6" name="goal" value="Plan a commercial project"><label for="goal6">Plan a commercial project</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="goalError">Please choose an option to continue.</p>
-            </fieldset>
-          </div>
-
-          <!-- STEP 2 -->
-          <div class="assess-step" data-step="2">
-            <h2>About you and your property</h2>
-            <p class="step-sub">This helps us route your enquiry to the right team and understand your site.</p>
-            <fieldset class="assess-fieldset">
-              <legend class="visually-hidden">Residential or commercial?</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="type1" name="propertyOwner" value="Residential" required><label for="type1">Residential — my home</label></div>
-                <div class="radio-card"><input type="radio" id="type2" name="propertyOwner" value="Commercial"><label for="type2">Commercial — my business</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="propertyOwnerError">Please choose an option to continue.</p>
-            </fieldset>
-            <div class="form-field" style="margin-top:20px;">
-              <label for="suburb">Suburb or postcode</label>
-              <input type="text" id="suburb" name="suburb" required autocomplete="postal-code">
-            </div>
-            <div class="form-field">
-              <label for="propertyType">Property type</label>
-              <select id="propertyType" name="propertyType" required>
-                <option value="">Select an option</option>
-                <option>Free-standing house</option>
-                <option>Townhouse</option>
-                <option>Unit / apartment</option>
-                <option>Commercial building</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- STEP 3 -->
-          <div class="assess-step" data-step="3">
-            <h2>Your current setup and electricity bill</h2>
-            <p class="step-sub">Tell us what's already there, if anything, and roughly what you pay — this is the single most useful input for sizing a system correctly.</p>
-            <div class="form-field">
-              <label for="hasSolar">Do you currently have solar?</label>
-              <select id="hasSolar" name="hasSolar">
-                <option value="">Select an option</option>
-                <option>No</option>
-                <option>Yes, and it's working fine</option>
-                <option>Yes, but I think it needs attention</option>
-                <option>Not sure</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label for="hasBattery">Do you currently have a battery?</label>
-              <select id="hasBattery" name="hasBattery">
-                <option value="">Select an option</option>
-                <option>No</option>
-                <option>Yes</option>
-                <option>Not sure</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label for="hasEv">Are you charging or planning to charge an EV?</label>
-              <select id="hasEv" name="hasEv">
-                <option value="">Select an option</option>
-                <option>Already own an EV</option>
-                <option>Planning to buy one</option>
-                <option>Not currently</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label for="billFrequency">How often do you get an electricity bill?</label>
-              <select id="billFrequency" name="billFrequency">
-                <option value="">Select an option</option>
-                <option value="monthly">Monthly</option>
-                <option value="quarterly">Quarterly</option>
-                <option value="not-sure">Not sure</option>
-              </select>
-            </div>
-            <div class="form-field" data-frequency-group="quarterly">
-              <label for="billAmountQuarterly">Approximate bill amount (quarterly)</label>
-              <select id="billAmountQuarterly" name="billAmountQuarterly">
-                <option value="">Select a range</option>
-                <option>Under $200 / quarter</option>
-                <option>$200–$500 / quarter</option>
-                <option>$500–$1,000 / quarter</option>
-                <option>$1,000–$2,500 / quarter</option>
-                <option>Over $2,500 / quarter</option>
-                <option>Not sure</option>
-              </select>
-            </div>
-            <div class="form-field" data-frequency-group="monthly" hidden>
-              <label for="billAmountMonthly">Approximate bill amount (monthly)</label>
-              <select id="billAmountMonthly" name="billAmountMonthly">
-                <option value="">Select a range</option>
-                <option>Under $70 / month</option>
-                <option>$70–$170 / month</option>
-                <option>$170–$330 / month</option>
-                <option>$330–$830 / month</option>
-                <option>Over $830 / month</option>
-                <option>Not sure</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label for="billUpload">Upload a recent bill (optional)</label>
-              <div class="file-drop">
-                <p>A recent electricity bill lets us size a system more precisely than an estimate alone.</p>
-                <input type="file" id="billUpload" name="billUpload" accept="image/*,.pdf">
-              </div>
-            </div>
-            <div class="why-we-ask">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-              <p>We ask about your bill because it tells us far more about the right system size than roof space alone. Nothing here is used for anything other than preparing your assessment.</p>
-            </div>
-          </div>
-
-          <!-- STEP 4 -->
-          <div class="assess-step" data-step="4">
-            <h2>Your details</h2>
-            <p class="step-sub">So we can get back to you with what we've found.</p>
-            <div class="form-field">
-              <label for="fullName">Full name</label>
-              <input type="text" id="fullName" name="fullName" required autocomplete="name">
-            </div>
-            <div class="grid grid-2">
-              <div class="form-field">
-                <label for="phoneNum">Phone</label>
-                <input type="tel" id="phoneNum" name="phoneNum" required autocomplete="tel">
-              </div>
-              <div class="form-field">
-                <label for="emailAddr">Email</label>
-                <input type="email" id="emailAddr" name="emailAddr" required autocomplete="email">
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 5 -->
-          <div class="assess-step" data-step="5">
-            <h2>How should we reach you?</h2>
-            <p class="step-sub">Last step — tell us how and when you'd prefer to be contacted.</p>
-            <div class="form-field">
-              <label for="contactMethod">Preferred contact method</label>
-              <select id="contactMethod" name="contactMethod" required>
-                <option value="">Select an option</option>
-                <option>Phone call</option>
-                <option>Text message</option>
-                <option>Email</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label for="contactTime">Best time to reach you</label>
-              <select id="contactTime" name="contactTime">
-                <option value="">Select an option</option>
-                <option>Morning</option>
-                <option>Afternoon</option>
-                <option>Evening</option>
-                <option>Anytime on a weekday</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;">
-                <input type="checkbox" id="consent" name="consent" required style="margin-top:4px;">
-                <span>I agree to be contacted about my enquiry and have read the <a href="/privacy-policy/">Privacy Policy</a>.</span>
-              </label>
-            </div>
-
-            <!-- Attribution fields, populated from sessionStorage by site.js -->
-            <input type="hidden" name="utm_source" id="utm_source">
-            <input type="hidden" name="utm_medium" id="utm_medium">
-            <input type="hidden" name="utm_campaign" id="utm_campaign">
-            <input type="hidden" name="utm_term" id="utm_term">
-            <input type="hidden" name="utm_content" id="utm_content">
-            <input type="hidden" name="gclid" id="gclid">
-            <input type="hidden" name="fbclid" id="fbclid">
-            <input type="hidden" name="landing_page" id="landing_page">
-            <input type="hidden" name="referrer" id="referrer">
-            <input type="hidden" name="selected_service" id="selected_service">
-            <input type="hidden" name="submitted_at" id="submitted_at">
-          </div>
-
-          <div class="assess-nav">
-            <button type="button" class="btn btn-secondary" id="assessBack">Back</button>
-            <span class="spacer"></span>
-            <button type="button" class="btn btn-primary" id="assessNext">Continue</button>
-            <button type="submit" class="btn btn-primary" id="assessSubmit" style="display:none;">Submit My Assessment</button>
-          </div>
-        </form>
-
-        <div id="assessSuccess" style="display:none;" aria-live="polite"></div>
+        <!-- Real HighLevel-hosted form (owner-supplied embed, form ID
+             7CTbeFedTXyoPJoS2CmH — "Request a Quote"). Replaces the
+             previous custom-built prototype form that posted nowhere; see
+             git history for that version and docs/04-highlevel-integration.md
+             for the earlier unwired state this replaces. form_embed.js
+             (loaded once, sitewide-safe to include per-page) handles the
+             iframe's auto-resize after load — the inline height below is
+             just the pre-resize fallback so the page doesn't jump. -->
+        <iframe
+          src="https://link.ozhomeenergy.com.au/widget/form/7CTbeFedTXyoPJoS2CmH"
+          style="width:100%;height:1363px;border:none;border-radius:8px"
+          id="inline-7CTbeFedTXyoPJoS2CmH"
+          data-layout="{'id':'INLINE'}"
+          data-trigger-type="alwaysShow"
+          data-trigger-value=""
+          data-activation-type="alwaysActivated"
+          data-activation-value=""
+          data-deactivation-type="neverDeactivate"
+          data-deactivation-value=""
+          data-form-name="Request a Quote"
+          data-height="1363"
+          data-layout-iframe-id="inline-7CTbeFedTXyoPJoS2CmH"
+          data-form-id="7CTbeFedTXyoPJoS2CmH"
+          data-cookie-consent="true"
+          data-cookie-consent-provider="auto"
+          title="Request a Quote"
+        ></iframe>
       </div>
 
       <aside>
@@ -241,7 +52,6 @@
           <h3 class="mt-0">Licensed &amp; local</h3>
           <p>NSW Electrical Contractor Licence 382607C · Sydney-based · Residential &amp; commercial</p>
         </div>
-        <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet.</span></p>
       </aside>
     </div>
   </div>

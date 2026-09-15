@@ -159,7 +159,7 @@ for (const file of files) {
 
   // --- no fake success affordance ---
   // The real success/pending-notice markup is only ever injected client-side
-  // (see site/js/main.js, site/js/assessment.js) — it should never appear in
+  // (see site/js/main.js) — it should never appear in
   // the static, server-rendered HTML at all. This just catches a regression
   // back toward the old server-rendered "success" class or copy.
   if (/class="assess-success"/.test(html) || /Thanks[^<]{0,40}noted/i.test(html)) {

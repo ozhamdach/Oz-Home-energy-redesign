@@ -281,22 +281,20 @@ async function run(label, fn) {
     }
   });
 
-  await run('service request prefill + prototype submit shows pending notice, not success', async () => {
+  // /service-request/ now embeds a real HighLevel-hosted form (iframe,
+  // cross-origin) in place of the custom-built prototype form (and its
+  // ?type= preselect, which had no HighLevel equivalent) these tests used
+  // to exercise — see git history for that version, and the assessment
+  // page test above for the same pattern.
+  await run('service request page embeds the real HighLevel form, not a stale prototype', async () => {
     const page = await context.newPage();
-    await page.setViewportSize({ width: 1024, height: 900 });
-    const urlBefore = BASE + '/service-request/?type=cleaning';
-    await page.goto(urlBefore, { waitUntil: 'load', timeout: 15000 });
-    const prefilled = await page.inputValue('#srType');
-    if (prefilled !== 'Panel cleaning') errors.push('Service request ?type=cleaning did not preselect "Panel cleaning"');
-    await page.fill('#srName', 'Test Person');
-    await page.fill('#srPhone', '0400000000');
-    await page.fill('#srAddress', '1 Test St, Sydney NSW');
-    await page.click('button[type="submit"]');
-    const pendingVisible = await page.evaluate(() => !!document.querySelector('.lead-pending-notice'));
-    if (!pendingVisible) errors.push('Service request submit did not show the not-connected-yet notice');
-    const fakeSuccessVisible = await page.evaluate(() => !!document.querySelector('.assess-success'));
-    if (fakeSuccessVisible) errors.push('Service request submit showed a success-style affordance — must never appear');
-    if (page.url() !== urlBefore) errors.push('Service request submit navigated away — a live submission may have been attempted');
+    await page.goto(BASE + '/service-request/', { waitUntil: 'load', timeout: 15000 });
+    const hasRealEmbed = await page.evaluate(
+      () => !!document.querySelector('iframe[data-form-id="2TfIfhVospnHx74eNcAP"]')
+    );
+    if (!hasRealEmbed) errors.push('/service-request/: expected HighLevel form iframe (2TfIfhVospnHx74eNcAP) not found');
+    const hasStaleForm = await page.evaluate(() => !!document.getElementById('serviceRequestForm'));
+    if (hasStaleForm) errors.push('/service-request/: retired custom #serviceRequestForm markup is still present');
     await page.close();
   });
 

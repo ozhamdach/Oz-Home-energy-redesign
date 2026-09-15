@@ -40,14 +40,14 @@
   // answers — nothing is cleared when moving between stages).
   // ---------------------------------------------------------------------
   var steps = Array.prototype.slice.call(form.querySelectorAll('.assess-step'));
-  var total = steps.length; // 3
+  var total = steps.length; // 4
   var current = 1;
   var fill = document.getElementById('bessFill');
   var progressBar = document.getElementById('bessProgressBar');
   var stageLabel = document.getElementById('bessStageLabel');
   var stageName = document.getElementById('bessStageName');
   var stageAnnounce = document.getElementById('bessStageAnnounce');
-  var stageNames = { 1: 'Site fit', 2: 'Commercial need', 3: 'Contact and consent' };
+  var stageNames = { 1: 'Quick capture', 2: 'Site details', 3: 'Commercial need', 4: 'Contact and consent' };
 
   function showStage(n, moveFocus) {
     steps.forEach(function (s) {
@@ -200,10 +200,31 @@
     errorSummary.focus();
   }
 
+  // Fires once, best-effort, when Stage 1 is completed — see
+  // buildPartialPayload() above. Never blocks navigation: the promise
+  // resolves in the background while the visitor is already on Stage 2.
+  var partialSubmitted = false;
+  function sendPartialLead() {
+    if (partialSubmitted) return;
+    partialSubmitted = true;
+    var adapter = window.OHE_BESS_SUBMIT_ADAPTER;
+    if (typeof adapter !== 'function') return; // no adapter configured: no-op, never faked
+    var partialPayload = buildPartialPayload();
+    Promise.resolve()
+      .then(function () { return adapter(partialPayload); })
+      .then(function (result) {
+        if (result && result.ok) {
+          pushEvent('bess_lead_partial_submitted', { bess_classification: partialPayload.customFields.bess_classification });
+        }
+      })
+      .catch(function () { /* best-effort background capture; the final submit is the one the user sees feedback on */ });
+  }
+
   form.querySelectorAll('[data-continue]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var stageEl = steps[current - 1];
       if (!validateStage(stageEl)) return;
+      if (current === 1) sendPartialLead();
       current = Math.min(current + 1, total);
       showStage(current, true);
     });
@@ -281,6 +302,18 @@
     if (a.siteType === 'apartment_building') return 'bess3_review_required';
     if (a.siteType === 'commercial_business') return 'bess4_review_required';
     return 'manual_eligibility_review_site_type_unsure';
+  }
+
+  // Partial classification — everything classify() can determine from
+  // Stage 1's three qualifying fields alone (site type, NSW confirm,
+  // postcode). Used only for the Stage-1 safety-net submission below;
+  // never a substitute for the full classify() run at final submit.
+  function classifyPartial(a) {
+    var nswPostcode = isLikelyNSW(a.sitePostcode);
+    if (a.nswConfirm === 'no' || nswPostcode === false) return 'outside_campaign_area';
+    if (a.siteType === 'individual_home') return 'not_bess_residential_route';
+    if (a.siteType === 'data_centre') return 'not_bess4_data_centre';
+    return 'partial_more_info_needed';
   }
 
   var DECISION_MAKER_ROLES = ['owner_director', 'strata_manager', 'owners_corp_committee', 'building_facilities_manager', 'finance_ops_manager'];
@@ -372,6 +405,7 @@
         'campaign:bess3_bess4_launch',
         'classification:' + classification,
         'priority:' + priorityTag(answers),
+        'lead_stage:complete',
       ].concat(marketingConsentGivenAt ? ['consent:marketing-opt-in'] : []),
       attribution: {
         first_touch: first,
@@ -380,6 +414,61 @@
       meta: {
         submitted_at: new Date().toISOString(),
         form_version: 'commercial-battery-assessment-v2',
+        lead_stage: 'complete',
+      },
+    };
+  }
+
+  // ---------------------------------------------------------------------
+  // Partial payload — fired once, after Stage 1 is completed, so a visitor
+  // who abandons the form still leaves a callable lead: name, phone,
+  // consent, and the site-type/NSW/postcode triage that's already enough
+  // to tell staff whether it's worth chasing. A real CRM upserts this by
+  // phone/email, so the final buildPayload() submission (if they finish)
+  // naturally completes the same contact record rather than duplicating it.
+  // ---------------------------------------------------------------------
+  function buildPartialPayload() {
+    var siteType = radioValue('siteType');
+    var partialAnswers = { sitePostcode: fieldValue('sitePostcode'), nswConfirm: radioValue('nswConfirm'), siteType: siteType };
+    var classification = classifyPartial(partialAnswers);
+
+    var first = firstTouchAttribution();
+    var latest = latestTouchAttribution();
+
+    var nameParts = fieldValue('contactName').trim().split(/\s+/);
+    var firstName = nameParts.shift() || '';
+    var lastName = nameParts.join(' ');
+
+    return {
+      contact: {
+        firstName: firstName,
+        lastName: lastName,
+        email: null,
+        phone: fieldValue('phone'),
+        businessName: null,
+      },
+      customFields: {
+        campaign: 'bess3_bess4_launch',
+        site_postcode: partialAnswers.sitePostcode,
+        nsw_confirm: partialAnswers.nswConfirm,
+        site_type: partialAnswers.siteType,
+        bess_classification: classification,
+        required_consent_given_at: requiredConsentGivenAt,
+      },
+      tags: [
+        'source:commercial-battery-assessment',
+        'campaign:bess3_bess4_launch',
+        'classification:' + classification,
+        'lead_stage:partial',
+      ],
+      attribution: {
+        first_touch: first,
+        latest_touch: latest,
+      },
+      meta: {
+        submitted_at: new Date().toISOString(),
+        form_version: 'commercial-battery-assessment-v2',
+        lead_stage: 'partial',
       },
     };
   }

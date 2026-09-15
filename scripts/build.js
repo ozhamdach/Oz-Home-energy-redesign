@@ -24,6 +24,15 @@ let footer = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer.html'), 
 // itself or genuinely necessary legal/contact links.
 let landingHeader = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header-landing.html'), 'utf8');
 let landingFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-landing.html'), 'utf8');
+// Stricter chrome for single-page paid-traffic conversion pages
+// (meta.landingChromeStrict = true): unlike landingChrome above, the logo
+// is not a link and the footer drops the terms/complaints links — no way
+// to leave the page at all except genuinely necessary contact/legal links.
+// A distinct flag/partial pair rather than changing header-landing.html
+// itself, so the existing BESS3/BESS4 funnel (which does link its logo
+// home) is unaffected.
+let conversionHeader = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header-conversion.html'), 'utf8');
+let conversionFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-conversion.html'), 'utf8');
 
 // Defaults to PREVIEW (noindex/nofollow) — see the matching comment near
 // robots.txt generation below for when/how this flips to production.
@@ -165,9 +174,9 @@ for (const dir of pageDirs) {
     SCHEMA: schema,
     ROBOTS_META: robotsMeta,
     EXTRA_HEAD: meta.extraHead || '',
-    HEADER: meta.landingChrome ? landingHeader : header,
+    HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeader : header,
     BODY: body,
-    FOOTER: meta.landingChrome ? landingFooter : footer,
+    FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
     EXTRA_SCRIPT: extraScript,
   });
 

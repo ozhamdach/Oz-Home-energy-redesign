@@ -1,0 +1,368 @@
+<style>
+  /* Page-specific styles for the Commercial Load Review conversion page.
+     Everything else (buttons, containers, form fields, radio-cards,
+     error-summary, grid) reuses /css/styles.css, matching the pattern
+     already used elsewhere on this site for single-page paid-traffic
+     funnels. */
+  .clr-hero { background: var(--charcoal); }
+  .clr-hero .hero-media, .clr-hero .hero-overlay { display: none; }
+  .clr-kicker {
+    margin-top: 18px; font-family: var(--font-heading); font-weight: 600;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #bcd0ff;
+  }
+  .clr-panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .clr-panels { grid-template-columns: 1fr; } }
+  .clr-panel { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 22px; }
+  .clr-panel .num { font-family: var(--font-heading); font-weight: 700; color: var(--brand); font-size: 0.85rem; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .clr-panel p { margin: 0; color: var(--text); font-size: 0.98rem; }
+  .clr-honest { background: var(--bg-accent); border-radius: var(--radius-lg); padding: clamp(28px, 5vw, 44px); }
+  .clr-honest p { font-size: 1.05rem; max-width: 62ch; }
+  .clr-honest p:last-child { margin-bottom: 0; }
+  .clr-fit { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 700px) { .clr-fit { grid-template-columns: 1fr; } }
+  .clr-fit .card h3 { font-size: 1.05rem; }
+  .clr-fit ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .clr-fit li { font-size: 0.96rem; color: var(--text); }
+  .clr-question { margin-bottom: 32px; }
+  .clr-question legend { font-weight: 600; font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 14px; padding: 0; }
+  .clr-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .clr-row2 { grid-template-columns: 1fr; } }
+  .clr-consent { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
+  .clr-consent input { width: 20px; height: 20px; min-width: 20px; margin-top: 2px; cursor: pointer; }
+  .clr-consent label { font-size: 0.92rem; cursor: pointer; }
+  .clr-exit, .clr-confirm { text-align: center; padding: 40px 0; }
+  .clr-exit .icon-circle, .clr-confirm .icon-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .clr-exit .icon-circle svg, .clr-confirm .icon-circle svg { width: 30px; height: 30px; color: var(--brand); }
+  .clr-confirm .file-drop { max-width: 480px; margin: 24px auto 0; text-align: left; }
+  .clr-confirm .file-status { margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); }
+  .clr-form-error { color: #c0322b; }
+  @media (prefers-reduced-motion: no-preference) {
+    .clr-question[data-revealed="true"] { animation: fadein .25s ease; }
+  }
+</style>
+
+<section class="hero clr-hero">
+  <div class="container hero-inner">
+    <p class="eyebrow">Commercial Load Review</p>
+    <h1>Your problem might be when you use power, not how much.</h1>
+    <p class="lede">Send a recent bill. We'll tell you whether solar, storage or neither is the answer for your site — and we'll tell you if it's neither.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#clrForm">Send my bill</a>
+    </div>
+    <p class="clr-kicker">5 Questions · Your Last Bill · No Site Visit to Start</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head center">
+      <h2>What the bill tells us</h2>
+    </div>
+    <div class="clr-panels">
+      <div class="clr-panel">
+        <p class="num">01</p>
+        <p>When your site actually draws power — the shape of your day decides whether storage is even relevant.</p>
+      </div>
+      <div class="clr-panel">
+        <p class="num">02</p>
+        <p>Whether you're paying a demand charge — a component priced on your single worst half-hour, not on total use.</p>
+      </div>
+      <div class="clr-panel">
+        <p class="num">03</p>
+        <p>What your site can physically take — switchboard capacity, protection and available space decide what's installable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container container-narrow clr-honest">
+    <h2>We might tell you not to do it</h2>
+    <p>We install solar and batteries both, so we have no reason to push either one over the other — or over doing nothing at all. Plenty of sites don't stack up: the load doesn't line up with generation, the demand charge isn't the real cost driver, or the switchboard can't take what would be needed.</p>
+    <p>Saying so early, from a real bill, is cheaper for everyone than finding out after a site visit and a deposit. If your site doesn't suit solar or storage, we'll tell you that — and tell you why.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="clr-fit">
+      <div class="card">
+        <h3 class="mt-0">This is for</h3>
+        <ul>
+          <li>NSW businesses operating from commercial premises</li>
+          <li>Sites with evening, overnight or unpredictable load</li>
+          <li>Sites already running solar</li>
+          <li>Businesses reviewing a battery proposal</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="mt-0">This isn't for</h3>
+        <ul>
+          <li>Individual homes</li>
+          <li>Data centres</li>
+          <li>Sites outside NSW</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="clrForm">
+  <div class="container container-narrow">
+    <div class="section-head center">
+      <h2>Send my bill</h2>
+      <p class="lede" style="margin-inline:auto;">Five short questions, then your details. No bill upload yet — that comes after.</p>
+    </div>
+
+    <div id="clrErrorSummary" class="error-summary" role="alert" tabindex="-1" hidden>
+      <h3>Please check the following</h3>
+      <ul id="clrErrorSummaryList"></ul>
+    </div>
+
+    <div id="clrFormAnnounce" class="visually-hidden" aria-live="polite"></div>
+
+    <form id="clrForm" method="post" novalidate>
+      <!-- Q1: site type -->
+      <fieldset class="clr-question" id="clrQ1" data-revealed="true">
+        <legend>What kind of site is it?</legend>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" id="siteType-business" name="siteType" value="business" required>
+            <label for="siteType-business">Business or commercial premises</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="siteType-home" name="siteType" value="home">
+            <label for="siteType-home">Individual home</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="siteType-datacentre" name="siteType" value="datacentre">
+            <label for="siteType-datacentre">Data centre</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="siteType-notsure" name="siteType" value="notsure">
+            <label for="siteType-notsure">Not sure</label>
+          </div>
+        </div>
+        <p class="error-msg" id="clrQ1Error">Select the option that best describes the site.</p>
+      </fieldset>
+
+      <!-- Out-of-scope exit (site type) -->
+      <div class="clr-exit" id="clrExitSiteType" hidden tabindex="-1">
+        <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#0540C1" stroke-width="1.8"/><path d="M12 8v5m0 3v.01" stroke="#0540C1" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h2>This review covers NSW business premises</h2>
+        <p class="lede" style="margin-inline:auto;">The Commercial Load Review is built around commercial electricity bills and business load patterns, so it isn't the right fit here. Call us directly and we can point you in the right direction.</p>
+        <p><a class="btn btn-primary" href="tel:+61435336336">Call 0435 336 336</a></p>
+      </div>
+
+      <!-- Q2: suburb + postcode -->
+      <fieldset class="clr-question" id="clrQ2" hidden>
+        <legend>Suburb and postcode</legend>
+        <div class="clr-row2">
+          <div class="form-field" style="margin-bottom:0;">
+            <label for="clrSuburb">Suburb</label>
+            <input type="text" id="clrSuburb" name="suburb" autocomplete="address-level2" required>
+          </div>
+          <div class="form-field" style="margin-bottom:0;">
+            <label for="clrPostcode">Postcode</label>
+            <input type="text" id="clrPostcode" name="postcode" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="postal-code" required>
+          </div>
+        </div>
+        <p class="error-msg" id="clrQ2Error">Enter a suburb and a 4-digit postcode.</p>
+      </fieldset>
+
+      <!-- Out-of-scope exit (non-NSW postcode) -->
+      <div class="clr-exit" id="clrExitPostcode" hidden tabindex="-1">
+        <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#0540C1" stroke-width="1.8"/><path d="M12 8v5m0 3v.01" stroke="#0540C1" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h2>This review covers NSW sites</h2>
+        <p class="lede" style="margin-inline:auto;">We're a NSW electrical contractor and this review is built around NSW sites. Call us directly and we can point you in the right direction.</p>
+        <p><a class="btn btn-primary" href="tel:+61435336336">Call 0435 336 336</a></p>
+      </div>
+
+      <!-- Q3: load pattern -->
+      <fieldset class="clr-question" id="clrQ3" hidden>
+        <legend>When does the site use most of its power?</legend>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" id="loadPattern-daytime" name="loadPattern" value="daytime" required>
+            <label for="loadPattern-daytime">Mostly daytime</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="loadPattern-evenings" name="loadPattern" value="evenings">
+            <label for="loadPattern-evenings">Mostly evenings</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="loadPattern-overnight" name="loadPattern" value="overnight">
+            <label for="loadPattern-overnight">Overnight or around the clock</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="loadPattern-spiky" name="loadPattern" value="spiky">
+            <label for="loadPattern-spiky">Spiky and hard to predict</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="loadPattern-notsure" name="loadPattern" value="notsure">
+            <label for="loadPattern-notsure">Not sure</label>
+          </div>
+        </div>
+        <p class="error-msg" id="clrQ3Error">Select an option.</p>
+      </fieldset>
+
+      <!-- Q4: spend band -->
+      <fieldset class="clr-question" id="clrQ4" hidden>
+        <legend>Roughly what does the site spend on electricity each month?</legend>
+        <div class="radio-cards radio-cards-wide">
+          <div class="radio-card">
+            <input type="radio" id="spend-under1000" name="spendBand" value="under_1000" required>
+            <label for="spend-under1000">Under $1,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-1000-3000" name="spendBand" value="1000_3000">
+            <label for="spend-1000-3000">$1,000–$3,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-3000-7500" name="spendBand" value="3000_7500">
+            <label for="spend-3000-7500">$3,000–$7,500</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-7500-15000" name="spendBand" value="7500_15000">
+            <label for="spend-7500-15000">$7,500–$15,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-over15000" name="spendBand" value="over_15000">
+            <label for="spend-over15000">Over $15,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-notsure" name="spendBand" value="notsure">
+            <label for="spend-notsure">Not sure</label>
+          </div>
+        </div>
+        <p class="error-msg" id="clrQ4Error">Select an option.</p>
+      </fieldset>
+
+      <!-- Q5: decision-making -->
+      <fieldset class="clr-question" id="clrQ5" hidden>
+        <legend>Can you make or influence decisions about the site?</legend>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" id="decision-decide" name="decisionRole" value="decide" required>
+            <label for="decision-decide">I decide</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="decision-recommend" name="decisionRole" value="recommend">
+            <label for="decision-recommend">I'd recommend it</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="decision-lookinginto" name="decisionRole" value="looking_into">
+            <label for="decision-lookinginto">I'm looking into it</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="decision-askelse" name="decisionRole" value="ask_someone_else">
+            <label for="decision-askelse">I'd need to ask someone else</label>
+          </div>
+        </div>
+        <p class="error-msg" id="clrQ5Error">Select an option.</p>
+      </fieldset>
+
+      <!-- Contact details -->
+      <fieldset class="clr-question" id="clrContact" hidden>
+        <legend>Your details</legend>
+        <div class="form-field">
+          <label for="clrFullName">Full name</label>
+          <input type="text" id="clrFullName" name="fullName" autocomplete="name" required>
+        </div>
+        <div class="form-field">
+          <label for="clrBusinessName">Business name</label>
+          <input type="text" id="clrBusinessName" name="businessName" autocomplete="organization" required>
+        </div>
+        <div class="form-field">
+          <label for="clrWorkEmail">Work email</label>
+          <input type="email" id="clrWorkEmail" name="workEmail" autocomplete="email" required>
+        </div>
+        <div class="form-field">
+          <label for="clrPhone">Phone</label>
+          <input type="tel" id="clrPhone" name="phone" autocomplete="tel" required>
+        </div>
+
+        <div class="clr-consent">
+          <input type="checkbox" id="clrConsent" name="consent" required>
+          <label for="clrConsent">I consent to Oz Home Energy contacting me about the load review I've requested.</label>
+        </div>
+        <div class="clr-consent">
+          <input type="checkbox" id="clrMarketing" name="marketingConsent">
+          <label for="clrMarketing">I'd also like to receive occasional updates from Oz Home Energy (optional).</label>
+        </div>
+        <p class="hint">See our <a href="/privacy-policy/">privacy policy</a> for how your information is handled.</p>
+        <p class="error-msg" id="clrContactError">Please fill in your details and consent to being contacted.</p>
+
+        <!-- Attribution: first-touch (ft_) and latest-touch (lt_) hidden
+             fields — see site/js/commercial-load-review.js for how these
+             are populated. Never overwrite ft_ once set; lt_ always
+             reflects the current visit. -->
+        <input type="hidden" name="ft_utm_source" id="ft_utm_source">
+        <input type="hidden" name="ft_utm_medium" id="ft_utm_medium">
+        <input type="hidden" name="ft_utm_campaign" id="ft_utm_campaign">
+        <input type="hidden" name="ft_utm_content" id="ft_utm_content">
+        <input type="hidden" name="ft_utm_term" id="ft_utm_term">
+        <input type="hidden" name="ft_fbclid" id="ft_fbclid">
+        <input type="hidden" name="ft_campaign_id" id="ft_campaign_id">
+        <input type="hidden" name="ft_adset_id" id="ft_adset_id">
+        <input type="hidden" name="ft_ad_id" id="ft_ad_id">
+        <input type="hidden" name="ft_placement" id="ft_placement">
+        <input type="hidden" name="lt_utm_source" id="lt_utm_source">
+        <input type="hidden" name="lt_utm_medium" id="lt_utm_medium">
+        <input type="hidden" name="lt_utm_campaign" id="lt_utm_campaign">
+        <input type="hidden" name="lt_utm_content" id="lt_utm_content">
+        <input type="hidden" name="lt_utm_term" id="lt_utm_term">
+        <input type="hidden" name="lt_fbclid" id="lt_fbclid">
+        <input type="hidden" name="lt_campaign_id" id="lt_campaign_id">
+        <input type="hidden" name="lt_adset_id" id="lt_adset_id">
+        <input type="hidden" name="lt_ad_id" id="lt_ad_id">
+        <input type="hidden" name="lt_placement" id="lt_placement">
+
+        <button class="btn btn-primary btn-block" type="submit" id="clrSubmit">Send my bill</button>
+        <p class="hint clr-form-error" id="clrSubmitError" hidden>Something went wrong sending your details. Your answers are still here — please try again, or call us directly.</p>
+      </fieldset>
+    </form>
+
+    <!-- Post-submit confirmation, with the bill upload prompt -->
+    <div class="clr-confirm" id="clrConfirm" hidden tabindex="-1">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#0540C1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>Got it — thanks</h2>
+      <p class="lede" style="margin-inline:auto;">We'll read your load profile and be in touch about a short call. If you have a recent electricity bill handy, you can attach it now — if not, we'll email you a link so you can send it later.</p>
+      <div class="file-drop">
+        <label for="clrBillUpload">Attach a recent electricity bill (optional)</label>
+        <input type="file" id="clrBillUpload" name="billUpload" accept="application/pdf,image/*">
+        <p class="file-status" id="clrBillStatus"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container-narrow">
+    <div class="section-head center">
+      <h2>What happens next</h2>
+    </div>
+    <div class="process-list">
+      <div class="process-item">
+        <p class="step-no">Step 1</p>
+        <h3>You send the bill</h3>
+        <p>A recent electricity bill — that's the starting point, not a site visit.</p>
+      </div>
+      <div class="process-item">
+        <p class="step-no">Step 2</p>
+        <h3>We read the load profile</h3>
+        <p>We look at when and how the site actually uses power, not just the monthly total.</p>
+      </div>
+      <div class="process-item">
+        <p class="step-no">Step 3</p>
+        <h3>A short call about what it shows</h3>
+        <p>We talk through what the bill tells us, plainly, before anything else happens.</p>
+      </div>
+      <div class="process-item">
+        <p class="step-no">Step 4</p>
+        <h3>A site assessment, only if it's worth one</h3>
+        <p>If solar, storage or an electrical upgrade genuinely stacks up for the site.</p>
+      </div>
+    </div>
+  </div>
+</section>

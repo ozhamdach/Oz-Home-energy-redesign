@@ -6,5 +6,5 @@
     { "name": "Home", "url": "/" },
     { "name": "Service Request", "url": "/service-request/" }
   ],
-  "extraScripts": ["/js/service-request.js"]
+  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"]
 }

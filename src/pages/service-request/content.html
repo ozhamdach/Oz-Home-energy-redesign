@@ -9,64 +9,33 @@
 
 <section class="section">
   <div class="container grid grid-2" style="align-items:flex-start;gap:48px;">
-    <!-- No HighLevel connection yet. This maps most closely to the
-         "Service Request" form verified on the current live site (form ID
-         D54fnMMf1LWTXOCNlh28) — reference only, not used to construct any
-         embed markup (see docs/owner-inputs-required.md). -->
-    <form id="serviceRequestForm" data-prototype-form data-service-field="srType" method="post" data-hl-form-ref="D54fnMMf1LWTXOCNlh28 (reference only, unwired)" novalidate>
-      <div class="grid grid-2">
-        <div class="form-field">
-          <label for="srName">Full name</label>
-          <input type="text" id="srName" name="srName" required autocomplete="name">
-        </div>
-        <div class="form-field">
-          <label for="srPhone">Phone</label>
-          <input type="tel" id="srPhone" name="srPhone" required autocomplete="tel">
-        </div>
-      </div>
-      <div class="form-field">
-        <label for="srAddress">Property address</label>
-        <input type="text" id="srAddress" name="srAddress" required autocomplete="street-address">
-      </div>
-      <div class="form-field">
-        <label for="srType">What do you need help with?</label>
-        <select id="srType" name="srType" required>
-          <option value="">Select an option</option>
-          <option>System fault or error message</option>
-          <option>Performance seems lower than expected</option>
-          <option>General servicing / check-up</option>
-          <option value="Solar servicing">Solar servicing</option>
-          <option value="Panel cleaning">Panel cleaning</option>
-          <option value="Bird-proofing">Bird-proofing</option>
-          <option>Question about my system</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label for="srDetails">Details</label>
-        <textarea id="srDetails" name="srDetails" placeholder="What's happening, and when you first noticed it."></textarea>
-      </div>
-      <div class="form-field">
-        <label for="srPhoto">Photo of the issue (optional)</label>
-        <div class="file-drop">
-          <p>Attach a photo of an error message, damage or the equipment involved.</p>
-          <input type="file" id="srPhoto" name="srPhoto" accept="image/*">
-        </div>
-      </div>
-      <input type="hidden" name="utm_source" value="">
-      <input type="hidden" name="utm_medium" value="">
-      <input type="hidden" name="utm_campaign" value="">
-      <input type="hidden" name="utm_term" value="">
-      <input type="hidden" name="utm_content" value="">
-      <input type="hidden" name="gclid" value="">
-      <input type="hidden" name="fbclid" value="">
-      <input type="hidden" name="landing_page" value="">
-      <input type="hidden" name="referrer" value="">
-      <input type="hidden" name="selected_service" value="">
-      <input type="hidden" name="submitted_at" value="">
-      <button class="btn btn-primary btn-block" type="submit">Submit Service Request</button>
-      <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet — call us instead if you need help now.</span></p>
-    </form>
+    <!-- Real HighLevel-hosted form, embed snippet supplied by the owner
+         (form ID 2TfIfhVospnHx74eNcAP, confirmed as the Service Request
+         form; supersedes the earlier unconfirmed D54fnMMf1LWTXOCNlh28
+         reference). Note: HighLevel's own internal data-form-name/title
+         for this form is "Google/Meta ads Request a Quote" — flagged to
+         the owner as worth double-checking it's not a mix-up with a
+         paid-ads quote-request funnel, but the form ID matches what was
+         confirmed, so wiring it in as supplied rather than guessing. -->
+    <iframe
+      src="https://link.ozhomeenergy.com.au/widget/form/2TfIfhVospnHx74eNcAP"
+      style="width:100%;height:1127px;border:none;border-radius:8px"
+      id="inline-2TfIfhVospnHx74eNcAP"
+      data-layout="{'id':'INLINE'}"
+      data-trigger-type="alwaysShow"
+      data-trigger-value=""
+      data-activation-type="alwaysActivated"
+      data-activation-value=""
+      data-deactivation-type="neverDeactivate"
+      data-deactivation-value=""
+      data-form-name="Google/Meta ads Request a Quote"
+      data-height="1127"
+      data-layout-iframe-id="inline-2TfIfhVospnHx74eNcAP"
+      data-form-id="2TfIfhVospnHx74eNcAP"
+      data-cookie-consent="true"
+      data-cookie-consent-provider="auto"
+      title="Google/Meta ads Request a Quote"
+    ></iframe>
     <aside>
       <div class="card">
         <h3 class="mt-0">Urgent electrical issue?</h3>

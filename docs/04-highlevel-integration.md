@@ -1,13 +1,26 @@
 # HighLevel Integration Specification
 
-This build is a static front-end prototype (`site/`). No form on it currently
-submits anywhere — every form uses `data-prototype-form` (see
-`site/js/main.js`) or, for the multi-step assessment, dedicated logic in
-`site/js/assessment.js`, both of which show an on-page confirmation instead
-of posting data. **Nothing here has been tested against a live HighLevel
-account**, because no HighLevel credentials or sub-account access were
-available in this session — this document specifies exactly what needs to be
-built, and by whom, to make it live.
+**Update — `/assessment/` and the homepage quick-quote are now live.** The
+owner supplied real HighLevel-hosted form embeds (widget iframes + HighLevel's
+`form_embed.js`) for both, replacing this repo's custom-built prototype forms
+on those two pages entirely — this is a third path beyond the two originally
+outlined below: keep the page shell/copy, but let HighLevel's own hosted
+widget be the form itself, rather than building a custom UI that POSTs to a
+webhook/API. See `docs/analytics-integration.md`'s "Attribution regression"
+section for the real trade-off this introduced (this site's UTM/`gclid`
+capture no longer reaches these two forms). **Everything below this point
+still applies unchanged to the two forms that remain unwired prototypes:
+Commercial Project Enquiry and Service Request.**
+
+---
+
+This build is a static front-end prototype (`site/`) for its remaining
+unwired forms. Commercial Project Enquiry and Service Request still use
+`data-prototype-form` (see `site/js/main.js`), which shows an on-page
+confirmation instead of posting data. **Neither has been tested against a
+live HighLevel account** — this document specifies exactly what needs to be
+built, and by whom, to make them live, following the same approach (options
+below) or the iframe-embed approach now used for the other two forms.
 
 ## System of record
 
@@ -26,7 +39,7 @@ so it works by field `name` on any form, not just the assessment page).
 
 | Form | Page | Fields captured |
 |---|---|---|
-| Energy Assessment (multi-step) | `/assessment/` | goal, propertyOwner, suburb, propertyType, hasSolar, hasBattery, hasEv, billFrequency, billAmountQuarterly, billAmountMonthly, billUpload (file), fullName, phoneNum, emailAddr, contactMethod, contactTime, consent, selected_service, submitted_at, + attribution fields |
+| Energy Assessment ("Request a Quote") | `/assessment/` | **Now a real HighLevel embed (form ID `7CTbeFedTXyoPJoS2CmH`)** — field set is whatever's configured on that form inside HighLevel, not this table; the columns below describe the retired custom-built version for reference only. |
 | Commercial Project Enquiry | `/commercial-project-enquiry/` | companyName, contactName, role, email, phone, siteAddress, interest[] (checkboxes), details, selected_service, submitted_at, + attribution fields |
 | Service Request | `/service-request/` | srName, srPhone, srAddress, srType, srDetails, srPhoto (file), selected_service, submitted_at, + attribution fields |
 
@@ -160,10 +173,13 @@ this preview can demonstrate:
       `07-owner-confirmations.md`)
 - [ ] GrowthLocal or any other legacy vendor script fully removed from
       customer-facing pages once HighLevel is the sole lead-capture system
-- [ ] Until every item above is done, the GitHub Pages preview must keep
-      showing its "this is a design preview" notice on all three forms and
-      must not be treated as capable of collecting genuine customer
-      information
+- [x] `/assessment/` and the homepage quick-quote widget are real HighLevel
+      embeds now, not prototypes — the "design preview" notice was removed
+      from `/assessment/` for that reason
+- [ ] Commercial Project Enquiry and Service Request are still prototypes:
+      the GitHub Pages preview must keep showing their "this is a design
+      preview" notice and must not be treated as capable of collecting
+      genuine customer information until they're wired up the same way
 
 Nothing above is claimed as working in this build — every integration point
 is a specification, not a tested connection.

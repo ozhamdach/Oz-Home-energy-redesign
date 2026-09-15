@@ -12,11 +12,10 @@
     window.dataLayer.push(Object.assign({ event: name }, data || {}));
   }
 
-  // Meta Pixel interface — deliberately inert unless a real Pixel ID is
-  // configured elsewhere (window.OHE_META_PIXEL_ID + the actual base code
-  // snippet, neither of which exists in this build — no ID is invented).
-  // fbq is only ever called if something else has already defined it; this
-  // never loads or injects the Pixel itself. Non-PII payload only.
+  // Meta Pixel — the base code (src/layout.html) now loads a real Pixel
+  // (1375668011396700), so these custom events fire for real once it's
+  // ready. This function still only calls fbq if it's actually defined,
+  // so nothing breaks if the Pixel is ever removed. Non-PII payload only.
   function firePixelEvent(name, data) {
     if (typeof window.fbq !== 'function') return;
     window.fbq('trackCustom', name, data || {});

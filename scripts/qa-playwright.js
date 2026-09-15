@@ -116,27 +116,6 @@ async function run(label, fn) {
     }
   }
 
-  // Assessment first-question-above-the-fold check (see
-  // docs/06-qa-report.md) — the progress bar and the first question's radio
-  // group must both be visible without scrolling, at common viewport sizes.
-  await run('assessment above-the-fold', async () => {
-    for (const [w, h] of [
-      [360, 640],
-      [390, 844],
-      [768, 1024],
-      [1440, 900],
-    ]) {
-      const page = await context.newPage();
-      await page.setViewportSize({ width: w, height: h });
-      await page.goto(BASE + '/assessment/', { waitUntil: 'load', timeout: 15000 });
-      const progressBox = await page.locator('#assessProgressBar').boundingBox();
-      const firstCardBox = await page.locator('.radio-cards').first().boundingBox();
-      if (!progressBox || progressBox.y > h) errors.push(`assessment @${w}x${h}: progress bar not visible without scrolling`);
-      if (!firstCardBox || firstCardBox.y > h) errors.push(`assessment @${w}x${h}: first question not visible without scrolling`);
-      await page.close();
-    }
-  });
-
   // Real touch interaction, not just class-state checks: a synthetic
   // page.click() (the previous version of this test) exercises none of the
   // actual tap/hit-testing path a phone uses, and would have stayed green
@@ -271,87 +250,26 @@ async function run(label, fn) {
     await page.close();
   });
 
-  await run('assessment flow step-through', async () => {
+  // /assessment/ now embeds a real HighLevel-hosted form (iframe, cross-origin)
+  // in place of the custom-built multi-step form these three tests used to
+  // exercise — see git history for that version. Nothing here can assert on
+  // the iframe's internal behavior (different origin, and this sandbox can't
+  // reach link.ozhomeenergy.com.au anyway); the presence/attributes of the
+  // embed itself are checked by scripts/qa-static-checks.js instead.
+  await run('assessment page embeds the real HighLevel form, not a stale prototype', async () => {
     const page = await context.newPage();
-    await page.setViewportSize({ width: 1024, height: 900 });
-    await page.goto(BASE + '/assessment/?goal=ev-charging', { waitUntil: 'load', timeout: 15000 });
-    const goalChecked = await page.evaluate(() => document.getElementById('goal4').checked);
-    if (!goalChecked) errors.push('Assessment goal preselect via query param failed');
-
-    await page.click('#assessNext');
-    const step2active = await page.evaluate(() => document.querySelector('[data-step="2"]').classList.contains('is-active'));
-    if (!step2active) errors.push('Assessment step 1 -> 2 did not advance (should have via preselected radio)');
-
-    // try advancing without selecting residential/commercial - should block
-    await page.click('#assessNext');
-    const stillStep2 = await page.evaluate(() => document.querySelector('[data-step="2"]').classList.contains('is-active'));
-    if (!stillStep2) errors.push('Assessment step 2 advanced without required selection (validation should have blocked it)');
-
-    // select the SECOND option in the group (not the one carrying `required`)
-    // to specifically catch the "only first radio validated" class of bug
-    await page.check('#type2');
-    // Step 2 also asks suburb + property type (merged from the old 7-step
-    // flow's separate step 3) — both required before it'll advance.
-    await page.fill('#suburb', 'Sydney');
-    await page.selectOption('#propertyType', 'Commercial building');
-    await page.click('#assessNext');
-    const step3active = await page.evaluate(() => document.querySelector('[data-step="3"]').classList.contains('is-active'));
-    if (!step3active) errors.push('Assessment step 2 -> 3 did not advance after selecting the second (Commercial) option');
-
-    await page.click('#assessBack');
-    const backToStep2 = await page.evaluate(() => document.querySelector('[data-step="2"]').classList.contains('is-active'));
-    if (!backToStep2) errors.push('Assessment Back button did not return to step 2');
-    const suburbPreserved = await page.inputValue('#suburb');
-    if (suburbPreserved !== 'Sydney') errors.push('Suburb value lost when navigating back to step 2');
-
-    await page.close();
-  });
-
-  await run('assessment skips solar-bill step for electrical goal', async () => {
-    const page = await context.newPage();
-    await page.setViewportSize({ width: 1024, height: 900 });
-    await page.goto(BASE + '/assessment/?goal=electrical-upgrade', { waitUntil: 'load', timeout: 15000 });
-    const goalChecked = await page.evaluate(() => document.getElementById('goal5').checked);
-    if (!goalChecked) errors.push('Electrical-upgrade goal preselect via query param failed');
-    await page.click('#assessNext'); // step 1 -> 2
-    await page.check('#type1');
-    await page.fill('#suburb', 'Parramatta');
-    await page.selectOption('#propertyType', 'Free-standing house');
-    await page.click('#assessNext'); // step 2 -> should skip 3, land on 4
-    const onStep4 = await page.evaluate(() => document.querySelector('[data-step="4"]').classList.contains('is-active'));
-    if (!onStep4) errors.push('Electrical-upgrade goal did not skip the solar-bill step (step 3)');
-    await page.click('#assessBack'); // should return to step 2, not step 3
-    const backOnStep2 = await page.evaluate(() => document.querySelector('[data-step="2"]').classList.contains('is-active'));
-    if (!backOnStep2) errors.push('Electrical-upgrade goal Back from step 4 did not return to step 2 (skipping step 3)');
-    await page.close();
-  });
-
-  await run('assessment final submit shows pending notice, not success', async () => {
-    const page = await context.newPage();
-    await page.setViewportSize({ width: 1024, height: 900 });
-    await page.goto(BASE + '/assessment/?goal=lower-bills', { waitUntil: 'load', timeout: 15000 });
-    await page.click('#assessNext'); // 1 -> 2
-    await page.check('#type1');
-    await page.fill('#suburb', 'Sydney');
-    await page.selectOption('#propertyType', 'Free-standing house');
-    await page.click('#assessNext'); // 2 -> 3
-    await page.click('#assessNext'); // 3 -> 4 (nothing required in step 3)
-    await page.fill('#fullName', 'Test Person');
-    await page.fill('#phoneNum', '0400000000');
-    await page.fill('#emailAddr', 'test@example.com');
-    await page.click('#assessNext'); // 4 -> 5
-    await page.selectOption('#contactMethod', 'Phone call');
-    await page.check('#consent');
-    await page.click('#assessSubmit');
-    const pendingVisible = await page.evaluate(() => !!document.querySelector('.lead-pending-notice'));
-    if (!pendingVisible) errors.push('Assessment submit did not show the not-connected-yet notice');
-    const bodyText = await page.evaluate(() => document.body.textContent);
-    if (/Thanks[^.]*noted/i.test(bodyText)) errors.push('Assessment submit still shows old "Thanks — noted" success copy');
+    await page.goto(BASE + '/assessment/', { waitUntil: 'load', timeout: 15000 });
+    const hasRealEmbed = await page.evaluate(
+      () => !!document.querySelector('iframe[data-form-id="7CTbeFedTXyoPJoS2CmH"]')
+    );
+    if (!hasRealEmbed) errors.push('/assessment/: expected HighLevel form iframe (7CTbeFedTXyoPJoS2CmH) not found');
+    const hasStaleForm = await page.evaluate(() => !!document.getElementById('assessmentForm'));
+    if (hasStaleForm) errors.push('/assessment/: retired custom #assessmentForm markup is still present');
     await page.close();
   });
 
   await run('no lead form has action="#" or shows a fake success state', async () => {
-    for (const p of ['/assessment/', '/service-request/', '/commercial-project-enquiry/']) {
+    for (const p of ['/service-request/', '/commercial-project-enquiry/']) {
       const page = await context.newPage();
       await page.goto(BASE + p, { waitUntil: 'load', timeout: 15000 });
       const actionHash = await page.evaluate(() => {

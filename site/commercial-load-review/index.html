@@ -134,14 +134,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .clr-panel { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 22px; }
   .clr-panel .num { font-family: var(--font-heading); font-weight: 700; color: var(--brand); font-size: 0.85rem; letter-spacing: 0.08em; margin-bottom: 10px; }
   .clr-panel p { margin: 0; color: var(--text); font-size: 0.98rem; }
-  .clr-honest { background: var(--bg-accent); border-radius: var(--radius-lg); padding: clamp(28px, 5vw, 44px); }
-  .clr-honest p { font-size: 1.05rem; max-width: 62ch; }
-  .clr-honest p:last-child { margin-bottom: 0; }
-  .clr-fit { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  @media (max-width: 700px) { .clr-fit { grid-template-columns: 1fr; } }
+  .clr-fit { max-width: 520px; margin: 0 auto; }
   .clr-fit .card h3 { font-size: 1.05rem; }
   .clr-fit ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
   .clr-fit li { font-size: 0.96rem; color: var(--text); }
+  .clr-hero h1 em {
+    font-style: italic; font-weight: 700; font-family: var(--font-heading);
+  }
   .clr-question { margin-bottom: 32px; }
   .clr-question legend { font-weight: 600; font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 14px; padding: 0; }
   .clr-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -163,7 +162,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero clr-hero">
   <div class="container hero-inner">
     <p class="eyebrow">Commercial Load Review</p>
-    <h1>Your problem might be when you use power, not how much.</h1>
+    <h1>Your problem might be <em>when</em> you use power, not how much.</h1>
     <p class="lede">Send a recent bill. We'll tell you whether solar, storage or neither is the answer for your site — and we'll tell you if it's neither.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="#clrForm">Send my bill</a>
@@ -194,14 +193,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<section class="section section-alt">
-  <div class="container container-narrow clr-honest">
-    <h2>We might tell you not to do it</h2>
-    <p>We install solar and batteries both, so we have no reason to push either one over the other — or over doing nothing at all. Plenty of sites don't stack up: the load doesn't line up with generation, the demand charge isn't the real cost driver, or the switchboard can't take what would be needed.</p>
-    <p>Saying so early, from a real bill, is cheaper for everyone than finding out after a site visit and a deposit. If your site doesn't suit solar or storage, we'll tell you that — and tell you why.</p>
-  </div>
-</section>
-
 <section class="section">
   <div class="container">
     <div class="clr-fit">
@@ -210,16 +201,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <ul>
           <li>NSW businesses operating from commercial premises</li>
           <li>Sites with evening, overnight or unpredictable load</li>
-          <li>Sites already running solar</li>
+          <li>Sites with solar</li>
+          <li>Sites without solar</li>
           <li>Businesses reviewing a battery proposal</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 class="mt-0">This isn't for</h3>
-        <ul>
-          <li>Individual homes</li>
-          <li>Data centres</li>
-          <li>Sites outside NSW</li>
         </ul>
       </div>
     </div>

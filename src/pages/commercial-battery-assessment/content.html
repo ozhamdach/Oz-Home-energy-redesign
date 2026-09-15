@@ -1,190 +1,351 @@
-<section class="page-banner" style="padding-block:20px 16px;">
-  <div class="container">
-    <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Commercial Battery Assessment</p>
-    <h1 style="font-size:clamp(1.5rem, 1.2rem + 1.6vw, 2.1rem); margin-bottom:6px;">NSW commercial battery assessment</h1>
-    <p class="lede" style="font-size:0.95rem; margin-bottom:0;">For NSW apartment buildings (4+ dwellings) and businesses — two minutes, no obligation.</p>
+<section class="page-banner" style="padding-block:24px 16px;">
+  <div class="container container-narrow text-center">
+    <h1 style="font-size:clamp(1.6rem, 1.2rem + 2vw, 2.3rem); margin-bottom:10px;">Check whether your NSW site may suit BESS3 or BESS4</h1>
+    <p class="lede" style="margin-inline:auto;">For strata decision-makers and NSW businesses considering a battery greater than 20 kWh and up to 200 kWh, with or without new solar. Complete this preliminary site check so Oz Home Energy can review the project.</p>
+    <p class="hint" style="margin-inline:auto;max-width:640px;">Eligible NSW projects may qualify for support through the Peak Demand Reduction Scheme, subject to current scheme, equipment, installer, network, planning, assessment and approval requirements.</p>
   </div>
 </section>
 
-<section class="section-tight" style="padding-block:20px clamp(40px, 6vw, 72px);">
-  <div class="container">
-    <div class="grid grid-2" style="gap:48px;align-items:flex-start;">
-      <div class="assess-wrap" style="max-width:none;">
+<section class="section-tight" style="padding-block:8px clamp(40px, 6vw, 72px);">
+  <div class="container container-narrow">
 
-        <div class="why-we-ask" style="margin-bottom:24px;">
-          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <p>From 1 September 2026, the NSW Peak Demand Reduction Scheme offers battery storage incentives for eligible sites. This is a preliminary check, not a final eligibility decision — that's confirmed during a site visit. If a question doesn't apply to you, "not sure" is a fine answer.</p>
-        </div>
+    <div class="grid grid-2" style="gap:20px;margin-bottom:32px;">
+      <div class="card">
+        <h2 class="mt-0" style="font-size:1.1rem;">Apartment buildings</h2>
+        <p class="hint" style="margin-bottom:0;">Preliminary BESS3 pathway — for NSW apartment buildings (BCA Class 2) with four or more individual dwellings.</p>
+      </div>
+      <div class="card">
+        <h2 class="mt-0" style="font-size:1.1rem;">Business premises</h2>
+        <p class="hint" style="margin-bottom:0;">Preliminary BESS4 pathway — for NSW business sites. Excludes residential buildings and data centres.</p>
+      </div>
+    </div>
 
-        <form id="bessForm" method="post" novalidate>
-          <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-            <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.98rem;margin-bottom:10px;">What kind of site is this?</legend>
-            <div class="radio-cards radio-cards-wide">
-              <div class="radio-card"><input type="radio" id="siteType1" name="siteType" value="apartment_4plus" required><label for="siteType1">An apartment building with 4 or more dwellings</label></div>
-              <div class="radio-card"><input type="radio" id="siteType2" name="siteType" value="commercial_business"><label for="siteType2">A commercial or business premises</label></div>
-              <div class="radio-card"><input type="radio" id="siteType3" name="siteType" value="single_home"><label for="siteType3">A single home</label></div>
-            </div>
-            <p class="error-msg" role="alert" id="siteTypeError">Please choose an option to continue.</p>
-          </fieldset>
+    <div class="assess-wrap" style="max-width:none;">
+      <div class="assess-progress" style="margin-bottom:20px;">
+        <div class="bar" id="bessProgressBar" role="progressbar" aria-label="Site check progress" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1"><div class="fill" id="bessFill"></div></div>
+        <div class="meta"><span id="bessStageLabel">Stage 1 of 3</span><span id="bessStageName">Site fit</span></div>
+      </div>
+      <div id="bessStageAnnounce" class="visually-hidden" aria-live="polite"></div>
 
-          <!-- Shown only when siteType = single_home. Not a dead end: this
-               campaign is scoped to apartment/business PDRS activities, but
-               a single-home visitor is still a real prospect for the
-               existing residential battery service — redirected there
-               instead of being left with a form that doesn't apply. -->
-          <div id="singleHomeBlock" hidden class="card" style="margin-bottom:24px;">
-            <h3 class="mt-0">This assessment is for apartment buildings and businesses</h3>
-            <p>This incentive doesn't apply to a single home — but Oz Home Energy still installs residential battery storage.</p>
-            <p><a class="btn btn-primary" href="/battery-storage/">Go to residential battery storage</a></p>
-          </div>
+      <h2 style="font-size:1.3rem;">NSW Commercial Battery Site Check</h2>
+      <p class="lede" style="font-size:0.95rem;">For NSW businesses, strata managers and apartment buildings with four or more dwellings. Complete this short assessment so Oz Home Energy can review the site, electricity use and possible BESS3 or BESS4 pathway. Submitting the form does not confirm scheme eligibility, savings or project approval.</p>
 
-          <!-- Shown only when siteType = apartment_4plus -->
-          <div id="apartmentBlock" hidden>
-            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Roughly how many dwellings?</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="dwellingBand1" name="dwellingBand" value="4-9"><label for="dwellingBand1">4–9</label></div>
-                <div class="radio-card"><input type="radio" id="dwellingBand2" name="dwellingBand" value="10-24"><label for="dwellingBand2">10–24</label></div>
-                <div class="radio-card"><input type="radio" id="dwellingBand3" name="dwellingBand" value="25-49"><label for="dwellingBand3">25–49</label></div>
-                <div class="radio-card"><input type="radio" id="dwellingBand4" name="dwellingBand" value="50-plus"><label for="dwellingBand4">50 or more</label></div>
-                <div class="radio-card"><input type="radio" id="dwellingBand5" name="dwellingBand" value="under-4"><label for="dwellingBand5">Fewer than 4</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="dwellingBandError">Please choose an option to continue.</p>
-            </fieldset>
-            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Your role</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="apartmentRole1" name="apartmentRole" value="strata-committee"><label for="apartmentRole1">Strata committee / owners corporation</label></div>
-                <div class="radio-card"><input type="radio" id="apartmentRole2" name="apartmentRole" value="strata-manager"><label for="apartmentRole2">Strata or building manager</label></div>
-                <div class="radio-card"><input type="radio" id="apartmentRole3" name="apartmentRole" value="resident"><label for="apartmentRole3">Resident or owner, no formal authority</label></div>
-                <div class="radio-card"><input type="radio" id="apartmentRole4" name="apartmentRole" value="other"><label for="apartmentRole4">Other</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="apartmentRoleError">Please choose an option to continue.</p>
-            </fieldset>
-          </div>
-
-          <!-- Shown only when siteType = commercial_business -->
-          <div id="businessBlock" hidden>
-            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Your role</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="businessRole1" name="businessRole" value="owner-director"><label for="businessRole1">Owner / director</label></div>
-                <div class="radio-card"><input type="radio" id="businessRole2" name="businessRole" value="facilities-manager"><label for="businessRole2">Facilities / operations manager</label></div>
-                <div class="radio-card"><input type="radio" id="businessRole3" name="businessRole" value="consultant-broker"><label for="businessRole3">Consultant or broker acting for the business</label></div>
-                <div class="radio-card"><input type="radio" id="businessRole4" name="businessRole" value="other"><label for="businessRole4">Other</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="businessRoleError">Please choose an option to continue.</p>
-            </fieldset>
-            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Approximate quarterly electricity bill</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="billBand1" name="billBand" value="under-5k"><label for="billBand1">Under $5,000</label></div>
-                <div class="radio-card"><input type="radio" id="billBand2" name="billBand" value="5k-20k"><label for="billBand2">$5,000 – $20,000</label></div>
-                <div class="radio-card"><input type="radio" id="billBand3" name="billBand" value="20k-50k"><label for="billBand3">$20,000 – $50,000</label></div>
-                <div class="radio-card"><input type="radio" id="billBand4" name="billBand" value="over-50k"><label for="billBand4">Over $50,000</label></div>
-                <div class="radio-card"><input type="radio" id="billBand5" name="billBand" value="not-sure"><label for="billBand5">Not sure</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="billBandError">Please choose an option to continue.</p>
-            </fieldset>
-          </div>
-
-          <!-- Shown for apartment_4plus and commercial_business, hidden for single_home -->
-          <div id="commonBlock" hidden>
-            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Is there an existing battery on site?</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="hasBattery1" name="hasBattery" value="yes"><label for="hasBattery1">Yes</label></div>
-                <div class="radio-card"><input type="radio" id="hasBattery2" name="hasBattery" value="no"><label for="hasBattery2">No</label></div>
-                <div class="radio-card"><input type="radio" id="hasBattery3" name="hasBattery" value="not-sure"><label for="hasBattery3">Not sure</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="hasBatteryError">Please choose an option to continue.</p>
-            </fieldset>
-
-            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Solar status</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="solarStatus1" name="solarStatus" value="existing"><label for="solarStatus1">Existing solar</label></div>
-                <div class="radio-card"><input type="radio" id="solarStatus2" name="solarStatus" value="planned"><label for="solarStatus2">No solar yet, planning one</label></div>
-                <div class="radio-card"><input type="radio" id="solarStatus3" name="solarStatus" value="none"><label for="solarStatus3">No solar, none planned</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="solarStatusError">Please choose an option to continue.</p>
-            </fieldset>
-
-            <fieldset class="assess-fieldset" style="margin-bottom:24px;">
-              <legend style="font-weight:600;font-family:var(--font-heading);font-size:0.92rem;margin-bottom:10px;">Project timeframe</legend>
-              <div class="radio-cards">
-                <div class="radio-card"><input type="radio" id="timeframe1" name="timeframe" value="asap"><label for="timeframe1">As soon as possible</label></div>
-                <div class="radio-card"><input type="radio" id="timeframe2" name="timeframe" value="3-6-months"><label for="timeframe2">3–6 months</label></div>
-                <div class="radio-card"><input type="radio" id="timeframe3" name="timeframe" value="6-12-months"><label for="timeframe3">6–12 months</label></div>
-                <div class="radio-card"><input type="radio" id="timeframe4" name="timeframe" value="researching"><label for="timeframe4">Just researching</label></div>
-              </div>
-              <p class="error-msg" role="alert" id="timeframeError">Please choose an option to continue.</p>
-            </fieldset>
-
-            <div class="grid grid-2">
-              <div class="form-field">
-                <label for="projectSuburb">Suburb</label>
-                <input type="text" id="projectSuburb" name="projectSuburb" required autocomplete="address-level2">
-              </div>
-              <div class="form-field">
-                <label for="projectPostcode">Postcode</label>
-                <input type="text" id="projectPostcode" name="projectPostcode" required inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="postal-code">
-              </div>
-            </div>
-
-            <div class="grid grid-2">
-              <div class="form-field">
-                <label for="fullName">Your name</label>
-                <input type="text" id="fullName" name="fullName" required autocomplete="name">
-              </div>
-              <div class="form-field">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" required autocomplete="tel">
-              </div>
-            </div>
-            <div class="form-field">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required autocomplete="email">
-            </div>
-
-            <div class="form-field" style="margin-top:8px;">
-              <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
-                <input type="checkbox" id="bessConsent" name="bessConsent" required style="margin-top:3px;">
-                <span>I consent to Oz Home Energy contacting me about this enquiry, including by phone, SMS and email. See our <a href="/privacy-policy/">Privacy Policy</a>.</span>
-              </label>
-              <p class="error-msg" role="alert" id="bessConsentError">Please provide consent to continue — we can't follow up without it.</p>
-            </div>
-
-            <!-- Attribution (populated by site/js/main.js's populateAttributionFields,
-                 same sitewide mechanism as the other three lead forms — see
-                 docs/08-commercial-battery-assessment-funnel.md §4). -->
-            <input type="hidden" name="utm_source" value="">
-            <input type="hidden" name="utm_medium" value="">
-            <input type="hidden" name="utm_campaign" value="">
-            <input type="hidden" name="utm_term" value="">
-            <input type="hidden" name="utm_content" value="">
-            <input type="hidden" name="gclid" value="">
-            <input type="hidden" name="fbclid" value="">
-            <input type="hidden" name="campaign_id" value="">
-            <input type="hidden" name="adset_id" value="">
-            <input type="hidden" name="ad_id" value="">
-            <input type="hidden" name="placement" value="">
-            <input type="hidden" name="landing_page" value="">
-            <input type="hidden" name="referrer" value="">
-
-            <button class="btn btn-primary btn-block" type="submit" id="bessSubmit" style="margin-top:8px;">Request my preliminary assessment</button>
-            <div id="bessFormStatus" aria-live="polite" role="status" style="margin-top:14px;"></div>
-            <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview and won't send your details anywhere — call us instead if you need a response now.</span></p>
-          </div>
-        </form>
+      <div id="bessErrorSummary" class="error-summary" role="alert" tabindex="-1" hidden>
+        <h3>Please check the following</h3>
+        <ul id="bessErrorSummaryList"></ul>
       </div>
 
-      <aside class="card" style="position:sticky;top:24px;">
-        <h3 class="mt-0">Licensed &amp; local</h3>
-        <p>NSW Electrical Contractor Licence 382607C · Sydney-based · Residential &amp; commercial</p>
-        <p class="hint">Eligibility is confirmed during a real site assessment, not by this form.</p>
-        <p><a href="tel:+61435336336">Call 0435 336 336</a> if you'd rather talk it through directly.</p>
-      </aside>
+      <form id="bessForm" method="post" novalidate>
+        <!-- STAGE 1: Site fit -->
+        <div class="assess-step is-active" data-stage="1" id="stage1">
+          <h3>About the site</h3>
+
+          <div class="grid grid-2">
+            <div class="form-field">
+              <label for="siteAddress">Site address</label>
+              <input type="text" id="siteAddress" name="siteAddress" required autocomplete="street-address" aria-describedby="siteAddressError">
+              <p class="error-msg" role="alert" id="siteAddressError">Please enter the site address.</p>
+            </div>
+            <div class="form-field">
+              <label for="siteSuburb">Site suburb</label>
+              <input type="text" id="siteSuburb" name="siteSuburb" required autocomplete="address-level2" aria-describedby="siteSuburbError">
+              <p class="error-msg" role="alert" id="siteSuburbError">Please enter the site suburb.</p>
+            </div>
+          </div>
+          <div class="grid grid-2">
+            <div class="form-field">
+              <label for="sitePostcode">Site postcode</label>
+              <input type="text" id="sitePostcode" name="sitePostcode" required inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="postal-code" aria-describedby="sitePostcodeError">
+              <p class="error-msg" role="alert" id="sitePostcodeError">Please enter a valid 4-digit postcode.</p>
+            </div>
+            <fieldset class="form-field" style="border:none;padding:0;">
+              <legend>Is this site in New South Wales?</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="nswConfirm1" name="nswConfirm" value="yes" required><label for="nswConfirm1">Yes</label></div>
+                <div class="radio-card"><input type="radio" id="nswConfirm2" name="nswConfirm" value="no"><label for="nswConfirm2">No</label></div>
+              </div>
+              <p class="error-msg" role="alert" id="nswConfirmError">Please confirm whether the site is in NSW.</p>
+            </fieldset>
+          </div>
+
+          <fieldset class="assess-fieldset">
+            <legend>Site type</legend>
+            <p class="hint">Not sure how your building is classified? Oz Home Energy will confirm the details during review — pick the closest description.</p>
+            <div class="radio-cards radio-cards-wide">
+              <div class="radio-card"><input type="radio" id="siteType1" name="siteType" value="apartment_building" required><label for="siteType1">Apartment building</label></div>
+              <div class="radio-card"><input type="radio" id="siteType2" name="siteType" value="commercial_business"><label for="siteType2">Commercial / business premises</label></div>
+              <div class="radio-card"><input type="radio" id="siteType3" name="siteType" value="individual_home"><label for="siteType3">Individual home</label></div>
+              <div class="radio-card"><input type="radio" id="siteType4" name="siteType" value="data_centre"><label for="siteType4">Data centre</label></div>
+              <div class="radio-card"><input type="radio" id="siteType5" name="siteType" value="unsure"><label for="siteType5">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="siteTypeError">Please choose a site type.</p>
+          </fieldset>
+
+          <!-- Apartment-only sub-questions -->
+          <div id="apartmentBlock" hidden>
+            <div class="grid grid-2">
+              <div class="form-field">
+                <label for="dwellingCount">Number of individual dwellings</label>
+                <input type="number" id="dwellingCount" name="dwellingCount" min="1" step="1" aria-describedby="dwellingCountError">
+                <p class="error-msg" role="alert" id="dwellingCountError">Please enter the number of dwellings.</p>
+              </div>
+              <fieldset class="form-field" style="border:none;padding:0;">
+                <legend>Is the building BCA Class 2?</legend>
+                <div class="radio-cards">
+                  <div class="radio-card"><input type="radio" id="bcaClass1" name="bcaClass2" value="yes"><label for="bcaClass1">Yes</label></div>
+                  <div class="radio-card"><input type="radio" id="bcaClass2b" name="bcaClass2" value="no"><label for="bcaClass2b">No</label></div>
+                  <div class="radio-card"><input type="radio" id="bcaClass3" name="bcaClass2" value="unsure"><label for="bcaClass3">Unsure</label></div>
+                </div>
+                <p class="hint">Not sure? Oz Home Energy will confirm this during review.</p>
+              </fieldset>
+            </div>
+            <fieldset class="assess-fieldset">
+              <legend>Likely access to suitable common-property installation space?</legend>
+              <div class="radio-cards">
+                <div class="radio-card"><input type="radio" id="commonSpace1" name="commonPropertySpace" value="yes"><label for="commonSpace1">Yes</label></div>
+                <div class="radio-card"><input type="radio" id="commonSpace2" name="commonPropertySpace" value="no"><label for="commonSpace2">No</label></div>
+                <div class="radio-card"><input type="radio" id="commonSpace3" name="commonPropertySpace" value="unsure"><label for="commonSpace3">Unsure</label></div>
+              </div>
+            </fieldset>
+          </div>
+
+          <fieldset class="assess-fieldset">
+            <legend>Is the site grid-connected?</legend>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="gridConnected1" name="gridConnected" value="yes" required><label for="gridConnected1">Yes</label></div>
+              <div class="radio-card"><input type="radio" id="gridConnected2" name="gridConnected" value="no"><label for="gridConnected2">No</label></div>
+              <div class="radio-card"><input type="radio" id="gridConnected3" name="gridConnected" value="unsure"><label for="gridConnected3">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="gridConnectedError">Please choose an option.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Your role</legend>
+            <div class="radio-cards radio-cards-wide">
+              <div class="radio-card"><input type="radio" id="role1" name="role" value="owner_director" required><label for="role1">Owner / director</label></div>
+              <div class="radio-card"><input type="radio" id="role2" name="role" value="strata_manager"><label for="role2">Strata manager</label></div>
+              <div class="radio-card"><input type="radio" id="role3" name="role" value="owners_corp_committee"><label for="role3">Owners corporation committee member</label></div>
+              <div class="radio-card"><input type="radio" id="role4" name="role" value="building_facilities_manager"><label for="role4">Building / facilities manager</label></div>
+              <div class="radio-card"><input type="radio" id="role5" name="role" value="finance_ops_manager"><label for="role5">Finance / operations manager</label></div>
+              <div class="radio-card"><input type="radio" id="role6" name="role" value="tenant"><label for="role6">Tenant</label></div>
+              <div class="radio-card"><input type="radio" id="role7" name="role" value="consultant"><label for="role7">Consultant</label></div>
+              <div class="radio-card"><input type="radio" id="role8" name="role" value="other"><label for="role8">Other</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="roleError">Please choose your role.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Do you have authority to investigate or approve this project?</legend>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="authority1" name="authority" value="yes" required><label for="authority1">Yes</label></div>
+              <div class="radio-card"><input type="radio" id="authority2" name="authority" value="no"><label for="authority2">No</label></div>
+              <div class="radio-card"><input type="radio" id="authority3" name="authority" value="shared_committee"><label for="authority3">Shared / committee decision</label></div>
+              <div class="radio-card"><input type="radio" id="authority4" name="authority" value="unsure"><label for="authority4">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="authorityError">Please choose an option.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Is there an existing battery at the site or on this electricity connection (NMI)?</legend>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="existingBattery1" name="existingBattery" value="yes" required><label for="existingBattery1">Yes</label></div>
+              <div class="radio-card"><input type="radio" id="existingBattery2" name="existingBattery" value="no"><label for="existingBattery2">No</label></div>
+              <div class="radio-card"><input type="radio" id="existingBattery3" name="existingBattery" value="unsure"><label for="existingBattery3">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="existingBatteryError">Please choose an option.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Has a previous NSW PDRS battery activity or discount been completed or claimed at this site?</legend>
+            <p class="hint">An existing battery alone doesn't rule a site out — this is specifically about whether a scheme discount has already been claimed here before.</p>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="priorActivity1" name="priorActivity" value="yes" required><label for="priorActivity1">Yes</label></div>
+              <div class="radio-card"><input type="radio" id="priorActivity2" name="priorActivity" value="no"><label for="priorActivity2">No</label></div>
+              <div class="radio-card"><input type="radio" id="priorActivity3" name="priorActivity" value="unsure"><label for="priorActivity3">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="priorActivityError">Please choose an option.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Existing solar</legend>
+            <div class="radio-cards radio-cards-wide">
+              <div class="radio-card"><input type="radio" id="solarStatus1" name="solarStatus" value="none" required><label for="solarStatus1">None</label></div>
+              <div class="radio-card"><input type="radio" id="solarStatus2" name="solarStatus" value="existing"><label for="solarStatus2">Existing solar</label></div>
+              <div class="radio-card"><input type="radio" id="solarStatus3" name="solarStatus" value="planning"><label for="solarStatus3">Planning new or additional solar</label></div>
+              <div class="radio-card"><input type="radio" id="solarStatus4" name="solarStatus" value="within_90_days"><label for="solarStatus4">New / additional solar expected within approximately 90 days of the battery</label></div>
+              <div class="radio-card"><input type="radio" id="solarStatus5" name="solarStatus" value="unsure"><label for="solarStatus5">Unsure</label></div>
+            </div>
+            <p class="hint">Installing solar and a battery close together may change which incentive pathway applies — it isn't required either way.</p>
+            <p class="error-msg" role="alert" id="solarStatusError">Please choose an option.</p>
+          </fieldset>
+
+          <div class="assess-nav">
+            <span></span>
+            <button type="button" class="btn btn-primary" data-continue="1">Continue</button>
+          </div>
+        </div>
+
+        <!-- STAGE 2: Commercial need -->
+        <div class="assess-step" data-stage="2" id="stage2">
+          <h3>About the electricity use and project</h3>
+
+          <fieldset class="assess-fieldset">
+            <legend>Main objective</legend>
+            <div class="radio-cards radio-cards-wide">
+              <div class="radio-card"><input type="radio" id="objective1" name="mainObjective" value="investigate_costs" required><label for="objective1">Investigate electricity costs</label></div>
+              <div class="radio-card"><input type="radio" id="objective2" name="mainObjective" value="use_more_solar"><label for="objective2">Use more onsite solar</label></div>
+              <div class="radio-card"><input type="radio" id="objective3" name="mainObjective" value="peak_demand"><label for="objective3">Investigate peak-demand exposure</label></div>
+              <div class="radio-card"><input type="radio" id="objective4" name="mainObjective" value="solar_and_battery"><label for="objective4">Add solar and battery together</label></div>
+              <div class="radio-card"><input type="radio" id="objective5" name="mainObjective" value="backup_capability"><label for="objective5">Explore backup capability</label></div>
+              <div class="radio-card"><input type="radio" id="objective6" name="mainObjective" value="understand_pathway"><label for="objective6">Understand the possible BESS3 / BESS4 pathway</label></div>
+              <div class="radio-card"><input type="radio" id="objective7" name="mainObjective" value="other"><label for="objective7">Other</label></div>
+            </div>
+            <p class="hint">Backup capability isn't automatic — it depends on the final system design and equipment chosen during review.</p>
+            <p class="error-msg" role="alert" id="mainObjectiveError">Please choose an option.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Does the electricity bill include demand charges?</legend>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="demandCharges1" name="demandCharges" value="yes" required><label for="demandCharges1">Yes</label></div>
+              <div class="radio-card"><input type="radio" id="demandCharges2" name="demandCharges" value="no"><label for="demandCharges2">No</label></div>
+              <div class="radio-card"><input type="radio" id="demandCharges3" name="demandCharges" value="unsure"><label for="demandCharges3">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="demandChargesError">Please choose an option.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Approximate quarterly electricity spend</legend>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="approxSpend1" name="approxSpend" value="under_5k" required><label for="approxSpend1">Under $5,000</label></div>
+              <div class="radio-card"><input type="radio" id="approxSpend2" name="approxSpend" value="5k_20k"><label for="approxSpend2">$5,000 – $20,000</label></div>
+              <div class="radio-card"><input type="radio" id="approxSpend3" name="approxSpend" value="20k_50k"><label for="approxSpend3">$20,000 – $50,000</label></div>
+              <div class="radio-card"><input type="radio" id="approxSpend4" name="approxSpend" value="over_50k"><label for="approxSpend4">Over $50,000</label></div>
+              <div class="radio-card"><input type="radio" id="approxSpend5" name="approxSpend" value="unsure"><label for="approxSpend5">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="approxSpendError">Please choose an option.</p>
+          </fieldset>
+
+          <div class="form-field">
+            <label for="operatingHours">Typical operating hours <span class="hint" style="display:inline;">(optional)</span></label>
+            <input type="text" id="operatingHours" name="operatingHours" placeholder="e.g. 7am–6pm weekdays, 24/7, seasonal">
+          </div>
+
+          <fieldset class="assess-fieldset">
+            <legend>Estimated usable battery requirement</legend>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="capacityBand1" name="capacityBand" value="20_50" required><label for="capacityBand1">Greater than 20–50 kWh</label></div>
+              <div class="radio-card"><input type="radio" id="capacityBand2" name="capacityBand" value="51_100"><label for="capacityBand2">51–100 kWh</label></div>
+              <div class="radio-card"><input type="radio" id="capacityBand3" name="capacityBand" value="101_200"><label for="capacityBand3">101–200 kWh</label></div>
+              <div class="radio-card"><input type="radio" id="capacityBand4" name="capacityBand" value="over_200"><label for="capacityBand4">More than 200 kWh</label></div>
+              <div class="radio-card"><input type="radio" id="capacityBand5" name="capacityBand" value="unsure"><label for="capacityBand5">Unsure</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="capacityBandError">Please choose an option.</p>
+          </fieldset>
+
+          <fieldset class="assess-fieldset">
+            <legend>Project timeframe</legend>
+            <div class="radio-cards">
+              <div class="radio-card"><input type="radio" id="timeframe1" name="timeframe" value="asap" required><label for="timeframe1">As soon as possible</label></div>
+              <div class="radio-card"><input type="radio" id="timeframe2" name="timeframe" value="3-6-months"><label for="timeframe2">3–6 months</label></div>
+              <div class="radio-card"><input type="radio" id="timeframe3" name="timeframe" value="6-12-months"><label for="timeframe3">6–12 months</label></div>
+              <div class="radio-card"><input type="radio" id="timeframe4" name="timeframe" value="researching"><label for="timeframe4">Just researching</label></div>
+            </div>
+            <p class="error-msg" role="alert" id="timeframeError">Please choose an option.</p>
+          </fieldset>
+
+          <div class="form-field">
+            <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
+              <input type="checkbox" id="billRequestOk" name="billRequestOk">
+              <span>I'm happy for Oz Home Energy to request a copy of my electricity bill after this initial submission, if needed for review. <span class="hint" style="display:inline;">(No file is uploaded here — this site doesn't accept file uploads securely yet; see the note in our records.)</span></span>
+            </label>
+          </div>
+
+          <div class="assess-nav">
+            <button type="button" class="btn btn-secondary" data-back="2">Back</button>
+            <button type="button" class="btn btn-primary" data-continue="2">Continue</button>
+          </div>
+        </div>
+
+        <!-- STAGE 3: Contact and consent -->
+        <div class="assess-step" data-stage="3" id="stage3">
+          <h3>Your details</h3>
+
+          <div class="grid grid-2">
+            <div class="form-field">
+              <label for="contactName">Contact name</label>
+              <input type="text" id="contactName" name="contactName" required autocomplete="name" aria-describedby="contactNameError">
+              <p class="error-msg" role="alert" id="contactNameError">Please enter your name.</p>
+            </div>
+            <div class="form-field">
+              <label for="businessName">Business, strata or owners corporation name</label>
+              <input type="text" id="businessName" name="businessName" required autocomplete="organization" aria-describedby="businessNameError">
+              <p class="error-msg" role="alert" id="businessNameError">Please enter the business or strata name.</p>
+            </div>
+          </div>
+          <div class="grid grid-2">
+            <div class="form-field">
+              <label for="workEmail">Work email</label>
+              <input type="email" id="workEmail" name="workEmail" required autocomplete="email" aria-describedby="workEmailError">
+              <p class="error-msg" role="alert" id="workEmailError">Please enter a valid email address.</p>
+            </div>
+            <div class="form-field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" aria-describedby="phoneError">
+              <p class="error-msg" role="alert" id="phoneError">Please enter a valid phone number.</p>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="preferredContact">Preferred contact method</label>
+            <select id="preferredContact" name="preferredContact" required aria-describedby="preferredContactError">
+              <option value="">Select one</option>
+              <option value="phone">Phone call</option>
+              <option value="email">Email</option>
+              <option value="either">Either</option>
+            </select>
+            <p class="error-msg" role="alert" id="preferredContactError">Please choose a preferred contact method.</p>
+          </div>
+
+          <div class="form-field">
+            <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
+              <input type="checkbox" id="requiredConsent" name="requiredConsent" required aria-describedby="requiredConsentError">
+              <span>I consent to Oz Home Energy contacting me about this site check, including by phone, SMS and email. See our <a href="/privacy-policy/">Privacy Policy</a>.</span>
+            </label>
+            <p class="error-msg" role="alert" id="requiredConsentError">Please provide consent to continue — we can't follow up without it.</p>
+          </div>
+          <div class="form-field">
+            <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
+              <input type="checkbox" id="marketingConsent" name="marketingConsent">
+              <span>I'd also like to receive occasional updates about Oz Home Energy's commercial solar, battery and electrical services. I can unsubscribe at any time. <span class="hint" style="display:inline;">(Optional — separate from the consent above.)</span></span>
+            </label>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit" id="bessSubmit" style="margin-top:8px;">Submit Site Check</button>
+          <div class="assess-nav" style="margin-top:0;">
+            <button type="button" class="btn btn-secondary" data-back="3">Back</button>
+            <span></span>
+          </div>
+          <div id="bessFormStatus" aria-live="polite" role="status" style="margin-top:14px;"></div>
+          <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet — call us instead if you need a response now.</span></p>
+        </div>
+
+        <!-- Attribution (populated by site/js/main.js's populateAttributionFields). -->
+        <input type="hidden" name="utm_source" value="">
+        <input type="hidden" name="utm_medium" value="">
+        <input type="hidden" name="utm_campaign" value="">
+        <input type="hidden" name="utm_term" value="">
+        <input type="hidden" name="utm_content" value="">
+        <input type="hidden" name="gclid" value="">
+        <input type="hidden" name="fbclid" value="">
+        <input type="hidden" name="campaign_id" value="">
+        <input type="hidden" name="adset_id" value="">
+        <input type="hidden" name="ad_id" value="">
+        <input type="hidden" name="placement" value="">
+        <input type="hidden" name="site_source_name" value="">
+        <input type="hidden" name="creative_strategy" value="">
+        <input type="hidden" name="landing_page" value="">
+        <input type="hidden" name="referrer" value="">
+      </form>
     </div>
   </div>
 </section>

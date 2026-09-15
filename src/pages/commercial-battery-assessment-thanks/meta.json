@@ -3,6 +3,7 @@
   "description": "Your NSW commercial battery assessment request has been received. Oz Home Energy will be in touch.",
   "canonical": "/commercial-battery-assessment/thanks/",
   "noindex": true,
+  "landingChrome": true,
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Commercial Battery Assessment", "url": "/commercial-battery-assessment/" },

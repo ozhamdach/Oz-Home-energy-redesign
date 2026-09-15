@@ -1,11 +1,8 @@
 (function () {
   'use strict';
 
-  // Design/behaviour contract for this file: see
-  // docs/08-commercial-battery-assessment-funnel.md (question matrix,
-  // branching table, CRM payload contract, attribution contract,
-  // submission-state diagram) and docs/08a-bess3-bess4-facts.md (sourced
-  // BESS3/BESS4 facts this classification logic is built against).
+  // Design/behaviour contract: docs/08-commercial-battery-assessment-funnel.md
+  // (v2 addendum), docs/08a-bess3-bess4-facts.md, docs/08c-v2-deliverables.md.
 
   var form = document.getElementById('bessForm');
   if (!form) return;
@@ -15,10 +12,16 @@
     window.dataLayer.push(Object.assign({ event: name }, data || {}));
   }
 
-  // Same one-per-form form_start convention as site/js/main.js and
-  // site/js/assessment.js — not covered by main.js's own listener since
-  // this form intentionally carries neither `data-prototype-form` nor the
-  // id `assessmentForm` (see the submission-adapter comment below for why).
+  // Meta Pixel interface — deliberately inert unless a real Pixel ID is
+  // configured elsewhere (window.OHE_META_PIXEL_ID + the actual base code
+  // snippet, neither of which exists in this build — no ID is invented).
+  // fbq is only ever called if something else has already defined it; this
+  // never loads or injects the Pixel itself. Non-PII payload only.
+  function firePixelEvent(name, data) {
+    if (typeof window.fbq !== 'function') return;
+    window.fbq('trackCustom', name, data || {});
+  }
+
   (function trackFormStart() {
     var started = false;
     form.addEventListener(
@@ -33,113 +36,219 @@
   })();
 
   // ---------------------------------------------------------------------
-  // Branch visibility. Toggling `hidden` alone is not enough: a hidden
-  // fieldset's `required` radios would still block native constraint
-  // validation from the OTHER branch's fields firing correctly, and (more
-  // importantly for the payload contract) leaving them enabled means a
-  // stray, disconnected old answer in an inactive branch could still be
-  // read by naive code. Disabling every control in a hidden section
-  // removes it from both constraint validation and FormData/DOM reads.
+  // Stage navigation (3 stages, progress bar, Back/Continue, retained
+  // answers — nothing is cleared when moving between stages).
   // ---------------------------------------------------------------------
-  function setBranchVisible(el, visible) {
-    if (!el) return;
-    el.hidden = !visible;
-    el.querySelectorAll('input, select, textarea, button').forEach(function (ctrl) {
+  var steps = Array.prototype.slice.call(form.querySelectorAll('.assess-step'));
+  var total = steps.length; // 3
+  var current = 1;
+  var fill = document.getElementById('bessFill');
+  var progressBar = document.getElementById('bessProgressBar');
+  var stageLabel = document.getElementById('bessStageLabel');
+  var stageName = document.getElementById('bessStageName');
+  var stageAnnounce = document.getElementById('bessStageAnnounce');
+  var stageNames = { 1: 'Site fit', 2: 'Commercial need', 3: 'Contact and consent' };
+
+  function showStage(n, moveFocus) {
+    steps.forEach(function (s) {
+      s.classList.toggle('is-active', parseInt(s.getAttribute('data-stage'), 10) === n);
+    });
+    pushEvent('form_step', { form_id: 'bessForm', step: n });
+    if (fill) fill.style.width = Math.round((n / total) * 100) + '%';
+    if (progressBar) progressBar.setAttribute('aria-valuenow', String(n));
+    if (stageLabel) stageLabel.textContent = 'Stage ' + n + ' of ' + total;
+    if (stageName) stageName.textContent = stageNames[n] || '';
+    if (stageAnnounce) stageAnnounce.textContent = 'Stage ' + n + ' of ' + total + ': ' + (stageNames[n] || '');
+    if (moveFocus) {
+      var activeStep = steps[n - 1];
+      var heading = activeStep && activeStep.querySelector('h3');
+      if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus();
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Branch visibility — apartment-only sub-questions. Disabling (not just
+  // hiding) removes them from validation AND guarantees they can never
+  // appear in the payload for a non-apartment submission.
+  // ---------------------------------------------------------------------
+  var apartmentBlock = document.getElementById('apartmentBlock');
+  function setApartmentVisible(visible) {
+    if (!apartmentBlock) return;
+    apartmentBlock.hidden = !visible;
+    apartmentBlock.querySelectorAll('input, select, textarea').forEach(function (ctrl) {
       ctrl.disabled = !visible;
     });
   }
-
-  var singleHomeBlock = document.getElementById('singleHomeBlock');
-  var apartmentBlock = document.getElementById('apartmentBlock');
-  var businessBlock = document.getElementById('businessBlock');
-  var commonBlock = document.getElementById('commonBlock');
-
-  function updateBranches() {
-    var siteType = form.querySelector('input[name="siteType"]:checked');
-    var val = siteType ? siteType.value : '';
-    setBranchVisible(singleHomeBlock, val === 'single_home');
-    setBranchVisible(apartmentBlock, val === 'apartment_4plus');
-    setBranchVisible(businessBlock, val === 'commercial_business');
-    // The common contact/consent block only applies to the two in-campaign
-    // branches — a single-home visitor is routed to /battery-storage/
-    // instead of filling in the rest of this form (see content.html).
-    setBranchVisible(commonBlock, val === 'apartment_4plus' || val === 'commercial_business');
-  }
-
   form.querySelectorAll('input[name="siteType"]').forEach(function (r) {
-    r.addEventListener('change', updateBranches);
+    r.addEventListener('change', function () {
+      setApartmentVisible(r.value === 'apartment_building' && r.checked);
+    });
   });
-  updateBranches();
 
   // ---------------------------------------------------------------------
-  // Consent timestamp — captured at the moment the box is actually ticked,
-  // not fabricated at submit time. Cleared if unticked, since consent is
-  // only evidenced while the box is checked.
+  // Consent timestamps — captured the moment each box is actually ticked,
+  // not fabricated at submit time. Cleared if unticked.
   // ---------------------------------------------------------------------
-  var consentBox = document.getElementById('bessConsent');
-  var consentGivenAt = null;
-  if (consentBox) {
-    consentBox.addEventListener('change', function () {
-      consentGivenAt = consentBox.checked ? new Date().toISOString() : null;
+  var requiredConsentGivenAt = null;
+  var marketingConsentGivenAt = null;
+  var requiredConsentBox = document.getElementById('requiredConsent');
+  var marketingConsentBox = document.getElementById('marketingConsent');
+  if (requiredConsentBox) {
+    requiredConsentBox.addEventListener('change', function () {
+      requiredConsentGivenAt = requiredConsentBox.checked ? new Date().toISOString() : null;
+    });
+  }
+  if (marketingConsentBox) {
+    marketingConsentBox.addEventListener('change', function () {
+      marketingConsentGivenAt = marketingConsentBox.checked ? new Date().toISOString() : null;
     });
   }
 
   // ---------------------------------------------------------------------
-  // Validation — mirrors the pattern already used on /assessment/
-  // (site/js/assessment.js: fieldset.is-invalid + .error-msg.is-visible),
-  // but scoped to whichever fields are currently enabled rather than a
-  // wizard step, since this form is single-page with conditional reveal.
+  // Validation — per-stage, with an error summary (jump links + focus
+  // management) in addition to inline fieldset/field errors. Server-side
+  // validation is a separate, documented requirement (see deliverables
+  // doc §"Do not depend exclusively on novalidate") — this is the
+  // client-side half, not a substitute for it.
   // ---------------------------------------------------------------------
+  var errorSummary = document.getElementById('bessErrorSummary');
+  var errorSummaryList = document.getElementById('bessErrorSummaryList');
+
   function showFieldsetError(fieldset, show) {
     if (!fieldset) return;
     fieldset.classList.toggle('is-invalid', show);
-    var msg = fieldset.querySelector('.error-msg') || fieldset.parentElement && fieldset.parentElement.querySelector('.error-msg');
+    var msg = fieldset.querySelector('.error-msg');
     if (msg) msg.classList.toggle('is-visible', show);
   }
 
-  function validateForm() {
-    var valid = true;
-    var firstInvalid = null;
+  function fieldLabel(el) {
+    var container = el.closest('.form-field') || el.closest('fieldset');
+    var legend = container && container.querySelector('legend');
+    var label = container && container.querySelector('label');
+    return (legend && legend.textContent) || (label && label.textContent) || el.name || 'This field';
+  }
 
-    // Plain required inputs (text/email/tel/checkbox), enabled only.
-    var plainFields = form.querySelectorAll('input[required]:not([type="radio"]):not(:disabled)');
+  function validateStage(stageEl) {
+    var invalidEntries = []; // { el, message }
+
+    var plainFields = stageEl.querySelectorAll('input[required]:not([type="radio"]):not([type="checkbox"]):not(:disabled), select[required]:not(:disabled)');
     plainFields.forEach(function (f) {
       var ok = f.checkValidity();
       var container = f.closest('.form-field');
       if (container) container.classList.toggle('error', !ok);
-      if (!ok) {
-        valid = false;
-        if (!firstInvalid) firstInvalid = f;
-      }
+      var msg = container && container.querySelector('.error-msg');
+      if (msg) msg.style.display = ok ? '' : 'block';
+      if (!ok) invalidEntries.push({ el: f, message: fieldLabel(f) + ' — please complete this field correctly.' });
     });
 
-    // Required radio groups, enabled only — check every member sharing a
-    // name, not just whichever one happens to carry the `required`
-    // attribute (a single unchecked required radio in a group still
-    // blocks native validation, but we want our own visible error too).
+    var requiredCheckboxes = stageEl.querySelectorAll('input[type="checkbox"][required]:not(:disabled)');
+    requiredCheckboxes.forEach(function (c) {
+      var container = c.closest('.form-field');
+      if (container) container.classList.toggle('error', !c.checked);
+      var msg = container && container.querySelector('.error-msg');
+      if (msg) msg.style.display = c.checked ? '' : 'block';
+      if (!c.checked) invalidEntries.push({ el: c, message: fieldLabel(c) + ' — this consent is required to continue.' });
+    });
+
     var seenGroups = {};
-    form.querySelectorAll('input[type="radio"]:not(:disabled)').forEach(function (r) {
+    stageEl.querySelectorAll('input[type="radio"]:not(:disabled)').forEach(function (r) {
       if (seenGroups[r.name]) return;
       seenGroups[r.name] = true;
-      var group = Array.prototype.slice.call(form.querySelectorAll('input[name="' + r.name + '"]:not(:disabled)'));
+      var group = Array.prototype.slice.call(stageEl.querySelectorAll('input[name="' + r.name + '"]:not(:disabled)'));
+      var required = group.some(function (g) { return g.required; });
+      if (!required) return;
       var anyChecked = group.some(function (g) { return g.checked; });
       var fieldset = r.closest('fieldset');
       showFieldsetError(fieldset, !anyChecked);
-      if (!anyChecked) {
-        valid = false;
-        if (!firstInvalid) firstInvalid = r;
-      }
+      if (!anyChecked) invalidEntries.push({ el: group[0], message: fieldLabel(r) + ' — please choose an option.' });
     });
 
-    return { valid: valid, firstInvalid: firstInvalid };
+    renderErrorSummary(invalidEntries);
+    return invalidEntries.length === 0;
+  }
+
+  var errorIdCounter = 0;
+  function renderErrorSummary(invalidEntries) {
+    if (!errorSummary || !errorSummaryList) return;
+    errorSummaryList.innerHTML = '';
+    form.querySelectorAll('[aria-invalid="true"]').forEach(function (el) { el.removeAttribute('aria-invalid'); });
+
+    if (!invalidEntries.length) {
+      errorSummary.hidden = true;
+      return;
+    }
+    invalidEntries.forEach(function (entry) {
+      errorIdCounter += 1;
+      if (!entry.el.id) entry.el.id = 'bessField' + errorIdCounter;
+      entry.el.setAttribute('aria-invalid', 'true');
+      var describedBy = entry.el.getAttribute('aria-describedby');
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + entry.el.id;
+      a.textContent = entry.message;
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        entry.el.focus();
+      });
+      li.appendChild(a);
+      errorSummaryList.appendChild(li);
+    });
+    errorSummary.hidden = false;
+    errorSummary.focus();
+  }
+
+  form.querySelectorAll('[data-continue]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var stageEl = steps[current - 1];
+      if (!validateStage(stageEl)) return;
+      current = Math.min(current + 1, total);
+      showStage(current, true);
+    });
+  });
+  form.querySelectorAll('[data-back]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      current = Math.max(current - 1, 1);
+      showStage(current, true);
+    });
+  });
+
+  // ---------------------------------------------------------------------
+  // Attribution: first-touch (from main.js's sitewide sessionStorage
+  // capture, never overwritten) AND latest-touch (this exact page load's
+  // own query string — a returning visitor who clicks a second, different
+  // ad still has that click's values available here, even though
+  // first-touch attribution deliberately never changes).
+  // ---------------------------------------------------------------------
+  var ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_id', 'adset_id', 'ad_id', 'placement', 'site_source_name', 'creative_strategy'];
+
+  function firstTouchAttribution() {
+    try {
+      var stored = JSON.parse(sessionStorage.getItem('ohe_attribution') || '{}');
+      var out = {};
+      ATTRIBUTION_KEYS.forEach(function (k) { out[k] = stored[k] || null; });
+      out.landing_page = stored.landing_page || null;
+      out.referrer = stored.referrer || null;
+      return out;
+    } catch (err) {
+      return {};
+    }
+  }
+
+  function latestTouchAttribution() {
+    var params = new URLSearchParams(window.location.search);
+    var out = {};
+    ATTRIBUTION_KEYS.forEach(function (k) { out[k] = params.get(k) || null; });
+    out.landing_page = window.location.href;
+    out.referrer = document.referrer || null;
+    return out;
   }
 
   // ---------------------------------------------------------------------
-  // Approximate NSW postcode check. This is a preliminary lead-qualifier,
-  // not an address-validation service — no geocoding API is available or
-  // appropriate here. Deliberately conservative: an unparseable postcode
-  // is treated as unknown (routes to manual review), never silently
-  // reclassified as in- or out-of-scope.
+  // Approximate NSW postcode check — same caveat as v1: a preliminary
+  // qualifier, not an address-validation service.
   // ---------------------------------------------------------------------
   function isLikelyNSW(postcode) {
     var n = parseInt(postcode, 10);
@@ -150,24 +259,35 @@
     return false;
   }
 
-  var DECISION_MAKER_ROLES = ['strata-committee', 'strata-manager', 'owner-director', 'facilities-manager'];
-  var URGENT_TIMEFRAMES = ['asap', '3-6-months'];
-
-  function classify(answers) {
-    var nsw = isLikelyNSW(answers.projectPostcode);
-    if (nsw === false) return 'outside_campaign_scope';
-    if (answers.siteType === 'apartment_4plus') {
-      return answers.dwellingBand === 'under-4' ? 'manual_eligibility_review' : 'bess3_review_required';
+  // ---------------------------------------------------------------------
+  // Routing — see docs/08c-v2-deliverables.md for the full table and the
+  // reasoning behind this precedence order. Never returns "eligible".
+  // ---------------------------------------------------------------------
+  function classify(a) {
+    var nswPostcode = isLikelyNSW(a.sitePostcode);
+    if (a.nswConfirm === 'no' || nswPostcode === false) return 'outside_campaign_area';
+    if (a.siteType === 'individual_home') return 'not_bess_residential_route';
+    if (a.siteType === 'data_centre') return 'not_bess4_data_centre';
+    if (a.siteType === 'apartment_building') {
+      var count = parseInt(a.dwellingCount, 10);
+      if (count && count < 4) return 'not_bess3_under_4_dwellings';
+      if (a.bcaClass2 === 'no') return 'manual_eligibility_review_non_class_2';
     }
-    if (answers.siteType === 'commercial_business') {
-      return answers.billBand === 'over-50k' ? 'bess5_or_manual_review' : 'bess4_review_required';
-    }
-    return 'manual_eligibility_review';
+    if (a.gridConnected === 'no') return 'manual_eligibility_review_offgrid';
+    if (a.role === 'tenant' || a.authority === 'no') return 'influencer_authority_required';
+    if (a.capacityBand === 'over_200') return 'potential_bess5_manual_review';
+    if (a.existingBattery === 'yes') return 'manual_eligibility_review_existing_battery';
+    if (a.priorActivity === 'yes' || a.priorActivity === 'unsure') return 'manual_eligibility_review_prior_activity';
+    if (a.siteType === 'apartment_building') return 'bess3_review_required';
+    if (a.siteType === 'commercial_business') return 'bess4_review_required';
+    return 'manual_eligibility_review_site_type_unsure';
   }
 
-  function priorityTag(role, timeframe) {
-    var isDecisionMaker = DECISION_MAKER_ROLES.indexOf(role) !== -1;
-    var isUrgent = URGENT_TIMEFRAMES.indexOf(timeframe) !== -1;
+  var DECISION_MAKER_ROLES = ['owner_director', 'strata_manager', 'owners_corp_committee', 'building_facilities_manager', 'finance_ops_manager'];
+  var URGENT_TIMEFRAMES = ['asap', '3-6-months'];
+  function priorityTag(a) {
+    var isDecisionMaker = DECISION_MAKER_ROLES.indexOf(a.role) !== -1 && (a.authority === 'yes' || a.authority === 'shared_committee');
+    var isUrgent = URGENT_TIMEFRAMES.indexOf(a.timeframe) !== -1;
     return isDecisionMaker && isUrgent ? 'high' : 'medium';
   }
 
@@ -175,42 +295,39 @@
     var el = form.querySelector('input[name="' + name + '"]:checked');
     return el ? el.value : null;
   }
-
   function fieldValue(name) {
     var el = form.querySelector('[name="' + name + '"]');
     return el ? el.value : '';
   }
 
   // ---------------------------------------------------------------------
-  // Payload construction — built explicitly, field by field, gated by the
-  // active branch. This is deliberate, not incidental: it's the mechanism
-  // that guarantees an inactive branch's answers (e.g. a BESS3 dwelling
-  // band on a BESS4 submission) can never end up in the payload, rather
-  // than relying only on the DOM disabled/hidden state above.
+  // Payload construction — explicit, gated by branch, so an apartment
+  // question can never appear on a business submission and vice versa.
   // ---------------------------------------------------------------------
   function buildPayload() {
     var siteType = radioValue('siteType');
-    var role = siteType === 'apartment_4plus' ? radioValue('apartmentRole') : siteType === 'commercial_business' ? radioValue('businessRole') : null;
-    var dwellingBand = siteType === 'apartment_4plus' ? radioValue('dwellingBand') : null;
-    var billBand = siteType === 'commercial_business' ? radioValue('billBand') : null;
+    var isApartment = siteType === 'apartment_building';
 
-    var hasBattery = radioValue('hasBattery');
-    var solarStatus = radioValue('solarStatus');
-    var timeframe = radioValue('timeframe');
-    var projectSuburb = fieldValue('projectSuburb');
-    var projectPostcode = fieldValue('projectPostcode');
+    var answers = {
+      sitePostcode: fieldValue('sitePostcode'),
+      nswConfirm: radioValue('nswConfirm'),
+      siteType: siteType,
+      dwellingCount: isApartment ? fieldValue('dwellingCount') : null,
+      bcaClass2: isApartment ? radioValue('bcaClass2') : null,
+      gridConnected: radioValue('gridConnected'),
+      role: radioValue('role'),
+      authority: radioValue('authority'),
+      existingBattery: radioValue('existingBattery'),
+      priorActivity: radioValue('priorActivity'),
+      capacityBand: radioValue('capacityBand'),
+      timeframe: radioValue('timeframe'),
+    };
+    var classification = classify(answers);
 
-    var classification = classify({ siteType: siteType, dwellingBand: dwellingBand, billBand: billBand, projectPostcode: projectPostcode });
+    var first = firstTouchAttribution();
+    var latest = latestTouchAttribution();
 
-    var attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_id', 'adset_id', 'ad_id', 'placement', 'landing_page', 'referrer'];
-    var attribution = {};
-    attributionKeys.forEach(function (k) {
-      var v = fieldValue(k);
-      attribution[k] = v || null;
-    });
-
-    var fullName = fieldValue('fullName');
-    var nameParts = fullName.trim().split(/\s+/);
+    var nameParts = fieldValue('contactName').trim().split(/\s+/);
     var firstName = nameParts.shift() || '';
     var lastName = nameParts.join(' ');
 
@@ -218,80 +335,91 @@
       contact: {
         firstName: firstName,
         lastName: lastName,
+        email: fieldValue('workEmail'),
         phone: fieldValue('phone'),
-        email: fieldValue('email'),
+        businessName: fieldValue('businessName'),
       },
       customFields: {
         campaign: 'bess3_bess4_launch',
-        site_type: siteType,
-        dwelling_band: dwellingBand,
-        decision_maker_role: role,
-        bill_band: billBand,
-        has_existing_battery: hasBattery,
-        solar_status: solarStatus,
-        project_timeframe: timeframe,
-        project_suburb: projectSuburb,
-        project_postcode: projectPostcode,
+        site_address: fieldValue('siteAddress'),
+        site_suburb: fieldValue('siteSuburb'),
+        site_postcode: answers.sitePostcode,
+        nsw_confirm: answers.nswConfirm,
+        site_type: answers.siteType,
+        dwelling_count: answers.dwellingCount,
+        bca_class_2: answers.bcaClass2,
+        common_property_space: isApartment ? radioValue('commonPropertySpace') : null,
+        grid_connected: answers.gridConnected,
+        role: answers.role,
+        authority: answers.authority,
+        existing_battery: answers.existingBattery,
+        prior_pdrs_activity: answers.priorActivity,
+        solar_status: radioValue('solarStatus'),
+        main_objective: radioValue('mainObjective'),
+        demand_charges: radioValue('demandCharges'),
+        approx_quarterly_spend: radioValue('approxSpend'),
+        operating_hours: fieldValue('operatingHours') || null,
+        capacity_band: answers.capacityBand,
+        project_timeframe: answers.timeframe,
+        bill_request_ok: !!document.getElementById('billRequestOk').checked,
+        preferred_contact_method: fieldValue('preferredContact'),
         bess_classification: classification,
-        consent_given_at: consentGivenAt,
+        required_consent_given_at: requiredConsentGivenAt,
+        marketing_consent_given_at: marketingConsentGivenAt,
       },
       tags: [
         'source:commercial-battery-assessment',
         'campaign:bess3_bess4_launch',
         'classification:' + classification,
-        'priority:' + priorityTag(role, timeframe),
-      ],
-      attribution: attribution,
+        'priority:' + priorityTag(answers),
+      ].concat(marketingConsentGivenAt ? ['consent:marketing-opt-in'] : []),
+      attribution: {
+        first_touch: first,
+        latest_touch: latest,
+      },
       meta: {
         submitted_at: new Date().toISOString(),
-        form_version: 'commercial-battery-assessment-v1',
+        form_version: 'commercial-battery-assessment-v2',
       },
     };
   }
 
-  // Non-PII subset only — see docs/08-commercial-battery-assessment-funnel.md
-  // §3's note on why no free-text/name/phone/email/address field is ever
-  // included here. Suburb/postcode are deliberately excluded too (coarse
-  // address is still address).
+  // Non-PII subset only for analytics/Pixel — no name/email/phone/business
+  // name/address/suburb/postcode/operating-hours free text ever included.
   function analyticsEventData(payload) {
     return {
       bess_classification: payload.customFields.bess_classification,
       site_type: payload.customFields.site_type,
-      has_existing_battery: payload.customFields.has_existing_battery,
+      grid_connected: payload.customFields.grid_connected,
+      existing_battery: payload.customFields.existing_battery,
       solar_status: payload.customFields.solar_status,
+      capacity_band: payload.customFields.capacity_band,
       project_timeframe: payload.customFields.project_timeframe,
-      utm_source: payload.attribution.utm_source,
-      utm_medium: payload.attribution.utm_medium,
-      utm_campaign: payload.attribution.utm_campaign,
-      utm_content: payload.attribution.utm_content,
-      campaign_id: payload.attribution.campaign_id,
-      adset_id: payload.attribution.adset_id,
-      ad_id: payload.attribution.ad_id,
-      placement: payload.attribution.placement,
+      utm_source: payload.attribution.latest_touch.utm_source,
+      utm_medium: payload.attribution.latest_touch.utm_medium,
+      utm_campaign: payload.attribution.latest_touch.utm_campaign,
+      utm_content: payload.attribution.latest_touch.utm_content,
+      campaign_id: payload.attribution.latest_touch.campaign_id,
+      adset_id: payload.attribution.latest_touch.adset_id,
+      ad_id: payload.attribution.latest_touch.ad_id,
+      placement: payload.attribution.latest_touch.placement,
     };
   }
 
   var submitBtn = document.getElementById('bessSubmit');
   var statusEl = document.getElementById('bessFormStatus');
   var submitting = false;
-
   function setStatus(html) {
     if (statusEl) statusEl.innerHTML = html;
   }
 
   // ---------------------------------------------------------------------
-  // Submission adapter. Production ships with NO adapter configured — see
-  // docs/08-commercial-battery-assessment-funnel.md §8: no real HighLevel
-  // endpoint or credentials exist for this funnel yet, matching every
-  // other form on this site (docs/04-highlevel-integration.md). In that
-  // default state this form behaves exactly like the site's other three
-  // forms: an honest "not connected yet" notice, never a fake success.
-  //
-  // For the required end-to-end acceptance test, a test harness defines
-  // `window.OHE_BESS_SUBMIT_ADAPTER = async function (payload) { ... }`
-  // (e.g. via Playwright's addInitScript, pointed at a local/intercepted
-  // test server) BEFORE this script runs. Nothing in this file ever
-  // hardcodes a real or fake endpoint URL.
+  // Submission adapter — see docs/08c-v2-deliverables.md §"Exact steps to
+  // activate the real CRM endpoint". Production ships with NO adapter
+  // configured: no HighLevel endpoint/credentials exist for this funnel.
+  // window.OHE_BESS_SUBMIT_ADAPTER is the documented injection point for
+  // a test harness (local/intercepted server only) or, eventually, the
+  // real secure server-side endpoint's client.
   // ---------------------------------------------------------------------
   function showNotConnectedNotice() {
     var wrap = document.createElement('div');
@@ -309,17 +437,9 @@
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    if (submitting) return; // in-flight guard: a second click is a no-op, not a second request
+    if (submitting) return; // in-flight guard
 
-    var validation = validateForm();
-    if (!validation.valid) {
-      if (validation.firstInvalid) {
-        validation.firstInvalid.focus();
-        validation.firstInvalid.reportValidity();
-      }
-      setStatus('');
-      return;
-    }
+    if (!validateStage(steps[total - 1])) return;
 
     var adapter = window.OHE_BESS_SUBMIT_ADAPTER;
     if (typeof adapter !== 'function') {
@@ -334,16 +454,16 @@
 
     Promise.resolve()
       .then(function () { return adapter(payload); })
-      .then(function (result) {
+      .then(function (adapterResult) {
         submitting = false;
         if (submitBtn) submitBtn.disabled = false;
-        if (result && result.ok) {
-          // Exactly one conversion event, fired BEFORE navigation — the
-          // thank-you page itself fires nothing (see its content.html and
-          // docs/08-commercial-battery-assessment-funnel.md §5), so this
-          // is the one and only place a real conversion is ever recorded.
-          pushEvent('bess_lead_submitted', analyticsEventData(payload));
+        if (adapterResult && adapterResult.ok) {
+          var eventData = analyticsEventData(payload);
+          pushEvent('bess_lead_submitted', eventData);
+          firePixelEvent('OHE_BESS_Lead', eventData);
           window.location.href = '/commercial-battery-assessment/thanks/';
+        } else if (adapterResult && adapterResult.duplicate) {
+          setStatus('<p role="status">We already have a recent site check from you — Oz Home Energy will follow up on your existing request rather than creating a new one. Call 0435 336 336 if it\'s urgent.</p>');
         } else {
           setStatus('<p class="error-msg is-visible" role="alert">Something went wrong sending your details — your answers are still here. Please try again, or call 0435 336 336.</p>');
         }

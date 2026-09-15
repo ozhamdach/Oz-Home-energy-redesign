@@ -540,7 +540,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* ---------- Forms ---------- */
 .form-field { margin-bottom: 20px; }
 .form-field label { display: block; font-weight: 600; font-family: var(--font-heading); font-size: 0.92rem; margin-bottom: 6px; }
-.form-field .hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+/* .hint now used standalone too (fieldset legends, hero sub-copy), not
+   just inside .form-field — kept the same look either way, plus a light
+   variant for dark sections (see the page-banner/hero override below;
+   without it, a bare <p class="hint"> inside .page-banner rendered as
+   default dark text on the section's own dark background — effectively
+   invisible, not just a wrong shade). */
+.hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+.form-field .hint { margin-top: 4px; }
+.page-banner .hint, .hero .hint, .section-inverse .hint { color: #d8ddf5; }
 .form-field input[type="text"], .form-field input[type="tel"], .form-field input[type="email"],
 .form-field input[type="number"], .form-field select, .form-field textarea {
   width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
@@ -585,9 +593,35 @@ fieldset.assess-fieldset.is-invalid .radio-cards { outline: 2px solid #c0322b; o
 .assess-step.is-active { display: block; animation: fadein .2s ease; }
 @keyframes fadein { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
 .assess-step h2 { font-size: 1.6rem; margin-bottom: 8px; }
+.assess-step h3 { font-size: 1.15rem; margin: 28px 0 4px; }
 .assess-step .step-sub { color: var(--text-muted); margin-bottom: 28px; }
 .assess-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 12px; }
 .assess-nav .spacer { flex: 1; }
+/* Bare <legend> (no inline style) inside an .assess-fieldset — on-brand
+   weight/size instead of the browser default, consistent whether or not a
+   page also styles individual legends inline. */
+.assess-fieldset legend, fieldset.form-field legend { font-weight: 600; font-family: var(--font-heading); font-size: 0.92rem; margin-bottom: 10px; padding: 0; }
+/* Error summary: shown above the active stage's fields on a failed
+   Continue/Submit attempt, each item a jump-link to the actual invalid
+   control (focus moves to the field itself on click, not just scroll). */
+.error-summary { border: 2px solid #c0322b; border-radius: var(--radius-md); padding: 16px 18px; margin: 20px 0; background: #fdf1f0; }
+.error-summary h3 { margin: 0 0 8px; font-size: 1rem; color: #c0322b; }
+.error-summary ul { margin: 0; padding-left: 20px; }
+.error-summary a { color: #c0322b; font-weight: 600; }
+/* Minimal landing header/footer (see src/partials/header-landing.html) —
+   reuses .site-header/.site-footer's own background/blur/spacing, this
+   just removes the nav-toggle button that has nothing to control here. */
+.landing-header .nav-toggle { display: none; }
+/* The sitewide header's .desktop-cta only appears >=860px because the
+   hamburger nav-toggle covers the CTA (via the mobile-nav drawer) below
+   that. The landing header has no nav-toggle/drawer at all, so without
+   this override the "Check Site Eligibility" CTA would vanish entirely
+   between 720px and 860px — visible nowhere. */
+.landing-header .desktop-cta { display: inline-flex; }
+@media (prefers-reduced-motion: reduce) {
+  .assess-step.is-active { animation: none; }
+  .assess-progress .fill { transition: none; }
+}
 .why-we-ask { display: flex; gap: 10px; align-items: flex-start; background: var(--bg-alt); border-radius: var(--radius-md); padding: 14px 16px; margin-top: 18px; font-size: 0.86rem; color: var(--text-muted); }
 .why-we-ask svg { width: 18px; height: 18px; color: var(--brand); flex-shrink: 0; margin-top: 1px; }
 /* NOT a success state — deliberately. Shown wherever a form has no live

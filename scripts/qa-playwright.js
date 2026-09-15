@@ -250,6 +250,35 @@ async function run(label, fn) {
     await page.close();
   });
 
+  await run('desktop dropdown nav (hover)', async () => {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
+    const firstNavItem = page.locator('.primary-nav > ul > li').first();
+    const firstNavButton = firstNavItem.locator('> button');
+
+    await firstNavButton.hover();
+    const openViaHover = await firstNavItem.evaluate((el) => el.classList.contains('is-open'));
+    if (!openViaHover) errors.push('Desktop dropdown did not open on hover');
+    const expandedViaHover = await firstNavButton.getAttribute('aria-expanded');
+    if (expandedViaHover !== 'true') errors.push('Desktop dropdown button aria-expanded not set to true on hover-open');
+
+    // A genuine mouse click always hovers its target first — confirm the
+    // click handler doesn't fight the hover state and immediately close
+    // what hover just opened (the actual bug this test exists to catch).
+    await firstNavButton.click();
+    const stillOpenAfterClick = await firstNavItem.evaluate((el) => el.classList.contains('is-open'));
+    if (!stillOpenAfterClick) errors.push('Clicking an already hover-opened dropdown closed it (hover/click race)');
+
+    // Move away and confirm it closes again (the mouseleave close timer).
+    await page.mouse.move(640, 850);
+    await page.waitForTimeout(300);
+    const closedAfterLeave = await firstNavItem.evaluate((el) => !el.classList.contains('is-open'));
+    if (!closedAfterLeave) errors.push('Desktop dropdown did not close after the mouse moved away');
+
+    await page.close();
+  });
+
   // /assessment/ now embeds a real HighLevel-hosted form (iframe, cross-origin)
   // in place of the custom-built multi-step form these three tests used to
   // exercise — see git history for that version. Nothing here can assert on

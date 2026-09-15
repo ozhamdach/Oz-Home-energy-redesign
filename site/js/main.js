@@ -128,22 +128,69 @@
     });
   }
 
+  function openDropdown(li, btn) {
+    closeAllDropdowns(li);
+    li.classList.add('is-open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+
+  // Hover-to-open is only wired up for input that can actually hover
+  // (a real mouse) — on touch/coarse-pointer devices (including a tablet
+  // at a desktop-width breakpoint) it would leave a dropdown stuck open
+  // after a tap, with no mouse ever available to move away and close it.
+  // Click and keyboard (Enter/Space via the button, Escape below) keep
+  // working exactly as before regardless of this check's result.
+  var canHover = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+
   navItems.forEach(function (li) {
     var btn = li.querySelector(':scope > button');
     if (!btn) return;
+    // A real mouse click always hovers its target immediately before the
+    // click fires (true in browsers generally, and specifically confirmed
+    // against Playwright's .click(), which simulates the same sequence) —
+    // so on a hover-capable device, mouseenter has usually already opened
+    // this dropdown by the time the click handler below runs. Without this
+    // flag, the click's own toggle logic would immediately close what
+    // hover just opened. Keyboard activation (Enter/Space, no prior mouse
+    // hover) never sets it, so toggle-open/close on repeated keypresses
+    // still works exactly as before.
+    var openedByHover = false;
     btn.addEventListener('click', function () {
+      if (openedByHover) {
+        openedByHover = false;
+        return;
+      }
       var isOpen = li.classList.contains('is-open');
       closeAllDropdowns();
-      if (!isOpen) {
-        li.classList.add('is-open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
+      if (!isOpen) openDropdown(li, btn);
     });
     // Close this dropdown once focus moves somewhere outside it entirely
     // (covers Tabbing past the last link, not just a mouse click outside).
     li.addEventListener('focusout', function (e) {
       if (!li.contains(e.relatedTarget)) closeDropdown(li);
     });
+
+    if (canHover) {
+      var closeTimer = null;
+      li.addEventListener('mouseenter', function () {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+        openedByHover = true;
+        openDropdown(li, btn);
+      });
+      // A short delay (not an instant close) tolerates the mouse briefly
+      // leaving the hit area while moving from the button down into the
+      // panel below it, and lets a keyboard user's focus-driven state win
+      // if the two ever race.
+      li.addEventListener('mouseleave', function () {
+        closeTimer = setTimeout(function () {
+          openedByHover = false;
+          closeDropdown(li);
+        }, 150);
+      });
+    }
   });
 
   document.addEventListener('click', function (e) {

@@ -35,6 +35,7 @@ const pages = [
   '/commercial-batteries/',
   '/switchboard-upgrades/',
   '/projects/',
+  '/commercial-load-review/',
 ];
 const errors = [];
 
@@ -344,6 +345,212 @@ async function run(label, fn) {
     if (fakeSuccessVisible) errors.push('Project enquiry submit showed a success-style affordance — must never appear');
     if (page.url() !== urlBefore) errors.push('Project enquiry submit navigated away — a live submission may have been attempted');
     await page.close();
+  });
+
+  // Commercial Load Review — single-page conversion funnel for paid Meta
+  // traffic (see the brief this page was built against). The webhook route
+  // is intercepted everywhere below: this must never send real test data to
+  // the live HighLevel webhook.
+  const CLR_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/iqh8HIe7GtEKNtnlIaho/webhook-trigger/83a43470-0989-4954-b4cf-55d62d8446c9';
+
+  await run('commercial load review: initial state — only Q1 visible, both consent boxes unticked', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+    const state = await page.evaluate(() => ({
+      q1Hidden: document.getElementById('clrQ1').hidden,
+      q2Hidden: document.getElementById('clrQ2').hidden,
+      q3Hidden: document.getElementById('clrQ3').hidden,
+      q4Hidden: document.getElementById('clrQ4').hidden,
+      q5Hidden: document.getElementById('clrQ5').hidden,
+      contactHidden: document.getElementById('clrContact').hidden,
+      consentChecked: document.getElementById('clrConsent').checked,
+      marketingChecked: document.getElementById('clrMarketing').checked,
+    }));
+    if (state.q1Hidden) errors.push('CLR: Q1 should be visible on load');
+    if (!state.q2Hidden || !state.q3Hidden || !state.q4Hidden || !state.q5Hidden || !state.contactHidden) {
+      errors.push('CLR: only Q1 should be visible before any answers — found a later question already revealed');
+    }
+    if (state.consentChecked || state.marketingChecked) errors.push('CLR: consent checkboxes must be unticked by default');
+    await page.close();
+  });
+
+  await run('commercial load review: individual-home exit, no contact capture', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+    await page.check('#siteType-home');
+    await page.waitForTimeout(600);
+    const exitVisible = await page.evaluate(() => !document.getElementById('clrExitSiteType').hidden);
+    const q2Visible = await page.evaluate(() => !document.getElementById('clrQ2').hidden);
+    const contactVisible = await page.evaluate(() => !document.getElementById('clrContact').hidden);
+    if (!exitVisible) errors.push('CLR: choosing "Individual home" did not show the out-of-scope exit panel');
+    if (q2Visible) errors.push('CLR: Q2 was revealed after an out-of-scope exit — should stop entirely');
+    if (contactVisible) errors.push('CLR: contact fields were revealed after an out-of-scope exit — must never capture contact details');
+    await page.close();
+  });
+
+  await run('commercial load review: non-NSW postcode exit', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+    await page.check('#siteType-business');
+    await page.waitForTimeout(600);
+    await page.fill('#clrSuburb', 'Melbourne');
+    await page.fill('#clrPostcode', '3000');
+    await page.waitForTimeout(700);
+    const exitVisible = await page.evaluate(() => !document.getElementById('clrExitPostcode').hidden);
+    const q3Visible = await page.evaluate(() => !document.getElementById('clrQ3').hidden);
+    if (!exitVisible) errors.push('CLR: a non-NSW postcode (3000) did not show the out-of-scope exit panel');
+    if (q3Visible) errors.push('CLR: Q3 was revealed after a non-NSW postcode exit');
+    await page.close();
+  });
+
+  await run('commercial load review: full happy path via mouse — "ask someone else" does not block submit, no PII in analytics', async () => {
+    const page = await context.newPage();
+    await page.route(CLR_WEBHOOK, (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await page.goto(BASE + '/commercial-load-review/?utm_source=meta&utm_campaign=loadreview&fbclid=abc123', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.check('#siteType-business');
+    await page.waitForTimeout(600);
+    await page.fill('#clrSuburb', 'Parramatta');
+    await page.fill('#clrPostcode', '2150');
+    await page.waitForTimeout(700);
+    await page.check('#loadPattern-overnight');
+    await page.waitForTimeout(600);
+    await page.check('#spend-3000-7500');
+    await page.waitForTimeout(600);
+    // "I'd need to ask someone else" must not block submission.
+    await page.check('#decision-askelse');
+    await page.waitForTimeout(600);
+    const contactVisible = await page.evaluate(() => !document.getElementById('clrContact').hidden);
+    if (!contactVisible) errors.push('CLR: contact fields did not reveal after "I\'d need to ask someone else" — that answer must not block progress');
+
+    await page.fill('#clrFullName', 'Test Person');
+    await page.fill('#clrBusinessName', 'Test Co Pty Ltd');
+    await page.fill('#clrWorkEmail', 'test.person@example.com');
+    await page.fill('#clrPhone', '0400000000');
+    await page.check('#clrConsent');
+
+    const dataLayerJson = await page.evaluate(() => {
+      window.__clrDL = [];
+      const push = Array.prototype.push;
+      window.dataLayer.push = function () {
+        push.apply(window.__clrDL, arguments);
+        return push.apply(this, arguments);
+      };
+      return true;
+    });
+    void dataLayerJson;
+
+    await page.click('#clrSubmit');
+    await page.waitForTimeout(500);
+
+    const confirmVisible = await page.evaluate(() => !document.getElementById('clrConfirm').hidden);
+    const formHidden = await page.evaluate(() => document.getElementById('clrForm').hidden);
+    if (!confirmVisible) errors.push('CLR: confirmation panel did not appear after a successful submit');
+    if (!formHidden) errors.push('CLR: form was not hidden after a successful submit');
+
+    const dl = await page.evaluate(() => window.__clrDL || []);
+    const dlText = JSON.stringify(dl).toLowerCase();
+    ['test person', 'test.person@example.com', '0400000000', 'test co pty ltd'].forEach((pii) => {
+      if (dlText.includes(pii.toLowerCase())) errors.push(`CLR: dataLayer push contained PII-looking value: ${pii}`);
+    });
+    if (!dl.some((e) => e.event === 'form_complete')) errors.push('CLR: form_complete event was not pushed to dataLayer on success');
+    await page.close();
+  });
+
+  await run('commercial load review: keyboard-only completion', async () => {
+    const page = await context.newPage();
+    await page.route(CLR_WEBHOOK, (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+
+    // Q1: Tab to the radio group, arrow to "Business or commercial premises"
+    // (first option), settle, then keep tabbing/arrowing through every
+    // subsequent question exactly as a keyboard-only visitor would.
+    await page.locator('#siteType-business').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#clrSuburb').focus();
+    await page.keyboard.type('Chatswood');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('2067');
+    await page.waitForTimeout(700);
+
+    await page.locator('#loadPattern-daytime').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#spend-under1000').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#decision-decide').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    const contactVisible = await page.evaluate(() => !document.getElementById('clrContact').hidden);
+    if (!contactVisible) {
+      errors.push('CLR keyboard-only: contact fields never revealed — keyboard-driven progressive reveal is broken');
+      await page.close();
+      return;
+    }
+
+    await page.locator('#clrFullName').focus();
+    await page.keyboard.type('Keyboard Tester');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('Keyboard Test Co');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('keyboard.tester@example.com');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('0400111222');
+    await page.locator('#clrConsent').focus();
+    await page.keyboard.press('Space');
+    await page.locator('#clrSubmit').focus();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
+
+    const confirmVisible = await page.evaluate(() => !document.getElementById('clrConfirm').hidden);
+    if (!confirmVisible) errors.push('CLR keyboard-only: submission via keyboard did not reach the confirmation panel');
+    await page.close();
+  });
+
+  await run('commercial load review: first-touch attribution survives a reload without query params', async () => {
+    // Own context so localStorage starts clean — the shared `context` above
+    // may already carry ft_ values from an earlier test's own first-touch
+    // capture (which is correct behavior for that test, but would make
+    // "first load ever" a false premise here).
+    const freshContext = await browser.newContext();
+    const page = await freshContext.newPage();
+    await page.goto(BASE + '/commercial-load-review/?utm_source=meta&utm_campaign=first_touch_test&campaign_id=camp1', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.waitForTimeout(200);
+    const ftAfterFirstLoad = await page.evaluate(() => localStorage.getItem('ft_utm_campaign'));
+    if (ftAfterFirstLoad !== 'first_touch_test') {
+      errors.push(`CLR: first-touch utm_campaign not captured to localStorage on first load (got ${ftAfterFirstLoad})`);
+    }
+    // Reload with a DIFFERENT campaign in the query string — first-touch
+    // must not be overwritten by this later visit.
+    await page.goto(BASE + '/commercial-load-review/?utm_source=meta&utm_campaign=second_touch_test', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.waitForTimeout(200);
+    const ftAfterSecondLoad = await page.evaluate(() => localStorage.getItem('ft_utm_campaign'));
+    const ltAfterSecondLoad = await page.evaluate(() => document.getElementById('lt_utm_campaign').value);
+    if (ftAfterSecondLoad !== 'first_touch_test') {
+      errors.push(`CLR: first-touch utm_campaign was overwritten by a later visit (got ${ftAfterSecondLoad})`);
+    }
+    if (ltAfterSecondLoad !== 'second_touch_test') {
+      errors.push(`CLR: latest-touch utm_campaign did not update to the current visit's value (got ${ltAfterSecondLoad})`);
+    }
+    await freshContext.close();
   });
 
   // Legacy route coverage: every entry in redirects/legacy-routes.json must

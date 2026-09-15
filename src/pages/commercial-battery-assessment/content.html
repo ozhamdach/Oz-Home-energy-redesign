@@ -22,8 +22,8 @@
 
     <div class="assess-wrap" style="max-width:none;">
       <div class="assess-progress" style="margin-bottom:20px;">
-        <div class="bar" id="bessProgressBar" role="progressbar" aria-label="Site check progress" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1"><div class="fill" id="bessFill"></div></div>
-        <div class="meta"><span id="bessStageLabel">Stage 1 of 3</span><span id="bessStageName">Site fit</span></div>
+        <div class="bar" id="bessProgressBar" role="progressbar" aria-label="Site check progress" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><div class="fill" id="bessFill"></div></div>
+        <div class="meta"><span id="bessStageLabel">Stage 1 of 4</span><span id="bessStageName">Quick capture</span></div>
       </div>
       <div id="bessStageAnnounce" class="visually-hidden" aria-live="polite"></div>
 
@@ -36,22 +36,28 @@
       </div>
 
       <form id="bessForm" method="post" novalidate>
-        <!-- STAGE 1: Site fit -->
+        <!-- STAGE 1: Quick capture — deliberately minimal. Just enough to
+             identify the lead, reach them by phone, and get consent to do
+             so. If someone abandons after this stage, main.js still fires
+             a partial submission so the lead isn't lost — see
+             commercial-battery-assessment.js's buildPartialPayload(). -->
         <div class="assess-step is-active" data-stage="1" id="stage1">
-          <h3>About the site</h3>
+          <h3>Let's get started</h3>
+          <p class="hint">Just the basics first — everything else is on the next few pages.</p>
 
-          <div class="grid grid-2">
-            <div class="form-field">
-              <label for="siteAddress">Site address</label>
-              <input type="text" id="siteAddress" name="siteAddress" required autocomplete="street-address" aria-describedby="siteAddressError">
-              <p class="error-msg" role="alert" id="siteAddressError">Please enter the site address.</p>
+          <fieldset class="assess-fieldset">
+            <legend>Site type</legend>
+            <p class="hint">Not sure how your building is classified? Oz Home Energy will confirm the details during review — pick the closest description.</p>
+            <div class="radio-cards radio-cards-wide">
+              <div class="radio-card"><input type="radio" id="siteType1" name="siteType" value="apartment_building" required><label for="siteType1">Apartment building</label></div>
+              <div class="radio-card"><input type="radio" id="siteType2" name="siteType" value="commercial_business"><label for="siteType2">Commercial / business premises</label></div>
+              <div class="radio-card"><input type="radio" id="siteType3" name="siteType" value="individual_home"><label for="siteType3">Individual home</label></div>
+              <div class="radio-card"><input type="radio" id="siteType4" name="siteType" value="data_centre"><label for="siteType4">Data centre</label></div>
+              <div class="radio-card"><input type="radio" id="siteType5" name="siteType" value="unsure"><label for="siteType5">Unsure</label></div>
             </div>
-            <div class="form-field">
-              <label for="siteSuburb">Site suburb</label>
-              <input type="text" id="siteSuburb" name="siteSuburb" required autocomplete="address-level2" aria-describedby="siteSuburbError">
-              <p class="error-msg" role="alert" id="siteSuburbError">Please enter the site suburb.</p>
-            </div>
-          </div>
+            <p class="error-msg" role="alert" id="siteTypeError">Please choose a site type.</p>
+          </fieldset>
+
           <div class="grid grid-2">
             <div class="form-field">
               <label for="sitePostcode">Site postcode</label>
@@ -68,18 +74,49 @@
             </fieldset>
           </div>
 
-          <fieldset class="assess-fieldset">
-            <legend>Site type</legend>
-            <p class="hint">Not sure how your building is classified? Oz Home Energy will confirm the details during review — pick the closest description.</p>
-            <div class="radio-cards radio-cards-wide">
-              <div class="radio-card"><input type="radio" id="siteType1" name="siteType" value="apartment_building" required><label for="siteType1">Apartment building</label></div>
-              <div class="radio-card"><input type="radio" id="siteType2" name="siteType" value="commercial_business"><label for="siteType2">Commercial / business premises</label></div>
-              <div class="radio-card"><input type="radio" id="siteType3" name="siteType" value="individual_home"><label for="siteType3">Individual home</label></div>
-              <div class="radio-card"><input type="radio" id="siteType4" name="siteType" value="data_centre"><label for="siteType4">Data centre</label></div>
-              <div class="radio-card"><input type="radio" id="siteType5" name="siteType" value="unsure"><label for="siteType5">Unsure</label></div>
+          <div class="grid grid-2">
+            <div class="form-field">
+              <label for="contactName">Contact name</label>
+              <input type="text" id="contactName" name="contactName" required autocomplete="name" aria-describedby="contactNameError">
+              <p class="error-msg" role="alert" id="contactNameError">Please enter your name.</p>
             </div>
-            <p class="error-msg" role="alert" id="siteTypeError">Please choose a site type.</p>
-          </fieldset>
+            <div class="form-field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" aria-describedby="phoneError">
+              <p class="error-msg" role="alert" id="phoneError">Please enter a valid phone number.</p>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
+              <input type="checkbox" id="requiredConsent" name="requiredConsent" required aria-describedby="requiredConsentError">
+              <span>I consent to Oz Home Energy contacting me about this site check, including by phone, SMS and email. See our <a href="/privacy-policy/">Privacy Policy</a>.</span>
+            </label>
+            <p class="error-msg" role="alert" id="requiredConsentError">Please provide consent to continue — we can't follow up without it.</p>
+          </div>
+
+          <div class="assess-nav">
+            <span></span>
+            <button type="button" class="btn btn-primary" data-continue="1">Continue</button>
+          </div>
+        </div>
+
+        <!-- STAGE 2: Site details -->
+        <div class="assess-step" data-stage="2" id="stage2">
+          <h3>About the site</h3>
+
+          <div class="grid grid-2">
+            <div class="form-field">
+              <label for="siteAddress">Site address</label>
+              <input type="text" id="siteAddress" name="siteAddress" required autocomplete="street-address" aria-describedby="siteAddressError">
+              <p class="error-msg" role="alert" id="siteAddressError">Please enter the site address.</p>
+            </div>
+            <div class="form-field">
+              <label for="siteSuburb">Site suburb</label>
+              <input type="text" id="siteSuburb" name="siteSuburb" required autocomplete="address-level2" aria-describedby="siteSuburbError">
+              <p class="error-msg" role="alert" id="siteSuburbError">Please enter the site suburb.</p>
+            </div>
+          </div>
 
           <!-- Apartment-only sub-questions -->
           <div id="apartmentBlock" hidden>
@@ -180,13 +217,13 @@
           </fieldset>
 
           <div class="assess-nav">
-            <span></span>
-            <button type="button" class="btn btn-primary" data-continue="1">Continue</button>
+            <button type="button" class="btn btn-secondary" data-back="2">Back</button>
+            <button type="button" class="btn btn-primary" data-continue="2">Continue</button>
           </div>
         </div>
 
-        <!-- STAGE 2: Commercial need -->
-        <div class="assess-step" data-stage="2" id="stage2">
+        <!-- STAGE 3: Commercial need -->
+        <div class="assess-step" data-stage="3" id="stage3">
           <h3>About the electricity use and project</h3>
 
           <fieldset class="assess-fieldset">
@@ -262,37 +299,26 @@
           </div>
 
           <div class="assess-nav">
-            <button type="button" class="btn btn-secondary" data-back="2">Back</button>
-            <button type="button" class="btn btn-primary" data-continue="2">Continue</button>
+            <button type="button" class="btn btn-secondary" data-back="3">Back</button>
+            <button type="button" class="btn btn-primary" data-continue="3">Continue</button>
           </div>
         </div>
 
-        <!-- STAGE 3: Contact and consent -->
-        <div class="assess-step" data-stage="3" id="stage3">
+        <!-- STAGE 4: Remaining contact details and marketing consent -->
+        <div class="assess-step" data-stage="4" id="stage4">
           <h3>Your details</h3>
+          <p class="hint">Just a few more details to finish — your name, phone and consent from earlier are already saved.</p>
 
           <div class="grid grid-2">
-            <div class="form-field">
-              <label for="contactName">Contact name</label>
-              <input type="text" id="contactName" name="contactName" required autocomplete="name" aria-describedby="contactNameError">
-              <p class="error-msg" role="alert" id="contactNameError">Please enter your name.</p>
-            </div>
             <div class="form-field">
               <label for="businessName">Business, strata or owners corporation name</label>
               <input type="text" id="businessName" name="businessName" required autocomplete="organization" aria-describedby="businessNameError">
               <p class="error-msg" role="alert" id="businessNameError">Please enter the business or strata name.</p>
             </div>
-          </div>
-          <div class="grid grid-2">
             <div class="form-field">
               <label for="workEmail">Work email</label>
               <input type="email" id="workEmail" name="workEmail" required autocomplete="email" aria-describedby="workEmailError">
               <p class="error-msg" role="alert" id="workEmailError">Please enter a valid email address.</p>
-            </div>
-            <div class="form-field">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" required autocomplete="tel" aria-describedby="phoneError">
-              <p class="error-msg" role="alert" id="phoneError">Please enter a valid phone number.</p>
             </div>
           </div>
           <div class="form-field">
@@ -308,21 +334,14 @@
 
           <div class="form-field">
             <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
-              <input type="checkbox" id="requiredConsent" name="requiredConsent" required aria-describedby="requiredConsentError">
-              <span>I consent to Oz Home Energy contacting me about this site check, including by phone, SMS and email. See our <a href="/privacy-policy/">Privacy Policy</a>.</span>
-            </label>
-            <p class="error-msg" role="alert" id="requiredConsentError">Please provide consent to continue — we can't follow up without it.</p>
-          </div>
-          <div class="form-field">
-            <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
               <input type="checkbox" id="marketingConsent" name="marketingConsent">
-              <span>I'd also like to receive occasional updates about Oz Home Energy's commercial solar, battery and electrical services. I can unsubscribe at any time. <span class="hint" style="display:inline;">(Optional — separate from the consent above.)</span></span>
+              <span>I'd also like to receive occasional updates about Oz Home Energy's commercial solar, battery and electrical services. I can unsubscribe at any time. <span class="hint" style="display:inline;">(Optional — separate from the consent given earlier.)</span></span>
             </label>
           </div>
 
           <button class="btn btn-primary btn-block" type="submit" id="bessSubmit" style="margin-top:8px;">Submit Site Check</button>
           <div class="assess-nav" style="margin-top:0;">
-            <button type="button" class="btn btn-secondary" data-back="3">Back</button>
+            <button type="button" class="btn btn-secondary" data-back="4">Back</button>
             <span></span>
           </div>
           <div id="bessFormStatus" aria-live="polite" role="status" style="margin-top:14px;"></div>

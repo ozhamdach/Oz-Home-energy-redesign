@@ -36,6 +36,7 @@ const pages = [
   '/switchboard-upgrades/',
   '/projects/',
   '/commercial-load-review/',
+  '/commercial-solar-battery-quote/',
 ];
 const errors = [];
 
@@ -551,6 +552,131 @@ async function run(label, fn) {
       errors.push(`CLR: latest-touch utm_campaign did not update to the current visit's value (got ${ltAfterSecondLoad})`);
     }
     await freshContext.close();
+  });
+
+  // Commercial Solar & Battery Quote — second single-page conversion funnel,
+  // same webhook as Commercial Load Review (see site/js/commercial-solar-battery-quote.js).
+  const CSBQ_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/iqh8HIe7GtEKNtnlIaho/webhook-trigger/83a43470-0989-4954-b4cf-55d62d8446c9';
+
+  await run('commercial solar battery quote: initial state — only Q1 visible, both consent boxes unticked', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-solar-battery-quote/', { waitUntil: 'load', timeout: 15000 });
+    const state = await page.evaluate(() => ({
+      q1Hidden: document.getElementById('csbqQ1').hidden,
+      q2Hidden: document.getElementById('csbqQ2').hidden,
+      q3Hidden: document.getElementById('csbqQ3').hidden,
+      contactHidden: document.getElementById('csbqContact').hidden,
+      consentChecked: document.getElementById('csbqConsent').checked,
+      marketingChecked: document.getElementById('csbqMarketing').checked,
+    }));
+    if (state.q1Hidden) errors.push('CSBQ: Q1 should be visible on load');
+    if (!state.q2Hidden || !state.q3Hidden || !state.contactHidden) {
+      errors.push('CSBQ: only Q1 should be visible before any answers — found a later question already revealed');
+    }
+    if (state.consentChecked || state.marketingChecked) errors.push('CSBQ: consent checkboxes must be unticked by default');
+    await page.close();
+  });
+
+  await run('commercial solar battery quote: full happy path via mouse — no PII in analytics', async () => {
+    const page = await context.newPage();
+    await page.route(CSBQ_WEBHOOK, (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await page.goto(BASE + '/commercial-solar-battery-quote/?utm_source=meta&utm_campaign=csbq&fbclid=xyz789', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.check('#propType-warehouse');
+    await page.waitForTimeout(600);
+    await page.check('#spend-5000-15000');
+    await page.waitForTimeout(600);
+    await page.check('#goal-lowerbills');
+    await page.waitForTimeout(600);
+
+    const contactVisible = await page.evaluate(() => !document.getElementById('csbqContact').hidden);
+    if (!contactVisible) errors.push('CSBQ: contact fields did not reveal after answering all three questions');
+
+    await page.fill('#csbqFullName', 'Test Person');
+    await page.fill('#csbqBusinessName', 'Test Co Pty Ltd');
+    await page.fill('#csbqPhone', '0400000000');
+    await page.fill('#csbqWorkEmail', 'test.person@example.com');
+    await page.fill('#csbqSuburb', 'Parramatta');
+    await page.fill('#csbqPostcode', '2150');
+    await page.check('#csbqConsent');
+
+    await page.evaluate(() => {
+      window.__csbqDL = [];
+      const push = Array.prototype.push;
+      window.dataLayer.push = function () {
+        push.apply(window.__csbqDL, arguments);
+        return push.apply(this, arguments);
+      };
+    });
+
+    await page.click('#csbqSubmit');
+    await page.waitForTimeout(500);
+
+    const confirmVisible = await page.evaluate(() => !document.getElementById('csbqConfirm').hidden);
+    const formHidden = await page.evaluate(() => document.getElementById('csbqForm').hidden);
+    if (!confirmVisible) errors.push('CSBQ: confirmation panel did not appear after a successful submit');
+    if (!formHidden) errors.push('CSBQ: form was not hidden after a successful submit');
+
+    const dl = await page.evaluate(() => window.__csbqDL || []);
+    const dlText = JSON.stringify(dl).toLowerCase();
+    ['test person', 'test.person@example.com', '0400000000', 'test co pty ltd'].forEach((pii) => {
+      if (dlText.includes(pii.toLowerCase())) errors.push(`CSBQ: dataLayer push contained PII-looking value: ${pii}`);
+    });
+    if (!dl.some((e) => e.event === 'form_complete')) errors.push('CSBQ: form_complete event was not pushed to dataLayer on success');
+    await page.close();
+  });
+
+  await run('commercial solar battery quote: keyboard-only completion', async () => {
+    const page = await context.newPage();
+    await page.route(CSBQ_WEBHOOK, (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await page.goto(BASE + '/commercial-solar-battery-quote/', { waitUntil: 'load', timeout: 15000 });
+
+    await page.locator('#propType-manufacturing').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#spend-under5000').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#goal-resilience').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    const contactVisible = await page.evaluate(() => !document.getElementById('csbqContact').hidden);
+    if (!contactVisible) {
+      errors.push('CSBQ keyboard-only: contact fields never revealed — keyboard-driven progressive reveal is broken');
+      await page.close();
+      return;
+    }
+
+    await page.locator('#csbqFullName').focus();
+    await page.keyboard.type('Keyboard Tester');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('Keyboard Test Co');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('0400111222');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('keyboard.tester@example.com');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('Chatswood');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('2067');
+    await page.locator('#csbqConsent').focus();
+    await page.keyboard.press('Space');
+    await page.locator('#csbqSubmit').focus();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
+
+    const confirmVisible = await page.evaluate(() => !document.getElementById('csbqConfirm').hidden);
+    if (!confirmVisible) errors.push('CSBQ keyboard-only: submission via keyboard did not reach the confirmation panel');
+    await page.close();
   });
 
   // Legacy route coverage: every entry in redirects/legacy-routes.json must

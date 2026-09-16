@@ -1,0 +1,276 @@
+<style>
+  /* Page-specific styles for the Commercial Solar & Battery Quote
+     conversion page. Everything else (buttons, containers, form fields,
+     radio-cards, error-summary, grid) reuses /css/styles.css, matching
+     /commercial-load-review/'s pattern. */
+  .csbq-hero { background: var(--charcoal); }
+  .csbq-hero .hero-media, .csbq-hero .hero-overlay { display: none; }
+  .csbq-kicker {
+    margin-top: 18px; font-family: var(--font-heading); font-weight: 600;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #bcd0ff;
+  }
+  .csbq-panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .csbq-panels { grid-template-columns: 1fr; } }
+  .csbq-panel { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 22px; }
+  .csbq-panel .num { font-family: var(--font-heading); font-weight: 700; color: var(--brand); font-size: 0.85rem; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .csbq-panel p { margin: 0; color: var(--text); font-size: 0.98rem; }
+  .csbq-question { margin-bottom: 32px; }
+  .csbq-question legend { font-weight: 600; font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 14px; padding: 0; }
+  .csbq-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .csbq-row2 { grid-template-columns: 1fr; } }
+  .csbq-consent { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
+  .csbq-consent input { width: 20px; height: 20px; min-width: 20px; margin-top: 2px; cursor: pointer; }
+  .csbq-consent label { font-size: 0.92rem; cursor: pointer; }
+  .csbq-confirm { text-align: center; padding: 40px 0; }
+  .csbq-confirm .icon-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .csbq-confirm .icon-circle svg { width: 30px; height: 30px; color: var(--brand); }
+  .csbq-form-error { color: #c0322b; }
+  @media (prefers-reduced-motion: no-preference) {
+    .csbq-question[data-revealed="true"] { animation: fadein .25s ease; }
+  }
+</style>
+
+<section class="hero csbq-hero">
+  <div class="container hero-inner">
+    <p class="eyebrow">Commercial Solar &amp; Battery</p>
+    <h1>See what solar and battery could do for your site.</h1>
+    <p class="lede">A few questions about your business and your electricity use, then a real quote from the installer — not a broker.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#csbqForm">Get my quote</a>
+    </div>
+    <p class="csbq-kicker">3 Questions · Your Details · No Site Visit to Start</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head center">
+      <h2>What goes into your quote</h2>
+    </div>
+    <div class="csbq-panels">
+      <div class="csbq-panel">
+        <p class="num">01</p>
+        <p>What your site is used for — a warehouse, a factory and a shop all use power differently, and that shapes what's worth installing.</p>
+      </div>
+      <div class="csbq-panel">
+        <p class="num">02</p>
+        <p>What you're spending now — a starting point for sizing a system that actually fits your usage.</p>
+      </div>
+      <div class="csbq-panel">
+        <p class="num">03</p>
+        <p>What you're trying to fix — lower bills, backup power, or something else. Different goals point to different setups.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="csbqForm">
+  <div class="container container-narrow">
+    <div class="section-head center">
+      <h2>Get my quote</h2>
+      <p class="lede" style="margin-inline:auto;">Three short questions, then your details.</p>
+    </div>
+
+    <div id="csbqErrorSummary" class="error-summary" role="alert" tabindex="-1" hidden>
+      <h3>Please check the following</h3>
+      <ul id="csbqErrorSummaryList"></ul>
+    </div>
+
+    <div id="csbqFormAnnounce" class="visually-hidden" aria-live="polite"></div>
+
+    <form id="csbqForm" method="post" novalidate>
+      <!-- Q1: property/facility type -->
+      <fieldset class="csbq-question" id="csbqQ1" data-revealed="true">
+        <legend>What type of property or facility is this for?</legend>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" id="propType-warehouse" name="propertyType" value="warehouse_logistics" required>
+            <label for="propType-warehouse">Warehouse or logistics</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="propType-manufacturing" name="propertyType" value="manufacturing">
+            <label for="propType-manufacturing">Manufacturing or factory</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="propType-retail" name="propertyType" value="retail_hospitality">
+            <label for="propType-retail">Retail or hospitality</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="propType-office" name="propertyType" value="office_commercial">
+            <label for="propType-office">Office or other commercial</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="propType-agriculture" name="propertyType" value="agriculture">
+            <label for="propType-agriculture">Agriculture or farm</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="propType-other" name="propertyType" value="other">
+            <label for="propType-other">Other commercial facility</label>
+          </div>
+        </div>
+        <p class="error-msg" id="csbqQ1Error">Select the option that best describes the site.</p>
+      </fieldset>
+
+      <!-- Q2: quarterly electricity spend -->
+      <fieldset class="csbq-question" id="csbqQ2" hidden>
+        <legend>Roughly what's your quarterly electricity spend?</legend>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" id="spend-under5000" name="spendBand" value="under_5000" required>
+            <label for="spend-under5000">Under $5,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-5000-15000" name="spendBand" value="5000_15000">
+            <label for="spend-5000-15000">$5,000&ndash;$15,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-15000-30000" name="spendBand" value="15000_30000">
+            <label for="spend-15000-30000">$15,000&ndash;$30,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-over30000" name="spendBand" value="over_30000">
+            <label for="spend-over30000">Over $30,000</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="spend-unsure" name="spendBand" value="unsure">
+            <label for="spend-unsure">Not sure</label>
+          </div>
+        </div>
+        <p class="error-msg" id="csbqQ2Error">Select an option.</p>
+      </fieldset>
+
+      <!-- Q3: main goal -->
+      <fieldset class="csbq-question" id="csbqQ3" hidden>
+        <legend>What's the main thing you're trying to fix?</legend>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" id="goal-lowerbills" name="mainGoal" value="lower_bills" required>
+            <label for="goal-lowerbills">Lower electricity bills</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="goal-demand" name="mainGoal" value="demand_charges">
+            <label for="goal-demand">Reduce demand charges</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="goal-resilience" name="mainGoal" value="resilience">
+            <label for="goal-resilience">Backup power / resilience</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="goal-notsure" name="mainGoal" value="not_sure">
+            <label for="goal-notsure">Not sure yet</label>
+          </div>
+        </div>
+        <p class="error-msg" id="csbqQ3Error">Select an option.</p>
+      </fieldset>
+
+      <!-- Contact details, bundled together -->
+      <fieldset class="csbq-question" id="csbqContact" hidden>
+        <legend>Your details</legend>
+        <div class="csbq-row2">
+          <div class="form-field">
+            <label for="csbqFullName">Full name</label>
+            <input type="text" id="csbqFullName" name="fullName" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="csbqBusinessName">Business name</label>
+            <input type="text" id="csbqBusinessName" name="businessName" autocomplete="organization" required>
+          </div>
+        </div>
+        <div class="csbq-row2">
+          <div class="form-field">
+            <label for="csbqPhone">Phone</label>
+            <input type="tel" id="csbqPhone" name="phone" autocomplete="tel" required>
+          </div>
+          <div class="form-field">
+            <label for="csbqWorkEmail">Work email</label>
+            <input type="email" id="csbqWorkEmail" name="workEmail" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="csbq-row2">
+          <div class="form-field">
+            <label for="csbqSuburb">Suburb</label>
+            <input type="text" id="csbqSuburb" name="suburb" autocomplete="address-level2" required>
+          </div>
+          <div class="form-field">
+            <label for="csbqPostcode">Postcode</label>
+            <input type="text" id="csbqPostcode" name="postcode" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="postal-code" required>
+          </div>
+        </div>
+
+        <div class="csbq-consent">
+          <input type="checkbox" id="csbqConsent" name="consent" required>
+          <label for="csbqConsent">I consent to Oz Home Energy contacting me about the quote I've requested.</label>
+        </div>
+        <div class="csbq-consent">
+          <input type="checkbox" id="csbqMarketing" name="marketingConsent">
+          <label for="csbqMarketing">I'd also like to receive occasional updates from Oz Home Energy (optional).</label>
+        </div>
+        <p class="hint">See our <a href="/privacy-policy/">privacy policy</a> for how your information is handled.</p>
+        <p class="error-msg" id="csbqContactError">Please fill in your details and consent to being contacted.</p>
+
+        <!-- Attribution: first-touch (ft_) and latest-touch (lt_) hidden
+             fields — see site/js/commercial-solar-battery-quote.js. -->
+        <input type="hidden" name="ft_utm_source" id="ft_utm_source">
+        <input type="hidden" name="ft_utm_medium" id="ft_utm_medium">
+        <input type="hidden" name="ft_utm_campaign" id="ft_utm_campaign">
+        <input type="hidden" name="ft_utm_content" id="ft_utm_content">
+        <input type="hidden" name="ft_utm_term" id="ft_utm_term">
+        <input type="hidden" name="ft_fbclid" id="ft_fbclid">
+        <input type="hidden" name="ft_campaign_id" id="ft_campaign_id">
+        <input type="hidden" name="ft_adset_id" id="ft_adset_id">
+        <input type="hidden" name="ft_ad_id" id="ft_ad_id">
+        <input type="hidden" name="ft_placement" id="ft_placement">
+        <input type="hidden" name="lt_utm_source" id="lt_utm_source">
+        <input type="hidden" name="lt_utm_medium" id="lt_utm_medium">
+        <input type="hidden" name="lt_utm_campaign" id="lt_utm_campaign">
+        <input type="hidden" name="lt_utm_content" id="lt_utm_content">
+        <input type="hidden" name="lt_utm_term" id="lt_utm_term">
+        <input type="hidden" name="lt_fbclid" id="lt_fbclid">
+        <input type="hidden" name="lt_campaign_id" id="lt_campaign_id">
+        <input type="hidden" name="lt_adset_id" id="lt_adset_id">
+        <input type="hidden" name="lt_ad_id" id="lt_ad_id">
+        <input type="hidden" name="lt_placement" id="lt_placement">
+        <input type="hidden" name="funnel" id="csbqFunnelField" value="commercial_solar_battery_quote">
+
+        <button class="btn btn-primary btn-block" type="submit" id="csbqSubmit">Get my quote</button>
+        <p class="hint csbq-form-error" id="csbqSubmitError" hidden>Something went wrong sending your details. Your answers are still here — please try again, or call us directly.</p>
+      </fieldset>
+    </form>
+
+    <div class="csbq-confirm" id="csbqConfirm" hidden tabindex="-1">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#0540C1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>Got it — thanks</h2>
+      <p class="lede" style="margin-inline:auto;">We'll review what you've told us and be in touch to talk through a quote for your site.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container-narrow">
+    <div class="section-head center">
+      <h2>What happens next</h2>
+    </div>
+    <div class="process-list">
+      <div class="process-item">
+        <p class="step-no">Step 1</p>
+        <h3>You answer three questions</h3>
+        <p>About your site, your spend, and what you're trying to fix.</p>
+      </div>
+      <div class="process-item">
+        <p class="step-no">Step 2</p>
+        <h3>We review your details</h3>
+        <p>Using what you've told us to put together a real starting point.</p>
+      </div>
+      <div class="process-item">
+        <p class="step-no">Step 3</p>
+        <h3>We call to talk it through</h3>
+        <p>Before anything else happens — no obligation.</p>
+      </div>
+      <div class="process-item">
+        <p class="step-no">Step 4</p>
+        <h3>A site visit, if it makes sense</h3>
+        <p>Only once we both agree it's worth the next step.</p>
+      </div>
+    </div>
+  </div>
+</section>

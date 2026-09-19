@@ -312,39 +312,35 @@ async function run(label, fn) {
     }
   });
 
-  // /service-request/ now embeds a real HighLevel-hosted form (iframe,
-  // cross-origin) in place of the custom-built prototype form (and its
-  // ?type= preselect, which had no HighLevel equivalent) these tests used
-  // to exercise — see git history for that version, and the assessment
-  // page test above for the same pattern.
+  // /service-request/ and /commercial-project-enquiry/ both now embed a
+  // real HighLevel-hosted form (iframe, cross-origin) in place of the
+  // custom-built prototype forms these tests used to exercise — see git
+  // history for those versions, and the assessment page test above for
+  // the same pattern. Service Request's form ID was corrected from
+  // 2TfIfhVospnHx74eNcAP to D54fnMMf1LWTXOCNlh28 (the latter's internal
+  // HighLevel name is "Service Request"; the former's was the suspicious
+  // "Google/Meta ads Request a Quote").
   await run('service request page embeds the real HighLevel form, not a stale prototype', async () => {
     const page = await context.newPage();
     await page.goto(BASE + '/service-request/', { waitUntil: 'load', timeout: 15000 });
     const hasRealEmbed = await page.evaluate(
-      () => !!document.querySelector('iframe[data-form-id="2TfIfhVospnHx74eNcAP"]')
+      () => !!document.querySelector('iframe[data-form-id="D54fnMMf1LWTXOCNlh28"]')
     );
-    if (!hasRealEmbed) errors.push('/service-request/: expected HighLevel form iframe (2TfIfhVospnHx74eNcAP) not found');
+    if (!hasRealEmbed) errors.push('/service-request/: expected HighLevel form iframe (D54fnMMf1LWTXOCNlh28) not found');
     const hasStaleForm = await page.evaluate(() => !!document.getElementById('serviceRequestForm'));
     if (hasStaleForm) errors.push('/service-request/: retired custom #serviceRequestForm markup is still present');
     await page.close();
   });
 
-  await run('project enquiry prototype submit shows pending notice, not success', async () => {
+  await run('commercial project enquiry page embeds the real HighLevel form, not a stale prototype', async () => {
     const page = await context.newPage();
-    await page.setViewportSize({ width: 1024, height: 900 });
-    const urlBefore = BASE + '/commercial-project-enquiry/';
-    await page.goto(urlBefore, { waitUntil: 'load', timeout: 15000 });
-    await page.fill('#companyName', 'Test Co');
-    await page.fill('#contactName', 'Test Person');
-    await page.fill('#email', 'test@example.com');
-    await page.fill('#phone', '0400000000');
-    await page.fill('#siteAddress', '1 Test St, Sydney NSW');
-    await page.click('button[type="submit"]');
-    const pendingVisible = await page.evaluate(() => !!document.querySelector('.lead-pending-notice'));
-    if (!pendingVisible) errors.push('Project enquiry submit did not show the not-connected-yet notice');
-    const fakeSuccessVisible = await page.evaluate(() => !!document.querySelector('.assess-success'));
-    if (fakeSuccessVisible) errors.push('Project enquiry submit showed a success-style affordance — must never appear');
-    if (page.url() !== urlBefore) errors.push('Project enquiry submit navigated away — a live submission may have been attempted');
+    await page.goto(BASE + '/commercial-project-enquiry/', { waitUntil: 'load', timeout: 15000 });
+    const hasRealEmbed = await page.evaluate(
+      () => !!document.querySelector('iframe[data-form-id="UyzHXWGEaLtIQqI9z2kc"]')
+    );
+    if (!hasRealEmbed) errors.push('/commercial-project-enquiry/: expected HighLevel form iframe (UyzHXWGEaLtIQqI9z2kc) not found');
+    const hasStaleForm = await page.evaluate(() => !!document.getElementById('projectEnquiryForm'));
+    if (hasStaleForm) errors.push('/commercial-project-enquiry/: retired custom #projectEnquiryForm markup is still present');
     await page.close();
   });
 

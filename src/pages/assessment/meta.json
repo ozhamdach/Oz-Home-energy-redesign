@@ -4,7 +4,7 @@
   "canonical": "/assessment/",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
-    { "name": "Contact / Energy Assessment", "url": "/assessment/" }
+    { "name": "Energy Assessment", "url": "/assessment/" }
   ],
   "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"]
 }

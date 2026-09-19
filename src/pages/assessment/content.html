@@ -11,7 +11,7 @@
     </h1>
 
     <p class="lede" style="font-size:0.95rem; margin-bottom:0;">
-      A short form — no pressure, no obligation.
+      Tell us about your property and how you use electricity.
     </p>
   </div>
 </section>
@@ -113,7 +113,10 @@
 
   @media (max-width: 991px) {
     .assessment-grid {
-      grid-template-columns: 65% 35%;
+      /* fr units (not bare percentages) — with a gap, 65%+35% tracks are
+         100% of the container plus the gap on top, which overflows; fr
+         distributes only the space left after the gap is subtracted. */
+      grid-template-columns: 65fr 35fr;
       gap: 30px;
     }
   }
@@ -130,4 +133,3 @@
   }
 </style>
 
-<script src="https://link.ozhomeenergy.com.au/js/form_embed.js"></script>

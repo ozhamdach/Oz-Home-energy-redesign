@@ -431,6 +431,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 .trust-badge-card img { display: block; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
 .trust-strip-label { font-family: var(--font-heading); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-right: 6px; }
+.trust-badge-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.trust-badge-caption { font-size: 0.76rem; color: var(--text-muted); text-align: center; max-width: 200px; }
+
+/* Original OHE-branded typographic warranty badge — not a manufacturer mark */
+.warranty-badge {
+  background: #fff; border: 1.5px solid var(--brand); border-radius: var(--radius-md);
+  padding: 10px 20px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; min-height: 64px; text-align: center; text-decoration: none;
+}
+.warranty-badge .years { font-family: var(--font-heading); font-weight: 700; color: var(--brand); font-size: 1.1rem; line-height: 1.1; }
+.warranty-badge .label { font-family: var(--font-heading); font-weight: 600; color: var(--text); font-size: 0.72rem; letter-spacing: 0.03em; text-transform: uppercase; }
+#warranty { scroll-margin-top: calc(var(--header-h) + 16px); }
 
 /* ---------- Photo gallery (Projects: recent/in-progress work) ---------- */
 .photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }

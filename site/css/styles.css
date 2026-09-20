@@ -422,27 +422,51 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   font-size: 0.8rem; color: var(--text-muted); padding: 8px 2px 0; background: transparent;
 }
 
-/* ---------- Trust / approved-installer strip ---------- */
-.trust-strip { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.trust-strip-inner { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; padding-block: 28px; }
-.trust-badge-card {
-  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
-  padding: 14px 20px; display: flex; align-items: center; min-height: 64px;
-}
-.trust-badge-card img { display: block; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
-.trust-strip-label { font-family: var(--font-heading); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-right: 6px; }
-.trust-badge-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.trust-badge-caption { font-size: 0.76rem; color: var(--text-muted); text-align: center; max-width: 200px; }
+/* ---------- Trust section: "Qualified. Approved. Accountable." ---------- */
+.trust-section { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.trust-section-head { text-align: center; max-width: 620px; margin: 0 auto 32px; }
+.trust-section-head p.eyebrow { justify-content: center; }
+.trust-section-head h2 { margin-bottom: 8px; }
+.trust-section-head .lede { margin-inline: auto; }
 
-/* Original OHE-branded typographic warranty badge — not a manufacturer mark */
-.warranty-badge {
-  background: #fff; border: 1.5px solid var(--brand); border-radius: var(--radius-md);
-  padding: 10px 20px; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; min-height: 64px; text-align: center; text-decoration: none;
+.trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.trust-card {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 24px 18px; display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 10px; text-decoration: none; color: var(--text); min-height: 100%;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease;
 }
-.warranty-badge .years { font-family: var(--font-heading); font-weight: 700; color: var(--brand); font-size: 1.1rem; line-height: 1.1; }
-.warranty-badge .label { font-family: var(--font-heading); font-weight: 600; color: var(--text); font-size: 0.72rem; letter-spacing: 0.03em; text-transform: uppercase; }
+a.trust-card:hover, a.trust-card:focus-visible { border-color: var(--brand); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+.trust-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.trust-card-mark { display: flex; align-items: center; justify-content: center; min-height: 56px; }
+.trust-card-mark svg { width: 34px; height: 34px; color: var(--brand); }
+.trust-card-mark img { display: block; height: 38px; width: auto; max-width: 150px; object-fit: contain; }
+.trust-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 0.96rem; margin: 0; color: var(--text); line-height: 1.25; }
+.trust-card .trust-card-meta { font-size: 0.78rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
+
+/* Bespoke OHE workmanship-warranty mark — a technical crop-mark motif,
+   deliberately not styled as a manufacturer seal or award medal. */
+.warranty-mark {
+  position: relative; width: 58px; height: 58px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; border: 1.5px solid var(--brand);
+  border-radius: 6px; background: var(--bg-accent);
+}
+.warranty-mark::before, .warranty-mark::after {
+  content: ""; position: absolute; width: 9px; height: 9px; border: 1.5px solid var(--brand);
+}
+.warranty-mark::before { top: -1.5px; left: -1.5px; border-right: none; border-bottom: none; }
+.warranty-mark::after { bottom: -1.5px; right: -1.5px; border-left: none; border-top: none; }
+.warranty-mark .num { font-family: var(--font-heading); font-weight: 700; font-size: 1.35rem; color: var(--brand); line-height: 1; }
+.warranty-mark .yr { font-family: var(--font-heading); font-weight: 600; font-size: 0.56rem; letter-spacing: 0.09em; color: var(--text); text-transform: uppercase; margin-top: 2px; }
+
 #warranty { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+@media (max-width: 900px) {
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .trust-card { padding: 20px 14px; }
+}
 
 /* ---------- Photo gallery (Projects: recent/in-progress work) ---------- */
 .photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }

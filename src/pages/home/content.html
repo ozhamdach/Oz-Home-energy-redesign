@@ -33,24 +33,45 @@
   </div>
 </section>
 
-<!-- TRUST / APPROVED INSTALLER STRIP — DISABLED.
-     Final written approval to display "Ohme Approved Installer" and "Tesla
-     Powerwall Certified Installer" is currently unverified (see
-     docs/owner-inputs-required.md). Hidden from the public site rather than
-     removed: the badge assets, markup and CSS (.trust-strip in
-     site/css/styles.css) are all still in place, organised and ready — once
-     the owner supplies current, documented written approval for each claim,
-     uncomment this section to re-enable it verbatim.
+<!-- TRUST / PROOF STRIP.
+     Ohme badge: ENABLED — confirmed via the 11 Sep 2026 Ohme onboarding call
+     (Julian Coxon) and the owner-supplied asset
+     assets/original-photography/trust-badges/ohme-approved-installer.jpg.
+     Scope: Ohme EV charger installation (e-pod/Home Pro range) only — not a
+     general EV-brand endorsement.
+     Workmanship warranty badge: ENABLED for preview — duration (15 years)
+     and workmanship-only scope are owner-confirmed; the full written,
+     ACCC-reviewed warranty terms page this badge should ultimately link to
+     does not exist yet, so it links to the About page's existing warranty
+     sentence instead. Do not treat this as publication-ready until that
+     terms page exists and is approved — see docs/owner-inputs-required.md. -->
 <section class="trust-strip">
   <div class="container trust-strip-inner">
     <span class="trust-strip-label">Approved installer</span>
-    <span class="trust-badge-card">
-      <picture>
-        <source type="image/avif" srcset="/img/photos/trust-ohme-badge-320.avif 320w, /img/photos/trust-ohme-badge-480.avif 480w" sizes="160px">
-        <source type="image/webp" srcset="/img/photos/trust-ohme-badge-320.webp 320w, /img/photos/trust-ohme-badge-480.webp 480w" sizes="160px">
-        <img src="/img/photos/trust-ohme-badge-480.jpg" width="1257" height="1066" loading="lazy" alt="Ohme approved installer badge">
-      </picture>
+    <span class="trust-badge-group">
+      <span class="trust-badge-card">
+        <picture>
+          <source type="image/avif" srcset="/img/photos/trust-ohme-badge-320.avif 320w, /img/photos/trust-ohme-badge-480.avif 480w" sizes="160px">
+          <source type="image/webp" srcset="/img/photos/trust-ohme-badge-320.webp 320w, /img/photos/trust-ohme-badge-480.webp 480w" sizes="160px">
+          <img src="/img/photos/trust-ohme-badge-480.jpg" width="1257" height="1066" loading="lazy" alt="Ohme approved installer badge">
+        </picture>
+      </span>
+      <span class="trust-badge-caption">EV charger installation (Ohme e-pod/Home Pro range)</span>
     </span>
+    <a class="warranty-badge" href="/about/#warranty">
+      <span class="years">15-Year</span>
+      <span class="label">Workmanship Warranty</span>
+    </a>
+    <!-- TESLA BADGE — DISABLED. Tesla Powerwall Certified Installer
+         application was submitted 11 Sep 2026; onboarding tasks (licence,
+         insurance and safety verification in the Tesla Partner Portal) were
+         not yet complete as of the last correspondence found, and no
+         certification confirmation has been received. Do not enable until
+         Tesla sends written confirmation. Powerwall certification and Wall
+         Connector installer status are separate — neither is confirmed, so
+         this asset must not be used for any EV-charging claim either.
+         Asset ready at
+         assets/original-photography/trust-badges/tesla-powerwall-certified-installer.png
     <span class="trust-badge-card">
       <picture>
         <source type="image/avif" srcset="/img/photos/trust-tesla-badge-320.avif 320w, /img/photos/trust-tesla-badge-480.avif 480w" sizes="160px">
@@ -58,9 +79,9 @@
         <img src="/img/photos/trust-tesla-badge-480.jpg" width="1920" height="780" loading="lazy" alt="Tesla Powerwall Certified Installer badge">
       </picture>
     </span>
+    -->
   </div>
 </section>
--->
 
 
 <!-- REVIEWS (genuine HighLevel widget only — see site/js/reviews.js) -->

@@ -81,6 +81,7 @@ JOBS = [
     # -- Trust badges (used small, in a restrained trust strip — not hero) --
     ("trust-ohme-badge", "trust-badges/ohme-approved-installer.jpg", None, [320, 480]),
     ("trust-tesla-badge", "trust-badges/tesla-powerwall-certified-installer.png", None, [320, 480]),
+    ("trust-sec-badge", "trust-badges/smart-energy-council-small-business-member.png", None, [320, 480]),
 ]
 
 manifest = {}

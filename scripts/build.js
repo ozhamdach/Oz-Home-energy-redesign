@@ -211,7 +211,11 @@ for (const dir of pageDirs) {
 // is what stops the legacy route 404ing on the preview; build-redirects.js
 // is what makes it a real redirect once deployed for real. These bridge
 // pages are always noindex and are never added to the sitemap in any
-// build — they carry no content of their own worth ranking.
+// build — they carry no content of their own worth ranking. "follow" only
+// applies in a production build, so crawlers pass link equity through to
+// the real destination once this is actually live; a preview/staging build
+// is always noindex, nofollow like every other page, so nothing on the
+// unreviewed preview can be indexed or have its links crawled.
 const legacyRoutes = JSON.parse(fs.readFileSync(path.join(ROOT, 'redirects', 'legacy-routes.json'), 'utf8')).routes;
 for (const route of legacyRoutes) {
   const slug = route.from.replace(/^\/|\/$/g, '');
@@ -222,7 +226,7 @@ for (const route of legacyRoutes) {
     DESCRIPTION: `This page has moved to ${route.to}.`,
     CANONICAL: route.to,
     SCHEMA: '',
-    ROBOTS_META: 'noindex, follow',
+    ROBOTS_META: IS_PRODUCTION ? 'noindex, follow' : 'noindex, nofollow',
     EXTRA_HEAD: `<meta http-equiv="refresh" content="0; url=${route.to}">`,
     HEADER: header,
     BODY: body,

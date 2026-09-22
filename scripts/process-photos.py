@@ -82,6 +82,11 @@ JOBS = [
     ("trust-ohme-badge", "trust-badges/ohme-approved-installer.jpg", None, [320, 480]),
     ("trust-tesla-badge", "trust-badges/tesla-powerwall-certified-installer.png", None, [320, 480]),
     ("trust-sec-badge", "trust-badges/smart-energy-council-small-business-member.png", None, [320, 480]),
+    # solar-accreditation-australia.png: owner-supplied real logo (PNG with
+    # alpha), already cropped to content and flattened onto white before
+    # being saved here — see the crop/composite step in git history for
+    # exactly how, since this source file IS the final flattened asset.
+    ("trust-saa-badge", "trust-badges/solar-accreditation-australia.png", None, [320, 480]),
     # Official Tesla lifestyle photo (Powerwall 3 + Wall Connector, from
     # Tesla's own Marketing Links resource) — built and processed ready for
     # use, not yet placed on any live page pending marketing approval (see

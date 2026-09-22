@@ -199,6 +199,14 @@
       480
     ]
   },
+  "trust-saa-badge": {
+    "height": 283,
+    "width": 912,
+    "widths": [
+      320,
+      480
+    ]
+  },
   "trust-sec-badge": {
     "height": 3123,
     "width": 5044,

@@ -38,6 +38,23 @@ Owner-confirmed. Recorded as its own distinct credential (About page's
 same line/string as the electrical contractor licence above, since they're
 two separate accreditations.
 
+### 🟡 Number display scope — partially actioned, needs confirmation
+22 Sep 2026: owner asked to remove the licence number (382607C) and SAA
+number (S5265652) from display and supplied the real Solar Accreditation
+Australia logo to replace the generic icon on that trust card. Actioned
+on the homepage only — hero micro-proof line, proof strip, and both trust
+section cards no longer show either number (the credential claims
+themselves are unchanged, still real). **Not yet actioned** on the two
+numbers still appearing in: the main/landing/conversion footers, the
+About page's "Licensing & compliance" section, FAQs, the Assessment page,
+Terms and Privacy Policy, and the `hasCredential` identifiers in the
+sitewide Electrician schema (src/layout.html) — held back because Terms
+and Privacy Policy in particular are legal disclosure documents (NSW
+licensed contractors are generally expected to disclose their licence
+number on advertising/contracts under NSW Fair Trading requirements), so
+removing it there isn't a purely cosmetic choice. Needs an explicit
+owner decision on scope before touching those.
+
 ## Specific claims to confirm (this pass's brief)
 
 None of these are published as superlatives or guarantees — each is

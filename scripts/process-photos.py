@@ -81,6 +81,12 @@ JOBS = [
     # -- Trust badges (used small, in a restrained trust strip — not hero) --
     ("trust-ohme-badge", "trust-badges/ohme-approved-installer.jpg", None, [320, 480]),
     ("trust-tesla-badge", "trust-badges/tesla-powerwall-certified-installer.png", None, [320, 480]),
+    ("trust-sec-badge", "trust-badges/smart-energy-council-small-business-member.png", None, [320, 480]),
+    # Official Tesla lifestyle photo (Powerwall 3 + Wall Connector, from
+    # Tesla's own Marketing Links resource) — built and processed ready for
+    # use, not yet placed on any live page pending marketing approval (see
+    # docs/owner-inputs-required.md).
+    ("tesla-powerwall-lifestyle", "tesla-marketing/tesla-powerwall-wallconnector-lifestyle.webp", None, [480, 800, 1920]),
 ]
 
 manifest = {}

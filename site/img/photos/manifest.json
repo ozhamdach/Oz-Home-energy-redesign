@@ -182,9 +182,26 @@
       571
     ]
   },
+  "tesla-powerwall-lifestyle": {
+    "height": 976,
+    "width": 1920,
+    "widths": [
+      480,
+      800,
+      1920
+    ]
+  },
   "trust-ohme-badge": {
     "height": 1066,
     "width": 1257,
+    "widths": [
+      320,
+      480
+    ]
+  },
+  "trust-sec-badge": {
+    "height": 3123,
+    "width": 5044,
     "widths": [
       320,
       480

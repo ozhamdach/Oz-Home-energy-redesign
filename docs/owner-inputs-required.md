@@ -38,22 +38,26 @@ Owner-confirmed. Recorded as its own distinct credential (About page's
 same line/string as the electrical contractor licence above, since they're
 two separate accreditations.
 
-### 🟡 Number display scope — partially actioned, needs confirmation
+### 🟠 Licence/SAA number removed sitewide — owner decision, flagged risk
 22 Sep 2026: owner asked to remove the licence number (382607C) and SAA
 number (S5265652) from display and supplied the real Solar Accreditation
-Australia logo to replace the generic icon on that trust card. Actioned
-on the homepage only — hero micro-proof line, proof strip, and both trust
-section cards no longer show either number (the credential claims
-themselves are unchanged, still real). **Not yet actioned** on the two
-numbers still appearing in: the main/landing/conversion footers, the
-About page's "Licensing & compliance" section, FAQs, the Assessment page,
-Terms and Privacy Policy, and the `hasCredential` identifiers in the
-sitewide Electrician schema (src/layout.html) — held back because Terms
-and Privacy Policy in particular are legal disclosure documents (NSW
-licensed contractors are generally expected to disclose their licence
-number on advertising/contracts under NSW Fair Trading requirements), so
-removing it there isn't a purely cosmetic choice. Needs an explicit
-owner decision on scope before touching those.
+Australia logo to replace the generic icon on that trust card. First
+actioned on the homepage only. Owner then separately asked "am i obliged
+to put it" — told that the NSW Home Building Act 1989 generally requires
+a licensed contractor's licence number to appear in advertising (a
+website counts), and that this isn't legal advice, a solicitor/Fair
+Trading should be the final word. Owner responded "take it off" — 23 Sep
+2026, removed the number sitewide anyway: every page (footers, About,
+FAQs, Assessment, Terms, Privacy Policy) and the `hasCredential` entries
+in the sitewide Electrician schema (src/layout.html) no longer show
+either number. The credential claims themselves (licensed NSW electrical
+contractor, SAA accredited) are unchanged — only the specific numbers are
+gone. **This was an informed owner decision made after the compliance
+risk was explicitly flagged, not a decision made on the owner's behalf.**
+If NSW Fair Trading or a solicitor later confirms the number must appear
+in advertising, it needs to go back — the licence number itself
+(382607C) and SAA number (S5265652) are recorded above in this doc so
+nothing is lost.
 
 ## Specific claims to confirm (this pass's brief)
 

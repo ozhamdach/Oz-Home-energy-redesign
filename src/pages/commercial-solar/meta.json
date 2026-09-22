@@ -5,5 +5,6 @@
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Commercial Solar", "url": "/commercial-solar/" }
-  ]
+  ],
+  "extraSchemaFile": "schema-service.html"
 }

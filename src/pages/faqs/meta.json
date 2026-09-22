@@ -5,5 +5,6 @@
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "FAQs", "url": "/faqs/" }
-  ]
+  ],
+  "extraSchemaFile": "schema-faq.html"
 }

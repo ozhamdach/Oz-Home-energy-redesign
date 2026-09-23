@@ -59,6 +59,44 @@ in advertising, it needs to go back — the licence number itself
 (382607C) and SAA number (S5265652) are recorded above in this doc so
 nothing is lost.
 
+### 🟡 Tesla Powerwall 3 page + battery-storage feature block — built, held back
+23 Sep 2026: owner supplied "OHE_Claude_Web_Pack_Under_30MB.zip" — a real,
+official-looking asset pack (project photos, brand logo, and two Tesla
+Certified Installer SVG badges + two Tesla Powerwall 3 marketing images)
+with its own implementation instructions. Its own instructions explicitly
+say Tesla marketing approval is still required before publishing new
+Tesla marketing treatment — consistent with everything already
+established about the Tesla gate (see the homepage trust-section
+comment). Non-Tesla parts of the pack (real project photos on
+residential-solar, battery-storage, ev-charging, solar-battery-upgrades)
+were implemented and are live on staging. The Tesla parts were built in
+full but deliberately kept unpublished, the same way the homepage's
+Tesla trust card has been handled all along:
+
+- A Tesla Powerwall 3 feature block for `/battery-storage/` is written
+  and sitting **commented out** in `src/pages/battery-storage/content.html`
+  — ships in the repo, never renders.
+- A complete `/tesla-powerwall-3/` page is fully drafted at
+  `docs/tesla-powerwall-3-DRAFT/` (content.html + meta.json +
+  schema-service.html) — deliberately kept **outside** `src/pages/`, so
+  `scripts/build.js` cannot see it and it's structurally impossible for
+  it to get built or deployed by accident.
+- The four Tesla asset files (two certified-installer SVG badges, one
+  Powerwall 3 lifestyle photo, one Powerwall 3 product photo) are
+  committed at `site/img/brand/tesla/` — files only, not referenced by
+  anything that actually renders.
+- No numerical Tesla Powerwall 3 specs (capacity, output, price,
+  warranty) were written anywhere — none exist in this repo from a
+  current, approved Tesla source, so the draft page explicitly omits
+  them rather than guessing.
+
+**To activate, once real Tesla written marketing approval exists:**
+1. Uncomment the feature block in `src/pages/battery-storage/content.html`.
+2. `mv docs/tesla-powerwall-3-DRAFT src/pages/tesla-powerwall-3`
+3. Run `node scripts/build.js`, confirm QA passes, then commit and push.
+4. Add real Powerwall 3 specs to the draft page only once a current,
+   approved Tesla source exists — cite that source.
+
 ## Specific claims to confirm (this pass's brief)
 
 None of these are published as superlatives or guarantees — each is

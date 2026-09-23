@@ -86,18 +86,33 @@ const FORBIDDEN_PHRASES = [
 
 for (const file of files) {
   const rawHtml = fs.readFileSync(file, 'utf8');
-  // Strip HTML comments before any text/content check below — an internal
-  // dev comment (e.g. header.html's disabled announcement bar) is invisible
-  // to users and to search engines, and this project's convention is
-  // explicitly that only comments may reference draft/internal markers like
-  // "OWNER CONFIRMATION REQUIRED". Structural checks (canonical, robots,
-  // h1 count, links) all read from the same stripped string too, since none
-  // of those should ever legitimately live inside a comment either.
-  const html = rawHtml.replace(/<!--[\s\S]*?-->/g, '');
   const rel = path.relative(SITE_DIR, file);
   const slug = rel === '404.html' ? '404' : rel.replace(/\/index\.html$/, '').replace(/^index\.html$/, '');
   const isBridge = isLegacyBridge(slug);
   const is404 = slug === '404';
+
+  // --- zero HTML comments in generated output ---
+  // scripts/build.js strips every HTML comment from a page immediately
+  // before writing it (source files may still carry internal notes and
+  // disabled draft blocks — none of that may reach a public HTML source
+  // view). This is the invariant check for that, not a workaround for it:
+  // if this ever fires, build.js has a real bug, not this check.
+  if (rawHtml.includes('<!--')) {
+    fail(`${rel}: generated output still contains an HTML comment — scripts/build.js must strip all comments before writing`);
+  }
+
+  // --- zero Tesla references in generated output ---
+  // Tesla certification/marketing material may exist as planning material
+  // under docs/ or assets/ outside the deployed site, but must never reach
+  // anything this build actually writes to SITE_DIR, in any build mode.
+  if (/tesla/i.test(rawHtml)) {
+    fail(`${rel}: generated output contains a Tesla reference — Tesla material must not appear in the deployed site`);
+  }
+
+  // html === rawHtml now that comments are stripped at build time (kept as
+  // a separate variable, rather than removed, so every check below still
+  // reads from a name that makes clear it's checking rendered content).
+  const html = rawHtml;
 
   // --- title / description uniqueness ---
   const titleMatch = html.match(/<title>([^<]*)<\/title>/);
@@ -158,24 +173,30 @@ for (const file of files) {
     }
   }
 
-  // --- analytics: GTM + Meta Pixel loaders only in a production build,
-  // and exactly once each when they are present (scripts/build.js injects
-  // src/partials/analytics-head.html / analytics-body.html only when
-  // BUILD_TARGET=production) ---
+  // --- analytics: GTM + Meta Pixel loaders require BOTH a production
+  // build AND a separate ENABLE_ANALYTICS=true opt-in (scripts/build.js's
+  // ANALYTICS_ENABLED flag) — BUILD_TARGET=production alone must not load
+  // them. This QA script doesn't rebuild the site, so it can't know which
+  // flags produced the build it's checking; it trusts the same
+  // ENABLE_ANALYTICS env var, which must be passed identically to both the
+  // build and this check for the assertion below to test what actually
+  // happened rather than what was merely intended. ---
+  const analyticsShouldBeEnabled = IS_PRODUCTION_CHECK && process.env.ENABLE_ANALYTICS === 'true';
   const gtmCount = (html.match(/googletagmanager\.com\/gtm\.js/g) || []).length;
   const pixelCount = (html.match(/connect\.facebook\.net\/en_US\/fbevents\.js/g) || []).length;
   const gtmNoscriptCount = (html.match(/googletagmanager\.com\/ns\.html/g) || []).length;
-  if (!IS_PRODUCTION_CHECK) {
-    if (gtmCount > 0) fail(`${rel}: preview build must not load GTM (found googletagmanager.com/gtm.js)`);
-    if (pixelCount > 0) fail(`${rel}: preview build must not load the Meta Pixel (found connect.facebook.net/en_US/fbevents.js)`);
-    if (gtmNoscriptCount > 0) fail(`${rel}: preview build must not include the GTM noscript iframe`);
+  if (!analyticsShouldBeEnabled) {
+    const mode = IS_PRODUCTION_CHECK ? 'production build without ENABLE_ANALYTICS=true' : 'preview build';
+    if (gtmCount > 0) fail(`${rel}: ${mode} must not load GTM (found googletagmanager.com/gtm.js)`);
+    if (pixelCount > 0) fail(`${rel}: ${mode} must not load the Meta Pixel (found connect.facebook.net/en_US/fbevents.js)`);
+    if (gtmNoscriptCount > 0) fail(`${rel}: ${mode} must not include the GTM noscript iframe`);
     if (!/window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\]/.test(html)) {
-      fail(`${rel}: preview build should still declare an empty dataLayer so event-pushing code never throws`);
+      fail(`${rel}: ${mode} should still declare an empty dataLayer so event-pushing code never throws`);
     }
   } else {
-    if (gtmCount !== 1) fail(`${rel}: production build must load GTM exactly once (found ${gtmCount})`);
-    if (pixelCount !== 1) fail(`${rel}: production build must load the Meta Pixel exactly once (found ${pixelCount})`);
-    if (gtmNoscriptCount !== 1) fail(`${rel}: production build must include the GTM noscript iframe exactly once (found ${gtmNoscriptCount})`);
+    if (gtmCount !== 1) fail(`${rel}: production build with ENABLE_ANALYTICS=true must load GTM exactly once (found ${gtmCount})`);
+    if (pixelCount !== 1) fail(`${rel}: production build with ENABLE_ANALYTICS=true must load the Meta Pixel exactly once (found ${pixelCount})`);
+    if (gtmNoscriptCount !== 1) fail(`${rel}: production build with ENABLE_ANALYTICS=true must include the GTM noscript iframe exactly once (found ${gtmNoscriptCount})`);
   }
 
   // --- no active form posts to "#" ---
@@ -290,8 +311,17 @@ if (IS_PRODUCTION_CHECK) {
     }
   }
 } else {
+  // Preview robots.txt must be crawlable (Allow: /), not a Disallow — see
+  // the matching comment in scripts/build.js for why a Disallow can't
+  // reliably keep a page out of Google's index on its own. Indexing
+  // control is the page-level "noindex, nofollow" meta tag, already
+  // asserted above for every preview page; this just checks robots.txt
+  // isn't blocking crawlers from reaching it, and isn't advertising a
+  // sitemap (nothing about a preview build should be discoverable).
   const robotsTxt = fs.readFileSync(path.join(SITE_DIR, 'robots.txt'), 'utf8');
-  if (!/Disallow: \//.test(robotsTxt)) fail('preview robots.txt does not Disallow: / (must block all crawling)');
+  if (!/Allow: \//.test(robotsTxt)) fail('preview robots.txt does not Allow: / (crawlers must be able to reach the noindex meta tag)');
+  if (/Disallow:/.test(robotsTxt)) fail('preview robots.txt still contains a Disallow directive — indexing control must be the page-level noindex meta tag only');
+  if (/Sitemap:/.test(robotsTxt)) fail('preview robots.txt must not advertise a sitemap');
 }
 
 console.log(`Checked ${files.length} built HTML files under ${SITE_DIR} (${IS_PRODUCTION_CHECK ? 'production' : 'preview'} mode).`);

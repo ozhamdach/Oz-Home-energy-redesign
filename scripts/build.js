@@ -51,6 +51,18 @@ const analyticsBody = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'analyt
 // secure commercial lead endpoint, all HighLevel forms tested, etc).
 const IS_PRODUCTION = process.env.BUILD_TARGET === 'production';
 
+// Analytics (GTM + Meta Pixel) require BOTH a production build AND an
+// explicit, separate opt-in — BUILD_TARGET=production alone must never
+// inject them. This is deliberate: switching the build mode is a
+// deployment decision, but loading a third-party tracking script against
+// real visitors is a privacy decision, and the two must not be bundled
+// into a single flag a deploy script could flip without anyone reviewing
+// the privacy implications. Keep ENABLE_ANALYTICS=false (the default)
+// until the privacy disclosure covering GTM/Meta Pixel has actually been
+// reviewed and approved — see docs/owner-inputs-required.md, "Analytics —
+// staging vs. production".
+const ANALYTICS_ENABLED = IS_PRODUCTION && process.env.ENABLE_ANALYTICS === 'true';
+
 // Publication status for sections that are only real once genuine,
 // owner-approved content exists (see docs/owner-inputs-required.md).
 // Unpublished sections still BUILD (so they're reviewable in preview and
@@ -76,6 +88,20 @@ landingFooter = applyNavGating(landingFooter);
 
 function fill(tpl, vars) {
   return tpl.replace(/{{(\w+)}}/g, (m, key) => (key in vars ? vars[key] : ''));
+}
+
+// Source files (content.html, partials, layout.html) are free to carry
+// internal notes, evidence trails and disabled draft blocks as HTML
+// comments — that's how this repo documents itself. None of that may
+// leak into what actually gets deployed: a public HTML source view is a
+// legitimate way for a competitor, journalist or curious visitor to read
+// internal reasoning, unpublished draft copy, or notes about pending
+// legal/compliance decisions. Every page this build writes — normal
+// pages, the homepage, the 404 page, legacy bridge pages, in both
+// preview and production — has every HTML comment stripped immediately
+// before it's written to SITE_DIR.
+function stripHtmlComments(html) {
+  return html.replace(/<!--[\s\S]*?-->/g, '');
 }
 
 // Production origin: https://ozhomeenergy.com.au (non-www) — the live
@@ -180,20 +206,20 @@ for (const dir of pageDirs) {
   else if (explicitNoindex) robotsMeta = 'noindex, follow';
   else robotsMeta = gateUnpublished ? 'noindex, follow' : 'index, follow';
 
-  const html = fill(layout, {
+  const html = stripHtmlComments(fill(layout, {
     TITLE: meta.title,
     DESCRIPTION: meta.description,
     CANONICAL: meta.canonical,
     SCHEMA: schema,
     ROBOTS_META: robotsMeta,
     EXTRA_HEAD: meta.extraHead || '',
-    ANALYTICS_HEAD: IS_PRODUCTION ? analyticsHead : '',
-    ANALYTICS_BODY: IS_PRODUCTION ? analyticsBody : '',
+    ANALYTICS_HEAD: ANALYTICS_ENABLED ? analyticsHead : '',
+    ANALYTICS_BODY: ANALYTICS_ENABLED ? analyticsBody : '',
     HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeader : header,
     BODY: body,
     FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
     EXTRA_SCRIPT: extraScript,
-  });
+  }));
 
   if (is404) {
     // Ships at the site root as a literal 404.html — the filename GitHub
@@ -236,20 +262,20 @@ for (const route of legacyRoutes) {
   const slug = route.from.replace(/^\/|\/$/g, '');
   const destLabel = route.to === '/' ? 'the homepage' : route.to;
   const body = `<section class="section-tight">\n  <div class="container container-narrow text-center">\n    <p class="eyebrow">Page moved</p>\n    <h1>This page has moved</h1>\n    <p class="lede" style="margin-inline:auto;">You should be redirected automatically. If not, continue to <a href="${route.to}">${destLabel}</a>.</p>\n  </div>\n</section>\n`;
-  const html = fill(layout, {
+  const html = stripHtmlComments(fill(layout, {
     TITLE: 'Page Moved | Oz Home Energy',
     DESCRIPTION: `This page has moved to ${route.to}.`,
     CANONICAL: route.to,
     SCHEMA: '',
     ROBOTS_META: IS_PRODUCTION ? 'noindex, follow' : 'noindex, nofollow',
     EXTRA_HEAD: `<meta http-equiv="refresh" content="0; url=${route.to}">`,
-    ANALYTICS_HEAD: IS_PRODUCTION ? analyticsHead : '',
-    ANALYTICS_BODY: IS_PRODUCTION ? analyticsBody : '',
+    ANALYTICS_HEAD: ANALYTICS_ENABLED ? analyticsHead : '',
+    ANALYTICS_BODY: ANALYTICS_ENABLED ? analyticsBody : '',
     HEADER: header,
     BODY: body,
     FOOTER: footer,
     EXTRA_SCRIPT: '',
-  });
+  }));
   const outDir = path.join(SITE_DIR, slug);
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, 'index.html'), html, 'utf8');
@@ -267,14 +293,24 @@ fs.writeFileSync(
   'utf8'
 );
 
-// robots.txt mirrors the same IS_PRODUCTION flag used for ROBOTS_META above —
-// defaults to blocking crawling (preview), only opens up with
-// BUILD_TARGET=production for the real ozhomeenergy.com.au domain.
+// robots.txt: crawlable in BOTH preview and production — indexing control
+// lives entirely in the page-level <meta name="robots"> tag (see
+// ROBOTS_META above), never in a robots.txt Disallow. A Disallow: / is not
+// a reliable way to keep a page out of Google's index: a crawler that
+// respects it never fetches the page, so it never sees the noindex meta
+// tag either, and a URL with inbound links can still get indexed
+// (URL-only, no snippet) purely from being disallowed rather than
+// noindexed. Every preview page still renders "noindex, nofollow" in its
+// own <meta> tag — see ROBOTS_META above — which is what actually keeps it
+// out of search results, and that's real regardless of robots.txt.
+// No Sitemap line in preview: nothing about the preview build (its pages,
+// or the preview's own URL) is ever meant to be discovered or submitted to
+// Search Console — only a real production deploy advertises a sitemap.
 fs.writeFileSync(
   path.join(SITE_DIR, 'robots.txt'),
   IS_PRODUCTION
     ? `User-agent: *\nAllow: /\nSitemap: ${PRODUCTION_ORIGIN}/sitemap.xml\n`
-    : `User-agent: *\nDisallow: /\n`,
+    : `User-agent: *\nAllow: /\n`,
   'utf8'
 );
 

@@ -3,27 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The dataLayer array is always declared, preview or production, so the
-     phone-click/email-click/form-start/form-step events this build already
-     pushes (see site/js/main.js and site/js/commercial-battery-assessment.js)
-     never throw even when nothing is listening. The actual GTM/Meta Pixel
-     loader scripts are injected here ONLY in a BUILD_TARGET=production
-     build — see scripts/build.js and src/partials/analytics-head.html —
-     so the staging preview never contacts Google or Meta at all. -->
+
 <script>window.dataLayer = window.dataLayer || [];</script>
 
 <title>Solar, Battery & EV Charging Sydney | Oz Home Energy</title>
 <meta name="description" content="Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.">
-<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
-     production site's www subdomain redirects to this apex domain, so every
-     canonical/OG/schema URL below uses it consistently — pointing them at
-     www would canonicalise against a redirecting hostname. See
-     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+
 <link rel="canonical" href="https://ozhomeenergy.com.au/">
-<!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
-     only becomes "index, follow" when scripts/build.js is run with
-     BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
-     a preview build; keep this in sync with site/robots.txt. -->
+
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Oz Home Energy">
@@ -50,13 +37,12 @@
   "taxID": "72 665 477 556",
   "url": "https://ozhomeenergy.com.au",
   "logo": "https://ozhomeenergy.com.au/img/brand/oz-home-energy-logo.png",
-  "telephone": ["+61435336336", "+61420113216"],
+  "telephone": "+61435336336",
   "email": "admin@ozhomeenergy.com.au",
   "description": "Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.",
   "areaServed": [
     { "@type": "City", "name": "Sydney" },
-    { "@type": "AdministrativeArea", "name": "Greater Sydney" },
-    { "@type": "State", "name": "New South Wales" }
+    { "@type": "AdministrativeArea", "name": "Greater Sydney" }
   ],
   "hasCredential": [
     {
@@ -106,13 +92,7 @@
 <body>
 
 <a class="skip-link" href="#main">Skip to main content</a>
-<!-- Announcement bar: disabled by default. Only enable this once the owner
-     has supplied a specific, currently-running offer's exact text and
-     expiry date — nothing here is a placeholder for something already
-     live; the whole block simply doesn't exist until that's confirmed:
-<div class="announcement">
-</div>
--->
+
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand-logo" href="/" aria-label="Oz Home Energy — home">
@@ -180,22 +160,7 @@
   </div>
 </header>
 
-<!-- Deliberately a SIBLING of <header>, not a descendant — .site-header has
-     backdrop-filter (for its translucent blurred sticky look), and per the
-     CSS Filter Effects / Transforms spec, backdrop-filter (like filter,
-     transform, perspective and will-change) makes an element the
-     containing block for any position:fixed descendant. With .mobile-nav
-     nested inside <header>, its "inset: var(--header-h) 0 0 0" resolved
-     against .site-header's own (short, header-height-only) box instead of
-     the viewport — collapsing it to a sliver instead of a full-screen
-     overlay, so an expanded dropdown's links rendered outside that
-     collapsed box with no white backing behind them, visually overlapping
-     whatever page content happened to sit underneath. Functionally the
-     links were still real, tappable DOM elements at their (wrong) rendered
-     position, so a class-state/attribute check alone couldn't see this —
-     only an actual rendered screenshot revealed it. Moving this element
-     out from under <header> restores the viewport as its containing
-     block, without touching the header's own blur effect at all. -->
+
 <div class="mobile-nav" id="mobileNav">
   <details>
     <summary>Solutions <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
@@ -238,12 +203,7 @@
 </div>
 
 <main id="main">
-<!-- HERO
-     Photo replaced 23 Sep 2026 (launch-readiness repair pass): the real
-     rural ground-mount photo was accurate but not representative of the
-     typical Sydney residential job this business targets. No location,
-     capacity, customer or date is stated or implied by the new photo —
-     alt text describes only what's visibly true. -->
+
 <section class="hero">
   <div class="hero-media">
     <picture>
@@ -265,7 +225,7 @@
   </div>
 </section>
 
-<!-- PROOF STRIP -->
+
 <section class="proof-strip">
   <div class="container">
     <ul class="proof-list">
@@ -276,78 +236,7 @@
   </div>
 </section>
 
-<!-- TRUST SECTION: "Qualified. Approved. Accountable."
-     Tesla: certification itself is now genuinely confirmed (22 Sep 2026) —
-     Tesla's Contracts system sent "Fully Executed Document" for the
-     Certified Installer Agreement (Powerwall + Wall Connector, AU), and
-     Tesla's own onboarding/welcome emails confirm all tasks completed and
-     approved. Real, official artwork is now in the repo too — the
-     "Powerwall / Certified Installer" logo lockup used below came directly
-     from Tesla's own "Marketing Links" resource document, saved unaltered
-     at assets/original-photography/trust-badges/tesla-powerwall-certified-installer.png
-     (replacing the earlier placeholder asset).
-     STILL NOT ENABLED — not a confirmation gap anymore, a publication-
-     consent gap. That same Marketing Links document states, in Tesla's own
-     words: "Please ensure you email energyproductsmarketing@tesla.com for
-     marketing approval" — printed directly above the links to these exact
-     assets, with no carve-out for pre-built vs custom use. The executed
-     Certified Installer Agreement's Exhibit 3 section 10(b) says the same
-     thing contractually: prior written consent is required before
-     publicising the relationship or using Tesla's name/mark in anything
-     published. That written approval has not been received. The card
-     markup below is fully built and ready, commented out at the end of the
-     grid — uncomment it the moment that approval email arrives, no
-     rebuilding needed. See docs/owner-inputs-required.md for the full
-     evidence trail.
-     Ohme: ENABLED — confirmed via the 11 Sep 2026 Ohme onboarding call
-     (Julian Coxon) and the owner-supplied asset
-     assets/original-photography/trust-badges/ohme-approved-installer.jpg.
-     Scope: Ohme EV charger installation (e-pod/Home Pro range) only — not a
-     general EV-brand endorsement.
-     Workmanship warranty: bespoke OHE-branded mark, not a manufacturer
-     credential — duration and workmanship-only scope are owner-confirmed
-     and the full terms are an owner-approved draft (solicitor review still
-     pending), not yet published — see docs/owner-inputs-required.md.
-     Caption below deliberately says "on Oz Home Energy installation
-     workmanship" rather than "eligible projects" — the eligibility-scope
-     decision in that draft resolved to "every job qualifies, no
-     threshold," so "eligible" would reintroduce wording already corrected
-     on the About page.
-     Smart Energy Council (Small Business Member): ENABLED — checked
-     against real correspondence, not just the supplied badge artwork.
-     accounts@smartenergy.org.au "Welcome to Smart Energy Council" +
-     marcela@smartenergy.org.au "Welcome Electrical hub! Let's get started
-     with your Small Business Member benefits" (both 1-4 Aug 2026), a paid
-     Stripe receipt ($990, 1 Aug 2026), and ongoing active membership
-     correspondence through 20 Sep 2026 (AGM proxy form, member number
-     2026CS3965610, September member eMagazine) all confirm this is a real,
-     current, paid membership — not just a downloadable badge file. Badge
-     artwork is the exact supplied PDF (assets/original-photography/trust-
-     badges/smart-energy-council-small-business-member.png), used unaltered
-     at the exact "Small Business Member" tier — not upgraded to a higher
-     membership tier that hasn't been confirmed.
-     NSW Electrical Contractor / SAA cards: the specific licence and
-     accreditation numbers (recorded in docs/owner-inputs-required.md,
-     deliberately not repeated here since this comment ships in the page
-     source) were removed from this card's visible copy and from the
-     hero micro-proof line and proof strip on 22 Sep 2026, per owner
-     instruction. The
-     credential claims themselves are unchanged/real — only the number
-     display was removed. Owner also supplied the real Solar Accreditation
-     Australia logo (assets/original-photography/trust-badges/solar-
-     accreditation-australia.png, cropped to content and flattened onto
-     white from the original transparent PNG), replacing the generic
-     document-check icon previously used for this card. 23 Sep 2026:
-     owner confirmed removing the numbers sitewide too, after being told
-     the NSW Home Building Act 1989 generally requires a licensed
-     contractor's licence number to appear in advertising (a website
-     counts) — an owner decision made with that flagged, not something
-     assumed away. Both numbers are now removed from every page (footers,
-     About, FAQs, Assessment, Terms, Privacy Policy) and from the
-     hasCredential entries in the sitewide Electrician schema — the
-     credential claims themselves (licensed, SAA accredited) are
-     unchanged, only the specific numbers are gone. See
-     docs/owner-inputs-required.md. -->
+
 <section class="section trust-section">
   <div class="container">
     <div class="trust-section-head">
@@ -394,47 +283,14 @@
         <h3>Ohme Approved Installer</h3>
         <p class="trust-card-meta">EV charger installation — e-pod / Home Pro range</p>
       </a>
-      <!-- WARRANTY CARD — DO NOT ENABLE without solicitor-reviewed contract
-           terms. Removed from the public build 23 Sep 2026 (launch-readiness
-           repair pass): the 15-year workmanship warranty claim needs its
-           terms reviewed and reflected in real customer contracts before it
-           is published anywhere. The draft wording is preserved here,
-           unchanged, so it can be re-enabled once that review is complete —
-           no new legal language has been invented to replace it.
-      <a class="trust-card" href="/about/#warranty">
-        <span class="trust-card-mark"><span class="warranty-mark"><span class="num">15</span><span class="yr">Year</span></span></span>
-        <h3>15-Year Workmanship Warranty</h3>
-        <p class="trust-card-meta">On Oz Home Energy installation workmanship. Product warranties are provided separately by the relevant manufacturer.</p>
-      </a>
-      -->
-      <!-- TESLA CARD — DO NOT ENABLE without written marketing approval
-           from energyproductsmarketing@tesla.com (see comment above this
-           section for the full evidence trail).
-           23 Sep 2026: the trust-tesla-badge-* image files this card
-           references were removed from site/img/photos/ (launch-readiness
-           repair pass — no Tesla material may sit in the deployed output
-           even unreferenced). The source is archived at
-           assets/original-photography/trust-badges/tesla-powerwall-certified-installer.png.
-           To reactivate: restore the trust-tesla-badge job in
-           scripts/process-photos.py, run it, THEN uncomment this block.
-      <a class="trust-card" href="/about/">
-        <span class="trust-card-mark">
-          <picture>
-            <source type="image/avif" srcset="/img/photos/trust-tesla-badge-320.avif 320w, /img/photos/trust-tesla-badge-480.avif 480w" sizes="160px">
-            <source type="image/webp" srcset="/img/photos/trust-tesla-badge-320.webp 320w, /img/photos/trust-tesla-badge-480.webp 480w" sizes="160px">
-            <img src="/img/photos/trust-tesla-badge-480.jpg" width="1920" height="780" loading="lazy" alt="Tesla Powerwall Certified Installer">
-          </picture>
-        </span>
-        <h3>Tesla Certified Installer</h3>
-        <p class="trust-card-meta">Powerwall &amp; Wall Connector</p>
-      </a>
-      -->
+      
+      
     </div>
   </div>
 </section>
 
 
-<!-- REVIEWS (genuine HighLevel widget only — see site/js/reviews.js) -->
+
 <section class="section" id="reviewsSection">
   <div class="container">
     <div class="section-head center">
@@ -450,7 +306,7 @@
   </div>
 </section>
 
-<!-- PATHWAY SELECTOR -->
+
 <section class="section">
   <div class="container">
     <div class="section-head center">
@@ -487,7 +343,7 @@
   </div>
 </section>
 
-<!-- CONNECTED ENERGY EXPLANATION -->
+
 <section class="section section-accent">
   <div class="container">
     <div class="section-head center">
@@ -524,7 +380,7 @@
   </div>
 </section>
 
-<!-- RESIDENTIAL / COMMERCIAL SOLUTIONS -->
+
 <section class="split">
   <div class="split-panel home">
     <p class="eyebrow">For Homes</p>
@@ -550,18 +406,9 @@
   </div>
 </section>
 
-<!--
-  FEATURED PROJECT & REVIEWS — intentionally omitted from this build.
-  Per working rule 5 ("if information or media has not been confirmed,
-  hide the section and place the requirement in the owner-confirmation
-  document"): no real project write-up or genuine review has been supplied
-  yet, so nothing renders here rather than showing empty/placeholder
-  content. See docs/07-owner-confirmations.md for what's needed to add
-  this section back (a real project write-up and/or genuine Google
-  reviews).
--->
 
-<!-- PROCESS -->
+
+
 <section class="section section-accent">
   <div class="container">
     <div class="section-head">
@@ -594,7 +441,7 @@
   </div>
 </section>
 
-<!-- USEFUL FAQS (a short, real sample — full list at /faqs/) -->
+
 <section class="section">
   <div class="container container-narrow">
     <div class="section-head center">
@@ -619,7 +466,7 @@
   </div>
 </section>
 
-<!-- FINAL CTA -->
+
 <section class="section section-inverse final-cta">
   <div class="container container-narrow">
     <p class="eyebrow">Get started</p>
@@ -628,13 +475,7 @@
       <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
-    <!-- Real HighLevel-hosted quick-quote widget (owner-supplied embed,
-         form ID ILAJCu9qJyVzX582GAtX). Shorter than the full assessment
-         above — for someone who wants to leave contact details right now
-         rather than click through. form_embed.js is loaded once, sitewide,
-         from src/layout.html's {{EXTRA_HEAD}}/{{EXTRA_SCRIPT}} for the full
-         /assessment/ page; it's safe to reuse the same script for this
-         second widget, so it's declared once via home/meta.json. -->
+    
     <div style="max-width:560px;margin:32px auto 0;">
       <iframe
         src="https://link.ozhomeenergy.com.au/widget/form/ILAJCu9qJyVzX582GAtX"
@@ -669,9 +510,7 @@
         </a>
         <p>Oz Home Energy is a Sydney-based service-area electrical and energy contractor serving homes and businesses across Greater Sydney.</p>
         <p class="footer-licence">NSW Electrical Contractor Licence</p>
-        <!-- Social links removed: no confirmed, active profile URLs yet.
-             Restore footer-social here (see git history) once genuine
-             profile links are supplied — see docs/07-owner-confirmations.md. -->
+        
       </div>
 
       <div>
@@ -725,7 +564,7 @@
       <div>
         <div>Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556</div>
         <div>NSW Electrical Contractor Licence · Sydney, NSW</div>
-        <div>Phone <a href="tel:+61435336336">0435 336 336</a> · Alternate phone <a href="tel:+61420113216">0420 113 216</a> · Email <a href="mailto:admin@ozhomeenergy.com.au">admin@ozhomeenergy.com.au</a></div>
+        <div>Phone <a href="tel:+61435336336">0435 336 336</a> · Email <a href="mailto:admin@ozhomeenergy.com.au">admin@ozhomeenergy.com.au</a></div>
       </div>
       <ul class="legal-links">
         <li>&copy; <span id="footerYear">2026</span> Electrical Hub Pty Ltd trading as Oz Home Energy</li>

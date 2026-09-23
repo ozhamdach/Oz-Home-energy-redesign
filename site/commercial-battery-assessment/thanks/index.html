@@ -3,27 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The dataLayer array is always declared, preview or production, so the
-     phone-click/email-click/form-start/form-step events this build already
-     pushes (see site/js/main.js and site/js/commercial-battery-assessment.js)
-     never throw even when nothing is listening. The actual GTM/Meta Pixel
-     loader scripts are injected here ONLY in a BUILD_TARGET=production
-     build — see scripts/build.js and src/partials/analytics-head.html —
-     so the staging preview never contacts Google or Meta at all. -->
+
 <script>window.dataLayer = window.dataLayer || [];</script>
 
 <title>Assessment Request Received | Oz Home Energy</title>
 <meta name="description" content="Your NSW commercial battery assessment request has been received. Oz Home Energy will be in touch.">
-<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
-     production site's www subdomain redirects to this apex domain, so every
-     canonical/OG/schema URL below uses it consistently — pointing them at
-     www would canonicalise against a redirecting hostname. See
-     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+
 <link rel="canonical" href="https://ozhomeenergy.com.au/commercial-battery-assessment/thanks/">
-<!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
-     only becomes "index, follow" when scripts/build.js is run with
-     BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
-     a preview build; keep this in sync with site/robots.txt. -->
+
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Oz Home Energy">
@@ -50,13 +37,12 @@
   "taxID": "72 665 477 556",
   "url": "https://ozhomeenergy.com.au",
   "logo": "https://ozhomeenergy.com.au/img/brand/oz-home-energy-logo.png",
-  "telephone": ["+61435336336", "+61420113216"],
+  "telephone": "+61435336336",
   "email": "admin@ozhomeenergy.com.au",
   "description": "Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.",
   "areaServed": [
     { "@type": "City", "name": "Sydney" },
-    { "@type": "AdministrativeArea", "name": "Greater Sydney" },
-    { "@type": "State", "name": "New South Wales" }
+    { "@type": "AdministrativeArea", "name": "Greater Sydney" }
   ],
   "hasCredential": [
     {

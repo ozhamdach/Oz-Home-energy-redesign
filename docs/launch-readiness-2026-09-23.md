@@ -91,14 +91,25 @@ scratch, or from memory, when that day comes.
 
 ## Legal
 
+- [ ] **Blocking (added 23 Sep 2026, critical audit repair pass):** the
+      registered legal entity name ("Electrical Hub Pty Ltd trading as Oz
+      Home Energy"), **ABN 72 665 477 556**, and the business email
+      addresses **admin@ozhomeenergy.com.au** / **support@ozhomeenergy.com.au**
+      are all currently *published* sitewide, but none has had explicit
+      owner confirmation that it's correct and current. Being published
+      is not the same as being confirmed — do not treat this box as
+      checked just because the site already shows these values. Get an
+      explicit "yes, correct" (or a correction) from the owner for all
+      three before launch. See `docs/owner-inputs-required.md`, "Legal &
+      business detail" for full detail.
 - [ ] `/privacy-policy/`, `/terms/` and `/complaints/` have all been
       reviewed by an Australian solicitor — they are currently structured
       drafts, not reviewed legal documents (see
       `docs/owner-inputs-required.md`, "Legal & business detail").
-- [ ] Every open item in that same "Legal & business detail" section
-      (registered entity name, ABN, official email, postal address if
-      public, privacy contact, file-retention policy, marketing-consent
-      wording, complaints SLA) is supplied.
+- [ ] Every other open item in that same "Legal & business detail" section
+      (trading name if different, postal address if public, privacy
+      contact, file-retention policy, marketing-consent wording,
+      complaints SLA) is supplied.
 
 ## Lead capture
 
@@ -127,6 +138,17 @@ scratch, or from memory, when that day comes.
       hardcoded in this repo's source until 23 Sep 2026 has been rotated
       on the HighLevel side (see `docs/owner-inputs-required.md`,
       "Webhook rotation").
+
+## Analytics
+
+- [ ] **Blocking:** GTM and the Meta Pixel require both
+      `BUILD_TARGET=production` and `ENABLE_ANALYTICS=true` to load (see
+      `docs/owner-inputs-required.md`, "Analytics — staging vs.
+      production"). Do not set `ENABLE_ANALYTICS=true` on the real
+      production deploy until the privacy disclosure covering GTM/Meta
+      Pixel data collection has been reviewed and approved — no such
+      review has happened yet, and no privacy-policy wording for it has
+      been drafted in this repo.
 
 ## QA
 

@@ -34,11 +34,18 @@ cd site && python3 -m http.server 8811
 Re-run `node scripts/build.js` after editing anything under `src/` — the
 files in `site/**/index.html` are generated output, not hand-edited.
 
-`node scripts/build.js` defaults to **preview mode** (`noindex, nofollow`,
-`robots.txt` disallows all crawling) — this is what's actually deployed to
-the public GitHub Pages preview below. Only ever pass
-`BUILD_TARGET=production` when building for the real ozhomeenergy.com.au
-domain, never for a preview host.
+`node scripts/build.js` defaults to **preview mode**: every page renders
+`noindex, nofollow` in its own `<meta name="robots">` tag, which is the
+real indexing control. `robots.txt` stays crawlable (`Allow: /`, no
+sitemap) rather than blocking crawlers with `Disallow: /` — a robots.txt
+disallow can't reliably keep a page out of Google's index on its own,
+since a crawler that respects it never fetches the page far enough to see
+the noindex meta tag. This is what's actually deployed to the public
+GitHub Pages preview below. Only ever pass `BUILD_TARGET=production` when
+building for the real ozhomeenergy.com.au domain, never for a preview
+host — and note that `BUILD_TARGET=production` alone doesn't load
+analytics either; see `docs/owner-inputs-required.md`'s "Analytics"
+section for the separate `ENABLE_ANALYTICS` gate.
 
 For a GitHub Pages-safe build (relative paths, since Pages serves this repo
 from a `/<repo>/` subpath rather than domain root), also run
@@ -72,10 +79,13 @@ for what's needed to bring each one back.
 
 The build also distinguishes **preview** from **production**: the GitHub
 Pages preview this repo auto-deploys (`main` branch only, see above) is
-always built without `BUILD_TARGET=production`, which keeps it
-`noindex, nofollow` sitewide, disallowed in `robots.txt`, and free of any
-analytics/ad-platform network requests (GTM/Meta Pixel only load when
-`BUILD_TARGET=production` is set — see `docs/owner-inputs-required.md`'s
+always built without `BUILD_TARGET=production`, which keeps every page
+`noindex, nofollow` in its own robots meta tag (the real indexing
+control — `robots.txt` stays crawlable so crawlers can actually read that
+tag, rather than relying on a `Disallow: /` that a crawler could ignore
+without ever seeing it) and free of any analytics/ad-platform network
+requests (GTM/Meta Pixel require both `BUILD_TARGET=production` and a
+separate `ENABLE_ANALYTICS=true` — see `docs/owner-inputs-required.md`'s
 "Analytics" section). Switching this preview to production mode is a
 deliberate, separate decision, not something that happens by building
 normally — see `docs/launch-readiness-2026-09-23.md` for what else must be

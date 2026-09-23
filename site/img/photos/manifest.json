@@ -97,6 +97,15 @@
       2048
     ]
   },
+  "hero-solar-residential-complex": {
+    "height": 1200,
+    "width": 1600,
+    "widths": [
+      640,
+      1200,
+      1600
+    ]
+  },
   "process-commercial-array-lift": {
     "height": 1152,
     "width": 1536,

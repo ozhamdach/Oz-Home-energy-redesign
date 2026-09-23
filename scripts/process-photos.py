@@ -42,7 +42,13 @@ OUT_ROOT = os.path.join(ROOT, "site", "img", "photos")
 # crop_box is (left, top, right, bottom) in ORIGINAL pixel coordinates,
 # applied AFTER EXIF auto-orientation. None = no crop needed.
 JOBS = [
-    # -- Ground-mount solar --
+    # -- Homepage hero (residential complex — replaced the rural ground-mount
+    #    photo 23 Sep 2026, launch-readiness repair pass; source already
+    #    web-prepared by the owner-supplied asset pack, archived here for
+    #    pipeline provenance rather than re-supplied as a raw original) --
+    ("hero-solar-residential-complex", "web-pack-solar/solar-residential-complex.webp", None, [640, 1200, 1600]),
+    # -- Ground-mount solar (kept processed for other pages/future use,
+    #    just no longer the homepage hero) --
     ("ground-mount-wide", "ground-mount-solar/ground-mount-wide.jpg", None, [640, 1200, 2048]),
     ("ground-mount-close", "ground-mount-solar/ground-mount-close.jpg", None, [480, 800, 1200]),
     # -- Commercial solar --

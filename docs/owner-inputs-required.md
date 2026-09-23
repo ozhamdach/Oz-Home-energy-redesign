@@ -118,6 +118,56 @@ Tesla trust card has been handled all along:
 5. Add real Powerwall 3 specs to the draft page only once a current,
    approved Tesla source exists — cite that source.
 
+### 🟡 Evnex Certified Installer status — owner input required
+23 Sep 2026: owner supplied "OHE_Evnex_Web_Pack_Under_30MB.zip" — Evnex
+company/product factsheets (Company, E2 Core AU Trade, E2 Plus AU Trade,
+E2 Flex, X22), the Australian residential brochure, the Certified
+Installer Badge Guidelines PDF, four supplied installer badge variants,
+and web-ready brand/product/app images. A restrained Evnex section was
+added to `/ev-charging/` (three images used: a lifestyle photo, an E2
+Core/Plus product photo, and an app screenshot showing solar-aware
+charging), covering only scheduled charging, home-overload protection,
+solar-aware charging and in-app charging-session information — each
+attributed to the E2 Core/Plus AU trade factsheets (see the HTML comment
+above that section in `src/pages/ev-charging/content.html` for the exact
+per-claim sourcing).
+
+**Possession of the supplied pack does not establish that Oz Home Energy
+currently holds Evnex Certified Installer status** — the pack's own
+README-FIRST.txt says so explicitly, and no separate confirmation of
+current certification appeared anywhere in the task or this session. So
+none of the following were published:
+- The Evnex Certified Installer badge (four variants supplied at
+  `02-Supplied-Badges-and-Logos/` in the source pack — not committed to
+  this repo, since they're not currently usable).
+- The phrase "Certified Evnex Installer" or any equivalent certification
+  claim.
+
+Also not claimed anywhere, consistent with the source pack's own
+caveats: current model stock/availability, current pricing (the E2 Flex
+factsheet's $349 solar-upgrade fee, in particular, is not repeated
+anywhere public), and vehicle compatibility.
+
+**To activate the badge, once real Evnex Certified Installer status is
+confirmed:** copy the appropriate badge variant (Pine/Lichen/Dark/White —
+picked for contrast against its background, per the guidelines PDF) into
+`site/img/brand/evnex/`, unaltered; display it at a minimum 60px screen
+height with the specified clear space (2× the Evnex wordmark height
+inside the badge); keep the Oz Home Energy logo dominant if co-branding
+(badge at 40–60% of the OHE logo's height, at least 2× the badge's width
+between the two marks, OHE logo first in a horizontal layout); never
+redraw, recolour or combine the two marks into a new lockup. Full detail
+in `01-Australian-Source-Documents/Evnex-Certified-Installer-Badge-
+Guidelines.pdf` in the original source pack (not committed to this repo
+— ask the owner for the pack again if it's needed at that point, or
+request an updated badge file from `marketing@evnex.com` per the
+guidelines PDF).
+
+The source pack's PDFs and unused images were not committed to this
+public repository, per its own "do not upload the full source pack"
+instruction — only the three web-ready images actually used on
+`/ev-charging/` were copied in.
+
 ## Specific claims to confirm (this pass's brief)
 
 None of these are published as superlatives or guarantees — each is

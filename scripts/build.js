@@ -101,7 +101,15 @@ function fill(tpl, vars) {
 // preview and production — has every HTML comment stripped immediately
 // before it's written to SITE_DIR.
 function stripHtmlComments(html) {
-  return html.replace(/<!--[\s\S]*?-->/g, '');
+  // Removing a comment can leave its line's leading indentation behind as
+  // a now-pointless, whitespace-only line (e.g. a comment that sat alone
+  // on an indented line) — trim trailing whitespace from every line so
+  // that never survives into the committed output.
+  return html
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .split('\n')
+    .map((line) => line.replace(/[ \t]+$/, ''))
+    .join('\n');
 }
 
 // Production origin: https://ozhomeenergy.com.au (non-www) — the live

@@ -107,11 +107,18 @@ Tesla trust card has been handled all along:
   they were unreferenced-but-deployed; they are now not deployed at all.
   **This does not make them unrecoverable**: the repository's git history
   (including every earlier commit on this branch) still contains them at
-  their old path, and this is a public GitHub repository, so anyone with
-  the clone URL can retrieve them regardless of where they currently sit
-  in the working tree. Full removal from history (a rewrite) was not done
-  in this pass and would need explicit sign-off, since it rewrites shared
-  commit history other clones may depend on.
+  their old path, and anyone with a clone made while the repository was
+  public — or, once private, anyone with repository access — can retrieve
+  them regardless of where they currently sit in the working tree. The
+  owner has since made this repository private, which stops new public
+  clones but does nothing for clones that already exist. Full removal
+  from history (a rewrite) was not done in this pass and would need
+  explicit sign-off, since it rewrites shared commit history other clones
+  may depend on. Separately: stripping HTML comments from the *deployed
+  site's* rendered output (see "Public-source safety" below) only stops a
+  visitor from reading internal notes via view-source — it does nothing
+  for the repository itself. Neither measure alone is a substitute for
+  the other; both matter, and neither is complete on its own.
 - No numerical Tesla Powerwall 3 specs (capacity, output, price,
   warranty) were written anywhere — none exist in this repo from a
   current, approved Tesla source, so the draft page explicitly omits
@@ -129,6 +136,23 @@ Tesla trust card has been handled all along:
 4. Run `node scripts/build.js`, confirm QA passes, then commit and push.
 5. Add real Powerwall 3 specs to the draft page only once a current,
    approved Tesla source exists — cite that source.
+
+### Public-source safety (what comment-stripping does and doesn't do)
+23 Sep 2026 (critical audit repair pass): `scripts/build.js` strips every
+HTML comment from a page immediately before writing it to `site/` (see
+the "zero HTML comments" check in `scripts/qa-static-checks.js`, which
+fails the build if one survives). This stops a visitor from reading
+internal notes, evidence trails or disabled draft blocks via
+"View Page Source" on the deployed site — that's all it does. It does
+**not** protect the repository itself: anyone with repository access
+(or, from before it was made private, an existing clone) can still read
+every comment in `src/`, every past commit, and every file under
+`assets/`. The owner has made this repository private, which stops new
+public clones going forward but does nothing to a clone that already
+exists. Treat these as two separate, both-necessary measures — comment
+stripping for the deployed site, repository access control for the
+source — neither is a substitute for the other, and neither is a
+complete guarantee by itself.
 
 ### 🟡 Evnex Certified Installer status — owner input required
 23 Sep 2026: owner supplied "OHE_Evnex_Web_Pack_Under_30MB.zip" — Evnex
@@ -209,12 +233,17 @@ explicit "yes, that's accurate" before launch, not just consistent phrasing:
       2026: removed rather than confirmed. Public service-area copy
       (footer, About, Locations, FAQs, and the commercial-solar/
       commercial-batteries/commercial-electrical/commercial-ev-charging
-      page titles and descriptions, which had been contradicting their own
-      `areaServed: "Greater Sydney"` schema) is now limited to Sydney/
-      Greater Sydney throughout. Locations' "Wider NSW" section was
-      removed and left as an explanatory HTML comment rather than deleted
-      outright, so it's easy to restore once a real wider-NSW service
-      policy is supplied — no such policy exists yet.
+      page titles and descriptions) was first limited to Sydney/Greater
+      Sydney. **Superseded, same day, corrective pass:** owner has since
+      confirmed Sydney, NSW specifically, without a Greater Sydney
+      boundary — every occurrence of "Greater Sydney" was removed from
+      visible copy, metadata and schema (`areaServed` is now `{"@type":
+      "City", "name": "Sydney"}` only, sitewide). See "Legal & business
+      detail" below for the current confirmed/unresolved split. Locations'
+      wider-area content was removed and left as an explanatory HTML
+      comment rather than deleted outright, so it's easy to restore once a
+      real service-boundary policy is supplied — no such policy exists
+      yet.
 - [x] **Ohme approved installer** — ✅ resolved: confirmed via the 11 Sep 2026 Ohme onboarding call (Julian Coxon) and the owner-supplied badge asset (`assets/original-photography/trust-badges/ohme-approved-installer.jpg`). Enabled on the homepage trust section, the About page, and the EV charging page, scoped to Ohme EV charger installation only (not a general EV-brand claim).
 - [ ] **Tesla Certified Installer (Powerwall & Wall Connector)** — **certification itself is now confirmed** (22 Sep 2026): Tesla's own Contracts system (`CLM_PROD@tesla.com`, automated) sent "Fully Executed Document" for the Certified Installer Agreement (AU), Document ID 694645, covering both Powerwall and Home-Charging Equipment (Wall Connector), Services + Purchase & Resale, Territory: Australia. Corroborated by `mofuller@tesla.com`'s same-day "Tesla Certified Installer Final Step" email. This resolves the doubt from the 18 Sep "Onboarding Tasks have not been completed" email and the unsigned company signature block found in the contract PDF on 21 Sep — both are now superseded by actual execution.
   **Still blocked from publishing, for a different and more specific reason**: the executed agreement's Exhibit 3 §10(b) requires Tesla's **prior written consent** before either party "advertise[s] or publicize[s] that the Parties have entered into this Agreement, or use[s] the other Party's name, mark or logo in any document or communication published." A badge — even text-only, no logo — publicizes the relationship and would breach this clause without that separate consent. **This is not my caution, it's the contract terms Oz Home Energy signed.**
@@ -364,56 +393,88 @@ anywhere in this repo.
 
 ## Legal & business detail
 
-**Correction, 23 Sep 2026 (critical audit repair pass):** this section
-previously implied that none of the legal-entity name, ABN or email
-addresses were published anywhere. That was factually incorrect — all
-three have been live throughout the site (footer on every page, the
-sitewide Electrician JSON-LD schema, Privacy Policy, Terms, and
-Complaints) for some time. Being *published* is not the same as being
-*owner-confirmed as accurate* — none of these three has had an explicit
-"yes, this is correct" from the business owner in this session or any
-prior one, they were simply carried over from earlier passes without
-independent confirmation. They stay live (removing correct-looking real
-business detail with nothing to replace it would make the site less
-truthful, not more), but they block production launch — see
-`docs/launch-readiness-2026-09-23.md` — until confirmed:
+**Update, 23 Sep 2026 (corrective pass on the critical audit repair):**
+the owner has now explicitly confirmed the core business identity
+details below — this supersedes the previous "published but not
+confirmed" framing for these specific items.
 
-- [ ] **Registered legal entity name** — currently published as
-      "Electrical Hub Pty Ltd trading as Oz Home Energy" (footer on every
-      page, Privacy Policy, Terms). Awaiting explicit owner confirmation
-      this is correct and current.
-- [ ] **ABN** — currently published as **72 665 477 556** (footer, JSON-LD
-      `taxID`, Privacy Policy, Terms). Awaiting explicit owner
-      confirmation.
-- [ ] **Official business email address** — currently published as
-      **admin@ozhomeenergy.com.au** (footer, JSON-LD `email`, Privacy
-      Policy, Terms) and **support@ozhomeenergy.com.au** (Complaints page,
-      the About page's warranty-claim contact). Awaiting explicit owner
-      confirmation both inboxes are real, monitored, and the right ones
-      for their respective purposes — also needed before any `mailto:`
-      email-click analytics event has anything confirmed to attach to,
-      see `docs/analytics-integration.md`.
-- [ ] Trading name (if different from the legal entity) — same status as
-      the legal entity name above; not a separate unconfirmed item.
-- [ ] Official phone number (see the blocking conflict above)
-- [ ] Postal/business address, if one is meant to be publicly listed
-- [ ] Privacy contact (name/role/email for privacy questions or requests)
-- [ ] A plain-language description of how HighLevel and GreenSketch process
-      personal information, for the Privacy Policy's data-processing section
-      (`/privacy-policy/` already names both by role — confirm the
-      description is accurate to how they're actually used)
-- [ ] File-upload retention policy (bill photos, service-request photos) —
-      how long they're kept and where
-- [ ] Marketing-consent wording — the exact checkbox/consent language Oz
-      Home Energy wants on the three lead forms, ideally reviewed by a
-      qualified advisor alongside the solicitor review below
-- [ ] Complaints contact and response-time process (`/complaints/`
-      currently avoids stating a specific SLA until this is confirmed)
+### ✅ Confirmed by the owner
+- **Registered legal entity / trading name**: Electrical Hub Pty Ltd,
+  trading as Oz Home Energy. Published in the footer on every page, the
+  sitewide Electrician JSON-LD schema (`legalName`), Privacy Policy and
+  Terms.
+- **ABN**: **72 665 477 556** — independently verified by the owner
+  against the Australian Business Register as active for Electrical Hub
+  Pty Ltd. Published in the footer, JSON-LD `taxID`, Privacy Policy and
+  Terms.
+- **Website phone number**: **0435 336 336** / `+61435336336` — the only
+  number published anywhere on the site (see the phone/NAP conflict
+  history above).
+- **Geographic wording**: Sydney, NSW. Public copy, metadata and schema
+  are now limited to this — no "Greater Sydney" boundary or suburb list
+  is published pending a separate owner-approved boundary.
+- **Business type**: strictly a service-area business, with no
+  customer-facing street address or shopfront implied anywhere. No
+  `address` object exists in the sitewide schema.
 
-**All legal documents on this site (`/privacy-policy/`, `/terms/`,
-`/complaints/`) are structured drafts and must be reviewed by an Australian
-solicitor before launch** — none of them should be treated as legally
-sufficient as currently written.
+### 🔴 Still unresolved
+- **Contact email addresses**: neither `admin@ozhomeenergy.com.au` nor
+  `support@ozhomeenergy.com.au` has been owner-confirmed as a real,
+  monitored inbox. **Removed from all rendered output** (footer, JSON-LD
+  `email`, Privacy Policy, Terms, Complaints, About) as of this corrective
+  pass — `scripts/qa-static-checks.js` now fails the build if either
+  address reappears in generated HTML. Phone and
+  `/service-request/` are the only confirmed contact paths until this is
+  resolved. Listed here only as unconfirmed candidates, not published:
+  `admin@ozhomeenergy.com.au`, `support@ozhomeenergy.com.au`. Also
+  affects the `mailto:` email-click analytics event, which currently has
+  nothing to attach to (see `docs/analytics-integration.md`).
+- **Exact service boundary beyond Sydney** — no approved Greater Sydney
+  (or other) boundary exists; do not reintroduce one without owner
+  sign-off.
+- **Suburb list** — none supplied; do not create suburb pages or a
+  suburb chip grid without one.
+- **Google Business Profile URL and NAP alignment** — not supplied; the
+  site's own NAP (name/address/phone) is now internally consistent, but
+  hasn't been checked against GBP, HighLevel, or any live ad campaign.
+- **Tesla marketing approval** — see the Tesla section above.
+- **Evnex Certified Installer status** — see the Evnex section above.
+- **15-year workmanship warranty terms and solicitor review** — the
+  claim remains unpublished (commented out / FAQ neutralised) pending
+  review; see the warranty entry above.
+- **Privacy Policy / Terms / Complaints legal review** — all three remain
+  structured drafts, not reviewed legal documents. **All must be reviewed
+  by an Australian solicitor before launch.**
+- **GTM/Meta Pixel privacy approval** — `ENABLE_ANALYTICS` must stay
+  unset until the privacy disclosure covering this data collection is
+  reviewed and approved; see the Analytics section below.
+- **All form-to-CRM delivery tests** — none of the 4 live HighLevel
+  embeds nor the 3 unconnected commercial funnels has a confirmed,
+  traced, real end-to-end test submission; see the Lead Capture section
+  above.
+- **The licence-number advertising issue** — the NSW Home Building Act
+  1989 generally requires a licensed contractor's licence number to
+  appear in advertising; the owner has explicitly instructed that the
+  number (382607C) and the SAA number (S5265652) **not** be rendered on
+  the site in this pass. This is a **known, deliberately accepted
+  compliance risk**, not an oversight — it stays open until NSW Fair
+  Trading or a solicitor gives a final answer. See the licence/SAA entry
+  above for the full history of this decision.
+- Postal/business address (a street address is explicitly out of scope —
+  see "Business type" above; this item is only about whether a PO box or
+  similar is ever wanted, which hasn't been asked for)
+- Privacy contact (name/role for privacy questions or requests, separate
+  from the general contact-email question above)
+- A plain-language description of how HighLevel and GreenSketch process
+  personal information, for the Privacy Policy's data-processing section
+- File-upload retention policy (bill photos, service-request photos)
+- Marketing-consent wording for the lead forms
+- Complaints contact and response-time process (`/complaints/` avoids
+  stating a specific SLA until this is confirmed)
+
+**Do not describe this site as launch-ready** — confirming the identity
+details above closes some real gaps, but every item in the unresolved
+list still blocks it. See `docs/launch-readiness-2026-09-23.md`.
 
 ## Photography
 

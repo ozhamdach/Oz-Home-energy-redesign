@@ -91,24 +91,33 @@ scratch, or from memory, when that day comes.
 
 ## Legal
 
-- [ ] **Blocking (added 23 Sep 2026, critical audit repair pass):** the
-      registered legal entity name ("Electrical Hub Pty Ltd trading as Oz
-      Home Energy"), **ABN 72 665 477 556**, and the business email
-      addresses **admin@ozhomeenergy.com.au** / **support@ozhomeenergy.com.au**
-      are all currently *published* sitewide, but none has had explicit
-      owner confirmation that it's correct and current. Being published
-      is not the same as being confirmed — do not treat this box as
-      checked just because the site already shows these values. Get an
-      explicit "yes, correct" (or a correction) from the owner for all
-      three before launch. See `docs/owner-inputs-required.md`, "Legal &
-      business detail" for full detail.
+- [x] **Resolved, 23 Sep 2026 (corrective pass):** the registered legal
+      entity name ("Electrical Hub Pty Ltd trading as Oz Home Energy") and
+      **ABN 72 665 477 556** are now owner-confirmed — the ABN has been
+      independently verified against the Australian Business Register.
+      Website phone (0435 336 336) and the Sydney, NSW geographic wording
+      are also owner-confirmed. See `docs/owner-inputs-required.md`,
+      "Legal & business detail" for the full confirmed list.
+- [ ] **Blocking:** neither `admin@ozhomeenergy.com.au` nor
+      `support@ozhomeenergy.com.au` has been owner-confirmed as a real,
+      monitored inbox — both have been **removed from all rendered
+      output** pending that confirmation (see
+      `docs/owner-inputs-required.md`). Do not re-add either address, or
+      invent a replacement, without explicit owner confirmation.
+- [ ] **Blocking:** the NSW electrical contractor licence number (382607C)
+      and SAA number (S5265652) remain deliberately absent from rendered
+      content on the owner's explicit instruction — this is a known,
+      accepted compliance risk (the NSW Home Building Act 1989 generally
+      requires a licence number in advertising), not an oversight. Stays
+      open until NSW Fair Trading or a solicitor gives a final answer.
 - [ ] `/privacy-policy/`, `/terms/` and `/complaints/` have all been
       reviewed by an Australian solicitor — they are currently structured
       drafts, not reviewed legal documents (see
       `docs/owner-inputs-required.md`, "Legal & business detail").
 - [ ] Every other open item in that same "Legal & business detail" section
-      (trading name if different, postal address if public, privacy
-      contact, file-retention policy, marketing-consent wording,
+      (exact service boundary beyond Sydney, suburb list, Google Business
+      Profile URL and NAP alignment, postal address if ever wanted,
+      privacy contact, file-retention policy, marketing-consent wording,
       complaints SLA) is supplied.
 
 ## Lead capture

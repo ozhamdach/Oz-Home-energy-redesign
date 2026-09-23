@@ -109,6 +109,42 @@ for (const file of files) {
     fail(`${rel}: generated output contains a Tesla reference — Tesla material must not appear in the deployed site`);
   }
 
+  // --- zero unconfirmed contact-email addresses in generated output ---
+  // Neither inbox has been owner-confirmed as real/monitored — see
+  // docs/owner-inputs-required.md. Phone + /service-request/ are the only
+  // confirmed contact paths until that changes.
+  if (/admin@ozhomeenergy\.com\.au|support@ozhomeenergy\.com\.au/i.test(rawHtml)) {
+    fail(`${rel}: generated output contains an unconfirmed contact email address`);
+  }
+
+  // --- zero superseded phone number in generated output ---
+  // 0420 113 216 / +61420113216 was a genuine live NAP conflict found
+  // during the critical audit repair pass (still present in the
+  // Electrician schema's telephone array and the footer's "Alternate
+  // phone" line despite an earlier doc entry claiming it was resolved).
+  // Permanent regression check — the only confirmed number is
+  // 0435 336 336 / +61435336336.
+  if (/0420\s*113\s*216|\+?61\s*420\s*113\s*216/.test(rawHtml)) {
+    fail(`${rel}: generated output contains the superseded phone number 0420 113 216`);
+  }
+
+  // --- zero "Greater Sydney" service-area claim in generated output ---
+  // Owner has confirmed Sydney, NSW only — no approved Greater Sydney
+  // boundary or suburb list exists yet.
+  if (/greater sydney/i.test(rawHtml)) {
+    fail(`${rel}: generated output claims a "Greater Sydney" service area — not yet owner-confirmed, limit to Sydney`);
+  }
+
+  // --- zero 15-year workmanship warranty claim in generated output ---
+  // The warranty duration hasn't cleared solicitor review, so no page may
+  // publish it — matches a plain hyphen, a non-breaking hyphen (U+2011) or
+  // a space between "15" and "year", case-insensitively. Comments are
+  // already stripped from generated output by the check above, so this
+  // only ever matches rendered content.
+  if (/15[\-‑\s]*year\s+workmanship\s+warranty/i.test(rawHtml)) {
+    fail(`${rel}: generated output contains a 15-year workmanship warranty claim — its terms haven't cleared solicitor review`);
+  }
+
   // html === rawHtml now that comments are stripped at build time (kept as
   // a separate variable, rather than removed, so every check below still
   // reads from a name that makes clear it's checking rendered content).

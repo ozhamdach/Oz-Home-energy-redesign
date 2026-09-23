@@ -238,17 +238,32 @@
     };
   }
 
-  // Same HighLevel inbound webhook as /commercial-load-review/ (owner
-  // confirmed reusing it for this funnel too) — the `form` field above
-  // distinguishes which funnel a submission came from downstream.
-  var WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/iqh8HIe7GtEKNtnlIaho/webhook-trigger/83a43470-0989-4954-b4cf-55d62d8446c9';
+  // Lead endpoint — intentionally unset. The hard-coded LeadConnector
+  // webhook this used to share with /commercial-load-review/ (posted to
+  // directly, with zero server-side validation) was removed 23 Sep 2026
+  // as a real security exposure — see the matching comment in
+  // commercial-load-review.js and docs/owner-inputs-required.md for what
+  // a replacement endpoint needs before it's wired in here. Until a real
+  // endpoint is supplied, this stays '' and every submission shows the
+  // honest "not connected" panel — never a fake success state.
+  var LEAD_ENDPOINT = '';
   var submitting = false;
   var confirmPanel = document.getElementById('csbqConfirm');
+  var notConnectedPanel = document.getElementById('csbqNotConnected');
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (submitting) return;
     if (!validateContact()) return;
+
+    if (!LEAD_ENDPOINT) {
+      fireEvent('form_submit_blocked_no_endpoint');
+      form.hidden = true;
+      notConnectedPanel.hidden = false;
+      notConnectedPanel.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      notConnectedPanel.focus({ preventScroll: true });
+      return;
+    }
 
     submitting = true;
     submitBtn.disabled = true;
@@ -256,13 +271,13 @@
 
     var payload = buildPayload();
 
-    fetch(WEBHOOK_URL, {
+    fetch(LEAD_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     })
       .then(function (res) {
-        if (!res.ok) throw new Error('Webhook responded ' + res.status);
+        if (!res.ok) throw new Error('Lead endpoint responded ' + res.status);
         fireEvent('form_complete', {
           property_type: payload.propertyType,
           spend_band: payload.spendBand,

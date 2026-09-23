@@ -1,26 +1,52 @@
 # HighLevel Integration Specification
 
-**Update — `/assessment/` and the homepage quick-quote are now live.** The
-owner supplied real HighLevel-hosted form embeds (widget iframes + HighLevel's
-`form_embed.js`) for both, replacing this repo's custom-built prototype forms
-on those two pages entirely — this is a third path beyond the two originally
-outlined below: keep the page shell/copy, but let HighLevel's own hosted
-widget be the form itself, rather than building a custom UI that POSTs to a
-webhook/API. See `docs/analytics-integration.md`'s "Attribution regression"
-section for the real trade-off this introduced (this site's UTM/`gclid`
-capture no longer reaches these two forms). **Everything below this point
-still applies unchanged to the two forms that remain unwired prototypes:
-Commercial Project Enquiry and Service Request.**
+**Update 23 Sep 2026 (launch-readiness repair pass) — all four of this
+site's general lead forms are now live HighLevel embeds.** In addition to
+`/assessment/` and the homepage quick-quote (already live before this pass),
+Commercial Project Enquiry and Service Request have also been switched from
+this repo's custom `data-prototype-form` markup to real HighLevel-hosted
+form embeds (widget iframes + HighLevel's `form_embed.js`) — form IDs
+`UyzHXWGEaLtIQqI9z2kc` and `D54fnMMf1LWTXOCNlh28` respectively. All four now
+follow the third path described below (keep the page shell/copy, let
+HighLevel's own hosted widget be the form itself), not the webhook/API path.
+See `docs/analytics-integration.md`'s "Attribution regression" section for
+the real trade-off this introduces on all four forms (this site's own
+UTM/`gclid`/`fbclid` capture cannot reach into a same-origin HighLevel
+iframe). **None of this has been tested against a live HighLevel account
+from this repo's side** — confirming a real submission lands in the correct
+pipeline with correct tags is still outstanding for all four, see
+`docs/owner-inputs-required.md`.
+
+**Three separate funnels remain genuinely unconnected — not iframe embeds,
+not prototypes with a fake success state, but this repo's own HTML/JS with
+no CRM endpoint configured at all:** Commercial Load Review
+(`/commercial-load-review/`), Commercial Solar & Battery Quote
+(`/commercial-solar-battery-quote/`), and Commercial Battery Assessment
+(`/commercial-battery-assessment/`). Each shows an honest "not connected
+yet — call 0435 336 336" state on submit rather than any success-style
+affordance. **Everything below this point (field mapping, pipeline
+suggestions, server-side safety requirements) still applies to these three**
+— see `docs/owner-inputs-required.md`'s "Lead capture / HighLevel
+integration checklist" for their current per-funnel state and what's needed
+to reconnect each one, including a webhook-rotation note for Commercial
+Load Review and Commercial Solar & Battery Quote (a hardcoded, public
+webhook URL that lived in both files' source until this pass was removed,
+but should be treated as compromised and rotated on the HighLevel side
+regardless).
 
 ---
 
-This build is a static front-end prototype (`site/`) for its remaining
-unwired forms. Commercial Project Enquiry and Service Request still use
-`data-prototype-form` (see `site/js/main.js`), which shows an on-page
-confirmation instead of posting data. **Neither has been tested against a
-live HighLevel account** — this document specifies exactly what needs to be
-built, and by whom, to make them live, following the same approach (options
-below) or the iframe-embed approach now used for the other two forms.
+This build is a static front-end prototype (`site/`) for its three
+remaining unconnected funnels. Commercial Load Review and Commercial Solar
+& Battery Quote use a `LEAD_ENDPOINT` constant left deliberately empty
+(`site/js/commercial-load-review.js`, `site/js/commercial-solar-battery-
+quote.js`); Commercial Battery Assessment's submit handler
+(`site/js/commercial-battery-assessment.js`) likewise has no CRM adapter
+configured. All three show an on-page "not connected" notice instead of
+posting data. **None has been tested against a live HighLevel account** —
+this document specifies exactly what needs to be built, and by whom, to
+make them live, following the same approach (options below) or the
+iframe-embed approach now used for the site's four general lead forms.
 
 ## System of record
 
@@ -32,16 +58,18 @@ tool and should never receive a raw, unqualified form submission directly.
 
 ## Forms requiring HighLevel connection
 
-All three forms now capture the same attribution field set consistently
-(this was inconsistent before this pass — assessment had it, the other two
-didn't; fixed by generalising the capture/populate logic in `site/js/main.js`
-so it works by field `name` on any form, not just the assessment page).
+All four of the site's general lead forms are now real HighLevel embeds
+(form IDs above); the field set each one captures is whatever's configured
+on that form inside HighLevel, not something this repo controls or lists.
 
-| Form | Page | Fields captured |
+The three funnels that still need a HighLevel connection are the
+commercial-specific ones, each still this repo's own markup:
+
+| Funnel | Page | Fields captured client-side |
 |---|---|---|
-| Energy Assessment ("Request a Quote") | `/assessment/` | **Now a real HighLevel embed (form ID `7CTbeFedTXyoPJoS2CmH`)** — field set is whatever's configured on that form inside HighLevel, not this table; the columns below describe the retired custom-built version for reference only. |
-| Commercial Project Enquiry | `/commercial-project-enquiry/` | companyName, contactName, role, email, phone, siteAddress, interest[] (checkboxes), details, selected_service, submitted_at, + attribution fields |
-| Service Request | `/service-request/` | srName, srPhone, srAddress, srType, srDetails, srPhoto (file), selected_service, submitted_at, + attribution fields |
+| Commercial Load Review | `/commercial-load-review/` | Business/site qualification answers — see `site/js/commercial-load-review.js` for the exact field set; `selected_service`, `submitted_at`, + attribution fields |
+| Commercial Solar & Battery Quote | `/commercial-solar-battery-quote/` | Business/site qualification answers — see `site/js/commercial-solar-battery-quote.js`; `selected_service`, `submitted_at`, + attribution fields |
+| Commercial Battery Assessment (BESS3/BESS4 pre-screen) | `/commercial-battery-assessment/` | Strata/business classification, site and usage answers — see `site/js/commercial-battery-assessment.js`; `submitted_at` + attribution fields |
 
 `selected_service` and `submitted_at` are populated client-side at submit
 time (see `data-service-field` on each `<form>` and the shared handler in
@@ -164,22 +192,33 @@ this preview can demonstrate:
       endpoint, never hardcoded in front-end JS
 - [ ] Server-side validation, spam protection, rate limiting and file-upload
       safety (above) are actually implemented, not just planned
-- [ ] Test submission end-to-end for all three forms, confirmed to land in
-      the correct HighLevel pipeline with correct tags
-- [ ] File upload tested with a real PDF/image bill
+- [ ] Test submission end-to-end for all three unconnected funnels
+      (Commercial Load Review, Commercial Solar & Battery Quote, Commercial
+      Battery Assessment), confirmed to land in the correct HighLevel
+      pipeline with correct tags
+- [ ] File upload tested with a real PDF/image bill, once the Commercial
+      Load Review bill-upload control is restored (removed 23 Sep 2026
+      pending the server-side file-handling requirements above)
 - [ ] Auto-reply and internal-notification workflows tested, not just built
 - [ ] Consent/privacy checkbox wording finalised by Oz Home Energy /legal
       before the form is used to collect real personal information (see
-      `07-owner-confirmations.md`)
+      `docs/owner-inputs-required.md`)
 - [ ] GrowthLocal or any other legacy vendor script fully removed from
       customer-facing pages once HighLevel is the sole lead-capture system
-- [x] `/assessment/` and the homepage quick-quote widget are real HighLevel
+- [x] `/assessment/`, the homepage quick-quote widget, `/commercial-
+      project-enquiry/` and `/service-request/` are all real HighLevel
       embeds now, not prototypes — the "design preview" notice was removed
-      from `/assessment/` for that reason
-- [ ] Commercial Project Enquiry and Service Request are still prototypes:
-      the GitHub Pages preview must keep showing their "this is a design
-      preview" notice and must not be treated as capable of collecting
-      genuine customer information until they're wired up the same way
+      from all four for that reason
+- [ ] Commercial Load Review, Commercial Solar & Battery Quote and
+      Commercial Battery Assessment are still unconnected: each must keep
+      showing its "not connected yet — call 0435 336 336" notice and must
+      not be treated as capable of collecting genuine customer information
+      until a secure endpoint is wired up per the requirements above
+- [ ] The exposed `services.leadconnectorhq.com` webhook URL that was
+      hardcoded in `commercial-load-review.js` and `commercial-solar-
+      battery-quote.js` until 23 Sep 2026 should be rotated on the
+      HighLevel side — removing it from this repo's source does not
+      invalidate it
 
 Nothing above is claimed as working in this build — every integration point
 is a specification, not a tested connection.

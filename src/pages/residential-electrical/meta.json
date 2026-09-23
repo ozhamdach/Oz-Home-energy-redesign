@@ -5,5 +5,6 @@
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Residential Electrical", "url": "/residential-electrical/" }
-  ]
+  ],
+  "extraSchemaFile": "schema-service.html"
 }

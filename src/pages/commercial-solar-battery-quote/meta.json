@@ -2,6 +2,7 @@
   "title": "Commercial Solar & Battery Quote | Oz Home Energy",
   "description": "A few questions about your business and electricity use, then a real commercial solar and battery quote from the installer.",
   "canonical": "/commercial-solar-battery-quote/",
+  "noindex": true,
   "landingChromeStrict": true,
   "extraScripts": ["/js/commercial-solar-battery-quote.js"]
 }

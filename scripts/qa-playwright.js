@@ -345,10 +345,12 @@ async function run(label, fn) {
   });
 
   // Commercial Load Review — single-page conversion funnel for paid Meta
-  // traffic (see the brief this page was built against). The webhook route
-  // is intercepted everywhere below: this must never send real test data to
-  // the live HighLevel webhook.
-  const CLR_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/iqh8HIe7GtEKNtnlIaho/webhook-trigger/83a43470-0989-4954-b4cf-55d62d8446c9';
+  // traffic (see the brief this page was built against). 23 Sep 2026
+  // (launch-readiness repair pass): the hardcoded LeadConnector webhook was
+  // removed from site/js/commercial-load-review.js — LEAD_ENDPOINT is now
+  // '' and every submission shows the honest "not connected" panel instead
+  // of attempting any network request. The tests below assert exactly
+  // that, not a successful submit.
 
   await run('commercial load review: initial state — only Q1 visible, both consent boxes unticked', async () => {
     const page = await context.newPage();
@@ -400,11 +402,13 @@ async function run(label, fn) {
     await page.close();
   });
 
-  await run('commercial load review: full happy path via mouse — "ask someone else" does not block submit, no PII in analytics', async () => {
+  await run('commercial load review: full happy path via mouse — "ask someone else" does not block submit, no PII in analytics, honest not-connected state (no fake success)', async () => {
     const page = await context.newPage();
-    await page.route(CLR_WEBHOOK, (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
-    );
+    let webhookHit = false;
+    await page.route('https://services.leadconnectorhq.com/**', (route) => {
+      webhookHit = true;
+      route.abort();
+    });
     await page.goto(BASE + '/commercial-load-review/?utm_source=meta&utm_campaign=loadreview&fbclid=abc123', {
       waitUntil: 'load',
       timeout: 15000,
@@ -444,25 +448,26 @@ async function run(label, fn) {
     await page.click('#clrSubmit');
     await page.waitForTimeout(500);
 
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('clrNotConnected').hidden);
     const confirmVisible = await page.evaluate(() => !document.getElementById('clrConfirm').hidden);
     const formHidden = await page.evaluate(() => document.getElementById('clrForm').hidden);
-    if (!confirmVisible) errors.push('CLR: confirmation panel did not appear after a successful submit');
-    if (!formHidden) errors.push('CLR: form was not hidden after a successful submit');
+    if (!notConnectedVisible) errors.push('CLR: "not connected" panel did not appear on submit — LEAD_ENDPOINT is unset, this must never show fake success');
+    if (confirmVisible) errors.push('CLR: the success confirmation panel is visible with no endpoint configured — this is a fake-success bug');
+    if (!formHidden) errors.push('CLR: form was not hidden after submit');
+    if (webhookHit) errors.push('CLR: a request was sent to a leadconnectorhq.com URL even though LEAD_ENDPOINT is unset');
 
     const dl = await page.evaluate(() => window.__clrDL || []);
     const dlText = JSON.stringify(dl).toLowerCase();
     ['test person', 'test.person@example.com', '0400000000', 'test co pty ltd'].forEach((pii) => {
       if (dlText.includes(pii.toLowerCase())) errors.push(`CLR: dataLayer push contained PII-looking value: ${pii}`);
     });
-    if (!dl.some((e) => e.event === 'form_complete')) errors.push('CLR: form_complete event was not pushed to dataLayer on success');
+    if (dl.some((e) => e.event === 'form_complete')) errors.push('CLR: form_complete was pushed to dataLayer with no endpoint configured — nothing was actually submitted');
+    if (!dl.some((e) => e.event === 'form_submit_blocked_no_endpoint')) errors.push('CLR: form_submit_blocked_no_endpoint event was not pushed to dataLayer');
     await page.close();
   });
 
   await run('commercial load review: keyboard-only completion', async () => {
     const page = await context.newPage();
-    await page.route(CLR_WEBHOOK, (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
-    );
     await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
 
     // Q1: Tab to the radio group, arrow to "Business or commercial premises"
@@ -511,8 +516,8 @@ async function run(label, fn) {
     await page.keyboard.press('Enter');
     await page.waitForTimeout(500);
 
-    const confirmVisible = await page.evaluate(() => !document.getElementById('clrConfirm').hidden);
-    if (!confirmVisible) errors.push('CLR keyboard-only: submission via keyboard did not reach the confirmation panel');
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('clrNotConnected').hidden);
+    if (!notConnectedVisible) errors.push('CLR keyboard-only: submission via keyboard did not reach the "not connected" panel');
     await page.close();
   });
 
@@ -550,9 +555,11 @@ async function run(label, fn) {
     await freshContext.close();
   });
 
-  // Commercial Solar & Battery Quote — second single-page conversion funnel,
-  // same webhook as Commercial Load Review (see site/js/commercial-solar-battery-quote.js).
-  const CSBQ_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/iqh8HIe7GtEKNtnlIaho/webhook-trigger/83a43470-0989-4954-b4cf-55d62d8446c9';
+  // Commercial Solar & Battery Quote — second single-page conversion funnel.
+  // 23 Sep 2026 (launch-readiness repair pass): same webhook removal as
+  // Commercial Load Review above — LEAD_ENDPOINT is now '' in
+  // site/js/commercial-solar-battery-quote.js, so submitting always shows
+  // the "not connected" panel rather than a fake success state.
 
   await run('commercial solar battery quote: initial state — only Q1 visible, both consent boxes unticked', async () => {
     const page = await context.newPage();
@@ -573,11 +580,13 @@ async function run(label, fn) {
     await page.close();
   });
 
-  await run('commercial solar battery quote: full happy path via mouse — no PII in analytics', async () => {
+  await run('commercial solar battery quote: full happy path via mouse — no PII in analytics, honest not-connected state (no fake success)', async () => {
     const page = await context.newPage();
-    await page.route(CSBQ_WEBHOOK, (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
-    );
+    let webhookHit = false;
+    await page.route('https://services.leadconnectorhq.com/**', (route) => {
+      webhookHit = true;
+      route.abort();
+    });
     await page.goto(BASE + '/commercial-solar-battery-quote/?utm_source=meta&utm_campaign=csbq&fbclid=xyz789', {
       waitUntil: 'load',
       timeout: 15000,
@@ -612,25 +621,26 @@ async function run(label, fn) {
     await page.click('#csbqSubmit');
     await page.waitForTimeout(500);
 
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('csbqNotConnected').hidden);
     const confirmVisible = await page.evaluate(() => !document.getElementById('csbqConfirm').hidden);
     const formHidden = await page.evaluate(() => document.getElementById('csbqForm').hidden);
-    if (!confirmVisible) errors.push('CSBQ: confirmation panel did not appear after a successful submit');
-    if (!formHidden) errors.push('CSBQ: form was not hidden after a successful submit');
+    if (!notConnectedVisible) errors.push('CSBQ: "not connected" panel did not appear on submit — LEAD_ENDPOINT is unset, this must never show fake success');
+    if (confirmVisible) errors.push('CSBQ: the success confirmation panel is visible with no endpoint configured — this is a fake-success bug');
+    if (!formHidden) errors.push('CSBQ: form was not hidden after submit');
+    if (webhookHit) errors.push('CSBQ: a request was sent to a leadconnectorhq.com URL even though LEAD_ENDPOINT is unset');
 
     const dl = await page.evaluate(() => window.__csbqDL || []);
     const dlText = JSON.stringify(dl).toLowerCase();
     ['test person', 'test.person@example.com', '0400000000', 'test co pty ltd'].forEach((pii) => {
       if (dlText.includes(pii.toLowerCase())) errors.push(`CSBQ: dataLayer push contained PII-looking value: ${pii}`);
     });
-    if (!dl.some((e) => e.event === 'form_complete')) errors.push('CSBQ: form_complete event was not pushed to dataLayer on success');
+    if (dl.some((e) => e.event === 'form_complete')) errors.push('CSBQ: form_complete was pushed to dataLayer with no endpoint configured — nothing was actually submitted');
+    if (!dl.some((e) => e.event === 'form_submit_blocked_no_endpoint')) errors.push('CSBQ: form_submit_blocked_no_endpoint event was not pushed to dataLayer');
     await page.close();
   });
 
   await run('commercial solar battery quote: keyboard-only completion', async () => {
     const page = await context.newPage();
-    await page.route(CSBQ_WEBHOOK, (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
-    );
     await page.goto(BASE + '/commercial-solar-battery-quote/', { waitUntil: 'load', timeout: 15000 });
 
     await page.locator('#propType-manufacturing').focus();
@@ -670,8 +680,8 @@ async function run(label, fn) {
     await page.keyboard.press('Enter');
     await page.waitForTimeout(500);
 
-    const confirmVisible = await page.evaluate(() => !document.getElementById('csbqConfirm').hidden);
-    if (!confirmVisible) errors.push('CSBQ keyboard-only: submission via keyboard did not reach the confirmation panel');
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('csbqNotConnected').hidden);
+    if (!notConnectedVisible) errors.push('CSBQ keyboard-only: submission via keyboard did not reach the "not connected" panel');
     await page.close();
   });
 

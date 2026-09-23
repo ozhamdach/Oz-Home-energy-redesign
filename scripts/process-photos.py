@@ -42,7 +42,13 @@ OUT_ROOT = os.path.join(ROOT, "site", "img", "photos")
 # crop_box is (left, top, right, bottom) in ORIGINAL pixel coordinates,
 # applied AFTER EXIF auto-orientation. None = no crop needed.
 JOBS = [
-    # -- Ground-mount solar --
+    # -- Homepage hero (residential complex — replaced the rural ground-mount
+    #    photo 23 Sep 2026, launch-readiness repair pass; source already
+    #    web-prepared by the owner-supplied asset pack, archived here for
+    #    pipeline provenance rather than re-supplied as a raw original) --
+    ("hero-solar-residential-complex", "web-pack-solar/solar-residential-complex.webp", None, [640, 1200, 1600]),
+    # -- Ground-mount solar (kept processed for other pages/future use,
+    #    just no longer the homepage hero) --
     ("ground-mount-wide", "ground-mount-solar/ground-mount-wide.jpg", None, [640, 1200, 2048]),
     ("ground-mount-close", "ground-mount-solar/ground-mount-close.jpg", None, [480, 800, 1200]),
     # -- Commercial solar --
@@ -63,8 +69,10 @@ JOBS = [
     ("battery-sungrow-installed", "battery-systems/sungrow-battery-system.jpg", None, [480, 800, 1152]),
     ("battery-white-unit", "battery-systems/white-battery-system.jpg", None, [480, 800, 1200]),
     # -- EV charging --
-    # tesla-wall-connector.jpg: letterbox rows 0-87 / 1448-1535 of 1536.
-    ("ev-tesla-wall-connector", "ev-charging/tesla-wall-connector.jpg", (0, 88, 707, 1448), [480, 707]),
+    # Tesla Wall Connector job intentionally removed 23 Sep 2026 — see
+    # docs/owner-inputs-required.md. Source photo stays archived at
+    # assets/original-photography/ev-charging/tesla-wall-connector.jpg
+    # (never deployed) in case Tesla approval later covers it.
     # -- Team --
     ("team-installers", "team/team-at-installation.jpg", None, [480, 571]),
     # -- Vehicle branding --
@@ -80,13 +88,17 @@ JOBS = [
     ("process-commercial-commissioning-2", "installation-process/commercial-switchboard-commissioning-02.jpg", None, [480, 800, 1536]),
     # -- Trust badges (used small, in a restrained trust strip — not hero) --
     ("trust-ohme-badge", "trust-badges/ohme-approved-installer.jpg", None, [320, 480]),
-    ("trust-tesla-badge", "trust-badges/tesla-powerwall-certified-installer.png", None, [320, 480]),
     ("trust-sec-badge", "trust-badges/smart-energy-council-small-business-member.png", None, [320, 480]),
-    # Official Tesla lifestyle photo (Powerwall 3 + Wall Connector, from
-    # Tesla's own Marketing Links resource) — built and processed ready for
-    # use, not yet placed on any live page pending marketing approval (see
-    # docs/owner-inputs-required.md).
-    ("tesla-powerwall-lifestyle", "tesla-marketing/tesla-powerwall-wallconnector-lifestyle.webp", None, [480, 800, 1920]),
+    # solar-accreditation-australia.png: owner-supplied real logo (PNG with
+    # alpha), already cropped to content and flattened onto white before
+    # being saved here — see the crop/composite step in git history for
+    # exactly how, since this source file IS the final flattened asset.
+    ("trust-saa-badge", "trust-badges/solar-accreditation-australia.png", None, [320, 480]),
+    # Tesla trust badge + lifestyle photo jobs intentionally removed
+    # 23 Sep 2026 (launch-readiness repair pass) — see
+    # docs/owner-inputs-required.md. Source files stay archived at
+    # assets/original-photography/trust-badges/ and
+    # assets/original-photography/tesla-marketing/ (never deployed).
 ]
 
 manifest = {}

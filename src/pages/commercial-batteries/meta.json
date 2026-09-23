@@ -1,9 +1,10 @@
 {
-  "title": "Commercial Battery Storage NSW | Oz Home Energy",
-  "description": "Commercial battery storage for demand management, backup power and solar self-consumption. Site-assessed design and licensed installation across NSW.",
+  "title": "Commercial Battery Storage Sydney | Oz Home Energy",
+  "description": "Commercial battery storage for demand management, backup power and solar self-consumption. Site-assessed design and licensed installation across Greater Sydney.",
   "canonical": "/commercial-batteries/",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Commercial Batteries", "url": "/commercial-batteries/" }
-  ]
+  ],
+  "extraSchemaFile": "schema-service.html"
 }

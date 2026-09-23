@@ -301,14 +301,36 @@
     };
   }
 
-  var WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/iqh8HIe7GtEKNtnlIaho/webhook-trigger/83a43470-0989-4954-b4cf-55d62d8446c9';
+  // -----------------------------------------------------------------------
+  // Lead endpoint — intentionally unset. The hard-coded LeadConnector
+  // webhook this used to post straight to (with zero server-side
+  // validation) was removed 23 Sep 2026 as a real security exposure:
+  // anyone who found the URL in this public JS file could have posted
+  // anything to it, including arbitrary files via the bill-upload path
+  // that used to share it. See docs/owner-inputs-required.md for what a
+  // replacement endpoint needs before it's wired in here: server-side
+  // validation, rate limiting, anti-bot protection, and (if file upload
+  // ever returns) MIME/size/malware checks and a retention policy.
+  // Until a real endpoint is supplied, this stays '' and every submission
+  // shows the honest "not connected" panel — never a fake success state.
+  var LEAD_ENDPOINT = '';
   var submitting = false;
   var confirmPanel = document.getElementById('clrConfirm');
+  var notConnectedPanel = document.getElementById('clrNotConnected');
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (submitting) return;
     if (!validateContact()) return;
+
+    if (!LEAD_ENDPOINT) {
+      fireEvent('form_submit_blocked_no_endpoint');
+      form.hidden = true;
+      notConnectedPanel.hidden = false;
+      notConnectedPanel.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      notConnectedPanel.focus({ preventScroll: true });
+      return;
+    }
 
     submitting = true;
     submitBtn.disabled = true;
@@ -316,13 +338,13 @@
 
     var payload = buildPayload();
 
-    fetch(WEBHOOK_URL, {
+    fetch(LEAD_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     })
       .then(function (res) {
-        if (!res.ok) throw new Error('Webhook responded ' + res.status);
+        if (!res.ok) throw new Error('Lead endpoint responded ' + res.status);
         fireEvent('form_complete', {
           site_type: payload.siteType,
           load_pattern: payload.loadPattern,
@@ -344,35 +366,4 @@
         submitBtn.disabled = false;
       });
   });
-
-  // -----------------------------------------------------------------------
-  // Bill upload — appears only on the post-submit confirmation screen, and
-  // is always optional/best-effort: the confirmation copy already tells the
-  // visitor we'll email a link if they don't have the bill handy, so a
-  // failed upload here is never a dead end.
-  // -----------------------------------------------------------------------
-  var billInput = document.getElementById('clrBillUpload');
-  var billStatus = document.getElementById('clrBillStatus');
-  if (billInput) {
-    billInput.addEventListener('change', function () {
-      var file = billInput.files && billInput.files[0];
-      if (!file) return;
-      fireEvent('bill_uploaded');
-      billStatus.textContent = 'Attaching “' + file.name + '”…';
-
-      var body = new FormData();
-      body.append('bill', file, file.name);
-      body.append('landing_page', window.location.href);
-
-      fetch(WEBHOOK_URL, { method: 'POST', body: body })
-        .then(function (res) {
-          billStatus.textContent = res.ok
-            ? 'Thanks — we’ve received that.'
-            : 'We couldn’t attach that automatically, but no problem — we’ll email you a link to send it separately.';
-        })
-        .catch(function () {
-          billStatus.textContent = 'We couldn’t attach that automatically, but no problem — we’ll email you a link to send it separately.';
-        });
-    });
-  }
 })();

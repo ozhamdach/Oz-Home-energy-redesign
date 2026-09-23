@@ -33,9 +33,22 @@ let landingFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-l
 // home) is unaffected.
 let conversionHeader = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header-conversion.html'), 'utf8');
 let conversionFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-conversion.html'), 'utf8');
+// GTM + Meta Pixel loaders — read unconditionally, but only actually
+// injected into a production build (see the IS_PRODUCTION check where
+// ANALYTICS_HEAD/ANALYTICS_BODY are filled below). A preview build must
+// never contact Google or Meta.
+const analyticsHead = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'analytics-head.html'), 'utf8');
+const analyticsBody = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'analytics-body.html'), 'utf8');
 
 // Defaults to PREVIEW (noindex/nofollow) — see the matching comment near
 // robots.txt generation below for when/how this flips to production.
+// BUILD_TARGET=production is NOT a signal that the site is ready to
+// actually go live — it's just the build mode a real deploy would use.
+// Do not run a production build against the real domain, and do not
+// point ozhomeenergy.com.au at anything, until every gate in
+// docs/launch-readiness-2026-09-23.md is checked off (owner claim
+// confirmations, Tesla approval or removal, warranty legal sign-off,
+// secure commercial lead endpoint, all HighLevel forms tested, etc).
 const IS_PRODUCTION = process.env.BUILD_TARGET === 'production';
 
 // Publication status for sections that are only real once genuine,
@@ -174,6 +187,8 @@ for (const dir of pageDirs) {
     SCHEMA: schema,
     ROBOTS_META: robotsMeta,
     EXTRA_HEAD: meta.extraHead || '',
+    ANALYTICS_HEAD: IS_PRODUCTION ? analyticsHead : '',
+    ANALYTICS_BODY: IS_PRODUCTION ? analyticsBody : '',
     HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeader : header,
     BODY: body,
     FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
@@ -211,7 +226,11 @@ for (const dir of pageDirs) {
 // is what stops the legacy route 404ing on the preview; build-redirects.js
 // is what makes it a real redirect once deployed for real. These bridge
 // pages are always noindex and are never added to the sitemap in any
-// build — they carry no content of their own worth ranking.
+// build — they carry no content of their own worth ranking. "follow" only
+// applies in a production build, so crawlers pass link equity through to
+// the real destination once this is actually live; a preview/staging build
+// is always noindex, nofollow like every other page, so nothing on the
+// unreviewed preview can be indexed or have its links crawled.
 const legacyRoutes = JSON.parse(fs.readFileSync(path.join(ROOT, 'redirects', 'legacy-routes.json'), 'utf8')).routes;
 for (const route of legacyRoutes) {
   const slug = route.from.replace(/^\/|\/$/g, '');
@@ -222,8 +241,10 @@ for (const route of legacyRoutes) {
     DESCRIPTION: `This page has moved to ${route.to}.`,
     CANONICAL: route.to,
     SCHEMA: '',
-    ROBOTS_META: 'noindex, follow',
+    ROBOTS_META: IS_PRODUCTION ? 'noindex, follow' : 'noindex, nofollow',
     EXTRA_HEAD: `<meta http-equiv="refresh" content="0; url=${route.to}">`,
+    ANALYTICS_HEAD: IS_PRODUCTION ? analyticsHead : '',
+    ANALYTICS_BODY: IS_PRODUCTION ? analyticsBody : '',
     HEADER: header,
     BODY: body,
     FOOTER: footer,

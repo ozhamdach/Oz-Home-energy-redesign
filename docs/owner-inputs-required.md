@@ -22,6 +22,18 @@ contact detail — the two earlier, now-superseded numbers (`0420 113 216`,
 used throughout the previous passes, and `0435 366 366`, a previously
 flagged alternate) no longer appear anywhere in this build.
 
+**Correction, 23 Sep 2026 (critical audit repair pass):** the claim above
+was not actually true until this pass. `src/layout.html`'s Electrician
+schema still listed `"telephone": ["+61435336336", "+61420113216"]` (a
+two-element array, not the single confirmed number), and
+`src/partials/footer.html` still showed "Alternate phone 0420 113 216" in
+the footer-bottom legal line — both were live in every page this build
+produced, not just historical leftovers. Both are now fixed to show only
+`+61435336336` / `0435 336 336`. Flagging this here rather than quietly
+correcting it, since a prior "✅ resolved" note in this same document was
+wrong and shouldn't be trusted without re-verifying against the actual
+source next time either.
+
 Still outstanding: confirm the real HighLevel account, Google Business
 Profile, and any live ad campaigns show this same number — this repo only
 controls the website's own copy.
@@ -352,16 +364,37 @@ anywhere in this repo.
 
 ## Legal & business detail
 
-None of the following are invented anywhere in this build; each is either
-omitted or worded to avoid needing them until supplied:
+**Correction, 23 Sep 2026 (critical audit repair pass):** this section
+previously implied that none of the legal-entity name, ABN or email
+addresses were published anywhere. That was factually incorrect — all
+three have been live throughout the site (footer on every page, the
+sitewide Electrician JSON-LD schema, Privacy Policy, Terms, and
+Complaints) for some time. Being *published* is not the same as being
+*owner-confirmed as accurate* — none of these three has had an explicit
+"yes, this is correct" from the business owner in this session or any
+prior one, they were simply carried over from earlier passes without
+independent confirmation. They stay live (removing correct-looking real
+business detail with nothing to replace it would make the site less
+truthful, not more), but they block production launch — see
+`docs/launch-readiness-2026-09-23.md` — until confirmed:
 
-- [ ] Registered legal entity name
-- [ ] Trading name (if different from the legal entity)
-- [ ] ABN
-- [ ] Official business email address (none is published anywhere yet —
-      phone-only contact until this is supplied; also needed before any
-      `mailto:` email-click analytics event has anything to attach to, see
-      `docs/analytics-integration.md`)
+- [ ] **Registered legal entity name** — currently published as
+      "Electrical Hub Pty Ltd trading as Oz Home Energy" (footer on every
+      page, Privacy Policy, Terms). Awaiting explicit owner confirmation
+      this is correct and current.
+- [ ] **ABN** — currently published as **72 665 477 556** (footer, JSON-LD
+      `taxID`, Privacy Policy, Terms). Awaiting explicit owner
+      confirmation.
+- [ ] **Official business email address** — currently published as
+      **admin@ozhomeenergy.com.au** (footer, JSON-LD `email`, Privacy
+      Policy, Terms) and **support@ozhomeenergy.com.au** (Complaints page,
+      the About page's warranty-claim contact). Awaiting explicit owner
+      confirmation both inboxes are real, monitored, and the right ones
+      for their respective purposes — also needed before any `mailto:`
+      email-click analytics event has anything confirmed to attach to,
+      see `docs/analytics-integration.md`.
+- [ ] Trading name (if different from the legal entity) — same status as
+      the legal entity name above; not a separate unconfirmed item.
 - [ ] Official phone number (see the blocking conflict above)
 - [ ] Postal/business address, if one is meant to be publicly listed
 - [ ] Privacy contact (name/role/email for privacy questions or requests)
@@ -423,11 +456,29 @@ when `BUILD_TARGET=production`. The GitHub Pages preview this branch
 deploys to is always built without `BUILD_TARGET=production`, so it now
 requests nothing from `googletagmanager.com` or `connect.facebook.net` —
 previously the preview (and anyone testing it) was silently feeding real
-analytics/ad platforms unfiltered preview traffic. `scripts/qa-static-
-checks.js` asserts this automatically: zero analytics network calls in a
-preview build, exactly one GTM load / one Pixel load / one GTM noscript
-iframe in a production build. See `docs/analytics-integration.md` for the
-underlying GTM/Pixel IDs and setup.
+analytics/ad platforms unfiltered preview traffic.
+
+**Update, 23 Sep 2026 (critical audit repair pass): a production build
+alone is no longer sufficient to load analytics.** `scripts/build.js` now
+requires a second, separate environment variable —
+**`ENABLE_ANALYTICS=true`** — alongside `BUILD_TARGET=production` before
+GTM/Pixel are injected (`ANALYTICS_ENABLED = IS_PRODUCTION &&
+process.env.ENABLE_ANALYTICS === 'true'`). Build-mode and privacy consent
+are deliberately two separate decisions: a `BUILD_TARGET=production` build
+run for any other reason (a QA check, a preview of production behaviour,
+a deploy pipeline test) must not silently start loading real tracking
+scripts. **`ENABLE_ANALYTICS` must stay unset (or anything other than the
+literal string `true`) until the GTM/Meta Pixel data collection has been
+covered by a reviewed and approved privacy disclosure** — no privacy-
+policy wording for this has been drafted or invented in this repo; that
+review has to happen first, by whoever is qualified to do it, not by
+flipping this flag. `scripts/qa-static-checks.js` was updated to match:
+it only expects analytics when run with `ENABLE_ANALYTICS=true` itself
+(the same variable must be passed to both the build and the QA check for
+the assertion to mean anything); otherwise — preview, or a production
+build without the flag — it asserts zero analytics network calls, exactly
+as before. See `docs/analytics-integration.md` for the underlying
+GTM/Pixel IDs and setup.
 
 - [ ] Confirm the GTM container and Meta Pixel IDs currently in
       `src/partials/analytics-head.html` are the correct, current ones —
@@ -435,7 +486,12 @@ underlying GTM/Pixel IDs and setup.
 - [ ] No analytics/ad-platform request should ever appear on the GitHub
       Pages preview going forward — if this regresses, check that whatever
       changed `src/layout.html` still gates `{{ANALYTICS_HEAD}}` /
-      `{{ANALYTICS_BODY}}` on `IS_PRODUCTION` rather than injecting always.
+      `{{ANALYTICS_BODY}}` on `ANALYTICS_ENABLED` rather than injecting
+      whenever `BUILD_TARGET=production` alone is set.
+- [ ] Get the privacy disclosure covering GTM/Meta Pixel data collection
+      reviewed and approved before ever setting `ENABLE_ANALYTICS=true`
+      on a real production deploy — this is a blocking item in
+      `docs/launch-readiness-2026-09-23.md`, not a flag to flip casually.
 
 ## Domain / hosting decision
 

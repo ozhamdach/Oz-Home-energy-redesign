@@ -44,18 +44,39 @@ For a GitHub Pages-safe build (relative paths, since Pages serves this repo
 from a `/<repo>/` subpath rather than domain root), also run
 `node scripts/build-pages.js`, which reads `site/` and writes `pages-dist/`.
 The live preview auto-deploys via `.github/workflows/deploy-pages.yml` on
-every push to this branch.
+every push to `main` only (not on pushes to a review/feature branch — merge
+to `main` to update the preview, or trigger the workflow manually via
+`workflow_dispatch`).
 
 ## What this is (and isn't)
 
-This is a **static front-end prototype**: real, final copy; a complete
-responsive design system; a working multi-step assessment flow and two
-other lead-capture forms with client-side validation — but **no form
-submits anywhere yet**. See `docs/04-highlevel-integration.md` for exactly
-what's needed to connect them to HighLevel, and
-`docs/07-owner-confirmations.md` for every claim, asset or credential that
-needs sign-off before this goes live. Nothing fabricated (reviews, project
-case studies, accreditations, pricing, statistics) appears anywhere — where
-real content isn't available yet, that section is omitted from the public
-page entirely (never shown as an empty or placeholder-labelled box); see
-`docs/07-owner-confirmations.md` for what's needed to bring each one back.
+This is a **static front-end prototype**: real, final copy and a complete
+responsive design system, with a mixed state of lead capture. Four general
+lead forms — Energy Assessment, the homepage quick-quote, Commercial
+Project Enquiry and Service Request — are real, live HighLevel-hosted form
+embeds. Three commercial-specific funnels — Commercial Load Review,
+Commercial Solar & Battery Quote, and Commercial Battery Assessment — are
+this repo's own HTML/JS with **no CRM endpoint configured**: each shows an
+honest "not connected yet, please call" notice rather than any fake
+success state. See `docs/04-highlevel-integration.md` for exactly what's
+needed to connect the remaining three, and
+`docs/owner-inputs-required.md` (the current, maintained master checklist
+— supersedes `docs/07-owner-confirmations.md`) for every claim, asset or
+credential that needs sign-off before this goes live, including which
+claims have already been removed rather than published unconfirmed.
+Nothing fabricated (reviews, project case studies, accreditations,
+pricing, statistics) appears anywhere — where real content isn't available
+yet, that section is omitted from the public page entirely (never shown as
+an empty or placeholder-labelled box); see `docs/owner-inputs-required.md`
+for what's needed to bring each one back.
+
+The build also distinguishes **preview** from **production**: the GitHub
+Pages preview this repo auto-deploys (`main` branch only, see above) is
+always built without `BUILD_TARGET=production`, which keeps it
+`noindex, nofollow` sitewide, disallowed in `robots.txt`, and free of any
+analytics/ad-platform network requests (GTM/Meta Pixel only load when
+`BUILD_TARGET=production` is set — see `docs/owner-inputs-required.md`'s
+"Analytics" section). Switching this preview to production mode is a
+deliberate, separate decision, not something that happens by building
+normally — see `docs/launch-readiness-2026-09-23.md` for what else must be
+true before that switch, and before real production indexing is enabled.

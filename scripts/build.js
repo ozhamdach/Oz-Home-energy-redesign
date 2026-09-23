@@ -33,6 +33,12 @@ let landingFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-l
 // home) is unaffected.
 let conversionHeader = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header-conversion.html'), 'utf8');
 let conversionFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-conversion.html'), 'utf8');
+// GTM + Meta Pixel loaders — read unconditionally, but only actually
+// injected into a production build (see the IS_PRODUCTION check where
+// ANALYTICS_HEAD/ANALYTICS_BODY are filled below). A preview build must
+// never contact Google or Meta.
+const analyticsHead = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'analytics-head.html'), 'utf8');
+const analyticsBody = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'analytics-body.html'), 'utf8');
 
 // Defaults to PREVIEW (noindex/nofollow) — see the matching comment near
 // robots.txt generation below for when/how this flips to production.
@@ -181,6 +187,8 @@ for (const dir of pageDirs) {
     SCHEMA: schema,
     ROBOTS_META: robotsMeta,
     EXTRA_HEAD: meta.extraHead || '',
+    ANALYTICS_HEAD: IS_PRODUCTION ? analyticsHead : '',
+    ANALYTICS_BODY: IS_PRODUCTION ? analyticsBody : '',
     HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeader : header,
     BODY: body,
     FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
@@ -235,6 +243,8 @@ for (const route of legacyRoutes) {
     SCHEMA: '',
     ROBOTS_META: IS_PRODUCTION ? 'noindex, follow' : 'noindex, nofollow',
     EXTRA_HEAD: `<meta http-equiv="refresh" content="0; url=${route.to}">`,
+    ANALYTICS_HEAD: IS_PRODUCTION ? analyticsHead : '',
+    ANALYTICS_BODY: IS_PRODUCTION ? analyticsBody : '',
     HEADER: header,
     BODY: body,
     FOOTER: footer,

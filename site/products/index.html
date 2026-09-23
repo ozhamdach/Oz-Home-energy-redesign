@@ -3,38 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- ANALYTICS: ACTIVE — GTM container GTM-KTGM7X5H and Meta Pixel
-     1375668011396700, both supplied directly by the owner (see
-     docs/analytics-integration.md). The dataLayer array is declared before
-     the container script loads, per Google's own recommended practice, so
-     the phone-click/email-click/form-start/form-step events this build
-     already pushes (see site/js/main.js and site/js/commercial-battery-assessment.js)
-     are queued and available to the container from the moment it loads. -->
+<!-- The dataLayer array is always declared, preview or production, so the
+     phone-click/email-click/form-start/form-step events this build already
+     pushes (see site/js/main.js and site/js/commercial-battery-assessment.js)
+     never throw even when nothing is listening. The actual GTM/Meta Pixel
+     loader scripts are injected here ONLY in a BUILD_TARGET=production
+     build — see scripts/build.js and src/partials/analytics-head.html —
+     so the staging preview never contacts Google or Meta at all. -->
 <script>window.dataLayer = window.dataLayer || [];</script>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KTGM7X5H');</script>
-<!-- End Google Tag Manager -->
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1375668011396700');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none" alt="" aria-hidden="true"
-src="https://www.facebook.com/tr?id=1375668011396700&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+
 <title>Products & Brands | Oz Home Energy</title>
 <meta name="description" content="The panels, inverters, batteries and EV chargers Oz Home Energy supplies and supports — a considered product range rather than every brand on the market.">
 <!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
@@ -133,10 +110,7 @@ src="https://www.facebook.com/tr?id=1375668011396700&ev=PageView&noscript=1"
 
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTGM7X5H"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 <a class="skip-link" href="#main">Skip to main content</a>
 <!-- Announcement bar: disabled by default. Only enable this once the owner
      has supplied a specific, currently-running offer's exact text and

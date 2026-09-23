@@ -25,18 +25,24 @@ const siteStatus = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'si
 
 // Slugs whose own src/pages/<dir>/meta.json sets `"noindex": true` (see
 // scripts/build.js) — a real, working page with no standalone search
-// value (currently just the lead-form thank-you page), as opposed to
-// isGated()'s "not published yet" pages below. Read directly from meta.json
-// rather than hardcoding page names here, so this stays correct as more
-// pages opt in.
+// value (currently just the lead-form thank-you page and the two paid
+// commercial landing pages), as opposed to isGated()'s "not published
+// yet" pages below. Read directly from meta.json rather than hardcoding
+// page names here, so this stays correct as more pages opt in.
 const explicitNoindexSlugs = new Set();
+// Slugs whose meta.json sets `"publishGate": "<siteStatus key>"` — read
+// dynamically for the same reason, so a new gate (e.g. the commercial
+// battery assessment funnel) never has to be hand-added here too.
+const gatedSlugs = new Map(); // slug -> siteStatus key
 const SRC_PAGES = path.join(ROOT, 'src', 'pages');
 for (const dir of fs.readdirSync(SRC_PAGES, { withFileTypes: true })) {
   if (!dir.isDirectory()) continue;
   const metaPath = path.join(SRC_PAGES, dir.name, 'meta.json');
   if (!fs.existsSync(metaPath)) continue;
   const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-  if (meta.noindex === true) explicitNoindexSlugs.add(meta.canonical.replace(/^\/|\/$/g, ''));
+  const slug = meta.canonical.replace(/^\/|\/$/g, '');
+  if (meta.noindex === true) explicitNoindexSlugs.add(slug);
+  if (meta.publishGate) gatedSlugs.set(slug, meta.publishGate);
 }
 
 const failures = [];
@@ -57,8 +63,8 @@ function isLegacyBridge(relSlug) {
 }
 
 function isGated(relSlug) {
-  const meta = { projects: 'projects', products: 'products' }[relSlug];
-  return meta ? siteStatus[meta] && !siteStatus[meta].published : false;
+  const key = gatedSlugs.get(relSlug);
+  return key ? siteStatus[key] && !siteStatus[key].published : false;
 }
 
 const files = walkHtml(SITE_DIR);
@@ -152,6 +158,26 @@ for (const file of files) {
     }
   }
 
+  // --- analytics: GTM + Meta Pixel loaders only in a production build,
+  // and exactly once each when they are present (scripts/build.js injects
+  // src/partials/analytics-head.html / analytics-body.html only when
+  // BUILD_TARGET=production) ---
+  const gtmCount = (html.match(/googletagmanager\.com\/gtm\.js/g) || []).length;
+  const pixelCount = (html.match(/connect\.facebook\.net\/en_US\/fbevents\.js/g) || []).length;
+  const gtmNoscriptCount = (html.match(/googletagmanager\.com\/ns\.html/g) || []).length;
+  if (!IS_PRODUCTION_CHECK) {
+    if (gtmCount > 0) fail(`${rel}: preview build must not load GTM (found googletagmanager.com/gtm.js)`);
+    if (pixelCount > 0) fail(`${rel}: preview build must not load the Meta Pixel (found connect.facebook.net/en_US/fbevents.js)`);
+    if (gtmNoscriptCount > 0) fail(`${rel}: preview build must not include the GTM noscript iframe`);
+    if (!/window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\]/.test(html)) {
+      fail(`${rel}: preview build should still declare an empty dataLayer so event-pushing code never throws`);
+    }
+  } else {
+    if (gtmCount !== 1) fail(`${rel}: production build must load GTM exactly once (found ${gtmCount})`);
+    if (pixelCount !== 1) fail(`${rel}: production build must load the Meta Pixel exactly once (found ${pixelCount})`);
+    if (gtmNoscriptCount !== 1) fail(`${rel}: production build must include the GTM noscript iframe exactly once (found ${gtmNoscriptCount})`);
+  }
+
   // --- no active form posts to "#" ---
   if (/<form\b[^>]*action="#"/.test(html)) {
     fail(`${rel}: a <form> still has action="#"`);
@@ -243,11 +269,26 @@ for (const route of legacyRoutes) {
   }
 }
 
-// --- production robots.txt ---
+// --- production robots.txt + sitemap exclusion for gated/noindex pages ---
 if (IS_PRODUCTION_CHECK) {
   const robotsTxt = fs.readFileSync(path.join(SITE_DIR, 'robots.txt'), 'utf8');
   if (!/Allow: \//.test(robotsTxt)) fail('production robots.txt does not Allow: /');
   if (!robotsTxt.includes(PRODUCTION_ORIGIN)) fail('production robots.txt sitemap line does not use the production origin');
+
+  // Every gated (publishGate, unpublished) or explicit-noindex page must be
+  // both absent from the production sitemap AND still directly accessible
+  // by URL — it's hidden from discovery, not deleted.
+  const sitemapXml = fs.readFileSync(path.join(SITE_DIR, 'sitemap.xml'), 'utf8');
+  const allExcludedSlugs = new Set([...explicitNoindexSlugs, ...[...gatedSlugs.keys()].filter(isGated)]);
+  for (const slug of allExcludedSlugs) {
+    const loc = `${PRODUCTION_ORIGIN}/${slug}/`;
+    if (sitemapXml.includes(loc)) {
+      fail(`sitemap.xml: gated/noindex page /${slug}/ must not appear in the production sitemap`);
+    }
+    if (!fs.existsSync(path.join(SITE_DIR, slug, 'index.html'))) {
+      fail(`/${slug}/ is gated/noindex but was not built — it must still be directly accessible by URL, not removed`);
+    }
+  }
 } else {
   const robotsTxt = fs.readFileSync(path.join(SITE_DIR, 'robots.txt'), 'utf8');
   if (!/Disallow: \//.test(robotsTxt)) fail('preview robots.txt does not Disallow: / (must block all crawling)');

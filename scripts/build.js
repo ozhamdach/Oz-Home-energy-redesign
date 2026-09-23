@@ -36,6 +36,13 @@ let conversionFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'foote
 
 // Defaults to PREVIEW (noindex/nofollow) — see the matching comment near
 // robots.txt generation below for when/how this flips to production.
+// BUILD_TARGET=production is NOT a signal that the site is ready to
+// actually go live — it's just the build mode a real deploy would use.
+// Do not run a production build against the real domain, and do not
+// point ozhomeenergy.com.au at anything, until every gate in
+// docs/launch-readiness-2026-09-23.md is checked off (owner claim
+// confirmations, Tesla approval or removal, warranty legal sign-off,
+// secure commercial lead endpoint, all HighLevel forms tested, etc).
 const IS_PRODUCTION = process.env.BUILD_TARGET === 'production';
 
 // Publication status for sections that are only real once genuine,

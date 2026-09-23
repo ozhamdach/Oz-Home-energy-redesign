@@ -14,5 +14,10 @@
     "published": true,
     "requiredForPublish": "Complete, useful articles with no unanswered-question cards. Currently met: every section is a finished, substantive answer, not a stub.",
     "currentCount": 12
+  },
+  "commercialBatteryAssessment": {
+    "published": false,
+    "requiredForPublish": "Secure CRM submission is connected and a complete end-to-end lead test has passed.",
+    "currentCount": 0
   }
 }

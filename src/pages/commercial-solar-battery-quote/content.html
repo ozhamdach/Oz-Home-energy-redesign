@@ -36,7 +36,7 @@
     <h1>See what solar and battery could do for your site.</h1>
     <p class="lede">A few questions about your business and your electricity use, then a real quote from the installer — not a broker.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#csbqForm">Get my quote</a>
+      <a class="btn btn-primary" href="#csbqFormSection">Get my quote</a>
     </div>
     <p class="csbq-kicker">3 Questions · Your Details · No Site Visit to Start</p>
   </div>
@@ -64,7 +64,7 @@
   </div>
 </section>
 
-<section class="section section-alt" id="csbqForm">
+<section class="section section-alt" id="csbqFormSection">
   <div class="container container-narrow">
     <div class="section-head center">
       <h2>Get my quote</h2>
@@ -241,6 +241,15 @@
       <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#0540C1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h2>Got it — thanks</h2>
       <p class="lede" style="margin-inline:auto;">We'll review what you've told us and be in touch to talk through a quote for your site.</p>
+    </div>
+
+    <!-- Shown instead of csbqConfirm whenever no secure lead endpoint is
+         configured (currently always) — see LEAD_ENDPOINT in
+         site/js/commercial-solar-battery-quote.js. Never a fake success
+         state: honest, with a real phone number. -->
+    <div class="csbq-confirm" id="csbqNotConnected" hidden tabindex="-1">
+      <h2>This form isn't connected yet</h2>
+      <p class="lede" style="margin-inline:auto;">Your answers haven't been sent anywhere — we're not able to submit this form automatically right now. Please call us directly on <a href="tel:+61435336336">0435 336 336</a> and we'll take your details over the phone.</p>
     </div>
   </div>
 </section>

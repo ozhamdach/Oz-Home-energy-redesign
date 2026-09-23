@@ -171,8 +171,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .clr-exit, .clr-confirm { text-align: center; padding: 40px 0; }
   .clr-exit .icon-circle, .clr-confirm .icon-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
   .clr-exit .icon-circle svg, .clr-confirm .icon-circle svg { width: 30px; height: 30px; color: var(--brand); }
-  .clr-confirm .file-drop { max-width: 480px; margin: 24px auto 0; text-align: left; }
-  .clr-confirm .file-status { margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); }
   .clr-form-error { color: #c0322b; }
   @media (prefers-reduced-motion: no-preference) {
     .clr-question[data-revealed="true"] { animation: fadein .25s ease; }
@@ -185,7 +183,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h1>Your problem might be <em>when</em> you use power, not how much.</h1>
     <p class="lede">Answer a few questions about your site. We'll tell you whether solar, storage or neither is the answer — and we'll tell you if it's neither. A recent bill helps, but you don't need one to start.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#clrForm">Start my review</a>
+      <a class="btn btn-primary" href="#clrFormSection">Start my review</a>
     </div>
     <p class="clr-kicker">5 Questions · Bill Optional · No Site Visit to Start</p>
   </div>
@@ -230,7 +228,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<section class="section section-alt" id="clrForm">
+<section class="section section-alt" id="clrFormSection">
   <div class="container container-narrow">
     <div class="section-head center">
       <h2>Start my review</h2>
@@ -446,16 +444,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </fieldset>
     </form>
 
-    <!-- Post-submit confirmation, with the bill upload prompt -->
+    <!-- Post-submit confirmation. Bill upload removed 23 Sep 2026
+         (launch-readiness repair pass) — it posted the raw file straight
+         to a public webhook with no server-side validation, size limit,
+         malware scanning, rate limiting or retention policy. It does not
+         come back until a real backend enforces all of that — see
+         docs/owner-inputs-required.md. -->
     <div class="clr-confirm" id="clrConfirm" hidden tabindex="-1">
       <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#0540C1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h2>Got it — thanks</h2>
-      <p class="lede" style="margin-inline:auto;">We'll read your load profile and be in touch about a short call. If you have a recent electricity bill handy, you can attach it now — if not, we'll email you a link so you can send it later.</p>
-      <div class="file-drop">
-        <label for="clrBillUpload">Attach a recent electricity bill (optional)</label>
-        <input type="file" id="clrBillUpload" name="billUpload" accept="application/pdf,image/*">
-        <p class="file-status" id="clrBillStatus"></p>
-      </div>
+      <p class="lede" style="margin-inline:auto;">We'll read your load profile and be in touch about a short call.</p>
+    </div>
+
+    <!-- Shown instead of clrConfirm whenever no secure lead endpoint is
+         configured (currently always, since none has been supplied) — see
+         the LEAD_ENDPOINT constant in site/js/commercial-load-review.js.
+         Never a fake success state: honest, with a real phone number. -->
+    <div class="clr-confirm" id="clrNotConnected" hidden tabindex="-1">
+      <h2>This form isn't connected yet</h2>
+      <p class="lede" style="margin-inline:auto;">Your answers haven't been sent anywhere — we're not able to submit this form automatically right now. Please call us directly on <a href="tel:+61435336336">0435 336 336</a> and we'll take your details over the phone.</p>
     </div>
   </div>
 </section>

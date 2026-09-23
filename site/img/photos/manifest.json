@@ -70,14 +70,6 @@
       1536
     ]
   },
-  "ev-tesla-wall-connector": {
-    "height": 1360,
-    "width": 707,
-    "widths": [
-      480,
-      707
-    ]
-  },
   "fleet-van": {
     "height": 880,
     "width": 1320,
@@ -182,15 +174,6 @@
       571
     ]
   },
-  "tesla-powerwall-lifestyle": {
-    "height": 976,
-    "width": 1920,
-    "widths": [
-      480,
-      800,
-      1920
-    ]
-  },
   "trust-ohme-badge": {
     "height": 1066,
     "width": 1257,
@@ -210,14 +193,6 @@
   "trust-sec-badge": {
     "height": 3123,
     "width": 5044,
-    "widths": [
-      320,
-      480
-    ]
-  },
-  "trust-tesla-badge": {
-    "height": 780,
-    "width": 1920,
     "widths": [
       320,
       480

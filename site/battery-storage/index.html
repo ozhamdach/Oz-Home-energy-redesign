@@ -345,9 +345,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      Tesla installer status itself IS confirmed; marketing/publication
      consent is the only thing blocking this. Badge SVG used exactly as
      supplied (tesla-certified-installer-black.svg, byte-for-byte, no
-     recolour/crop) — the white variant sits unused in
-     site/img/brand/tesla/ since this site has no dark-background context
-     to use it in. Links to /tesla-powerwall-3/, which does NOT exist in
+     recolour/crop) — the white variant was never needed since this site
+     has no dark-background context to use it in.
+     23 Sep 2026: the site/img/brand/tesla/ files this block references
+     were removed from the deployed output entirely (launch-readiness
+     repair pass — no Tesla material may sit in site/ even unreferenced).
+     Sources are archived at assets/original-photography/trust-badges/
+     and assets/original-photography/tesla-marketing/. To reactivate:
+     copy the 4 files back into site/img/brand/tesla/, THEN uncomment.
+     Links to /tesla-powerwall-3/, which does NOT exist in
      the built site yet — that page is drafted at
      docs/tesla-powerwall-3-DRAFT/ (outside src/pages/, so it can never be
      built or deployed by accident). Both this block and that page move

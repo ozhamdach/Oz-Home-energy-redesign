@@ -159,6 +159,13 @@
       <!-- TESLA CARD — DO NOT ENABLE without written marketing approval
            from energyproductsmarketing@tesla.com (see comment above this
            section for the full evidence trail).
+           23 Sep 2026: the trust-tesla-badge-* image files this card
+           references were removed from site/img/photos/ (launch-readiness
+           repair pass — no Tesla material may sit in the deployed output
+           even unreferenced). The source is archived at
+           assets/original-photography/trust-badges/tesla-powerwall-certified-installer.png.
+           To reactivate: restore the trust-tesla-badge job in
+           scripts/process-photos.py, run it, THEN uncomment this block.
       <a class="trust-card" href="/about/">
         <span class="trust-card-mark">
           <picture>

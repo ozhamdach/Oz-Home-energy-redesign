@@ -1,0 +1,32 @@
+{
+  "_comment": "Shared source-of-truth for rebate/STC/price facts that change over time, per the site-loop scorecard's Page 0 requirement. Every page that states one of these figures should match this file. Update the figure, asOf date and source together — never one without the others.",
+  "federalBatteryRebate": {
+    "programName": "Cheaper Home Batteries Program",
+    "asOf": "2026-09-24",
+    "summary": "A federal discount on the upfront cost of an eligible battery system (5-100 kWh usable capacity), applied by the installer at the time of purchase rather than claimed separately afterwards.",
+    "zone": "Zone 3 (Sydney)",
+    "ratePerKwh": 252,
+    "rateCurrency": "AUD",
+    "fullRateCapKwh": 14,
+    "taper": [
+      { "rangeKwh": "0-14", "factorPercent": 100 },
+      { "rangeKwh": "14-28", "factorPercent": 60 },
+      { "rangeKwh": "28-50", "factorPercent": 15 }
+    ],
+    "approxDiscountPercent": 30,
+    "nextStepDown": "2027-01-01",
+    "stepDownFrequency": "every 6 months until the scheme ends in 2030",
+    "sources": [
+      "https://www.solarchoice.net.au/learn/solar-rebates/government-battery-rebate/changes-1-may-2026/",
+      "https://www.dcceew.gov.au/energy/programs/cheaper-home-batteries"
+    ],
+    "caveat": "Indicative only. The exact current rate, eligible battery list and taper depend on installation date and are confirmed by DCCEEW/the Clean Energy Regulator, not by this business. Always confirmed as part of a real quote, never guaranteed upfront by this page."
+  },
+  "stcZone": {
+    "location": "Sydney, NSW",
+    "zone": 3,
+    "zoneRating": 1.382,
+    "asOf": "2026-09-24",
+    "sources": ["https://www.solarchoice.net.au/learn/solar-rebates/stc-scheme/"]
+  }
+}

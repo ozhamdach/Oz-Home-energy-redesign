@@ -74,33 +74,72 @@ also displays a "Smart Energy Council" membership badge as part of its
 design — this is still not asserted anywhere in this site's own copy or
 schema, and should not be treated as a confirmed claim.
 
-## Installer badges — current status (updated 24 Sep 2026)
+## Installer badges — current status (updated 24 Sep 2026, premium badge-grid pass)
 
-- **Ohme Approved Installer** — ✅ live. Confirmed via the 11 Sep 2026 Ohme
-  onboarding call and the owner-supplied badge asset. Shown on the
-  homepage trust grid, About page and EV charging page.
+The homepage trust grid was redesigned this pass: five transparent
+credential cells (no white card tiles, no boxed shadows), each badge
+substantially larger than before, laid out 3×2 on desktop / 2×3 on
+tablet / 1-column on mobile. The 15-Year Workmanship Warranty moved out
+of the credential grid into its own full-width strip below it.
+
+- **NSW Electrical Contractor** — inline SVG icon, unchanged content,
+  enlarged to 56px.
+- **Solar Accreditation Australia** — ✅ live, badge re-processed with a
+  **genuine transparent background**. The previously deployed derivative
+  was flattened onto white; the source (`assets/original-photography/
+  trust-badges/solar-accreditation-australia.png`) had no alpha channel
+  either. Re-created via whiteness-keyed alpha extraction (every pixel's
+  distance from pure white becomes its transparency, then the true
+  foreground colour is unpremultiplied out to avoid a white halo at the
+  edges) — checked over both light and dark checkerboard backgrounds at
+  200% zoom before use: clean edges, no white cast, letter counters
+  (the holes in "o", "a", "e") properly transparent rather than solid
+  white circles. Saved to `site/img/brand/trust/solar-accreditation-
+  australia.png`. No redraw/recolour — same artwork, only the background
+  removed.
+- **Smart Energy Council Member** — ✅ live, badge re-rendered directly
+  from the owner-supplied source PDF (`SEC-Member-Badges-SMB.pdf`) at
+  3× resolution with the PDF's own vector transparency preserved (not a
+  flood-fill approximation) — the cleanest possible source, genuinely
+  transparent with no artefacts. Saved to `site/img/brand/trust/smart-
+  energy-council.png`.
+- **Ohme Approved Installer** — ✅ live, confirmed via the 11 Sep 2026
+  Ohme onboarding call and the owner-supplied badge asset, shown larger
+  (108px desktop). **Not made transparent**: the only official Ohme
+  asset available (`assets/original-photography/trust-badges/ohme-
+  approved-installer.jpg`) is a full-bleed two-tone card — the light
+  lower half (carrying the "Approved installer" text) touches every
+  edge of the canvas directly, because it *is* the real card design, not
+  a removable white margin. Flood-filling it would delete the actual
+  "Approved installer" text panel. Shown as supplied (converted to PNG,
+  no other change) at `site/img/brand/trust/ohme-approved-installer.png`.
+  No alternate transparent Ohme asset exists anywhere in this repo or the
+  supplied packs.
 - **Evnex Certified Installer** — ✅ live, published 24 Sep 2026 on
-  **direct owner instruction**. This is an owner-supplied business claim,
-  not independently verified — no certification number, issue date or
-  expiry was supplied. Badge file:
-  `site/img/brand/evnex/evnex-certified-installer-white.png` (the exact
-  official badge PNG supplied in "OHE_Evnex_Claude_Pack_Under_3MB.zip",
-  unaltered — do not redraw, recolour, crop or stretch it). Per the
-  pack's own badge guidelines: this is the white/reversed variant and
-  must only be shown on a dark background or photographic area, never
-  below 60px rendered height (72–80px target), with generous clear space
-  and never visually combined with the Oz Home Energy logo. Shown on the
-  homepage trust grid (linking to `/ev-charging/#evnex`) and on the EV
-  charging page's Evnex section. See `docs/owner-inputs-required.md` for
-  the full history.
-- **Tesla Powerwall Certified Installer** — still **hidden** from the
-  public site. Final written marketing/publication approval from Tesla
-  (`energyproductsmarketing@tesla.com`) has not been received — see the
-  Tesla section of `docs/owner-inputs-required.md`. Nothing was deleted:
-  the markup and badge image derivatives are still in place in
-  `src/pages/home/content.html` (wrapped in an HTML comment explaining
-  exactly what's needed) and `assets/original-photography/`. This task
-  explicitly does not touch Tesla content.
+  **direct owner instruction**; this pass switched from the white
+  variant (shown on a boxed dark "stage") to the official **dark-artwork
+  variant**, shown directly against the trust section's light background
+  with no stage — `evnex-installer-dark.png` from the fuller
+  "OHE_Evnex_Web_Pack_Under_30MB" pack's `02-Supplied-Badges-and-Logos/`
+  folder, genuinely transparent as supplied, copied unaltered to
+  `site/img/brand/evnex/evnex-certified-installer-dark.png`. This is
+  still an owner-supplied business claim, not independently verified —
+  no certification number, issue date or expiry was supplied or shown.
+- **Tesla Certified Installer** — **still hidden from the public site.**
+  This pass's request asked for a sixth Tesla credential card, framed as
+  a direct owner instruction with explicit caveats against inventing
+  approval metadata. It was **not implemented**: final written
+  marketing/publication approval from Tesla
+  (`energyproductsmarketing@tesla.com`) still has not been received, and
+  a business's own instruction to publish a partner's mark is not that
+  partner's consent to use it — the missing requirement is Tesla's
+  consent specifically, which no instruction from this business can
+  supply. See the Tesla section of `docs/owner-inputs-required.md`.
+  Nothing was deleted or altered: the existing commented-out card in
+  `src/pages/home/content.html` is unchanged, still the only Tesla
+  implementation, still ready to uncomment once genuine written approval
+  exists. No Tesla asset, page, spec, pricing or lifestyle imagery was
+  added anywhere in this pass.
 
 ## Alt text policy applied
 

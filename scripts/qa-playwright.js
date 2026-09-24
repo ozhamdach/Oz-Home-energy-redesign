@@ -299,16 +299,61 @@ async function run(label, fn) {
     await page.close();
   });
 
-  await run('homepage Evnex Certified Installer badge renders at least 60px tall on desktop and mobile', async () => {
+  await run('homepage trust grid: five transparent credential cells, correct badge sizes, no evnex stage, matching desktop heights', async () => {
     for (const width of [1440, 390]) {
       const page = await context.newPage();
-      await page.setViewportSize({ width, height: 900 });
+      await page.setViewportSize({ width, height: 1100 });
       await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
-      const height = await page.evaluate(() => {
-        const img = document.querySelector('.trust-card-mark--evnex img');
-        return img ? img.getBoundingClientRect().height : 0;
+      const data = await page.evaluate(() => {
+        const cards = [...document.querySelectorAll('.trust-card')];
+        const rect = (sel) => {
+          const el = document.querySelector(sel);
+          return el ? el.getBoundingClientRect() : null;
+        };
+        const style = (sel) => {
+          const el = document.querySelector(sel);
+          return el ? getComputedStyle(el) : null;
+        };
+        const evnexImg = document.querySelector('.trust-card--evnex .trust-card-mark img');
+        const teslaImg = document.querySelector('.trust-card--tesla .trust-card-mark img');
+        return {
+          cardCount: cards.length,
+          cardHeights: cards.map((c) => c.getBoundingClientRect().height),
+          saaWidth: rect('.trust-card--saa .trust-card-mark img')?.width ?? 0,
+          secHeight: rect('.trust-card--sec .trust-card-mark img')?.height ?? 0,
+          ohmeHeight: rect('.trust-card--ohme .trust-card-mark img')?.height ?? 0,
+          evnexHeight: rect('.trust-card--evnex .trust-card-mark img')?.height ?? 0,
+          evnexNaturalW: evnexImg?.naturalWidth ?? 0,
+          evnexNaturalH: evnexImg?.naturalHeight ?? 0,
+          teslaNaturalW: teslaImg?.naturalWidth ?? 0,
+          teslaNaturalH: teslaImg?.naturalHeight ?? 0,
+          evnexStageExists: !!document.querySelector('.evnex-badge-stage'),
+          cardBgs: [...document.querySelectorAll('.trust-card')].map((c) => getComputedStyle(c).backgroundColor),
+          cardShadows: [...document.querySelectorAll('.trust-card')].map((c) => getComputedStyle(c).boxShadow),
+        };
       });
-      if (height < 60) errors.push(`/ @${width}: Evnex badge rendered height ${height}px is below the required 60px minimum`);
+
+      if (data.cardCount !== 5) errors.push(`/ @${width}: expected 5 .trust-card credential items, found ${data.cardCount}`);
+      if (data.evnexNaturalW === 0 || data.evnexNaturalH === 0) errors.push(`/ @${width}: Evnex badge image has zero natural dimensions (failed to load)`);
+      if (data.evnexHeight < 60) errors.push(`/ @${width}: Evnex badge rendered height ${data.evnexHeight}px is below the required 60px minimum`);
+      if (data.evnexStageExists) errors.push(`/ @${width}: .evnex-badge-stage still exists — should have been removed`);
+      data.cardBgs.forEach((bg, i) => {
+        if (bg !== 'rgba(0, 0, 0, 0)') errors.push(`/ @${width}: trust-card #${i} has a non-transparent background (${bg})`);
+      });
+      data.cardShadows.forEach((sh, i) => {
+        if (sh !== 'none') errors.push(`/ @${width}: trust-card #${i} has a box-shadow (${sh}) — cells must not look like white tiles`);
+      });
+
+      if (width === 1440) {
+        if (data.saaWidth < 180) errors.push(`/ @${width}: SAA badge width ${data.saaWidth}px is below the required 180px minimum`);
+        if (data.secHeight < 80) errors.push(`/ @${width}: SEC badge height ${data.secHeight}px is below the required 80px minimum`);
+        if (data.ohmeHeight < 90) errors.push(`/ @${width}: Ohme badge height ${data.ohmeHeight}px is below the required 90px minimum`);
+        if (data.evnexHeight < 88) errors.push(`/ @${width}: Evnex badge height ${data.evnexHeight}px is below the required 88px desktop minimum`);
+        const maxH = Math.max(...data.cardHeights);
+        const minH = Math.min(...data.cardHeights);
+        if (maxH - minH > 2) errors.push(`/ @${width}: desktop credential cells do not have matching heights (max ${maxH}, min ${minH}, diff ${(maxH - minH).toFixed(2)}px)`);
+      }
+
       await page.close();
     }
   });

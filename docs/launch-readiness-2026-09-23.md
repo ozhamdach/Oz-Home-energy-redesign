@@ -61,6 +61,13 @@ scratch, or from memory, when that day comes.
       the working tree) as an additional precaution, that rewrite was done
       deliberately and with sign-off — it affects every existing clone of
       this repository.
+- [x] **Reconfirmed, 24 Sep 2026 (homepage premium badge-grid pass):** a
+      request to add a sixth Tesla credential card to the homepage trust
+      grid was declined — a business's own instruction to publish is not
+      Tesla's own written consent under Exhibit 3 §10(b), whatever
+      caveats the request attaches. Option (b) above still holds exactly
+      as written; nothing Tesla-related changed. See
+      `docs/owner-inputs-required.md`.
 
 ## Warranty
 
@@ -89,6 +96,10 @@ scratch, or from memory, when that day comes.
 - [ ] Independent confirmation of current Evnex Certified Installer status
       (beyond the owner's instruction to publish) remains open — see
       `docs/owner-inputs-required.md`.
+- [x] **Superseded, 24 Sep 2026 (homepage premium badge-grid pass):** now
+      uses the official dark-artwork badge variant directly against the
+      trust section's background (no boxed stage) — same owner-supplied,
+      not-independently-verified status as above, unchanged.
 
 ## Owner claim confirmations
 

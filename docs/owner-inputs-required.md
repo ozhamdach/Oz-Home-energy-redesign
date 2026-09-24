@@ -72,6 +72,23 @@ in advertising, it needs to go back — the licence number itself
 nothing is lost.
 
 ### 🟡 Tesla Powerwall 3 page + battery-storage feature block — built, held back
+**24 Sep 2026 (homepage premium badge-grid request):** a task requested
+adding a sixth "Tesla Certified Installer" credential card to the
+homepage trust grid, framed as a direct owner instruction and explicitly
+telling the build not to invent approval metadata (email, number, date).
+**This was not implemented.** The instruction not to invent false
+approval evidence doesn't supply the actual missing thing: Tesla's own
+written consent under Exhibit 3 §10(b) of the executed installer
+agreement. A business's own instruction to publish a partner's mark is
+not that partner's consent to use it — it isn't this business's mark to
+authorise, however the request is scoped or caveated. Nothing was
+activated; the grid ships with five credentials (NSW, SAA, SEC, Ohme,
+Evnex) instead of six, and the commented-out Tesla card (unchanged) is
+still the only implementation, ready to uncomment once genuine written
+approval exists. The Tesla Powerwall 3 page, lifestyle photography and
+all product/spec/pricing marketing remain withheld exactly as before —
+nothing in this pass changed their status.
+
 23 Sep 2026: owner supplied "OHE_Claude_Web_Pack_Under_30MB.zip" — a real,
 official-looking asset pack (project photos, brand logo, and two Tesla
 Certified Installer SVG badges + two Tesla Powerwall 3 marketing images)
@@ -167,6 +184,18 @@ shown. The badge is now live: on the homepage trust grid (linking to
 `/ev-charging/#evnex`) and on the EV charging page's Evnex section. See
 `src/pages/home/content.html` and `src/pages/ev-charging/content.html`
 for the exact source comments recording this instruction.
+
+**Superseded again, 24 Sep 2026 (homepage premium badge-grid pass):** the
+homepage now uses the official **dark-artwork** variant
+(`evnex-installer-dark.png`, from the fuller "OHE_Evnex_Web_Pack_Under_30MB"
+pack's `02-Supplied-Badges-and-Logos/` folder, genuinely transparent as
+supplied) shown directly against the trust section's light background —
+the boxed dark "stage" the white variant needed has been removed
+entirely, since it's no longer necessary. Copied unaltered to
+`site/img/brand/evnex/evnex-certified-installer-dark.png`; the earlier
+white variant is no longer referenced or shipped. Same caveats as above
+still apply: owner-supplied claim, no certification number/issue/expiry
+shown.
 
 The rest of this section is retained below for history — it recorded why
 the badge was withheld before 24 Sep 2026.

@@ -161,9 +161,12 @@ for (const file of files) {
   // --- Evnex Certified Installer badge: owner-directed publication, 24
   // Sep 2026 — badge path + accessible alt text must appear on the
   // homepage, and the badge file itself must exist in the generated
-  // deployment (checked once, after this loop).
+  // deployment (checked once, after this loop). Premium redesign, 24 Sep
+  // 2026: switched from the white variant (shown on a boxed dark stage)
+  // to the dark variant (shown directly against the section background,
+  // no stage) — see docs/owner-inputs-required.md.
   if (isHome) {
-    if (!rawHtml.includes('/img/brand/evnex/evnex-certified-installer-white.png')) {
+    if (!rawHtml.includes('/img/brand/evnex/evnex-certified-installer-dark.png')) {
       fail(`${rel}: expected the Evnex Certified Installer badge image path`);
     }
     if (!/alt="Evnex Certified Installer"/.test(rawHtml)) {
@@ -387,8 +390,8 @@ if (IS_PRODUCTION_CHECK) {
 }
 
 // --- Evnex badge file actually exists in the generated deployment ---
-if (!fs.existsSync(path.join(SITE_DIR, 'img', 'brand', 'evnex', 'evnex-certified-installer-white.png'))) {
-  fail('site/img/brand/evnex/evnex-certified-installer-white.png is missing from the generated deployment');
+if (!fs.existsSync(path.join(SITE_DIR, 'img', 'brand', 'evnex', 'evnex-certified-installer-dark.png'))) {
+  fail('site/img/brand/evnex/evnex-certified-installer-dark.png is missing from the generated deployment');
 }
 
 // --- zero Tesla asset files anywhere under the generated deployment ---

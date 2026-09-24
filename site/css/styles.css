@@ -419,40 +419,71 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .trust-section-head .lede { margin-inline: auto; }
 
 .trust-grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 32px; row-gap: 28px;
   max-width: 1080px; margin-inline: auto;
 }
-.trust-card {
-  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
-  padding: 28px 20px; display: flex; flex-direction: column; align-items: center; text-align: center;
-  gap: 10px; text-decoration: none; color: var(--text); min-height: 100%;
-  box-shadow: 0 12px 30px rgba(26, 26, 26, 0.05);
-  transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease;
-}
-a.trust-card:hover, a.trust-card:focus-visible { border-color: var(--brand); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
-.trust-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
-.trust-card-mark { display: flex; align-items: center; justify-content: center; min-height: 128px; }
-.trust-card-mark svg { width: 34px; height: 34px; color: var(--brand); }
-.trust-card-mark img { display: block; height: 38px; width: auto; max-width: 150px; object-fit: contain; }
-.trust-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 0.96rem; margin: 0; color: var(--text); line-height: 1.25; }
-.trust-card .trust-card-meta { font-size: 0.78rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
 
-/* Evnex Certified Installer badge — white card mark, must sit on a dark
-   stage per the supplied badge guidelines (never on white/light directly).
-   Rendered no smaller than 60px high (target 72-80px; 76px used here). */
-.evnex-badge-stage {
-  display: flex; align-items: center; justify-content: center;
-  padding: 28px 36px; background: var(--charcoal); border-radius: 12px;
-  width: 100%;
+/* Transparent, evenly-aligned credential cells — deliberately not white
+   card tiles: no background, no border, no box shadow. A fixed-height
+   media row keeps every card's media area, heading baseline and
+   description spacing consistent regardless of each badge's own aspect
+   ratio. */
+.trust-card {
+  position: relative;
+  min-height: 230px;
+  padding: 18px 12px;
+  display: grid;
+  grid-template-rows: 116px minmax(2.5em, auto) minmax(2.9em, auto);
+  align-items: start;
+  justify-items: center;
+  row-gap: 10px;
+  text-align: center;
+  color: var(--text);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform .1s ease, color .15s ease;
 }
-.trust-card-mark--evnex img { display: block; width: auto; height: 76px; max-width: none; object-fit: contain; }
+a.trust-card:hover, a.trust-card:focus-visible { color: var(--brand); transform: translateY(-2px); }
+a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark { transform: translateY(-1px); }
+.trust-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; border-radius: 4px; }
+
+.trust-card-mark {
+  width: 100%;
+  height: 116px;
+  min-height: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: transform .1s ease;
+}
+.trust-card-mark img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.trust-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 0.96rem; margin: 0; color: var(--text); line-height: 1.25; align-self: start; }
+.trust-card .trust-card-meta { font-size: 0.78rem; color: var(--text-muted); margin: 0; line-height: 1.4; align-self: start; }
+
+.trust-card--nsw .trust-card-mark svg { width: 56px; height: 56px; color: var(--brand); }
+.trust-card--saa .trust-card-mark img { width: 220px; }
+.trust-card--sec .trust-card-mark img { height: 98px; }
+.trust-card--ohme .trust-card-mark img { height: 108px; border-radius: 10px; }
+.trust-card--evnex .trust-card-mark img { height: 104px; }
 
 /* Bespoke OHE workmanship-warranty mark — a technical crop-mark motif,
    deliberately not styled as a manufacturer seal or award medal. */
 .warranty-mark {
   position: relative; width: 58px; height: 58px; display: flex; flex-direction: column;
   align-items: center; justify-content: center; border: 1.5px solid var(--brand);
-  border-radius: 6px; background: var(--bg-accent);
+  border-radius: 6px; background: var(--bg-accent); flex-shrink: 0;
 }
 .warranty-mark::before, .warranty-mark::after {
   content: ""; position: absolute; width: 9px; height: 9px; border: 1.5px solid var(--brand);
@@ -461,6 +492,24 @@ a.trust-card:hover, a.trust-card:focus-visible { border-color: var(--brand); box
 .warranty-mark::after { bottom: -1.5px; right: -1.5px; border-left: none; border-top: none; }
 .warranty-mark .num { font-family: var(--font-heading); font-weight: 700; font-size: 1.35rem; color: var(--brand); line-height: 1; }
 .warranty-mark .yr { font-family: var(--font-heading); font-weight: 600; font-size: 0.56rem; letter-spacing: 0.09em; color: var(--text); text-transform: uppercase; margin-top: 2px; }
+
+/* Warranty strip — a restrained, full-width premium strip below the
+   credential grid, not a seventh credential card: transparent
+   background, thin divider lines, no box shadow. */
+.warranty-strip {
+  display: flex; align-items: center; gap: 20px;
+  max-width: 1080px; margin: 36px auto 0;
+  padding: 24px 4px;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: transparent;
+  text-decoration: none; color: var(--text);
+  transition: color .15s ease;
+}
+.warranty-strip:hover, .warranty-strip:focus-visible { color: var(--brand); }
+.warranty-strip:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; border-radius: 4px; }
+.warranty-strip-text { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+.warranty-strip-text strong { font-family: var(--font-heading); font-weight: 600; font-size: 1rem; color: var(--text); }
+.warranty-strip-text span { font-size: 0.86rem; color: var(--text-muted); line-height: 1.4; }
 
 #warranty { scroll-margin-top: calc(var(--header-h) + 16px); }
 
@@ -480,8 +529,16 @@ a.trust-card:hover, a.trust-card:focus-visible { border-color: var(--brand); box
   .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .trust-grid { grid-template-columns: 1fr; }
-  .trust-card-mark--evnex img { height: 68px; }
+  .trust-grid { grid-template-columns: 1fr; row-gap: 24px; }
+  .trust-card { grid-template-rows: 96px minmax(2.5em, auto) minmax(2.9em, auto); }
+  .trust-card-mark { height: 96px; min-height: 96px; }
+  .trust-card--nsw .trust-card-mark svg { width: 48px; height: 48px; }
+  .trust-card--saa .trust-card-mark img { width: 180px; }
+  .trust-card--sec .trust-card-mark img { height: 80px; }
+  .trust-card--ohme .trust-card-mark img { height: 88px; }
+  .trust-card--evnex .trust-card-mark img { height: 84px; }
+  .warranty-strip { flex-direction: column; text-align: center; gap: 12px; padding: 24px 12px; }
+  .warranty-strip-text { text-align: center; align-items: center; }
 }
 @media (max-width: 420px) {
   .trust-card { padding: 20px 14px; }

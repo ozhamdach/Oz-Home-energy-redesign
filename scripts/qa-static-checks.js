@@ -135,14 +135,40 @@ for (const file of files) {
     fail(`${rel}: generated output claims a "Greater Sydney" service area — not yet owner-confirmed, limit to Sydney`);
   }
 
-  // --- zero 15-year workmanship warranty claim in generated output ---
-  // The warranty duration hasn't cleared solicitor review, so no page may
-  // publish it — matches a plain hyphen, a non-breaking hyphen (U+2011) or
-  // a space between "15" and "year", case-insensitively. Comments are
-  // already stripped from generated output by the check above, so this
-  // only ever matches rendered content.
-  if (/15[\-‑\s]*year\s+workmanship\s+warranty/i.test(rawHtml)) {
-    fail(`${rel}: generated output contains a 15-year workmanship warranty claim — its terms haven't cleared solicitor review`);
+  // --- 15-Year Workmanship Warranty: owner-directed restoration, 24 Sep
+  // 2026 — this is an owner-supplied business claim, not independently
+  // verified or solicitor-reviewed (see docs/owner-inputs-required.md).
+  // Rather than banning the phrase, these checks confirm the claim only
+  // ever appears with its required context: the homepage and About page
+  // state it, and the About/FAQ explanations both distinguish workmanship
+  // coverage from manufacturer product warranties and preserve Australian
+  // Consumer Law rights.
+  const isHome = slug === '';
+  const isAbout = slug === 'about';
+  const isFaqs = slug === 'faqs';
+  if ((isHome || isAbout) && !/15-Year Workmanship Warranty/.test(rawHtml)) {
+    fail(`${rel}: expected the exact phrase "15-Year Workmanship Warranty"`);
+  }
+  if (isAbout || isFaqs) {
+    if (!/manufacturer/i.test(rawHtml) || !/separate/i.test(rawHtml)) {
+      fail(`${rel}: warranty explanation must distinguish Oz Home Energy's workmanship coverage from separate manufacturer product warranties`);
+    }
+    if (!/Australian Consumer Law/i.test(rawHtml)) {
+      fail(`${rel}: warranty explanation must preserve Australian Consumer Law rights`);
+    }
+  }
+
+  // --- Evnex Certified Installer badge: owner-directed publication, 24
+  // Sep 2026 — badge path + accessible alt text must appear on the
+  // homepage, and the badge file itself must exist in the generated
+  // deployment (checked once, after this loop).
+  if (isHome) {
+    if (!rawHtml.includes('/img/brand/evnex/evnex-certified-installer-white.png')) {
+      fail(`${rel}: expected the Evnex Certified Installer badge image path`);
+    }
+    if (!/alt="Evnex Certified Installer"/.test(rawHtml)) {
+      fail(`${rel}: Evnex Certified Installer badge is missing accessible alt text`);
+    }
   }
 
   // html === rawHtml now that comments are stripped at build time (kept as
@@ -358,6 +384,29 @@ if (IS_PRODUCTION_CHECK) {
   if (!/Allow: \//.test(robotsTxt)) fail('preview robots.txt does not Allow: / (crawlers must be able to reach the noindex meta tag)');
   if (/Disallow:/.test(robotsTxt)) fail('preview robots.txt still contains a Disallow directive — indexing control must be the page-level noindex meta tag only');
   if (/Sitemap:/.test(robotsTxt)) fail('preview robots.txt must not advertise a sitemap');
+}
+
+// --- Evnex badge file actually exists in the generated deployment ---
+if (!fs.existsSync(path.join(SITE_DIR, 'img', 'brand', 'evnex', 'evnex-certified-installer-white.png'))) {
+  fail('site/img/brand/evnex/evnex-certified-installer-white.png is missing from the generated deployment');
+}
+
+// --- zero Tesla asset files anywhere under the generated deployment ---
+// Complements the per-page text check above: no file whose name contains
+// "tesla" may exist under SITE_DIR, referenced or not.
+function findFiles(dir) {
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...findFiles(p));
+    else out.push(p);
+  }
+  return out;
+}
+for (const f of findFiles(SITE_DIR)) {
+  if (/tesla/i.test(path.basename(f))) {
+    fail(`${path.relative(SITE_DIR, f)}: Tesla-named asset file must not exist in the generated deployment`);
+  }
 }
 
 console.log(`Checked ${files.length} built HTML files under ${SITE_DIR} (${IS_PRODUCTION_CHECK ? 'production' : 'preview'} mode).`);

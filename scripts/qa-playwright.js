@@ -299,6 +299,20 @@ async function run(label, fn) {
     await page.close();
   });
 
+  await run('homepage Evnex Certified Installer badge renders at least 60px tall on desktop and mobile', async () => {
+    for (const width of [1440, 390]) {
+      const page = await context.newPage();
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
+      const height = await page.evaluate(() => {
+        const img = document.querySelector('.trust-card-mark--evnex img');
+        return img ? img.getBoundingClientRect().height : 0;
+      });
+      if (height < 60) errors.push(`/ @${width}: Evnex badge rendered height ${height}px is below the required 60px minimum`);
+      await page.close();
+    }
+  });
+
   await run('no lead form has action="#" or shows a fake success state', async () => {
     for (const p of ['/service-request/', '/commercial-project-enquiry/']) {
       const page = await context.newPage();

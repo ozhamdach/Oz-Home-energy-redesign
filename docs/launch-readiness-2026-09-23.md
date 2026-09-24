@@ -64,15 +64,31 @@ scratch, or from memory, when that day comes.
 
 ## Warranty
 
-- [ ] A solicitor has reviewed the "OHE 15-Year Workmanship Warranty —
-      Draft Terms" document (particularly its Section 10 ACL wording) and
-      the terms are reflected in the real Sales and Installation
-      Agreement / handover-pack templates used with actual customers.
-- [ ] Only once that's true: the warranty content commented out in
-      `src/pages/home/content.html` (two blocks — the hero-trust line
-      already edited, and the trust-card marked `WARRANTY CARD`) and
-      `src/pages/about/content.html` (marked `WARRANTY SECTION`) is
-      uncommented and rebuilt.
+- [x] **Superseded, 24 Sep 2026:** the 15-Year Workmanship Warranty claim
+      was restored to the public build (homepage hero-trust line,
+      homepage trust-card, About page `#warranty` section, FAQ answer) on
+      **direct owner instruction** — an owner-supplied business claim, not
+      independently verified, solicitor-reviewed, ACCC-approved or
+      government-endorsed. This does **not** close the item below.
+- [ ] **Still blocking, restoration notwithstanding:** a solicitor has
+      reviewed the "OHE 15-Year Workmanship Warranty — Draft Terms"
+      document (particularly its Section 10 ACL wording) and the terms
+      are reflected in the real Sales and Installation Agreement /
+      handover-pack templates used with actual customers. Until this is
+      true, the public claim rests on the owner's instruction alone, not
+      on legal review — see `docs/owner-inputs-required.md`.
+
+## Evnex Certified Installer badge
+
+- [x] **Superseded, 24 Sep 2026:** the official Evnex Certified Installer
+      badge was published (homepage trust grid, linked to
+      `/ev-charging/#evnex`; EV charging page Evnex section) on **direct
+      owner instruction** — an owner-supplied business claim, not
+      independently verified. No certification number, issue date or
+      expiry was supplied, and none is shown.
+- [ ] Independent confirmation of current Evnex Certified Installer status
+      (beyond the owner's instruction to publish) remains open — see
+      `docs/owner-inputs-required.md`.
 
 ## Owner claim confirmations
 

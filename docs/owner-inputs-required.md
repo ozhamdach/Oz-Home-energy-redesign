@@ -154,7 +154,23 @@ stripping for the deployed site, repository access control for the
 source — neither is a substitute for the other, and neither is a
 complete guarantee by itself.
 
-### 🟡 Evnex Certified Installer status — owner input required
+### ✅ Evnex Certified Installer status — published 24 Sep 2026 on direct owner instruction
+**Superseded, 24 Sep 2026:** the owner directly instructed publication of
+the Evnex Certified Installer badge and status, supplying a fresh pack
+("OHE_Evnex_Claude_Pack_Under_3MB.zip") containing the official badge PNG
+(`evnex-certified-installer-white.png`) and its own usage guidelines
+(60px minimum height, dark background required, no redraw/recolour, no
+invented certification number/expiry/milestone). This is an **owner-
+supplied business claim, not independently verified** — no separate
+certification number, issue date or expiry was supplied, and none is
+shown. The badge is now live: on the homepage trust grid (linking to
+`/ev-charging/#evnex`) and on the EV charging page's Evnex section. See
+`src/pages/home/content.html` and `src/pages/ev-charging/content.html`
+for the exact source comments recording this instruction.
+
+The rest of this section is retained below for history — it recorded why
+the badge was withheld before 24 Sep 2026.
+
 23 Sep 2026: owner supplied "OHE_Evnex_Web_Pack_Under_30MB.zip" — Evnex
 company/product factsheets (Company, E2 Core AU Trade, E2 Plus AU Trade,
 E2 Flex, X22), the Australian residential brochure, the Certified
@@ -184,8 +200,12 @@ caveats: current model stock/availability, current pricing (the E2 Flex
 factsheet's $349 solar-upgrade fee, in particular, is not repeated
 anywhere public), and vehicle compatibility.
 
-**To activate the badge, once real Evnex Certified Installer status is
-confirmed:** copy the appropriate badge variant (Pine/Lichen/Dark/White —
+**Done, 24 Sep 2026** — the steps below (written before activation) are
+kept for reference; the white badge variant is what was actually supplied
+and used.
+
+To activate the badge, once real Evnex Certified Installer status is
+confirmed: copy the appropriate badge variant (Pine/Lichen/Dark/White —
 picked for contrast against its background, per the guidelines PDF) into
 `site/img/brand/evnex/`, unaltered; display it at a minimum 60px screen
 height with the specified clear space (2× the Evnex wordmark height
@@ -249,37 +269,43 @@ explicit "yes, that's accurate" before launch, not just consistent phrasing:
   **Still blocked from publishing, for a different and more specific reason**: the executed agreement's Exhibit 3 §10(b) requires Tesla's **prior written consent** before either party "advertise[s] or publicize[s] that the Parties have entered into this Agreement, or use[s] the other Party's name, mark or logo in any document or communication published." A badge — even text-only, no logo — publicizes the relationship and would breach this clause without that separate consent. **This is not my caution, it's the contract terms Oz Home Energy signed.**
   Real, official Tesla marketing assets have since been supplied (22 Sep 2026) — a "Powerwall / Certified Installer" logo lockup and a Powerwall + Wall Connector lifestyle photo, both sourced from Tesla's own "Marketing Links" resource document. That same document states, in Tesla's own words, directly above the asset links: **"Please ensure you email energyproductsmarketing@tesla.com for marketing approval"** — no exception for pre-built vs. custom marketing. The logo has replaced the placeholder asset at `assets/original-photography/trust-badges/tesla-powerwall-certified-installer.png` (confirmed byte-identical to what was already in the repo — the original asset was correct all along); the lifestyle photo is processed and ready at `assets/original-photography/tesla-marketing/`. A fully built trust-section card is commented out at the end of the homepage grid (`src/pages/home/content.html`), ready to uncomment with no further work. Owner has sent a request for that consent to Morris Fuller; his reply pointed to the same Marketing Guidelines/approval-email process rather than granting consent directly. The moment written consent exists, enable immediately as **"Tesla Certified Installer — Powerwall & Wall Connector"** — nothing else needs building.
 - [x] **Smart Energy Council — Small Business Member** — ✅ resolved: confirmed via real, ongoing correspondence, not just the supplied badge PDF. `accounts@smartenergy.org.au` "Welcome to Smart Energy Council" and `marcela@smartenergy.org.au` "Welcome Electrical hub! Let's get started with your Small Business Member benefits" (both 1–4 Aug 2026), a paid Stripe receipt ($990, 1 Aug 2026), and active membership correspondence through 20 Sep 2026 (AGM proxy form with member number 2026CS3965610, September member eMagazine). This is Electrical Hub Pty Ltd's real, current, paid membership at the "Small Business Member" tier specifically — not a higher tier. Badge artwork extracted unaltered from the owner-supplied PDF and enabled on the homepage trust section and the About page.
-- [ ] **15-Year Workmanship Warranty** — duration and workmanship-only scope
-      are owner-confirmed, and all 17 owner decisions in the "OHE 15-Year
-      Workmanship Warranty — Draft Terms" doc are resolved, with **the
-      draft approved as-is by the owner** (including the correspondence
-      address 69 Esme Ave, Chester Hill NSW 2162, and the three-tier
-      delivery structure: website summary / full contract terms / handover
-      pack document). **23 Sep 2026 (launch-readiness repair pass): the
-      public claim has been temporarily removed anyway** — the homepage
-      hero-trust line, the homepage trust-card, and the About page's
-      `#warranty` section are all commented out of the built site (not
-      deleted; the exact approved draft wording is preserved unchanged in
-      the HTML comments, ready to re-enable with no rewriting). This is
-      because owner sign-off on the wording is not the same as it being
-      safe to publish: no solicitor review has happened yet, and nothing
-      currently obligates Oz Home Energy to honour this warranty in a real
-      customer contract until that review is done and the terms are in the
-      actual Sales and Installation Agreement. **To re-enable**: get the
-      solicitor review below completed and the terms into a real contract
-      template, then uncomment the three blocks (search `WARRANTY CARD` /
-      `WARRANTY SECTION` in `src/pages/home/content.html` and
-      `src/pages/about/content.html`) and rebuild. **Still blocking**: a
-      solicitor still needs to review the draft (particularly Section 10's
-      mandatory ACL wording, drafted from training knowledge and
-      cross-checked against search results, not verified character-for-
-      character against the primary ACCC source) before Sections 1–10
-      become the actual contract/warranty document, and before Section
-      12's draft contract clause and handover-pack list are applied to the
-      real Sales and Installation Agreement and handover templates
-      (outside this repo). This is a drafting exercise against current
-      ACL/ACCC guidance, not an ACCC-reviewed or ACCC-approved document —
-      no such status exists, and nothing on the site should claim one.
+- [x] **15-Year Workmanship Warranty** — **Superseded, 24 Sep 2026: restored
+      to the public build on direct owner instruction.** The homepage
+      hero-trust line, the homepage trust-card, the About page's
+      `#warranty` section and the FAQ answer all state the claim again —
+      see `src/pages/home/content.html`, `src/pages/about/content.html`
+      and `src/pages/faqs/content.html`. This is an **owner-supplied
+      business claim, not independently verified, solicitor-reviewed,
+      ACCC-approved or government-endorsed.** Duration and workmanship-only
+      scope were already owner-confirmed, and all 17 owner decisions in the
+      "OHE 15-Year Workmanship Warranty — Draft Terms" doc were resolved
+      with the draft approved as-is by the owner (including the
+      correspondence address 69 Esme Ave, Chester Hill NSW 2162, and the
+      three-tier delivery structure: website summary / full contract terms
+      / handover pack document) — but owner sign-off on the wording is
+      **still not the same as solicitor review having happened**, and
+      nothing currently obligates Oz Home Energy to honour this warranty in
+      a real customer contract until that review is done and the terms are
+      in the actual Sales and Installation Agreement.
+      **Remains blocking as a production-launch item, restoration
+      notwithstanding**: a solicitor still needs to review the draft
+      (particularly Section 10's mandatory ACL wording, drafted from
+      training knowledge and cross-checked against search results, not
+      verified character-for-character against the primary ACCC source)
+      before Sections 1–10 become the actual contract/warranty document,
+      and before Section 12's draft contract clause and handover-pack list
+      are applied to the real Sales and Installation Agreement and handover
+      templates (outside this repo). This is a drafting exercise against
+      current ACL/ACCC guidance, not an ACCC-reviewed or ACCC-approved
+      document — no such status exists, and nothing on the site claims one.
+      The public copy on every page carrying this claim states only that
+      it covers Oz Home Energy's own installation workmanship, that
+      manufacturer product warranties are separate, and that nothing in it
+      limits Australian Consumer Law rights — it does not describe the
+      warranty as verified, reviewed or endorsed by anyone. **The site must
+      not be described as launch-ready on the strength of this visual work
+      alone** — the solicitor review and real-contract alignment above are
+      still open.
 - [ ] Any further accreditation, certification, award, installation count, savings figure — aside from the electrical contractor licence, the owner-confirmed SAA accreditation S5265652, and the three items above, **none are currently published**; this stays true only as long as nothing else is added without going through this checklist first
 
 Where confirmation is absent for any of the above, the current wording
@@ -438,10 +464,17 @@ confirmed" framing for these specific items.
   site's own NAP (name/address/phone) is now internally consistent, but
   hasn't been checked against GBP, HighLevel, or any live ad campaign.
 - **Tesla marketing approval** — see the Tesla section above.
-- **Evnex Certified Installer status** — see the Evnex section above.
-- **15-year workmanship warranty terms and solicitor review** — the
-  claim remains unpublished (commented out / FAQ neutralised) pending
-  review; see the warranty entry above.
+- **Evnex Certified Installer status — independent confirmation** — the
+  badge and status are now published (24 Sep 2026, direct owner
+  instruction) but this is an owner-supplied claim, not independently
+  verified; no certification number, issue date or expiry exists in this
+  repo. See the Evnex section above.
+- **15-year workmanship warranty — solicitor review and real-contract
+  alignment** — the claim is now published (24 Sep 2026, direct owner
+  instruction) but solicitor review has not happened and the terms are
+  not yet in the actual Sales and Installation Agreement; see the
+  warranty entry above. Restoring the public claim does not resolve this
+  item — it remains a production-launch blocker.
 - **Privacy Policy / Terms / Complaints legal review** — all three remain
   structured drafts, not reviewed legal documents. **All must be reviewed
   by an Australian solicitor before launch.**

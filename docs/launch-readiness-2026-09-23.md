@@ -131,12 +131,14 @@ scratch, or from memory, when that day comes.
       output** pending that confirmation (see
       `docs/owner-inputs-required.md`). Do not re-add either address, or
       invent a replacement, without explicit owner confirmation.
-- [ ] **Blocking:** the NSW electrical contractor licence number (382607C)
-      and SAA number (S5265652) remain deliberately absent from rendered
-      content on the owner's explicit instruction — this is a known,
-      accepted compliance risk (the NSW Home Building Act 1989 generally
-      requires a licence number in advertising), not an oversight. Stays
-      open until NSW Fair Trading or a solicitor gives a final answer.
+- [x] **Superseded, 24 Sep 2026:** the NSW electrical contractor licence
+      number (382607C) and SAA number (S5265652) are restored to rendered
+      content sitewide (footer, schema, homepage trust cards) on direct
+      owner confirmation given during the site-loop scorecard run, which
+      flags their absence as an automatic hard-gate fail. No solicitor
+      sign-off is recorded in this repo — the owner made the call
+      directly when asked. This closes the compliance-risk item noted
+      below as accepted rather than resolved by legal review.
 - [ ] `/privacy-policy/`, `/terms/` and `/complaints/` have all been
       reviewed by an Australian solicitor — they are currently structured
       drafts, not reviewed legal documents (see

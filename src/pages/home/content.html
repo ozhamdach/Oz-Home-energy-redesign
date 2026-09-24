@@ -15,7 +15,7 @@
   <div class="hero-overlay"></div>
   <div class="container hero-inner">
     <p class="eyebrow">Invest in your independence.</p>
-    <h1>Lower Energy Bills Start Here.</h1>
+    <h1>Sydney Solar, Battery Storage &amp; EV Charging, Done Right.</h1>
     <p class="lede">Future-proof your Sydney home with solar, battery storage and EV charging tailored to the way you use energy.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
@@ -96,14 +96,14 @@
       <div class="trust-card trust-card--nsw">
         <span class="trust-card-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.42 13.89 L7.27 12.33 L5.0 11.5 L7.27 10.67 L5.42 9.11 L7.84 9.1 L6.64 7.0 L8.91 7.82 L8.5 5.44 L10.36 6.99 L10.78 4.61 L12.0 6.7 L13.22 4.61 L13.64 6.99 L15.5 5.44 L15.09 7.82 L17.36 7.0 L16.16 9.1 L18.58 9.11 L16.73 10.67 L19.0 11.5 L16.73 12.33 L18.58 13.89 Q12 15.9 5.42 13.89 Z" fill="currentColor"/><rect x="11.35" y="14.1" width="1.3" height="7.1" rx="0.5" fill="currentColor"/></svg></span>
         <h3>NSW Electrical Contractor</h3>
-        <p class="trust-card-meta">Fully licensed electrical contractor</p>
+        <p class="trust-card-meta">Licence 382607C</p>
       </div>
       <div class="trust-card trust-card--saa">
         <span class="trust-card-mark">
           <img src="/img/brand/trust/solar-accreditation-australia.png" width="864" height="235" loading="lazy" decoding="async" alt="Solar Accreditation Australia">
         </span>
         <h3>Solar Accreditation Australia</h3>
-        <p class="trust-card-meta">Accredited installer</p>
+        <p class="trust-card-meta">Accreditation S5265652</p>
       </div>
       <div class="trust-card trust-card--sec">
         <span class="trust-card-mark">
@@ -166,8 +166,11 @@
   </div>
 </section>
 
-
-<!-- REVIEWS (genuine HighLevel widget only — see site/js/reviews.js) -->
+<!-- REVIEWS (genuine HighLevel widget only — see site/js/reviews.js).
+     Moved directly under the hero/proof-strip 24 Sep 2026 (site-loop,
+     Home round 1) so real trust signal is visible in the first few
+     seconds, per this page's job in the scorecard, rather than requiring
+     a scroll past several sections first. -->
 <section class="section" id="reviewsSection">
   <div class="container">
     <div class="section-head center">
@@ -283,16 +286,51 @@
   </div>
 </section>
 
-<!--
-  FEATURED PROJECT & REVIEWS — intentionally omitted from this build.
-  Per working rule 5 ("if information or media has not been confirmed,
-  hide the section and place the requirement in the owner-confirmation
-  document"): no real project write-up or genuine review has been supplied
-  yet, so nothing renders here rather than showing empty/placeholder
-  content. See docs/07-owner-confirmations.md for what's needed to add
-  this section back (a real project write-up and/or genuine Google
-  reviews).
--->
+<!-- RECENT INSTALLS — added 24 Sep 2026 (site-loop, Home round 1).
+     Genuine installation photography already verified elsewhere on this
+     site (see docs/asset-manifest.md) — no invented suburb, customer name,
+     system size or savings figure, same restrained factual-caption
+     convention already used on /projects/. A full case-study write-up
+     with real customer/system detail is still not supplied — that stays
+     a separate, future item, not blocking this photo-only section. -->
+<section class="section">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Recent work</p>
+      <h2>Recent installs</h2>
+    </div>
+    <div class="photo-gallery">
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/residential-solar-rooftop-1-480.avif 480w, /img/photos/residential-solar-rooftop-1-800.avif 800w, /img/photos/residential-solar-rooftop-1-1536.avif 1536w" sizes="(max-width: 900px) 100vw, 33vw">
+            <source type="image/webp" srcset="/img/photos/residential-solar-rooftop-1-480.webp 480w, /img/photos/residential-solar-rooftop-1-800.webp 800w, /img/photos/residential-solar-rooftop-1-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 33vw">
+            <img src="/img/photos/residential-solar-rooftop-1-1536.jpg" width="1536" height="1152" loading="lazy" decoding="async" alt="Solar panels installed on a residential rooftop">
+          </picture>
+        </div>
+        <figcaption>Residential solar installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="(max-width: 900px) 100vw, 33vw">
+            <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="(max-width: 900px) 100vw, 33vw">
+            <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" loading="lazy" decoding="async" alt="A FoxESS battery unit installed on an exterior wall">
+          </picture>
+        </div>
+        <figcaption>Battery storage installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/ev-charging/goodwe-home-ev-charger.webp" width="1320" height="1760" loading="lazy" decoding="async" alt="A GoodWe home EV charger installed on a garage wall">
+        </div>
+        <figcaption>Home EV charger installation</figcaption>
+      </figure>
+    </div>
+    <p class="text-center" style="margin-top:24px;"><a class="btn btn-ghost" href="/projects/">See more recent work →</a></p>
+    <p class="text-center hint" style="margin-top:16px;">Brands we install: FoxESS, Sungrow, Sigenergy, GoodWe, Ohme and Evnex, matched to your property rather than a single default.</p>
+  </div>
+</section>
 
 <!-- PROCESS -->
 <section class="section section-accent">

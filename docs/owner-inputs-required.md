@@ -71,6 +71,18 @@ in advertising, it needs to go back — the licence number itself
 (382607C) and SAA number (S5265652) are recorded above in this doc so
 nothing is lost.
 
+**Superseded, 24 Sep 2026 (site-loop skorecard run):** the site-loop skill's
+Top 1% Solar Website Scorecard lists a missing footer licence number as
+an automatic hard-gate fail. Since this directly conflicted with the
+23 Sep removal above, the owner was asked directly rather than either
+side being assumed — **owner confirmed: publish it now.** Both numbers
+are restored sitewide: `src/partials/footer.html` (footer-brand line and
+footer-bottom line), `src/layout.html`'s `hasCredential` schema entries
+(now carry an `identifier` field), and the homepage trust-grid cards'
+meta lines. The credential claims were never in question — only the
+number display changed. This is a current, active owner decision;
+nothing further is open on this specific item.
+
 ### 🟡 Tesla Powerwall 3 page + battery-storage feature block — built, held back
 **24 Sep 2026 (homepage premium badge-grid request):** a task requested
 adding a sixth "Tesla Certified Installer" credential card to the

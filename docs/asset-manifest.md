@@ -74,17 +74,33 @@ also displays a "Smart Energy Council" membership badge as part of its
 design — this is still not asserted anywhere in this site's own copy or
 schema, and should not be treated as a confirmed claim.
 
-## ⚠️ Ohme / Tesla approved-installer badges — hidden pending written approval
+## Installer badges — current status (updated 24 Sep 2026)
 
-The homepage's trust strip (Ohme approved installer + Tesla Powerwall
-Certified Installer badges) is **currently hidden** from the public site —
-final written approval for these two specific certification claims is
-unverified. Nothing was deleted: the markup, the `.trust-strip` CSS, and
-both badge image derivatives are all still in place in
-`src/pages/home/content.html` (wrapped in an HTML comment explaining
-exactly what's needed) and `site/img/photos/`. Once the owner supplies
-current, documented written approval for each claim, uncomment the section
-to re-enable it verbatim — no image reprocessing or markup rewrite needed.
+- **Ohme Approved Installer** — ✅ live. Confirmed via the 11 Sep 2026 Ohme
+  onboarding call and the owner-supplied badge asset. Shown on the
+  homepage trust grid, About page and EV charging page.
+- **Evnex Certified Installer** — ✅ live, published 24 Sep 2026 on
+  **direct owner instruction**. This is an owner-supplied business claim,
+  not independently verified — no certification number, issue date or
+  expiry was supplied. Badge file:
+  `site/img/brand/evnex/evnex-certified-installer-white.png` (the exact
+  official badge PNG supplied in "OHE_Evnex_Claude_Pack_Under_3MB.zip",
+  unaltered — do not redraw, recolour, crop or stretch it). Per the
+  pack's own badge guidelines: this is the white/reversed variant and
+  must only be shown on a dark background or photographic area, never
+  below 60px rendered height (72–80px target), with generous clear space
+  and never visually combined with the Oz Home Energy logo. Shown on the
+  homepage trust grid (linking to `/ev-charging/#evnex`) and on the EV
+  charging page's Evnex section. See `docs/owner-inputs-required.md` for
+  the full history.
+- **Tesla Powerwall Certified Installer** — still **hidden** from the
+  public site. Final written marketing/publication approval from Tesla
+  (`energyproductsmarketing@tesla.com`) has not been received — see the
+  Tesla section of `docs/owner-inputs-required.md`. Nothing was deleted:
+  the markup and badge image derivatives are still in place in
+  `src/pages/home/content.html` (wrapped in an HTML comment explaining
+  exactly what's needed) and `assets/original-photography/`. This task
+  explicitly does not touch Tesla content.
 
 ## Alt text policy applied
 

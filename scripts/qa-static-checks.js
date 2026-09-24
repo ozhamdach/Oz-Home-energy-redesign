@@ -128,12 +128,13 @@ for (const file of files) {
     fail(`${rel}: generated output contains the superseded phone number 0420 113 216`);
   }
 
-  // --- zero "Greater Sydney" service-area claim in generated output ---
-  // Owner has confirmed Sydney, NSW only — no approved Greater Sydney
-  // boundary or suburb list exists yet.
-  if (/greater sydney/i.test(rawHtml)) {
-    fail(`${rel}: generated output claims a "Greater Sydney" service area — not yet owner-confirmed, limit to Sydney`);
-  }
+  // --- "Greater Sydney" service-area claim ---
+  // Superseded 24 Sep 2026 (site-loop, Home round 5): owner explicitly
+  // confirmed the Greater Sydney boundary (previously this gate blocked
+  // the phrase pending that confirmation — see docs/owner-inputs-required.md).
+  // No specific suburb list has been supplied though, so a suburb grid or
+  // individual suburb pages are still out of scope; that's a separate,
+  // still-open item.
 
   // --- 15-Year Workmanship Warranty: owner-directed restoration, 24 Sep
   // 2026 — this is an owner-supplied business claim, not independently

@@ -3,27 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The dataLayer array is always declared, preview or production, so the
-     phone-click/email-click/form-start/form-step events this build already
-     pushes (see site/js/main.js and site/js/commercial-battery-assessment.js)
-     never throw even when nothing is listening. The actual GTM/Meta Pixel
-     loader scripts are injected here ONLY in a BUILD_TARGET=production
-     build — see scripts/build.js and src/partials/analytics-head.html —
-     so the staging preview never contacts Google or Meta at all. -->
+
 <script>window.dataLayer = window.dataLayer || [];</script>
 
 <title>Commercial Solar & Battery Quote | Oz Home Energy</title>
 <meta name="description" content="A few questions about your business and electricity use, then a real commercial solar and battery quote from the installer.">
-<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
-     production site's www subdomain redirects to this apex domain, so every
-     canonical/OG/schema URL below uses it consistently — pointing them at
-     www would canonicalise against a redirecting hostname. See
-     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+
 <link rel="canonical" href="https://ozhomeenergy.com.au/commercial-solar-battery-quote/">
-<!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
-     only becomes "index, follow" when scripts/build.js is run with
-     BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
-     a preview build; keep this in sync with site/robots.txt. -->
+
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Oz Home Energy">
@@ -50,13 +37,10 @@
   "taxID": "72 665 477 556",
   "url": "https://ozhomeenergy.com.au",
   "logo": "https://ozhomeenergy.com.au/img/brand/oz-home-energy-logo.png",
-  "telephone": ["+61435336336", "+61420113216"],
-  "email": "admin@ozhomeenergy.com.au",
+  "telephone": "+61435336336",
   "description": "Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.",
   "areaServed": [
-    { "@type": "City", "name": "Sydney" },
-    { "@type": "AdministrativeArea", "name": "Greater Sydney" },
-    { "@type": "State", "name": "New South Wales" }
+    { "@type": "City", "name": "Sydney" }
   ],
   "hasCredential": [
     {
@@ -191,7 +175,7 @@
     <div id="csbqFormAnnounce" class="visually-hidden" aria-live="polite"></div>
 
     <form id="csbqForm" method="post" novalidate>
-      <!-- Q1: property/facility type -->
+
       <fieldset class="csbq-question" id="csbqQ1" data-revealed="true">
         <legend>What type of property or facility is this for?</legend>
         <div class="radio-cards">
@@ -223,7 +207,7 @@
         <p class="error-msg" id="csbqQ1Error">Select the option that best describes the site.</p>
       </fieldset>
 
-      <!-- Q2: quarterly electricity spend -->
+
       <fieldset class="csbq-question" id="csbqQ2" hidden>
         <legend>Roughly what's your quarterly electricity spend?</legend>
         <div class="radio-cards">
@@ -251,7 +235,7 @@
         <p class="error-msg" id="csbqQ2Error">Select an option.</p>
       </fieldset>
 
-      <!-- Q3: main goal -->
+
       <fieldset class="csbq-question" id="csbqQ3" hidden>
         <legend>What's the main thing you're trying to fix?</legend>
         <div class="radio-cards">
@@ -275,7 +259,7 @@
         <p class="error-msg" id="csbqQ3Error">Select an option.</p>
       </fieldset>
 
-      <!-- Contact details, bundled together -->
+
       <fieldset class="csbq-question" id="csbqContact" hidden>
         <legend>Your details</legend>
         <div class="csbq-row2">
@@ -320,8 +304,7 @@
         <p class="hint">See our <a href="/privacy-policy/">privacy policy</a> for how your information is handled.</p>
         <p class="error-msg" id="csbqContactError">Please fill in your details and consent to being contacted.</p>
 
-        <!-- Attribution: first-touch (ft_) and latest-touch (lt_) hidden
-             fields — see site/js/commercial-solar-battery-quote.js. -->
+
         <input type="hidden" name="ft_utm_source" id="ft_utm_source">
         <input type="hidden" name="ft_utm_medium" id="ft_utm_medium">
         <input type="hidden" name="ft_utm_campaign" id="ft_utm_campaign">
@@ -355,10 +338,7 @@
       <p class="lede" style="margin-inline:auto;">We'll review what you've told us and be in touch to talk through a quote for your site.</p>
     </div>
 
-    <!-- Shown instead of csbqConfirm whenever no secure lead endpoint is
-         configured (currently always) — see LEAD_ENDPOINT in
-         site/js/commercial-solar-battery-quote.js. Never a fake success
-         state: honest, with a real phone number. -->
+
     <div class="csbq-confirm" id="csbqNotConnected" hidden tabindex="-1">
       <h2>This form isn't connected yet</h2>
       <p class="lede" style="margin-inline:auto;">Your answers haven't been sent anywhere — we're not able to submit this form automatically right now. Please call us directly on <a href="tel:+61435336336">0435 336 336</a> and we'll take your details over the phone.</p>
@@ -403,7 +383,7 @@
       <div>
         <div>Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556</div>
         <div>NSW Electrical Contractor Licence · Sydney, NSW</div>
-        <div>Phone <a href="tel:+61435336336">0435 336 336</a> · Email <a href="mailto:admin@ozhomeenergy.com.au">admin@ozhomeenergy.com.au</a></div>
+        <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
       </div>
       <ul class="legal-links">
         <li>&copy; <span id="footerYear">2026</span> Electrical Hub Pty Ltd trading as Oz Home Energy</li>

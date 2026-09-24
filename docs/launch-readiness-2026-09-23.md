@@ -91,14 +91,34 @@ scratch, or from memory, when that day comes.
 
 ## Legal
 
+- [x] **Resolved, 23 Sep 2026 (corrective pass):** the registered legal
+      entity name ("Electrical Hub Pty Ltd trading as Oz Home Energy") and
+      **ABN 72 665 477 556** are now owner-confirmed — the ABN has been
+      independently verified against the Australian Business Register.
+      Website phone (0435 336 336) and the Sydney, NSW geographic wording
+      are also owner-confirmed. See `docs/owner-inputs-required.md`,
+      "Legal & business detail" for the full confirmed list.
+- [ ] **Blocking:** neither `admin@ozhomeenergy.com.au` nor
+      `support@ozhomeenergy.com.au` has been owner-confirmed as a real,
+      monitored inbox — both have been **removed from all rendered
+      output** pending that confirmation (see
+      `docs/owner-inputs-required.md`). Do not re-add either address, or
+      invent a replacement, without explicit owner confirmation.
+- [ ] **Blocking:** the NSW electrical contractor licence number (382607C)
+      and SAA number (S5265652) remain deliberately absent from rendered
+      content on the owner's explicit instruction — this is a known,
+      accepted compliance risk (the NSW Home Building Act 1989 generally
+      requires a licence number in advertising), not an oversight. Stays
+      open until NSW Fair Trading or a solicitor gives a final answer.
 - [ ] `/privacy-policy/`, `/terms/` and `/complaints/` have all been
       reviewed by an Australian solicitor — they are currently structured
       drafts, not reviewed legal documents (see
       `docs/owner-inputs-required.md`, "Legal & business detail").
-- [ ] Every open item in that same "Legal & business detail" section
-      (registered entity name, ABN, official email, postal address if
-      public, privacy contact, file-retention policy, marketing-consent
-      wording, complaints SLA) is supplied.
+- [ ] Every other open item in that same "Legal & business detail" section
+      (exact service boundary beyond Sydney, suburb list, Google Business
+      Profile URL and NAP alignment, postal address if ever wanted,
+      privacy contact, file-retention policy, marketing-consent wording,
+      complaints SLA) is supplied.
 
 ## Lead capture
 
@@ -127,6 +147,17 @@ scratch, or from memory, when that day comes.
       hardcoded in this repo's source until 23 Sep 2026 has been rotated
       on the HighLevel side (see `docs/owner-inputs-required.md`,
       "Webhook rotation").
+
+## Analytics
+
+- [ ] **Blocking:** GTM and the Meta Pixel require both
+      `BUILD_TARGET=production` and `ENABLE_ANALYTICS=true` to load (see
+      `docs/owner-inputs-required.md`, "Analytics — staging vs.
+      production"). Do not set `ENABLE_ANALYTICS=true` on the real
+      production deploy until the privacy disclosure covering GTM/Meta
+      Pixel data collection has been reviewed and approved — no such
+      review has happened yet, and no privacy-policy wording for it has
+      been drafted in this repo.
 
 ## QA
 

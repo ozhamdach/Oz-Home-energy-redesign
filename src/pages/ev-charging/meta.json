@@ -6,5 +6,8 @@
     { "name": "Home", "url": "/" },
     { "name": "EV Charging", "url": "/ev-charging/" }
   ],
-  "extraSchemaFile": "schema-service.html"
+  "extraSchemaFile": "schema-service.html",
+  "extraScripts": [
+    "https://link.ozhomeenergy.com.au/js/form_embed.js"
+  ]
 }

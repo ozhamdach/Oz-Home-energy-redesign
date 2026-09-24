@@ -214,6 +214,19 @@ for (const dir of pageDirs) {
   else if (explicitNoindex) robotsMeta = 'noindex, follow';
   else robotsMeta = gateUnpublished ? 'noindex, follow' : 'index, follow';
 
+  // header-landing.html's own CTA target/label are per-page (each
+  // landingChrome page's form lives at a different anchor) — filled here
+  // rather than hardcoded in the shared partial. Defaults to a safe,
+  // always-valid target/label so a page that forgets to set these still
+  // gets a working (if generic) button rather than a dead #bessForm link
+  // left over from the first page that used this partial.
+  const landingHeaderFilled = meta.landingChrome
+    ? fill(landingHeader, {
+        LANDING_CTA_HREF: meta.landingCtaHref || '#main',
+        LANDING_CTA_TEXT: meta.landingCtaText || 'Get Started',
+      })
+    : landingHeader;
+
   const html = stripHtmlComments(fill(layout, {
     TITLE: meta.title,
     DESCRIPTION: meta.description,
@@ -223,7 +236,7 @@ for (const dir of pageDirs) {
     EXTRA_HEAD: meta.extraHead || '',
     ANALYTICS_HEAD: ANALYTICS_ENABLED ? analyticsHead : '',
     ANALYTICS_BODY: ANALYTICS_ENABLED ? analyticsBody : '',
-    HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeader : header,
+    HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeaderFilled : header,
     BODY: body,
     FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
     EXTRA_SCRIPT: extraScript,

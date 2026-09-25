@@ -2,6 +2,9 @@
   "title": "Start Your Free Energy Assessment | Oz Home Energy",
   "description": "A short assessment of your property and electricity use — the first step toward a tailored solar, battery, EV or electrical proposal.",
   "canonical": "/assessment/",
+  "landingChrome": true,
+  "landingCtaHref": "#quoteForm",
+  "landingCtaText": "Start Assessment",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Energy Assessment", "url": "/assessment/" }

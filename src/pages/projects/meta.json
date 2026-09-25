@@ -6,5 +6,6 @@
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Projects", "url": "/projects/" }
-  ]
+  ],
+  "extraScripts": ["/js/reviews.js"]
 }

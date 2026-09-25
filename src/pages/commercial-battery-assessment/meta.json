@@ -4,6 +4,8 @@
   "canonical": "/commercial-battery-assessment/",
   "publishGate": "commercialBatteryAssessment",
   "landingChrome": true,
+  "landingCtaHref": "#bessForm",
+  "landingCtaText": "Check Site Eligibility",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Commercial Battery Assessment", "url": "/commercial-battery-assessment/" }

@@ -2,7 +2,7 @@
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Residential Solar</p>
     <p class="eyebrow">Residential Solar</p>
-    <h1>Solar sized to your roof, not a standard package</h1>
+    <h1>Sydney Solar Panel Installation — Sized to Your Roof</h1>
     <p class="lede">A solar system is only as good as the design behind it. We size panels and inverter capacity around your roof's orientation and shading, your household's electricity use, and your DNSP-approved export limit.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/assessment/?goal=new-solar">Start Your Free Energy Assessment</a>
@@ -56,6 +56,63 @@
   </div>
 </section>
 
+<!-- SYSTEM SIZES — added site-loop, Solar panels round 1. No $ price
+     ranges included: the scorecard's own content pack explicitly notes
+     "none on site" for indicative pricing, and this business hasn't
+     supplied any. Rather than invent a number, this section describes
+     what each size typically suits and states the STC rebate component
+     (a real, sourced, computable figure) without claiming a full
+     installed price or payback estimate — both flagged as needs-Oz in
+     the round audit. -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">System sizes</p>
+      <h2>Common system sizes</h2>
+      <p class="lede">Your actual size comes from your roof, usage and goals — these are common starting points.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card"><h3>6.6 kW</h3><p>A common size for smaller households or roofs with limited north-facing space.</p></div>
+      <div class="card"><h3>10 kW</h3><p>Suits a typical family home with daytime usage or plans to add a battery.</p></div>
+      <div class="card"><h3>13 kW</h3><p>For larger roofs, higher usage, or households planning an EV or battery alongside solar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STC REBATE NOTE — figures match src/data/rebates.json's stcZone entry
+     (the shared source-of-truth file). Could not fetch Solar Choice's STC
+     page directly (network egress blocked), so this cites the same page
+     via its search-indexed content, dated and caveated. -->
+<section class="section">
+  <div class="container container-narrow">
+    <div class="section-head">
+      <p class="eyebrow">STC rebate</p>
+      <h2>The upfront solar rebate (STCs)</h2>
+    </div>
+    <div class="card">
+      <p>New solar systems earn Small-scale Technology Certificates (STCs) — a federal rebate your installer applies as a discount on your upfront cost, not a separate claim. Sydney is rated Zone 3 (zone factor 1.382), one of the standard bands used to calculate how many STCs a system earns.</p>
+      <p class="hint">STC value depends on system size, zone and the current STC market price, and reduces slightly each year as the scheme phases down toward 2030. Indicative only, as of 24 Sep 2026 — your exact entitlement is confirmed as part of your quote. Source: <a href="https://www.solarchoice.net.au/learn/solar-rebates/stc-scheme/">Solar Choice — STC Rebate Scheme explained</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS — panels newly confirmed by owner (site-loop, Home round 2);
+     inverter brands are the same battery/inverter brands already
+     confirmed, since those manufacturers also sell solar-only inverters.
+     No unconfirmed brand added. -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Brands we install</p>
+      <h2>Panels and inverters</h2>
+    </div>
+    <div class="grid grid-2">
+      <div class="card"><h3>Panels</h3><p>Jinko Solar, JA Solar, Trina Solar.</p></div>
+      <div class="card"><h3>Inverters</h3><p>FoxESS, Sungrow, Sigenergy, GoodWe — matched to your system and any current or future battery plans.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="section section-alt">
   <div class="container">
     <div class="section-head">
@@ -74,6 +131,14 @@
       <details class="faq-item">
         <summary>Can I add a battery later instead of now?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
         <div class="answer"><p>Yes — many customers install solar first and add a battery once budget allows. We can design the initial system and switchboard with a future battery in mind, so the retrofit is simpler. See <a href="/solar-battery-upgrades/">solar &amp; battery upgrades</a>.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>How much does shading actually affect output?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="answer"><p>More than most people expect — shading even one panel in a string can drag down the output of the whole string, not just that panel. We map shading from trees and neighbouring buildings at the assessment stage and design the layout (or recommend optimisers) around it, rather than assuming a clear roof.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>Does my roof need to face north?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="answer"><p>North-facing gets the most output, but east and west-facing roofs still work well, especially if you use more electricity in the morning or evening. Splitting panels across multiple roof faces is common and can suit your usage pattern better than a single north-facing array.</p></div>
       </details>
     </div>
   </div>

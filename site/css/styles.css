@@ -477,6 +477,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .trust-card--sec .trust-card-mark img { height: 98px; }
 .trust-card--ohme .trust-card-mark img { height: 108px; border-radius: 10px; }
 .trust-card--evnex .trust-card-mark img { height: 104px; }
+.trust-card--tesla .trust-card-mark img { width: 220px; }
 
 /* Bespoke OHE workmanship-warranty mark — a technical crop-mark motif,
    deliberately not styled as a manufacturer seal or award medal. */
@@ -537,6 +538,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
   .trust-card--sec .trust-card-mark img { height: 80px; }
   .trust-card--ohme .trust-card-mark img { height: 88px; }
   .trust-card--evnex .trust-card-mark img { height: 84px; }
+  .trust-card--tesla .trust-card-mark img { width: 180px; }
   .warranty-strip { flex-direction: column; text-align: center; gap: 12px; padding: 24px 12px; }
   .warranty-strip-text { text-align: center; align-items: center; }
 }

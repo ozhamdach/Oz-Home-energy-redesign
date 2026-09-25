@@ -101,12 +101,24 @@ for (const file of files) {
     fail(`${rel}: generated output still contains an HTML comment — scripts/build.js must strip all comments before writing`);
   }
 
-  // --- zero Tesla references in generated output ---
-  // Tesla certification/marketing material may exist as planning material
-  // under docs/ or assets/ outside the deployed site, but must never reach
-  // anything this build actually writes to SITE_DIR, in any build mode.
+  // --- Tesla references gated to approved pages + approved titles only ---
+  // Tesla written marketing/publication approval was obtained 25 Sep 2026
+  // from energyproductsmarketing@tesla.com (see the Tesla section of
+  // docs/owner-inputs-required.md for the full evidence trail), covering
+  // exactly three placements: the homepage trust card, the battery-storage
+  // feature block, and the dedicated /tesla-powerwall-3/ page — on
+  // condition the official titles "Tesla Energy Certified Installer"
+  // and/or "Tesla Powerwall Certified Installer" are used consistently.
+  // This check enforces both halves of that: Tesla content may ONLY
+  // appear on the three approved pages, and wherever it does, at least
+  // one of the two approved titles must be present.
+  const teslaApprovedSlugs = new Set(['index.html', 'battery-storage/index.html', 'tesla-powerwall-3/index.html']);
   if (/tesla/i.test(rawHtml)) {
-    fail(`${rel}: generated output contains a Tesla reference — Tesla material must not appear in the deployed site`);
+    if (!teslaApprovedSlugs.has(rel)) {
+      fail(`${rel}: generated output contains a Tesla reference outside the three Tesla-approved pages (/, /battery-storage/, /tesla-powerwall-3/)`);
+    } else if (!/Tesla Energy Certified Installer|Tesla Powerwall Certified Installer/.test(rawHtml)) {
+      fail(`${rel}: Tesla reference present but missing the official title ("Tesla Energy Certified Installer" or "Tesla Powerwall Certified Installer") Tesla's approval requires`);
+    }
   }
 
   // --- zero unconfirmed contact-email addresses in generated output ---
@@ -394,9 +406,10 @@ if (!fs.existsSync(path.join(SITE_DIR, 'img', 'brand', 'evnex', 'evnex-certified
   fail('site/img/brand/evnex/evnex-certified-installer-dark.png is missing from the generated deployment');
 }
 
-// --- zero Tesla asset files anywhere under the generated deployment ---
-// Complements the per-page text check above: no file whose name contains
-// "tesla" may exist under SITE_DIR, referenced or not.
+// --- Tesla asset files gated to the approved brand-asset folder only ---
+// Complements the per-page text check above: a file whose name contains
+// "tesla" may only exist under img/brand/tesla/ (the two assets covered by
+// Tesla's 25 Sep 2026 written approval) — anywhere else, it must not exist.
 function findFiles(dir) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -406,9 +419,11 @@ function findFiles(dir) {
   }
   return out;
 }
+const teslaAssetDir = path.join('img', 'brand', 'tesla') + path.sep;
 for (const f of findFiles(SITE_DIR)) {
-  if (/tesla/i.test(path.basename(f))) {
-    fail(`${path.relative(SITE_DIR, f)}: Tesla-named asset file must not exist in the generated deployment`);
+  const rel = path.relative(SITE_DIR, f);
+  if (/tesla/i.test(path.basename(f)) && !rel.startsWith(teslaAssetDir)) {
+    fail(`${rel}: Tesla-named asset file must not exist outside img/brand/tesla/ in the generated deployment`);
   }
 }
 

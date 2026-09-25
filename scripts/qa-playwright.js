@@ -299,11 +299,22 @@ async function run(label, fn) {
     await page.close();
   });
 
-  await run('homepage trust grid: five transparent credential cells, correct badge sizes, no evnex stage, matching desktop heights', async () => {
+  await run('homepage trust grid: six transparent credential cells, correct badge sizes, no evnex stage, matching desktop heights', async () => {
     for (const width of [1440, 390]) {
       const page = await context.newPage();
       await page.setViewportSize({ width, height: 1100 });
       await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
+      // The trust grid's images use loading="lazy" by design (they're below
+      // the fold and shouldn't compete with LCP resources) — at narrow
+      // viewports the section can sit far enough down the page that the
+      // browser hasn't started fetching them right after the load event.
+      // Scroll the section into view and let the lazy-load fire, the same
+      // way a real visitor reaches it, before asserting on natural size.
+      await page.evaluate(() => document.querySelector('.trust-card--evnex .trust-card-mark img')?.scrollIntoView());
+      await page.waitForFunction(() => {
+        const img = document.querySelector('.trust-card--evnex .trust-card-mark img');
+        return !img || img.complete;
+      }, { timeout: 5000 }).catch(() => {});
       const data = await page.evaluate(() => {
         const cards = [...document.querySelectorAll('.trust-card')];
         const rect = (sel) => {
@@ -327,16 +338,18 @@ async function run(label, fn) {
           evnexNaturalH: evnexImg?.naturalHeight ?? 0,
           teslaNaturalW: teslaImg?.naturalWidth ?? 0,
           teslaNaturalH: teslaImg?.naturalHeight ?? 0,
+          teslaWidth: rect('.trust-card--tesla .trust-card-mark img')?.width ?? 0,
           evnexStageExists: !!document.querySelector('.evnex-badge-stage'),
           cardBgs: [...document.querySelectorAll('.trust-card')].map((c) => getComputedStyle(c).backgroundColor),
           cardShadows: [...document.querySelectorAll('.trust-card')].map((c) => getComputedStyle(c).boxShadow),
         };
       });
 
-      if (data.cardCount !== 5) errors.push(`/ @${width}: expected 5 .trust-card credential items, found ${data.cardCount}`);
+      if (data.cardCount !== 6) errors.push(`/ @${width}: expected 6 .trust-card credential items, found ${data.cardCount}`);
       if (data.evnexNaturalW === 0 || data.evnexNaturalH === 0) errors.push(`/ @${width}: Evnex badge image has zero natural dimensions (failed to load)`);
       if (data.evnexHeight < 60) errors.push(`/ @${width}: Evnex badge rendered height ${data.evnexHeight}px is below the required 60px minimum`);
       if (data.evnexStageExists) errors.push(`/ @${width}: .evnex-badge-stage still exists — should have been removed`);
+      if (data.teslaNaturalW === 0 || data.teslaNaturalH === 0) errors.push(`/ @${width}: Tesla badge image has zero natural dimensions (failed to load)`);
       data.cardBgs.forEach((bg, i) => {
         if (bg !== 'rgba(0, 0, 0, 0)') errors.push(`/ @${width}: trust-card #${i} has a non-transparent background (${bg})`);
       });
@@ -349,6 +362,7 @@ async function run(label, fn) {
         if (data.secHeight < 80) errors.push(`/ @${width}: SEC badge height ${data.secHeight}px is below the required 80px minimum`);
         if (data.ohmeHeight < 90) errors.push(`/ @${width}: Ohme badge height ${data.ohmeHeight}px is below the required 90px minimum`);
         if (data.evnexHeight < 88) errors.push(`/ @${width}: Evnex badge height ${data.evnexHeight}px is below the required 88px desktop minimum`);
+        if (data.teslaWidth < 200) errors.push(`/ @${width}: Tesla badge width ${data.teslaWidth}px is below the required 200px desktop minimum`);
         const maxH = Math.max(...data.cardHeights);
         const minH = Math.min(...data.cardHeights);
         if (maxH - minH > 2) errors.push(`/ @${width}: desktop credential cells do not have matching heights (max ${maxH}, min ${minH}, diff ${(maxH - minH).toFixed(2)}px)`);

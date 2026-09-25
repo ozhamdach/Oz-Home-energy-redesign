@@ -2,25 +2,36 @@
   "_comment": "Shared source-of-truth for rebate/STC/price facts that change over time, per the site-loop scorecard's Page 0 requirement. Every page that states one of these figures should match this file. Update the figure, asOf date and source together — never one without the others.",
   "federalBatteryRebate": {
     "programName": "Cheaper Home Batteries Program",
-    "asOf": "2026-09-24",
-    "summary": "A federal discount on the upfront cost of an eligible battery system (5-100 kWh usable capacity), applied by the installer at the time of purchase rather than claimed separately afterwards.",
-    "zone": "Zone 3 (Sydney)",
-    "ratePerKwh": 252,
-    "rateCurrency": "AUD",
-    "fullRateCapKwh": 14,
+    "asOf": "2026-09-25",
+    "summary": "Support for eligible solar battery systems delivered through small-scale technology certificates (STCs). The certificate entitlement depends on usable battery capacity, installation date and the applicable capacity taper.",
+    "eligibleNominalCapacityKwh": {
+      "min": 5,
+      "max": 100
+    },
+    "claimableUsableCapacityCapKwh": 50,
+    "stcFactor": 6.8,
+    "stcFactorPeriod": {
+      "from": "2026-05-01",
+      "to": "2026-12-31"
+    },
     "taper": [
-      { "rangeKwh": "0-14", "factorPercent": 100 },
-      { "rangeKwh": "14-28", "factorPercent": 60 },
-      { "rangeKwh": "28-50", "factorPercent": 15 }
+      { "rangeKwh": "0-14 inclusive", "factorPercent": 100 },
+      { "rangeKwh": "greater than 14 and up to 28 inclusive", "factorPercent": 60 },
+      { "rangeKwh": "greater than 28 and up to 50 inclusive", "factorPercent": 15 }
     ],
-    "approxDiscountPercent": 30,
-    "nextStepDown": "2027-01-01",
-    "stepDownFrequency": "every 6 months until the scheme ends in 2030",
+    "nextFactor": {
+      "from": "2027-01-01",
+      "stcFactor": 5.7
+    },
+    "workedExample": {
+      "usableCapacityKwh": 10,
+      "estimatedStcs": 68
+    },
     "sources": [
-      "https://www.solarchoice.net.au/learn/solar-rebates/government-battery-rebate/changes-1-may-2026/",
-      "https://www.dcceew.gov.au/energy/programs/cheaper-home-batteries"
+      "https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-technology-certificates/calculate-small-scale-technology-certificate-entitlements",
+      "https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-renewable-energy-systems/solar-batteries"
     ],
-    "caveat": "Indicative only. The exact current rate, eligible battery list and taper depend on installation date and are confirmed by DCCEEW/the Clean Energy Regulator, not by this business. Always confirmed as part of a real quote, never guaranteed upfront by this page."
+    "caveat": "The STC count is not a fixed dollar rebate. The dollar value depends on the STC price, assignment arrangement, fees, product eligibility and installation date. Confirm the final amount in the customer quotation."
   },
   "stcZone": {
     "location": "Sydney, NSW",

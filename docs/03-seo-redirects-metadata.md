@@ -64,11 +64,23 @@ by `node scripts/build-redirects.js` — don't hand-edit those two.
 
 Every service page cross-links to at least one related service (e.g. EV
 Charging ↔ Switchboard Upgrades ↔ Residential Electrical; Battery Storage ↔
-Solar & Battery Upgrades) and back to `/assessment/` with a goal-specific
-query parameter (`?goal=ev-charging`, etc.) so the assessment form can
-pre-select the relevant first answer — this both improves UX and distributes
-link equity across the service cluster rather than funnelling everything
-through the homepage alone.
+Solar & Battery Upgrades) and back to `/assessment/` — this distributes link
+equity across the service cluster rather than funnelling everything through
+the homepage alone.
+
+**Removed, 25 Sep 2026 audit pass:** these links to `/assessment/` and the
+homepage pathway cards previously appended a `?goal=...` query parameter and
+a `data-pathway` attribute, with client-side JS writing the value to
+`sessionStorage` as `ohe_pathway`. Nothing on the assessment page ever read
+either value — the cross-origin HighLevel form embedded there has no
+supported prefill hook for it — so this never actually pre-selected
+anything; it was link decoration with no effect. All of it has been removed
+so the code doesn't imply a prefill capability that doesn't exist. Every
+link above now points at a clean destination URL (e.g. `/assessment/`,
+`/residential-solar/`). If genuine prefill is wanted later, it needs to be
+built using a method HighLevel's own docs support (e.g. a hidden field the
+embed reads, or its official prefill query-param scheme), not a homegrown
+parameter the form was never wired to read.
 
 ## `api.growthlocal.com.au` link audit
 

@@ -645,7 +645,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .footer-grid { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 32px; }
 @media (max-width: 980px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } }
-.site-footer h4 { color: #fff; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+.site-footer h3 { color: #fff; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
 .site-footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .site-footer a { color: #c9cbe0; text-decoration: none; font-size: 0.92rem; }
 .site-footer a:hover { color: #fff; text-decoration: underline; }

@@ -71,6 +71,18 @@ in advertising, it needs to go back — the licence number itself
 (382607C) and SAA number (S5265652) are recorded above in this doc so
 nothing is lost.
 
+**Superseded, 24 Sep 2026 (site-loop skorecard run):** the site-loop skill's
+Top 1% Solar Website Scorecard lists a missing footer licence number as
+an automatic hard-gate fail. Since this directly conflicted with the
+23 Sep removal above, the owner was asked directly rather than either
+side being assumed — **owner confirmed: publish it now.** Both numbers
+are restored sitewide: `src/partials/footer.html` (footer-brand line and
+footer-bottom line), `src/layout.html`'s `hasCredential` schema entries
+(now carry an `identifier` field), and the homepage trust-grid cards'
+meta lines. The credential claims were never in question — only the
+number display changed. This is a current, active owner decision;
+nothing further is open on this specific item.
+
 ### 🟡 Tesla Powerwall 3 page + battery-storage feature block — built, held back
 **24 Sep 2026 (homepage premium badge-grid request):** a task requested
 adding a sixth "Tesla Certified Installer" credential card to the
@@ -330,10 +342,27 @@ explicit "yes, that's accurate" before launch, not just consistent phrasing:
       comment rather than deleted outright, so it's easy to restore once a
       real service-boundary policy is supplied — no such policy exists
       yet.
+      **Superseded again, 24 Sep 2026 (site-loop, Home round 5):** the
+      real service-boundary policy referenced above now exists — owner
+      explicitly confirmed Greater Sydney. See the "Service area —
+      Greater Sydney boundary" entry below for the full restoration
+      detail. "Sydney only" no longer reflects the current site.
 - [x] **Ohme approved installer** — ✅ resolved: confirmed via the 11 Sep 2026 Ohme onboarding call (Julian Coxon) and the owner-supplied badge asset (`assets/original-photography/trust-badges/ohme-approved-installer.jpg`). Enabled on the homepage trust section, the About page, and the EV charging page, scoped to Ohme EV charger installation only (not a general EV-brand claim).
 - [ ] **Tesla Certified Installer (Powerwall & Wall Connector)** — **certification itself is now confirmed** (22 Sep 2026): Tesla's own Contracts system (`CLM_PROD@tesla.com`, automated) sent "Fully Executed Document" for the Certified Installer Agreement (AU), Document ID 694645, covering both Powerwall and Home-Charging Equipment (Wall Connector), Services + Purchase & Resale, Territory: Australia. Corroborated by `mofuller@tesla.com`'s same-day "Tesla Certified Installer Final Step" email. This resolves the doubt from the 18 Sep "Onboarding Tasks have not been completed" email and the unsigned company signature block found in the contract PDF on 21 Sep — both are now superseded by actual execution.
   **Still blocked from publishing, for a different and more specific reason**: the executed agreement's Exhibit 3 §10(b) requires Tesla's **prior written consent** before either party "advertise[s] or publicize[s] that the Parties have entered into this Agreement, or use[s] the other Party's name, mark or logo in any document or communication published." A badge — even text-only, no logo — publicizes the relationship and would breach this clause without that separate consent. **This is not my caution, it's the contract terms Oz Home Energy signed.**
   Real, official Tesla marketing assets have since been supplied (22 Sep 2026) — a "Powerwall / Certified Installer" logo lockup and a Powerwall + Wall Connector lifestyle photo, both sourced from Tesla's own "Marketing Links" resource document. That same document states, in Tesla's own words, directly above the asset links: **"Please ensure you email energyproductsmarketing@tesla.com for marketing approval"** — no exception for pre-built vs. custom marketing. The logo has replaced the placeholder asset at `assets/original-photography/trust-badges/tesla-powerwall-certified-installer.png` (confirmed byte-identical to what was already in the repo — the original asset was correct all along); the lifestyle photo is processed and ready at `assets/original-photography/tesla-marketing/`. A fully built trust-section card is commented out at the end of the homepage grid (`src/pages/home/content.html`), ready to uncomment with no further work. Owner has sent a request for that consent to Morris Fuller; his reply pointed to the same Marketing Guidelines/approval-email process rather than granting consent directly. The moment written consent exists, enable immediately as **"Tesla Certified Installer — Powerwall & Wall Connector"** — nothing else needs building.
+  **24 Sep 2026 (site-loop, Home round 2):** owner supplied a list of
+  battery brands installed that included Tesla, for the homepage's
+  "brands we install" sentence — plain text, no badge or logo. Left out
+  for the same reason as the badge above: naming Tesla in that sentence is
+  still "publicizing" the relationship under Exhibit 3 §10(b), which needs
+  the same written consent this section already establishes doesn't exist
+  yet. The other four battery brands supplied (FoxESS, Sungrow, Sigenergy,
+  GoodWe) were added; nothing Tesla-specific changed.
+- [x] **Inverter brands** — **resolved, 24 Sep 2026 (site-loop, Home round 5):** owner confirmed these are the same brands already supplied for batteries — FoxESS, Sungrow, Sigenergy and GoodWe are genuine hybrid battery/inverter manufacturers, so the homepage's "brands we install" line now credits them as both. No separate, standalone inverter-only brand was supplied or added.
+- [x] **Service area — Greater Sydney boundary** — **resolved, 24 Sep 2026 (site-loop, Home round 5): owner explicitly confirmed Greater Sydney.** Supersedes the 23 Sep decision below (which limited claims to "Sydney" only because no Greater Sydney boundary had been confirmed yet — that specific gap is now closed). Restored sitewide: footer, About (lede + service-area section), Locations (H1, lede, meta description), FAQs, the two commercial pages whose descriptions named an area (`commercial-solar`, `commercial-batteries`), and `areaServed` schema everywhere it appears (`src/layout.html` plus all 13 `schema-service.html` files) — each now lists both `{"@type":"City","name":"Sydney"}` and `{"@type":"AdministrativeArea","name":"Greater Sydney"}`. The permanent QA gate in `scripts/qa-static-checks.js` that blocked the phrase "Greater Sydney" has been removed (its comment now explains why). **Still not supplied: a specific suburb list.** This closes the *boundary* question only — "which suburbs" remains open, and `src/pages/locations/content.html` still explicitly warns against adding a suburb grid or suburb pages until a real list exists.
+- [ ] **Founder photo + story** — **partially resolved, 24 Sep 2026 (site-loop, Home round 3):** owner supplied the founder's story directly in chat, verbatim, no rewriting beyond paragraph breaks. Added as a new `#founder` section on the About page (`src/pages/about/content.html`) and a short excerpt + link on the homepage (`src/pages/home/content.html`). **Still open: no photo has been supplied.** Both sections are text-only by design — no stock or placeholder photo was used — pending a real photo of Oz. Add it to `src/pages/about/content.html`'s `#founder` section (and optionally the homepage excerpt) once supplied.
+- [x] **Live Google rating + review count strip** — **resolved by owner decision, 24 Sep 2026 (site-loop, Home round 4):** owner supplied a Google Business Profile link and, once told this environment couldn't reach it, confirmed the actual count directly: **6 reviews**. Owner's call: a standalone "★ rating (6 reviews)" strip near the hero would read as thin next to competitors showing hundreds, so it's deliberately **not** being added right now. The existing genuine HighLevel review widget further down the homepage (`#reviewsSection`) already shows real review content and stays as the page's proof mechanism. This is a closed decision, not an open gap — revisit once the review count is one the owner wants to headline.
 - [x] **Smart Energy Council — Small Business Member** — ✅ resolved: confirmed via real, ongoing correspondence, not just the supplied badge PDF. `accounts@smartenergy.org.au` "Welcome to Smart Energy Council" and `marcela@smartenergy.org.au` "Welcome Electrical hub! Let's get started with your Small Business Member benefits" (both 1–4 Aug 2026), a paid Stripe receipt ($990, 1 Aug 2026), and active membership correspondence through 20 Sep 2026 (AGM proxy form with member number 2026CS3965610, September member eMagazine). This is Electrical Hub Pty Ltd's real, current, paid membership at the "Small Business Member" tier specifically — not a higher tier. Badge artwork extracted unaltered from the owner-supplied PDF and enabled on the homepage trust section and the About page.
 - [x] **15-Year Workmanship Warranty** — **Superseded, 24 Sep 2026: restored
       to the public build on direct owner instruction.** The homepage
@@ -521,9 +550,9 @@ confirmed" framing for these specific items.
   `admin@ozhomeenergy.com.au`, `support@ozhomeenergy.com.au`. Also
   affects the `mailto:` email-click analytics event, which currently has
   nothing to attach to (see `docs/analytics-integration.md`).
-- **Exact service boundary beyond Sydney** — no approved Greater Sydney
-  (or other) boundary exists; do not reintroduce one without owner
-  sign-off.
+- **Exact service boundary beyond Sydney** — **resolved, 24 Sep 2026:**
+  owner confirmed Greater Sydney. See the "Service area — Greater Sydney
+  boundary" entry above for the full restoration detail.
 - **Suburb list** — none supplied; do not create suburb pages or a
   suburb chip grid without one.
 - **Google Business Profile URL and NAP alignment** — not supplied; the

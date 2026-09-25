@@ -304,6 +304,17 @@ async function run(label, fn) {
       const page = await context.newPage();
       await page.setViewportSize({ width, height: 1100 });
       await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
+      // The trust grid's images use loading="lazy" by design (they're below
+      // the fold and shouldn't compete with LCP resources) — at narrow
+      // viewports the section can sit far enough down the page that the
+      // browser hasn't started fetching them right after the load event.
+      // Scroll the section into view and let the lazy-load fire, the same
+      // way a real visitor reaches it, before asserting on natural size.
+      await page.evaluate(() => document.querySelector('.trust-card--evnex .trust-card-mark img')?.scrollIntoView());
+      await page.waitForFunction(() => {
+        const img = document.querySelector('.trust-card--evnex .trust-card-mark img');
+        return !img || img.complete;
+      }, { timeout: 5000 }).catch(() => {});
       const data = await page.evaluate(() => {
         const cards = [...document.querySelectorAll('.trust-card')];
         const rect = (sel) => {

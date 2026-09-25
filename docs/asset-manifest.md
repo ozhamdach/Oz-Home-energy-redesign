@@ -140,6 +140,12 @@ of the credential grid into its own full-width strip below it.
   implementation, still ready to uncomment once genuine written approval
   exists. No Tesla asset, page, spec, pricing or lifestyle imagery was
   added anywhere in this pass.
+  **Update, 25 Sep 2026: resolved.** Tesla granted written marketing/
+  publication approval (`energyproductsmarketing@tesla.com`) — see the
+  Tesla section of `docs/owner-inputs-required.md` for the full evidence
+  trail. The trust card, the battery-storage feature block and the
+  dedicated `/tesla-powerwall-3/` page are now all live, using the
+  official titles Tesla's approval required.
 
 ## Alt text policy applied
 

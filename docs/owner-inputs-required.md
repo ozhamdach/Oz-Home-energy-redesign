@@ -38,6 +38,18 @@ Still outstanding: confirm the real HighLevel account, Google Business
 Profile, and any live ad campaigns show this same number — this repo only
 controls the website's own copy.
 
+### 🔴 Canonical public phone number — new launch blocker, 25 Sep 2026 audit pass
+Confirm canonical public phone number. Existing live site displays
+0420 113 216; redesign displays 0435 336 336. Do not deploy until the owner
+confirms which number must be used across the website, Google Business
+Profile, citations and CRM. This is raised as a fresh, separate blocker
+rather than folded into the "resolved" note above: that note only confirms
+the redesign's own internal consistency (every occurrence inside this
+build matches 0435 336 336) — it does not confirm that number is actually
+the business's real, current, canonical number against the live site or
+external citations. Not choosing or replacing the number as part of this
+audit pass; this is an owner decision.
+
 ### NSW Electrical Contractor Licence 382607C — ✅ resolved
 Owner-confirmed current and active. Published sitewide (footer, schema,
 hero trust strip, About, FAQs, Privacy Policy, Terms) as exactly

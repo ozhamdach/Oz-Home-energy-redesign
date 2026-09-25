@@ -478,7 +478,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .trust-card--sec .trust-card-mark img { height: 98px; }
 .trust-card--ohme .trust-card-mark img { height: 108px; border-radius: 10px; }
 .trust-card--evnex .trust-card-mark img { height: 104px; }
-.trust-card--tesla .trust-card-mark img { width: 220px; }
+.trust-card--tesla .trust-card-mark img { width: 280px; max-width: 100%; }
 
 /* Bespoke OHE workmanship-warranty mark — a technical crop-mark motif,
    deliberately not styled as a manufacturer seal or award medal. */
@@ -531,15 +531,15 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
   .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .trust-grid { grid-template-columns: 1fr; row-gap: 24px; }
+  .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 14px; row-gap: 20px; }
   .trust-card { grid-template-rows: 96px minmax(2.5em, auto) minmax(2.9em, auto); }
   .trust-card-mark { height: 96px; min-height: 96px; }
   .trust-card--nsw .trust-card-mark svg { width: 48px; height: 48px; }
-  .trust-card--saa .trust-card-mark img { width: 180px; }
+  .trust-card--saa .trust-card-mark img { width: 180px; max-width: 100%; }
   .trust-card--sec .trust-card-mark img { height: 80px; }
   .trust-card--ohme .trust-card-mark img { height: 88px; }
   .trust-card--evnex .trust-card-mark img { height: 84px; }
-  .trust-card--tesla .trust-card-mark img { width: 180px; }
+  .trust-card--tesla .trust-card-mark img { width: 150px; max-width: 100%; }
   .warranty-strip { flex-direction: column; text-align: center; gap: 12px; padding: 24px 12px; }
   .warranty-strip-text { text-align: center; align-items: center; }
 }

@@ -72,9 +72,11 @@ const ANALYTICS_ENABLED = IS_PRODUCTION && process.env.ENABLE_ANALYTICS === 'tru
 const siteStatus = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'site-status.json'), 'utf8'));
 
 // Strip <!--NAV:key--> ... <!--/NAV:key--> blocks from header/footer markup
-// for any key that isn't published, but only for the production build —
-// the preview build always shows every nav entry so it stays fully
-// reviewable and clickable during development.
+// (and, since the 25 Sep 2026 audit pass, page content.html too — e.g. the
+// homepage's "See more recent work" link to /projects/) for any key that
+// isn't published, but only for the production build — the preview build
+// always shows every marked block so it stays fully reviewable and
+// clickable during development.
 function applyNavGating(html) {
   if (!IS_PRODUCTION) return html.replace(/<!--\/?NAV:[\w-]+-->/g, '');
   return html.replace(/<!--NAV:([\w-]+)-->([\s\S]*?)<!--\/NAV:\1-->/g, (m, key, inner) =>
@@ -175,7 +177,7 @@ for (const dir of pageDirs) {
     continue;
   }
   const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-  const body = fs.readFileSync(contentPath, 'utf8');
+  const body = applyNavGating(fs.readFileSync(contentPath, 'utf8'));
 
   let schema = '';
   if (meta.breadcrumbs && meta.breadcrumbs.length) {

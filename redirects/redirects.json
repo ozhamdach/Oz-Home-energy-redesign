@@ -113,12 +113,12 @@
     },
     {
       "from": "/contact-us",
-      "to": "/assessment/",
+      "to": "/contact/",
       "status": 301
     },
     {
       "from": "/contact-us/",
-      "to": "/assessment/",
+      "to": "/contact/",
       "status": 301
     },
     {

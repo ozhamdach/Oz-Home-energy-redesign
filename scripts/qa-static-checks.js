@@ -388,6 +388,14 @@ if (IS_PRODUCTION_CHECK) {
       fail(`/${slug}/ is gated/noindex but was not built — it must still be directly accessible by URL, not removed`);
     }
   }
+
+  // --- homepage must not link to /projects/ while that gate is unpublished ---
+  if (!(siteStatus.projects && siteStatus.projects.published)) {
+    const homeHtml = fs.readFileSync(path.join(SITE_DIR, 'index.html'), 'utf8');
+    if (/href="\/projects\/"/.test(homeHtml)) {
+      fail('index.html (production): links to /projects/ while siteStatus.projects.published is false — a visitor would land on an unpublished, noindex page');
+    }
+  }
 } else {
   // Preview robots.txt must be crawlable (Allow: /), not a Disallow — see
   // the matching comment in scripts/build.js for why a Disallow can't
@@ -400,6 +408,26 @@ if (IS_PRODUCTION_CHECK) {
   if (!/Allow: \//.test(robotsTxt)) fail('preview robots.txt does not Allow: / (crawlers must be able to reach the noindex meta tag)');
   if (/Disallow:/.test(robotsTxt)) fail('preview robots.txt still contains a Disallow directive — indexing control must be the page-level noindex meta tag only');
   if (/Sitemap:/.test(robotsTxt)) fail('preview robots.txt must not advertise a sitemap');
+}
+
+// --- no ?goal= links, data-pathway attributes, or ohe_pathway code ---
+// Removed 25 Sep 2026 audit pass: the pathway-prefill mechanism never
+// actually prefilled the cross-origin HighLevel forms — nothing read
+// sessionStorage's ohe_pathway value — so it was link decoration with no
+// effect. This is a permanent gate against it (or something like it)
+// being reintroduced without first confirming a method HighLevel's own
+// docs actually support.
+for (const f of files) {
+  const html = fs.readFileSync(f, 'utf8');
+  const rel = path.relative(SITE_DIR, f);
+  if (/\?goal=/.test(html)) fail(`${rel}: contains a "?goal=" query parameter — the pathway-prefill mechanism was removed as non-functional; use a clean destination URL`);
+  if (/data-pathway=/.test(html)) fail(`${rel}: contains a "data-pathway" attribute — the pathway-prefill mechanism was removed as non-functional`);
+}
+const siteJsDir = path.join(ROOT, 'site', 'js');
+for (const f of findFiles(siteJsDir).filter((f) => f.endsWith('.js'))) {
+  const js = fs.readFileSync(f, 'utf8');
+  const rel = path.relative(ROOT, f);
+  if (/ohe_pathway/.test(js)) fail(`${rel}: contains "ohe_pathway" — this sessionStorage key was removed as dead code (nothing ever read it); do not reintroduce it without a real, HighLevel-supported prefill integration`);
 }
 
 // --- Evnex badge file actually exists in the generated deployment ---

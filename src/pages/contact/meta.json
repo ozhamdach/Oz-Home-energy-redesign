@@ -1,0 +1,12 @@
+{
+  "title": "Contact Oz Home Energy | Sydney Solar, Battery & Electrical",
+  "description": "Call, message or fill in a short form to reach Oz Home Energy — a licensed NSW electrical contractor serving Sydney and Greater Sydney. Phone 0435 336 336.",
+  "canonical": "/contact/",
+  "breadcrumbs": [
+    { "name": "Home", "url": "/" },
+    { "name": "Contact", "url": "/contact/" }
+  ],
+  "extraScripts": [
+    "https://link.ozhomeenergy.com.au/js/form_embed.js"
+  ]
+}

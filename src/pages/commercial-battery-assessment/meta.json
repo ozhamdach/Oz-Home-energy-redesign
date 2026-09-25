@@ -2,7 +2,10 @@
   "title": "NSW Commercial Battery Site Check — BESS3 & BESS4 | Oz Home Energy",
   "description": "Preliminary NSW commercial battery site check for strata buildings and businesses considering a battery greater than 20kWh and up to 200kWh under the Peak Demand Reduction Scheme.",
   "canonical": "/commercial-battery-assessment/",
+  "publishGate": "commercialBatteryAssessment",
   "landingChrome": true,
+  "landingCtaHref": "#bessForm",
+  "landingCtaText": "Check Site Eligibility",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Commercial Battery Assessment", "url": "/commercial-battery-assessment/" }

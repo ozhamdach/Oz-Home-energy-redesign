@@ -24,10 +24,44 @@ let footer = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer.html'), 
 // itself or genuinely necessary legal/contact links.
 let landingHeader = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header-landing.html'), 'utf8');
 let landingFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-landing.html'), 'utf8');
+// Stricter chrome for single-page paid-traffic conversion pages
+// (meta.landingChromeStrict = true): unlike landingChrome above, the logo
+// is not a link and the footer drops the terms/complaints links — no way
+// to leave the page at all except genuinely necessary contact/legal links.
+// A distinct flag/partial pair rather than changing header-landing.html
+// itself, so the existing BESS3/BESS4 funnel (which does link its logo
+// home) is unaffected.
+let conversionHeader = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header-conversion.html'), 'utf8');
+let conversionFooter = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'footer-conversion.html'), 'utf8');
+// GTM + Meta Pixel loaders — read unconditionally, but only actually
+// injected into a production build (see the IS_PRODUCTION check where
+// ANALYTICS_HEAD/ANALYTICS_BODY are filled below). A preview build must
+// never contact Google or Meta.
+const analyticsHead = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'analytics-head.html'), 'utf8');
+const analyticsBody = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'analytics-body.html'), 'utf8');
 
 // Defaults to PREVIEW (noindex/nofollow) — see the matching comment near
 // robots.txt generation below for when/how this flips to production.
+// BUILD_TARGET=production is NOT a signal that the site is ready to
+// actually go live — it's just the build mode a real deploy would use.
+// Do not run a production build against the real domain, and do not
+// point ozhomeenergy.com.au at anything, until every gate in
+// docs/launch-readiness-2026-09-23.md is checked off (owner claim
+// confirmations, Tesla approval or removal, warranty legal sign-off,
+// secure commercial lead endpoint, all HighLevel forms tested, etc).
 const IS_PRODUCTION = process.env.BUILD_TARGET === 'production';
+
+// Analytics (GTM + Meta Pixel) require BOTH a production build AND an
+// explicit, separate opt-in — BUILD_TARGET=production alone must never
+// inject them. This is deliberate: switching the build mode is a
+// deployment decision, but loading a third-party tracking script against
+// real visitors is a privacy decision, and the two must not be bundled
+// into a single flag a deploy script could flip without anyone reviewing
+// the privacy implications. Keep ENABLE_ANALYTICS=false (the default)
+// until the privacy disclosure covering GTM/Meta Pixel has actually been
+// reviewed and approved — see docs/owner-inputs-required.md, "Analytics —
+// staging vs. production".
+const ANALYTICS_ENABLED = IS_PRODUCTION && process.env.ENABLE_ANALYTICS === 'true';
 
 // Publication status for sections that are only real once genuine,
 // owner-approved content exists (see docs/owner-inputs-required.md).
@@ -54,6 +88,28 @@ landingFooter = applyNavGating(landingFooter);
 
 function fill(tpl, vars) {
   return tpl.replace(/{{(\w+)}}/g, (m, key) => (key in vars ? vars[key] : ''));
+}
+
+// Source files (content.html, partials, layout.html) are free to carry
+// internal notes, evidence trails and disabled draft blocks as HTML
+// comments — that's how this repo documents itself. None of that may
+// leak into what actually gets deployed: a public HTML source view is a
+// legitimate way for a competitor, journalist or curious visitor to read
+// internal reasoning, unpublished draft copy, or notes about pending
+// legal/compliance decisions. Every page this build writes — normal
+// pages, the homepage, the 404 page, legacy bridge pages, in both
+// preview and production — has every HTML comment stripped immediately
+// before it's written to SITE_DIR.
+function stripHtmlComments(html) {
+  // Removing a comment can leave its line's leading indentation behind as
+  // a now-pointless, whitespace-only line (e.g. a comment that sat alone
+  // on an indented line) — trim trailing whitespace from every line so
+  // that never survives into the committed output.
+  return html
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .split('\n')
+    .map((line) => line.replace(/[ \t]+$/, ''))
+    .join('\n');
 }
 
 // Production origin: https://ozhomeenergy.com.au (non-www) — the live
@@ -158,18 +214,33 @@ for (const dir of pageDirs) {
   else if (explicitNoindex) robotsMeta = 'noindex, follow';
   else robotsMeta = gateUnpublished ? 'noindex, follow' : 'index, follow';
 
-  const html = fill(layout, {
+  // header-landing.html's own CTA target/label are per-page (each
+  // landingChrome page's form lives at a different anchor) — filled here
+  // rather than hardcoded in the shared partial. Defaults to a safe,
+  // always-valid target/label so a page that forgets to set these still
+  // gets a working (if generic) button rather than a dead #bessForm link
+  // left over from the first page that used this partial.
+  const landingHeaderFilled = meta.landingChrome
+    ? fill(landingHeader, {
+        LANDING_CTA_HREF: meta.landingCtaHref || '#main',
+        LANDING_CTA_TEXT: meta.landingCtaText || 'Get Started',
+      })
+    : landingHeader;
+
+  const html = stripHtmlComments(fill(layout, {
     TITLE: meta.title,
     DESCRIPTION: meta.description,
     CANONICAL: meta.canonical,
     SCHEMA: schema,
     ROBOTS_META: robotsMeta,
     EXTRA_HEAD: meta.extraHead || '',
-    HEADER: meta.landingChrome ? landingHeader : header,
+    ANALYTICS_HEAD: ANALYTICS_ENABLED ? analyticsHead : '',
+    ANALYTICS_BODY: ANALYTICS_ENABLED ? analyticsBody : '',
+    HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeaderFilled : header,
     BODY: body,
-    FOOTER: meta.landingChrome ? landingFooter : footer,
+    FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
     EXTRA_SCRIPT: extraScript,
-  });
+  }));
 
   if (is404) {
     // Ships at the site root as a literal 404.html — the filename GitHub
@@ -202,24 +273,30 @@ for (const dir of pageDirs) {
 // is what stops the legacy route 404ing on the preview; build-redirects.js
 // is what makes it a real redirect once deployed for real. These bridge
 // pages are always noindex and are never added to the sitemap in any
-// build — they carry no content of their own worth ranking.
+// build — they carry no content of their own worth ranking. "follow" only
+// applies in a production build, so crawlers pass link equity through to
+// the real destination once this is actually live; a preview/staging build
+// is always noindex, nofollow like every other page, so nothing on the
+// unreviewed preview can be indexed or have its links crawled.
 const legacyRoutes = JSON.parse(fs.readFileSync(path.join(ROOT, 'redirects', 'legacy-routes.json'), 'utf8')).routes;
 for (const route of legacyRoutes) {
   const slug = route.from.replace(/^\/|\/$/g, '');
   const destLabel = route.to === '/' ? 'the homepage' : route.to;
   const body = `<section class="section-tight">\n  <div class="container container-narrow text-center">\n    <p class="eyebrow">Page moved</p>\n    <h1>This page has moved</h1>\n    <p class="lede" style="margin-inline:auto;">You should be redirected automatically. If not, continue to <a href="${route.to}">${destLabel}</a>.</p>\n  </div>\n</section>\n`;
-  const html = fill(layout, {
+  const html = stripHtmlComments(fill(layout, {
     TITLE: 'Page Moved | Oz Home Energy',
     DESCRIPTION: `This page has moved to ${route.to}.`,
     CANONICAL: route.to,
     SCHEMA: '',
-    ROBOTS_META: 'noindex, follow',
+    ROBOTS_META: IS_PRODUCTION ? 'noindex, follow' : 'noindex, nofollow',
     EXTRA_HEAD: `<meta http-equiv="refresh" content="0; url=${route.to}">`,
+    ANALYTICS_HEAD: ANALYTICS_ENABLED ? analyticsHead : '',
+    ANALYTICS_BODY: ANALYTICS_ENABLED ? analyticsBody : '',
     HEADER: header,
     BODY: body,
     FOOTER: footer,
     EXTRA_SCRIPT: '',
-  });
+  }));
   const outDir = path.join(SITE_DIR, slug);
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, 'index.html'), html, 'utf8');
@@ -237,14 +314,24 @@ fs.writeFileSync(
   'utf8'
 );
 
-// robots.txt mirrors the same IS_PRODUCTION flag used for ROBOTS_META above —
-// defaults to blocking crawling (preview), only opens up with
-// BUILD_TARGET=production for the real ozhomeenergy.com.au domain.
+// robots.txt: crawlable in BOTH preview and production — indexing control
+// lives entirely in the page-level <meta name="robots"> tag (see
+// ROBOTS_META above), never in a robots.txt Disallow. A Disallow: / is not
+// a reliable way to keep a page out of Google's index: a crawler that
+// respects it never fetches the page, so it never sees the noindex meta
+// tag either, and a URL with inbound links can still get indexed
+// (URL-only, no snippet) purely from being disallowed rather than
+// noindexed. Every preview page still renders "noindex, nofollow" in its
+// own <meta> tag — see ROBOTS_META above — which is what actually keeps it
+// out of search results, and that's real regardless of robots.txt.
+// No Sitemap line in preview: nothing about the preview build (its pages,
+// or the preview's own URL) is ever meant to be discovered or submitted to
+// Search Console — only a real production deploy advertises a sitemap.
 fs.writeFileSync(
   path.join(SITE_DIR, 'robots.txt'),
   IS_PRODUCTION
     ? `User-agent: *\nAllow: /\nSitemap: ${PRODUCTION_ORIGIN}/sitemap.xml\n`
-    : `User-agent: *\nDisallow: /\n`,
+    : `User-agent: *\nAllow: /\n`,
   'utf8'
 );
 

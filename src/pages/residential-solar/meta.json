@@ -1,9 +1,10 @@
 {
   "title": "Residential Solar Installation Sydney | Oz Home Energy",
-  "description": "Solar panel systems designed around your roof, your electricity use and your budget. Licensed NSW electrical contractor serving Greater Sydney.",
+  "description": "Solar panel systems designed around your roof, your electricity use and your budget. Licensed NSW electrical contractor serving Sydney.",
   "canonical": "/residential-solar/",
   "breadcrumbs": [
     { "name": "Home", "url": "/" },
     { "name": "Residential Solar", "url": "/residential-solar/" }
-  ]
+  ],
+  "extraSchemaFile": "schema-service.html"
 }

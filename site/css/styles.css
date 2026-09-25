@@ -7,7 +7,7 @@
 :root {
   /* Brand colour */
   --blue-900: #032a8f;
-  --blue-800: #0540c1; /* primary brand blue */
+  --blue-800: #0560c1; /* primary brand blue */
   --blue-700: #164ad1;
   --blue-100: #eaf0fd; /* pale supporting surface */
   --blue-50:  #f4f7fe;
@@ -191,23 +191,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    targets, so the logo is the only thing that can give up space — without
    this, at a 320px viewport the hamburger is pushed ~23px past the right
    edge of the screen, off-screen and untappable on real narrow phones. */
-.brand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); min-width: 0; }
-/* The real Oz Home Energy mark (house outline + bolt) already carries its
-   own brand colours, unlike the old placeholder icon this replaced — no
-   background box needed, just size and align it against the wordmark. */
-.brand-logo .mark {
-  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.brand-logo .mark img { width: 100%; height: 100%; }
-/* min-width: 0 + overflow/ellipsis is what actually lets this flex item's
-   text shrink (a nowrap text node has no intrinsic minimum otherwise) —
-   truncates to "Oz Home Ene…" rather than pushing the hamburger off-screen. */
-.brand-logo .wordmark { font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; display: block; }
-.brand-logo .wordmark span { display: none; font-family: var(--font-body); font-weight: 500; font-size: 0.6rem; letter-spacing: 0.16em; color: var(--text-muted); text-transform: uppercase; white-space: nowrap; }
-/* The supporting tagline under the wordmark is decorative — only show it
-   once there's comfortable room either side of the header actions, so it
-   can never be what pushes the header into horizontal overflow. */
-@media (min-width: 480px) { .brand-logo .wordmark { font-size: 1.3rem; } .brand-logo .wordmark span { display: block; } }
+.brand-logo { display: flex; align-items: center; text-decoration: none; color: var(--text); min-width: 0; flex-shrink: 0; }
+/* The exact supplied logo PNG, used unmodified — sized by height only so
+   width follows its real aspect ratio (object-fit: contain covers the
+   rare case a future replacement asset isn't pre-cropped to its content). */
+.brand-logo-img { height: 44px; width: auto; max-width: 100%; object-fit: contain; display: block; }
+@media (min-width: 480px) { .brand-logo-img { height: 52px; } }
 .header-inner { min-width: 0; }
 
 .primary-nav { display: none; }
@@ -324,6 +313,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Page (non-home) header banner */
 .page-banner { background: var(--bg-inverse); color: #fff; padding-block: 56px 44px; }
+.page-banner .eyebrow { color: #9db4ff; }
 .page-banner h1 { color: #fff; margin-bottom: 12px; }
 .page-banner .lede { color: #d8ddf5; }
 .breadcrumbs { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; }
@@ -422,15 +412,140 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   font-size: 0.8rem; color: var(--text-muted); padding: 8px 2px 0; background: transparent;
 }
 
-/* ---------- Trust / approved-installer strip ---------- */
-.trust-strip { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.trust-strip-inner { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; padding-block: 28px; }
-.trust-badge-card {
-  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
-  padding: 14px 20px; display: flex; align-items: center; min-height: 64px;
+/* ---------- Trust section: "Qualified. Approved. Accountable." ---------- */
+.trust-section { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.trust-section-head { text-align: center; max-width: 620px; margin: 0 auto 32px; }
+.trust-section-head p.eyebrow { justify-content: center; }
+.trust-section-head h2 { margin-bottom: 8px; }
+.trust-section-head .lede { margin-inline: auto; }
+
+.trust-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 32px; row-gap: 28px;
+  max-width: 1080px; margin-inline: auto;
 }
-.trust-badge-card img { display: block; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
-.trust-strip-label { font-family: var(--font-heading); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-right: 6px; }
+
+/* Transparent, evenly-aligned credential cells — deliberately not white
+   card tiles: no background, no border, no box shadow. A fixed-height
+   media row keeps every card's media area, heading baseline and
+   description spacing consistent regardless of each badge's own aspect
+   ratio. */
+.trust-card {
+  position: relative;
+  min-height: 230px;
+  padding: 18px 12px;
+  display: grid;
+  grid-template-rows: 116px minmax(2.5em, auto) minmax(2.9em, auto);
+  align-items: start;
+  justify-items: center;
+  row-gap: 10px;
+  text-align: center;
+  color: var(--text);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform .1s ease, color .15s ease;
+}
+a.trust-card:hover, a.trust-card:focus-visible { color: var(--brand); transform: translateY(-2px); }
+a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark { transform: translateY(-1px); }
+.trust-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; border-radius: 4px; }
+
+.trust-card-mark {
+  width: 100%;
+  height: 116px;
+  min-height: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: transform .1s ease;
+}
+.trust-card-mark img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.trust-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 0.96rem; margin: 0; color: var(--text); line-height: 1.25; align-self: start; }
+.trust-card .trust-card-meta { font-size: 0.78rem; color: var(--text-muted); margin: 0; line-height: 1.4; align-self: start; }
+
+.trust-card--nsw .trust-card-mark svg { width: 56px; height: 56px; color: var(--brand); }
+.trust-card--saa .trust-card-mark img { width: 220px; }
+.trust-card--sec .trust-card-mark img { height: 98px; }
+.trust-card--ohme .trust-card-mark img { height: 108px; border-radius: 10px; }
+.trust-card--evnex .trust-card-mark img { height: 104px; }
+.trust-card--tesla .trust-card-mark img { width: 220px; }
+
+/* Bespoke OHE workmanship-warranty mark — a technical crop-mark motif,
+   deliberately not styled as a manufacturer seal or award medal. */
+.warranty-mark {
+  position: relative; width: 58px; height: 58px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; border: 1.5px solid var(--brand);
+  border-radius: 6px; background: var(--bg-accent); flex-shrink: 0;
+}
+.warranty-mark::before, .warranty-mark::after {
+  content: ""; position: absolute; width: 9px; height: 9px; border: 1.5px solid var(--brand);
+}
+.warranty-mark::before { top: -1.5px; left: -1.5px; border-right: none; border-bottom: none; }
+.warranty-mark::after { bottom: -1.5px; right: -1.5px; border-left: none; border-top: none; }
+.warranty-mark .num { font-family: var(--font-heading); font-weight: 700; font-size: 1.35rem; color: var(--brand); line-height: 1; }
+.warranty-mark .yr { font-family: var(--font-heading); font-weight: 600; font-size: 0.56rem; letter-spacing: 0.09em; color: var(--text); text-transform: uppercase; margin-top: 2px; }
+
+/* Warranty strip — a restrained, full-width premium strip below the
+   credential grid, not a seventh credential card: transparent
+   background, thin divider lines, no box shadow. */
+.warranty-strip {
+  display: flex; align-items: center; gap: 20px;
+  max-width: 1080px; margin: 36px auto 0;
+  padding: 24px 4px;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: transparent;
+  text-decoration: none; color: var(--text);
+  transition: color .15s ease;
+}
+.warranty-strip:hover, .warranty-strip:focus-visible { color: var(--brand); }
+.warranty-strip:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; border-radius: 4px; }
+.warranty-strip-text { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+.warranty-strip-text strong { font-family: var(--font-heading); font-weight: 600; font-size: 1rem; color: var(--text); }
+.warranty-strip-text span { font-size: 0.86rem; color: var(--text-muted); line-height: 1.4; }
+
+#warranty { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+/* Warranty feature (About page) — restrained, not styled as an award or
+   manufacturer certification: a fine top border and soft shadow only. */
+.warranty-feature {
+  border-top: 3px solid var(--brand);
+  padding: 32px 28px;
+  box-shadow: 0 12px 30px rgba(26, 26, 26, 0.05);
+}
+.warranty-feature .eyebrow { margin-bottom: 4px; }
+.warranty-feature h2 { margin-top: 0; }
+.warranty-feature p:not(:last-of-type) { margin-bottom: 12px; }
+.warranty-feature .btn { margin-top: 8px; }
+
+@media (max-width: 900px) {
+  .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .trust-grid { grid-template-columns: 1fr; row-gap: 24px; }
+  .trust-card { grid-template-rows: 96px minmax(2.5em, auto) minmax(2.9em, auto); }
+  .trust-card-mark { height: 96px; min-height: 96px; }
+  .trust-card--nsw .trust-card-mark svg { width: 48px; height: 48px; }
+  .trust-card--saa .trust-card-mark img { width: 180px; }
+  .trust-card--sec .trust-card-mark img { height: 80px; }
+  .trust-card--ohme .trust-card-mark img { height: 88px; }
+  .trust-card--evnex .trust-card-mark img { height: 84px; }
+  .trust-card--tesla .trust-card-mark img { width: 180px; }
+  .warranty-strip { flex-direction: column; text-align: center; gap: 12px; padding: 24px 12px; }
+  .warranty-strip-text { text-align: center; align-items: center; }
+}
+@media (max-width: 420px) {
+  .trust-card { padding: 20px 14px; }
+}
 
 /* ---------- Photo gallery (Projects: recent/in-progress work) ---------- */
 .photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -534,8 +649,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .site-footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .site-footer a { color: #c9cbe0; text-decoration: none; font-size: 0.92rem; }
 .site-footer a:hover { color: #fff; text-decoration: underline; }
-.footer-brand .wordmark { color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 1.3rem; }
-.footer-brand p { color: #9fa2c0; font-size: 0.88rem; max-width: 32ch; }
+/* The logo PNG has an opaque white background baked in (no alpha channel),
+   so on this dark footer it needs a matching white card behind it rather
+   than sitting directly on --bg-inverse — the padding/radius are ours,
+   the artwork inside is untouched. */
+.footer-logo-chip { display: inline-block; background: #fff; padding: 10px 14px; border-radius: 8px; line-height: 0; }
+.footer-logo-chip img { display: block; height: 34px; width: auto; object-fit: contain; }
+.footer-brand p { color: #9fa2c0; font-size: 0.88rem; max-width: 32ch; margin-top: 14px; }
 .footer-licence { font-size: 0.82rem; color: #9fa2c0; margin-top: 14px; }
 .footer-social { display: flex; gap: 10px; margin-top: 16px; }
 .footer-social a { width: 36px; height: 36px; border: 1px solid #3a3c56; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
@@ -587,8 +707,6 @@ fieldset.assess-fieldset.is-invalid .radio-cards { outline: 2px solid #c0322b; o
 }
 .radio-card input:checked + label { border-color: var(--brand); background: var(--bg-accent); box-shadow: inset 0 0 0 1px var(--brand); }
 .radio-card input:focus-visible + label { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
-.file-drop { border: 1.5px dashed var(--border); border-radius: var(--radius-md); padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
-.file-drop input { display: block; margin: 10px auto 0; }
 
 /* ---------- Assessment flow ---------- */
 .assess-wrap { max-width: 720px; margin: 0 auto; }
@@ -665,3 +783,33 @@ table.data-table tr:last-child td { border-bottom: none; }
   font-size: 0.86rem; color: var(--text-muted); margin-top: 16px;
 }
 .preview-note svg { width: 18px; height: 18px; color: var(--brand); flex-shrink: 0; margin-top: 1px; }
+
+/* ---------- Sticky mobile call/quote bar ---------- */
+/* Fixed to the viewport bottom on small screens only — a persistent,
+   low-friction path to call or start a quote without scrolling back up.
+   Desktop already has the header's own call/quote buttons, so this stays
+   hidden there to avoid a redundant, decorative bar. */
+.mobile-cta-bar { display: none; }
+@media (max-width: 760px) {
+  .mobile-cta-bar {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+    background: #fff; border-top: 1px solid var(--border);
+    box-shadow: 0 -6px 20px rgba(26,26,26,0.08);
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    gap: 10px;
+  }
+  .mobile-cta-bar-call, .mobile-cta-bar-quote {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px; border-radius: var(--radius-md);
+    font-family: var(--font-heading); font-weight: 600; font-size: 0.92rem;
+    text-decoration: none; text-align: center;
+  }
+  .mobile-cta-bar-call { background: var(--bg-alt); color: var(--text); border: 1px solid var(--border); }
+  .mobile-cta-bar-call svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .mobile-cta-bar-quote { background: var(--brand); color: #fff; }
+  .mobile-cta-bar-call:focus-visible, .mobile-cta-bar-quote:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  /* Keep the bar from covering the last section's content, and the footer
+     itself, on pages short enough for the footer to reach the bottom. */
+  #main { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  .site-footer { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+}

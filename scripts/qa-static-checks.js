@@ -25,18 +25,24 @@ const siteStatus = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'si
 
 // Slugs whose own src/pages/<dir>/meta.json sets `"noindex": true` (see
 // scripts/build.js) — a real, working page with no standalone search
-// value (currently just the lead-form thank-you page), as opposed to
-// isGated()'s "not published yet" pages below. Read directly from meta.json
-// rather than hardcoding page names here, so this stays correct as more
-// pages opt in.
+// value (currently just the lead-form thank-you page and the two paid
+// commercial landing pages), as opposed to isGated()'s "not published
+// yet" pages below. Read directly from meta.json rather than hardcoding
+// page names here, so this stays correct as more pages opt in.
 const explicitNoindexSlugs = new Set();
+// Slugs whose meta.json sets `"publishGate": "<siteStatus key>"` — read
+// dynamically for the same reason, so a new gate (e.g. the commercial
+// battery assessment funnel) never has to be hand-added here too.
+const gatedSlugs = new Map(); // slug -> siteStatus key
 const SRC_PAGES = path.join(ROOT, 'src', 'pages');
 for (const dir of fs.readdirSync(SRC_PAGES, { withFileTypes: true })) {
   if (!dir.isDirectory()) continue;
   const metaPath = path.join(SRC_PAGES, dir.name, 'meta.json');
   if (!fs.existsSync(metaPath)) continue;
   const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-  if (meta.noindex === true) explicitNoindexSlugs.add(meta.canonical.replace(/^\/|\/$/g, ''));
+  const slug = meta.canonical.replace(/^\/|\/$/g, '');
+  if (meta.noindex === true) explicitNoindexSlugs.add(slug);
+  if (meta.publishGate) gatedSlugs.set(slug, meta.publishGate);
 }
 
 const failures = [];
@@ -57,8 +63,8 @@ function isLegacyBridge(relSlug) {
 }
 
 function isGated(relSlug) {
-  const meta = { projects: 'projects', products: 'products' }[relSlug];
-  return meta ? siteStatus[meta] && !siteStatus[meta].published : false;
+  const key = gatedSlugs.get(relSlug);
+  return key ? siteStatus[key] && !siteStatus[key].published : false;
 }
 
 const files = walkHtml(SITE_DIR);
@@ -80,18 +86,111 @@ const FORBIDDEN_PHRASES = [
 
 for (const file of files) {
   const rawHtml = fs.readFileSync(file, 'utf8');
-  // Strip HTML comments before any text/content check below — an internal
-  // dev comment (e.g. header.html's disabled announcement bar) is invisible
-  // to users and to search engines, and this project's convention is
-  // explicitly that only comments may reference draft/internal markers like
-  // "OWNER CONFIRMATION REQUIRED". Structural checks (canonical, robots,
-  // h1 count, links) all read from the same stripped string too, since none
-  // of those should ever legitimately live inside a comment either.
-  const html = rawHtml.replace(/<!--[\s\S]*?-->/g, '');
   const rel = path.relative(SITE_DIR, file);
   const slug = rel === '404.html' ? '404' : rel.replace(/\/index\.html$/, '').replace(/^index\.html$/, '');
   const isBridge = isLegacyBridge(slug);
   const is404 = slug === '404';
+
+  // --- zero HTML comments in generated output ---
+  // scripts/build.js strips every HTML comment from a page immediately
+  // before writing it (source files may still carry internal notes and
+  // disabled draft blocks — none of that may reach a public HTML source
+  // view). This is the invariant check for that, not a workaround for it:
+  // if this ever fires, build.js has a real bug, not this check.
+  if (rawHtml.includes('<!--')) {
+    fail(`${rel}: generated output still contains an HTML comment — scripts/build.js must strip all comments before writing`);
+  }
+
+  // --- Tesla references gated to approved pages + approved titles only ---
+  // Tesla written marketing/publication approval was obtained 25 Sep 2026
+  // from energyproductsmarketing@tesla.com (see the Tesla section of
+  // docs/owner-inputs-required.md for the full evidence trail), covering
+  // exactly three placements: the homepage trust card, the battery-storage
+  // feature block, and the dedicated /tesla-powerwall-3/ page — on
+  // condition the official titles "Tesla Energy Certified Installer"
+  // and/or "Tesla Powerwall Certified Installer" are used consistently.
+  // This check enforces both halves of that: Tesla content may ONLY
+  // appear on the three approved pages, and wherever it does, at least
+  // one of the two approved titles must be present.
+  const teslaApprovedSlugs = new Set(['index.html', 'battery-storage/index.html', 'tesla-powerwall-3/index.html']);
+  if (/tesla/i.test(rawHtml)) {
+    if (!teslaApprovedSlugs.has(rel)) {
+      fail(`${rel}: generated output contains a Tesla reference outside the three Tesla-approved pages (/, /battery-storage/, /tesla-powerwall-3/)`);
+    } else if (!/Tesla Energy Certified Installer|Tesla Powerwall Certified Installer/.test(rawHtml)) {
+      fail(`${rel}: Tesla reference present but missing the official title ("Tesla Energy Certified Installer" or "Tesla Powerwall Certified Installer") Tesla's approval requires`);
+    }
+  }
+
+  // --- zero unconfirmed contact-email addresses in generated output ---
+  // Neither inbox has been owner-confirmed as real/monitored — see
+  // docs/owner-inputs-required.md. Phone + /service-request/ are the only
+  // confirmed contact paths until that changes.
+  if (/admin@ozhomeenergy\.com\.au|support@ozhomeenergy\.com\.au/i.test(rawHtml)) {
+    fail(`${rel}: generated output contains an unconfirmed contact email address`);
+  }
+
+  // --- zero superseded phone number in generated output ---
+  // 0420 113 216 / +61420113216 was a genuine live NAP conflict found
+  // during the critical audit repair pass (still present in the
+  // Electrician schema's telephone array and the footer's "Alternate
+  // phone" line despite an earlier doc entry claiming it was resolved).
+  // Permanent regression check — the only confirmed number is
+  // 0435 336 336 / +61435336336.
+  if (/0420\s*113\s*216|\+?61\s*420\s*113\s*216/.test(rawHtml)) {
+    fail(`${rel}: generated output contains the superseded phone number 0420 113 216`);
+  }
+
+  // --- "Greater Sydney" service-area claim ---
+  // Superseded 24 Sep 2026 (site-loop, Home round 5): owner explicitly
+  // confirmed the Greater Sydney boundary (previously this gate blocked
+  // the phrase pending that confirmation — see docs/owner-inputs-required.md).
+  // No specific suburb list has been supplied though, so a suburb grid or
+  // individual suburb pages are still out of scope; that's a separate,
+  // still-open item.
+
+  // --- 15-Year Workmanship Warranty: owner-directed restoration, 24 Sep
+  // 2026 — this is an owner-supplied business claim, not independently
+  // verified or solicitor-reviewed (see docs/owner-inputs-required.md).
+  // Rather than banning the phrase, these checks confirm the claim only
+  // ever appears with its required context: the homepage and About page
+  // state it, and the About/FAQ explanations both distinguish workmanship
+  // coverage from manufacturer product warranties and preserve Australian
+  // Consumer Law rights.
+  const isHome = slug === '';
+  const isAbout = slug === 'about';
+  const isFaqs = slug === 'faqs';
+  if ((isHome || isAbout) && !/15-Year Workmanship Warranty/.test(rawHtml)) {
+    fail(`${rel}: expected the exact phrase "15-Year Workmanship Warranty"`);
+  }
+  if (isAbout || isFaqs) {
+    if (!/manufacturer/i.test(rawHtml) || !/separate/i.test(rawHtml)) {
+      fail(`${rel}: warranty explanation must distinguish Oz Home Energy's workmanship coverage from separate manufacturer product warranties`);
+    }
+    if (!/Australian Consumer Law/i.test(rawHtml)) {
+      fail(`${rel}: warranty explanation must preserve Australian Consumer Law rights`);
+    }
+  }
+
+  // --- Evnex Certified Installer badge: owner-directed publication, 24
+  // Sep 2026 — badge path + accessible alt text must appear on the
+  // homepage, and the badge file itself must exist in the generated
+  // deployment (checked once, after this loop). Premium redesign, 24 Sep
+  // 2026: switched from the white variant (shown on a boxed dark stage)
+  // to the dark variant (shown directly against the section background,
+  // no stage) — see docs/owner-inputs-required.md.
+  if (isHome) {
+    if (!rawHtml.includes('/img/brand/evnex/evnex-certified-installer-dark.png')) {
+      fail(`${rel}: expected the Evnex Certified Installer badge image path`);
+    }
+    if (!/alt="Evnex Certified Installer"/.test(rawHtml)) {
+      fail(`${rel}: Evnex Certified Installer badge is missing accessible alt text`);
+    }
+  }
+
+  // html === rawHtml now that comments are stripped at build time (kept as
+  // a separate variable, rather than removed, so every check below still
+  // reads from a name that makes clear it's checking rendered content).
+  const html = rawHtml;
 
   // --- title / description uniqueness ---
   const titleMatch = html.match(/<title>([^<]*)<\/title>/);
@@ -150,6 +249,32 @@ for (const file of files) {
     } else if (robots !== 'index, follow') {
       fail(`${rel}: production build must be index, follow for a real published page (found "${robots}")`);
     }
+  }
+
+  // --- analytics: GTM + Meta Pixel loaders require BOTH a production
+  // build AND a separate ENABLE_ANALYTICS=true opt-in (scripts/build.js's
+  // ANALYTICS_ENABLED flag) — BUILD_TARGET=production alone must not load
+  // them. This QA script doesn't rebuild the site, so it can't know which
+  // flags produced the build it's checking; it trusts the same
+  // ENABLE_ANALYTICS env var, which must be passed identically to both the
+  // build and this check for the assertion below to test what actually
+  // happened rather than what was merely intended. ---
+  const analyticsShouldBeEnabled = IS_PRODUCTION_CHECK && process.env.ENABLE_ANALYTICS === 'true';
+  const gtmCount = (html.match(/googletagmanager\.com\/gtm\.js/g) || []).length;
+  const pixelCount = (html.match(/connect\.facebook\.net\/en_US\/fbevents\.js/g) || []).length;
+  const gtmNoscriptCount = (html.match(/googletagmanager\.com\/ns\.html/g) || []).length;
+  if (!analyticsShouldBeEnabled) {
+    const mode = IS_PRODUCTION_CHECK ? 'production build without ENABLE_ANALYTICS=true' : 'preview build';
+    if (gtmCount > 0) fail(`${rel}: ${mode} must not load GTM (found googletagmanager.com/gtm.js)`);
+    if (pixelCount > 0) fail(`${rel}: ${mode} must not load the Meta Pixel (found connect.facebook.net/en_US/fbevents.js)`);
+    if (gtmNoscriptCount > 0) fail(`${rel}: ${mode} must not include the GTM noscript iframe`);
+    if (!/window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\]/.test(html)) {
+      fail(`${rel}: ${mode} should still declare an empty dataLayer so event-pushing code never throws`);
+    }
+  } else {
+    if (gtmCount !== 1) fail(`${rel}: production build with ENABLE_ANALYTICS=true must load GTM exactly once (found ${gtmCount})`);
+    if (pixelCount !== 1) fail(`${rel}: production build with ENABLE_ANALYTICS=true must load the Meta Pixel exactly once (found ${pixelCount})`);
+    if (gtmNoscriptCount !== 1) fail(`${rel}: production build with ENABLE_ANALYTICS=true must include the GTM noscript iframe exactly once (found ${gtmNoscriptCount})`);
   }
 
   // --- no active form posts to "#" ---
@@ -243,14 +368,64 @@ for (const route of legacyRoutes) {
   }
 }
 
-// --- production robots.txt ---
+// --- production robots.txt + sitemap exclusion for gated/noindex pages ---
 if (IS_PRODUCTION_CHECK) {
   const robotsTxt = fs.readFileSync(path.join(SITE_DIR, 'robots.txt'), 'utf8');
   if (!/Allow: \//.test(robotsTxt)) fail('production robots.txt does not Allow: /');
   if (!robotsTxt.includes(PRODUCTION_ORIGIN)) fail('production robots.txt sitemap line does not use the production origin');
+
+  // Every gated (publishGate, unpublished) or explicit-noindex page must be
+  // both absent from the production sitemap AND still directly accessible
+  // by URL — it's hidden from discovery, not deleted.
+  const sitemapXml = fs.readFileSync(path.join(SITE_DIR, 'sitemap.xml'), 'utf8');
+  const allExcludedSlugs = new Set([...explicitNoindexSlugs, ...[...gatedSlugs.keys()].filter(isGated)]);
+  for (const slug of allExcludedSlugs) {
+    const loc = `${PRODUCTION_ORIGIN}/${slug}/`;
+    if (sitemapXml.includes(loc)) {
+      fail(`sitemap.xml: gated/noindex page /${slug}/ must not appear in the production sitemap`);
+    }
+    if (!fs.existsSync(path.join(SITE_DIR, slug, 'index.html'))) {
+      fail(`/${slug}/ is gated/noindex but was not built — it must still be directly accessible by URL, not removed`);
+    }
+  }
 } else {
+  // Preview robots.txt must be crawlable (Allow: /), not a Disallow — see
+  // the matching comment in scripts/build.js for why a Disallow can't
+  // reliably keep a page out of Google's index on its own. Indexing
+  // control is the page-level "noindex, nofollow" meta tag, already
+  // asserted above for every preview page; this just checks robots.txt
+  // isn't blocking crawlers from reaching it, and isn't advertising a
+  // sitemap (nothing about a preview build should be discoverable).
   const robotsTxt = fs.readFileSync(path.join(SITE_DIR, 'robots.txt'), 'utf8');
-  if (!/Disallow: \//.test(robotsTxt)) fail('preview robots.txt does not Disallow: / (must block all crawling)');
+  if (!/Allow: \//.test(robotsTxt)) fail('preview robots.txt does not Allow: / (crawlers must be able to reach the noindex meta tag)');
+  if (/Disallow:/.test(robotsTxt)) fail('preview robots.txt still contains a Disallow directive — indexing control must be the page-level noindex meta tag only');
+  if (/Sitemap:/.test(robotsTxt)) fail('preview robots.txt must not advertise a sitemap');
+}
+
+// --- Evnex badge file actually exists in the generated deployment ---
+if (!fs.existsSync(path.join(SITE_DIR, 'img', 'brand', 'evnex', 'evnex-certified-installer-dark.png'))) {
+  fail('site/img/brand/evnex/evnex-certified-installer-dark.png is missing from the generated deployment');
+}
+
+// --- Tesla asset files gated to the approved brand-asset folder only ---
+// Complements the per-page text check above: a file whose name contains
+// "tesla" may only exist under img/brand/tesla/ (the two assets covered by
+// Tesla's 25 Sep 2026 written approval) — anywhere else, it must not exist.
+function findFiles(dir) {
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...findFiles(p));
+    else out.push(p);
+  }
+  return out;
+}
+const teslaAssetDir = path.join('img', 'brand', 'tesla') + path.sep;
+for (const f of findFiles(SITE_DIR)) {
+  const rel = path.relative(SITE_DIR, f);
+  if (/tesla/i.test(path.basename(f)) && !rel.startsWith(teslaAssetDir)) {
+    fail(`${rel}: Tesla-named asset file must not exist outside img/brand/tesla/ in the generated deployment`);
+  }
 }
 
 console.log(`Checked ${files.length} built HTML files under ${SITE_DIR} (${IS_PRODUCTION_CHECK ? 'production' : 'preview'} mode).`);

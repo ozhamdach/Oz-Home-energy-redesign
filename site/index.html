@@ -3,55 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- ANALYTICS: ACTIVE — GTM container GTM-KTGM7X5H and Meta Pixel
-     1375668011396700, both supplied directly by the owner (see
-     docs/analytics-integration.md). The dataLayer array is declared before
-     the container script loads, per Google's own recommended practice, so
-     the phone-click/email-click/form-start/form-step events this build
-     already pushes (see site/js/main.js and site/js/commercial-battery-assessment.js)
-     are queued and available to the container from the moment it loads. -->
+
 <script>window.dataLayer = window.dataLayer || [];</script>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KTGM7X5H');</script>
-<!-- End Google Tag Manager -->
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1375668011396700');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none" alt="" aria-hidden="true"
-src="https://www.facebook.com/tr?id=1375668011396700&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+
 <title>Solar, Battery & EV Charging Sydney | Oz Home Energy</title>
-<meta name="description" content="Installer-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.">
-<!-- Production origin: https://ozhomeenergy.com.au (non-www). The current
-     production site's www subdomain redirects to this apex domain, so every
-     canonical/OG/schema URL below uses it consistently — pointing them at
-     www would canonicalise against a redirecting hostname. See
-     docs/legacy-url-migration.md for the full rationale and migration plan. -->
+<meta name="description" content="Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.">
+
 <link rel="canonical" href="https://ozhomeenergy.com.au/">
-<!-- noindex, nofollow is "noindex, nofollow" by default (preview build) and
-     only becomes "index, follow" when scripts/build.js is run with
-     BUILD_TARGET=production — see docs/09-seo-preview-safety.md. Never index
-     a preview build; keep this in sync with site/robots.txt. -->
+
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Oz Home Energy">
 <meta property="og:title" content="Solar, Battery & EV Charging Sydney | Oz Home Energy">
-<meta property="og:description" content="Installer-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.">
+<meta property="og:description" content="Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.">
 <meta property="og:url" content="https://ozhomeenergy.com.au/">
 <meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -67,23 +31,45 @@ src="https://www.facebook.com/tr?id=1375668011396700&ev=PageView&noscript=1"
 {
   "@context": "https://schema.org",
   "@type": "Electrician",
+  "@id": "https://ozhomeenergy.com.au/#business",
   "name": "Oz Home Energy",
   "legalName": "Electrical Hub Pty Ltd",
   "taxID": "72 665 477 556",
   "url": "https://ozhomeenergy.com.au",
+  "logo": "https://ozhomeenergy.com.au/img/brand/oz-home-energy-logo.png",
   "telephone": "+61435336336",
-  "email": "admin@ozhomeenergy.com.au",
-  "areaServed": [{"@type":"City","name":"Sydney"},{"@type":"State","name":"New South Wales"}],
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Sydney",
-    "addressRegion": "NSW",
-    "addressCountry": "AU"
-  },
-  "identifier": {
-    "@type": "PropertyValue",
-    "name": "NSW Electrical Contractor Licence",
-    "value": "382607C"
+  "description": "Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.",
+  "areaServed": [
+    { "@type": "City", "name": "Sydney" },
+    { "@type": "AdministrativeArea", "name": "Greater Sydney" }
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "license",
+      "name": "NSW Electrical Contractor Licence",
+      "identifier": "382607C"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "certification",
+      "name": "SAA Accreditation",
+      "identifier": "S5265652"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Oz Home Energy Services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Residential Solar Installation", "url": "https://ozhomeenergy.com.au/residential-solar/" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Battery Storage Installation", "url": "https://ozhomeenergy.com.au/battery-storage/" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "EV Charger Installation", "url": "https://ozhomeenergy.com.au/ev-charging/" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Residential Electrical Services", "url": "https://ozhomeenergy.com.au/residential-electrical/" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Solar Installation", "url": "https://ozhomeenergy.com.au/commercial-solar/" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Battery Storage", "url": "https://ozhomeenergy.com.au/commercial-batteries/" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial EV Charging Infrastructure", "url": "https://ozhomeenergy.com.au/commercial-ev-charging/" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Electrical Services", "url": "https://ozhomeenergy.com.au/commercial-electrical/" } }
+    ]
   }
 }
 </script>
@@ -101,29 +87,50 @@ src="https://www.facebook.com/tr?id=1375668011396700&ev=PageView&noscript=1"
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What size solar system suits my home?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "System size is a balance of your roof space and orientation, how much electricity you use during daylight hours, your DNSP-approved export limit, and your budget. We work from your electricity bill and household routine first, rather than sizing purely to \"fill the roof.\""
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can my switchboard support an EV charger or a battery?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many older switchboards don't have available capacity without an upgrade — this is one of the first things we check, before discussing which equipment to install."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need council or strata approval for solar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most standalone houses don't need council approval for a standard rooftop system. Strata properties, heritage-listed homes and some local planning overlays can have extra requirements — we'll flag this during your assessment if it's likely to apply."
+      }
+    }
+  ]
+}
+</script>
+
 
 
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTGM7X5H"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 <a class="skip-link" href="#main">Skip to main content</a>
-<!-- Announcement bar: disabled by default. Only enable this once the owner
-     has supplied a specific, currently-running offer's exact text and
-     expiry date — nothing here is a placeholder for something already
-     live; the whole block simply doesn't exist until that's confirmed:
-<div class="announcement">
-</div>
--->
+
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand-logo" href="/" aria-label="Oz Home Energy — home">
-      <span class="mark" aria-hidden="true">
-        <img src="/img/brand/oz-home-energy-icon.svg" alt="" aria-hidden="true" width="40" height="40" loading="eager">
-      </span>
-      <span class="wordmark">Oz Home Energy<span>Solar · Battery · EV · Electrical</span></span>
+      <img class="brand-logo-img" src="/img/brand/oz-home-energy-logo.png" alt="Oz Home Energy" width="1560" height="1038" loading="eager">
     </a>
 
     <nav class="primary-nav" aria-label="Primary">
@@ -165,7 +172,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="/panel-cleaning/">Panel Cleaning</a>
             <a href="/bird-proofing/">Bird-Proofing</a>
             <a href="/faqs/">Frequently Asked Questions</a>
-            <a href="/assessment/">Contact</a>
+            <a href="/assessment/">Energy Assessment</a>
           </div>
         </li>
       </ul>
@@ -187,22 +194,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </header>
 
-<!-- Deliberately a SIBLING of <header>, not a descendant — .site-header has
-     backdrop-filter (for its translucent blurred sticky look), and per the
-     CSS Filter Effects / Transforms spec, backdrop-filter (like filter,
-     transform, perspective and will-change) makes an element the
-     containing block for any position:fixed descendant. With .mobile-nav
-     nested inside <header>, its "inset: var(--header-h) 0 0 0" resolved
-     against .site-header's own (short, header-height-only) box instead of
-     the viewport — collapsing it to a sliver instead of a full-screen
-     overlay, so an expanded dropdown's links rendered outside that
-     collapsed box with no white backing behind them, visually overlapping
-     whatever page content happened to sit underneath. Functionally the
-     links were still real, tappable DOM elements at their (wrong) rendered
-     position, so a class-state/attribute check alone couldn't see this —
-     only an actual rendered screenshot revealed it. Moving this element
-     out from under <header> restores the viewport as its containing
-     block, without touching the header's own blur effect at all. -->
+
 <div class="mobile-nav" id="mobileNav">
   <details>
     <summary>Solutions <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
@@ -235,7 +227,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="/panel-cleaning/">Panel Cleaning</a>
       <a href="/bird-proofing/">Bird-Proofing</a>
       <a href="/faqs/">Frequently Asked Questions</a>
-      <a href="/assessment/">Contact</a>
+      <a href="/assessment/">Energy Assessment</a>
     </div>
   </details>
   <div class="mobile-cta">
@@ -245,72 +237,118 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <main id="main">
-<!-- HERO -->
+
 <section class="hero">
   <div class="hero-media">
     <picture>
-      <source type="image/avif" srcset="/img/photos/ground-mount-wide-640.avif 640w, /img/photos/ground-mount-wide-1200.avif 1200w, /img/photos/ground-mount-wide-2048.avif 2048w" sizes="100vw">
-      <source type="image/webp" srcset="/img/photos/ground-mount-wide-640.webp 640w, /img/photos/ground-mount-wide-1200.webp 1200w, /img/photos/ground-mount-wide-2048.webp 2048w" sizes="100vw">
-      <img src="/img/photos/ground-mount-wide-2048.jpg" width="2048" height="1152" fetchpriority="high" alt="Ground-mounted solar panel array installed on rural land with red dirt and native bushland">
+      <source type="image/avif" srcset="/img/photos/hero-solar-residential-complex-640.avif 640w, /img/photos/hero-solar-residential-complex-1200.avif 1200w, /img/photos/hero-solar-residential-complex-1600.avif 1600w" sizes="100vw">
+      <source type="image/webp" srcset="/img/photos/hero-solar-residential-complex-640.webp 640w, /img/photos/hero-solar-residential-complex-1200.webp 1200w, /img/photos/hero-solar-residential-complex-1600.webp 1600w" sizes="100vw">
+      <img src="/img/photos/hero-solar-residential-complex-1600.jpg" width="1600" height="1200" fetchpriority="high" alt="Solar panels installed across the roofs of adjoining residential homes">
     </picture>
   </div>
   <div class="hero-overlay"></div>
   <div class="container hero-inner">
-    <p class="eyebrow">Solar · Batteries · EV Charging · Electrical</p>
-    <h1>Lower Energy Bills Start Here.</h1>
-    <p class="lede">An installer-led electrical and energy company: solar, battery, EV charging and electrical work designed around your property and your electricity use.</p>
+    <p class="eyebrow">Invest in your independence.</p>
+    <h1>Sydney Solar &amp; Battery Storage — Lower Bills Start Here.</h1>
+    <p class="lede">Solar, battery storage and EV charging for your Sydney home.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
-    <p class="hero-trust">Licensed NSW Electrical Contractor 382607C <span class="dot"></span> Sydney-based <span class="dot"></span> Residential &amp; commercial</p>
+    <p class="hero-trust">
+      Licensed NSW Electrical Contractor
+      <span class="dot"></span>
+      SAA Accredited
+      <span class="dot"></span>
+      15-Year Workmanship Warranty
+    </p>
   </div>
 </section>
 
-<!-- PROOF STRIP -->
+
 <section class="proof-strip">
   <div class="container">
     <ul class="proof-list">
-      <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> NSW Electrical Contractor Licence 382607C</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Assessed by the people who install your system</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Greater Sydney service area</li>
+      <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Licensed NSW Electrical Contractor</li>
+      <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Sydney service area</li>
       <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Residential &amp; commercial capability</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Direct support after installation</li>
     </ul>
   </div>
 </section>
 
-<!-- TRUST / APPROVED INSTALLER STRIP — DISABLED.
-     Final written approval to display "Ohme Approved Installer" and "Tesla
-     Powerwall Certified Installer" is currently unverified (see
-     docs/owner-inputs-required.md). Hidden from the public site rather than
-     removed: the badge assets, markup and CSS (.trust-strip in
-     site/css/styles.css) are all still in place, organised and ready — once
-     the owner supplies current, documented written approval for each claim,
-     uncomment this section to re-enable it verbatim.
-<section class="trust-strip">
-  <div class="container trust-strip-inner">
-    <span class="trust-strip-label">Approved installer</span>
-    <span class="trust-badge-card">
-      <picture>
-        <source type="image/avif" srcset="/img/photos/trust-ohme-badge-320.avif 320w, /img/photos/trust-ohme-badge-480.avif 480w" sizes="160px">
-        <source type="image/webp" srcset="/img/photos/trust-ohme-badge-320.webp 320w, /img/photos/trust-ohme-badge-480.webp 480w" sizes="160px">
-        <img src="/img/photos/trust-ohme-badge-480.jpg" width="1257" height="1066" loading="lazy" alt="Ohme approved installer badge">
-      </picture>
-    </span>
-    <span class="trust-badge-card">
-      <picture>
-        <source type="image/avif" srcset="/img/photos/trust-tesla-badge-320.avif 320w, /img/photos/trust-tesla-badge-480.avif 480w" sizes="160px">
-        <source type="image/webp" srcset="/img/photos/trust-tesla-badge-320.webp 320w, /img/photos/trust-tesla-badge-480.webp 480w" sizes="160px">
-        <img src="/img/photos/trust-tesla-badge-480.jpg" width="1920" height="780" loading="lazy" alt="Tesla Powerwall Certified Installer badge">
-      </picture>
-    </span>
+
+<section class="section trust-section">
+  <div class="container">
+    <div class="trust-section-head">
+      <p class="eyebrow">Qualified. Approved. Accountable.</p>
+      <h2>Credentials and workmanship you can rely on</h2>
+      <p class="lede">Trade credentials, manufacturer approvals, 15-year workmanship commitment.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card trust-card--nsw">
+        <span class="trust-card-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.42 13.89 L7.27 12.33 L5.0 11.5 L7.27 10.67 L5.42 9.11 L7.84 9.1 L6.64 7.0 L8.91 7.82 L8.5 5.44 L10.36 6.99 L10.78 4.61 L12.0 6.7 L13.22 4.61 L13.64 6.99 L15.5 5.44 L15.09 7.82 L17.36 7.0 L16.16 9.1 L18.58 9.11 L16.73 10.67 L19.0 11.5 L16.73 12.33 L18.58 13.89 Q12 15.9 5.42 13.89 Z" fill="currentColor"/><rect x="11.35" y="14.1" width="1.3" height="7.1" rx="0.5" fill="currentColor"/></svg></span>
+        <h3>NSW Electrical Contractor</h3>
+        <p class="trust-card-meta">Licence 382607C</p>
+      </div>
+      <div class="trust-card trust-card--saa">
+        <span class="trust-card-mark">
+          <img src="/img/brand/trust/solar-accreditation-australia.png" width="864" height="235" loading="lazy" decoding="async" alt="Solar Accreditation Australia">
+        </span>
+        <h3>Solar Accreditation Australia</h3>
+        <p class="trust-card-meta">Accreditation S5265652</p>
+      </div>
+      <div class="trust-card trust-card--sec">
+        <span class="trust-card-mark">
+          <img src="/img/brand/trust/smart-energy-council.png" width="1788" height="1096" loading="lazy" decoding="async" alt="Smart Energy Council Small Business Member">
+        </span>
+        <h3>Smart Energy Council Member</h3>
+        <p class="trust-card-meta">Small Business Member</p>
+      </div>
+      <a class="trust-card trust-card--ohme" href="/ev-charging/">
+        <span class="trust-card-mark">
+          <img src="/img/brand/trust/ohme-approved-installer.png" width="1257" height="1066" loading="lazy" decoding="async" alt="Ohme Approved Installer">
+        </span>
+        <h3>Ohme Approved Installer</h3>
+        <p class="trust-card-meta">EV charger installation — e-pod / Home Pro range</p>
+      </a>
+      <a class="trust-card trust-card--evnex" href="/ev-charging/#evnex">
+        <span class="trust-card-mark">
+          <img src="/img/brand/evnex/evnex-certified-installer-dark.png" width="993" height="1143" loading="lazy" decoding="async" alt="Evnex Certified Installer">
+        </span>
+        <h3>Evnex Certified Installer</h3>
+        <p class="trust-card-meta">Certified to install Evnex EV chargers</p>
+      </a>
+
+      <a class="trust-card trust-card--tesla" href="/tesla-powerwall-3/">
+        <span class="trust-card-mark">
+          <img src="/img/brand/tesla/tesla-certified-installer-black.svg" width="406" height="165" loading="lazy" decoding="async" alt="Tesla Energy Certified Installer">
+        </span>
+        <h3>Tesla Energy Certified Installer</h3>
+        <p class="trust-card-meta">Powerwall &amp; Wall Connector</p>
+      </a>
+    </div>
+
+    <a class="warranty-strip" href="/about/#warranty">
+      <span class="warranty-mark"><span class="num">15</span><span class="yr">Year</span></span>
+      <span class="warranty-strip-text">
+        <strong>15-Year Workmanship Warranty</strong>
+        <span>Covers our installation workmanship. Manufacturer warranties are separate. Terms apply.</span>
+      </span>
+    </a>
   </div>
 </section>
--->
 
 
-<!-- REVIEWS (genuine HighLevel widget only — see site/js/reviews.js) -->
+<section class="section section-accent">
+  <div class="container container-narrow" style="text-align:center;">
+    <p class="eyebrow">Why Oz Home Energy</p>
+    <p class="lede">"I started Oz Home Energy because I got tired of doing great work for companies that didn't always care what happened to the customer after the sale."</p>
+    <p class="hint" style="margin-top:8px;">— Oz, Founder</p>
+    <p style="margin-top:16px;"><a class="btn btn-ghost" href="/about/#founder">Read why I started this business →</a></p>
+  </div>
+</section>
+
+
 <section class="section" id="reviewsSection">
   <div class="container">
     <div class="section-head center">
@@ -326,81 +364,81 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- PATHWAY SELECTOR -->
+
 <section class="section">
   <div class="container">
     <div class="section-head center">
       <p class="eyebrow">Where to start</p>
       <h2>What would you like your energy system to do?</h2>
-      <p class="lede" style="margin-inline:auto;">Choose the option closest to your situation and we'll take you straight to the right information and the right assessment questions.</p>
+      <p class="lede" style="margin-inline:auto;">Choose what's closest to your situation.</p>
     </div>
     <div class="pathway-grid">
       <a class="pathway-card" href="/assessment/?goal=lower-bills" data-pathway="lower-bills">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="#0540C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-        <span><strong>Lower my electricity bills</strong> Understand where your usage goes and what would actually move the needle</span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+        <span><strong>Lower my electricity bills</strong> See where your usage goes and what's worth changing</span>
       </a>
       <a class="pathway-card" href="/residential-solar/?goal=new-solar" data-pathway="new-solar">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#0540C1" stroke-width="1.6"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 1.4 1.4-1.4M5.6 18.4l-1.4 1.4m15.6-1.4 1.4 1.4" stroke="#0540C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <span><strong>Install new solar — with or without a battery</strong> Size a system around your roof, your usage pattern and your goals</span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#0560C1" stroke-width="1.6"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 1.4 1.4-1.4M5.6 18.4l-1.4 1.4m15.6-1.4 1.4 1.4" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span><strong>Install new solar — with or without a battery</strong> Sized around your roof, usage and goals</span>
       </a>
       <a class="pathway-card" href="/battery-storage/?goal=add-battery" data-pathway="add-battery">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0540C1" stroke-width="1.6"/><rect x="10" y="1" width="4" height="3" rx="1" fill="#0540C1"/><rect x="9" y="12" width="6" height="6" rx="1" fill="#0540C1"/></svg></span>
-        <span><strong>Add a battery to existing solar</strong> Check whether your current system, inverter and switchboard support storage</span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0560C1" stroke-width="1.6"/><rect x="10" y="1" width="4" height="3" rx="1" fill="#0560C1"/><rect x="9" y="12" width="6" height="6" rx="1" fill="#0560C1"/></svg></span>
+        <span><strong>Add a battery to existing solar</strong> We'll check your system and switchboard support it</span>
       </a>
       <a class="pathway-card" href="/ev-charging/?goal=ev-charging" data-pathway="ev-charging">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="10" height="12" rx="2" stroke="#0540C1" stroke-width="1.6"/><path d="M16 11h2.5L21 14v4h-5" stroke="#0540C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12v6m-2.5-3h5" stroke="#0540C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <span><strong>Charge my EV at home</strong> Find out what your switchboard needs and where a charger should go</span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="10" height="12" rx="2" stroke="#0560C1" stroke-width="1.6"/><path d="M16 11h2.5L21 14v4h-5" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12v6m-2.5-3h5" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span><strong>Charge my EV at home</strong> What your switchboard needs and where it goes</span>
       </a>
       <a class="pathway-card" href="/residential-electrical/?goal=electrical-upgrade" data-pathway="electrical-upgrade">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="#0540C1" stroke-width="1.6"/><path d="M9 8h6M9 12h6M9 16h3" stroke="#0540C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <span><strong>Upgrade my electrical system</strong> Ageing switchboards, capacity limits and safety issues sorted properly</span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="#0560C1" stroke-width="1.6"/><path d="M9 8h6M9 12h6M9 16h3" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span><strong>Upgrade my electrical system</strong> Ageing switchboards and safety issues sorted properly</span>
       </a>
       <a class="pathway-card" href="/commercial-solar/?goal=commercial" data-pathway="commercial">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V9l6-4 6 4v12" stroke="#0540C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 21v-8l6 3v5" stroke="#0540C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-        <span><strong>Plan a commercial project</strong> Solar, storage, EV infrastructure or electrical work for your business</span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V9l6-4 6 4v12" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 21v-8l6 3v5" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+        <span><strong>Plan a commercial project</strong> Solar, storage, EV or electrical for your business</span>
       </a>
     </div>
   </div>
 </section>
 
-<!-- CONNECTED ENERGY EXPLANATION -->
+
 <section class="section section-accent">
   <div class="container">
     <div class="section-head center">
       <p class="eyebrow">How it fits together</p>
       <h2>One connected energy system, not four separate purchases</h2>
-      <p class="lede" style="margin-inline:auto;">Solar, batteries, EV charging and your home's electrical infrastructure only work well together when they're designed together. That's the difference between a system that's installed and a system that's properly designed and integrated.</p>
+      <p class="lede" style="margin-inline:auto;">Solar, batteries, EV charging and your electrical infrastructure work best planned together — even if you're only adding one today.</p>
     </div>
     <div class="flow-diagram">
       <div class="flow-step">
         <p class="num">01 · GENERATE</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#0540C1" stroke-width="1.8"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 1.4 1.4-1.4M5.6 18.4l-1.4 1.4m15.6-1.4 1.4 1.4" stroke="#0540C1" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#0560C1" stroke-width="1.8"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 1.4 1.4-1.4M5.6 18.4l-1.4 1.4m15.6-1.4 1.4 1.4" stroke="#0560C1" stroke-width="1.8" stroke-linecap="round"/></svg></span>
         <h3>Solar panels</h3>
-        <p>Convert sunlight into electricity your home or business can use straight away.</p>
+        <p>Convert sunlight into electricity you can use straight away.</p>
       </div>
       <div class="flow-step">
         <p class="num">02 · STORE</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0540C1" stroke-width="1.8"/><rect x="10" y="1" width="4" height="3" rx="1" fill="#0540C1"/><rect x="9" y="12" width="6" height="6" rx="1" fill="#0540C1"/></svg></span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0560C1" stroke-width="1.8"/><rect x="10" y="1" width="4" height="3" rx="1" fill="#0560C1"/><rect x="9" y="12" width="6" height="6" rx="1" fill="#0560C1"/></svg></span>
         <h3>Battery storage</h3>
-        <p>Hold on to what you don't use immediately, so more of it's available in the evening. Backup power during an outage is only available where backup circuits are specifically designed and installed for it.</p>
+        <p>Store what you don't use for later. Backup during an outage needs circuits designed for it.</p>
       </div>
       <div class="flow-step">
         <p class="num">03 · CHARGE</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="10" height="12" rx="2" stroke="#0540C1" stroke-width="1.8"/><path d="M16 11h2.5L21 14v4h-5" stroke="#0540C1" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="10" height="12" rx="2" stroke="#0560C1" stroke-width="1.8"/><path d="M16 11h2.5L21 14v4h-5" stroke="#0560C1" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
         <h3>EV charging</h3>
-        <p>Put stored or generated solar to use charging a vehicle overnight or during the day.</p>
+        <p>Put solar to use charging a vehicle, day or night.</p>
       </div>
       <div class="flow-step">
         <p class="num">04 · CONTROL</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="#0540C1" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h3" stroke="#0540C1" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="#0560C1" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h3" stroke="#0560C1" stroke-width="1.8" stroke-linecap="round"/></svg></span>
         <h3>Electrical infrastructure</h3>
-        <p>A switchboard and wiring built to safely carry and manage all of the above, now and as you add to it.</p>
+        <p>A switchboard and wiring built to carry it all, now and as you add to it.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- RESIDENTIAL / COMMERCIAL SOLUTIONS -->
+
 <section class="split">
   <div class="split-panel home">
     <p class="eyebrow">For Homes</p>
@@ -426,18 +464,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!--
-  FEATURED PROJECT & REVIEWS — intentionally omitted from this build.
-  Per working rule 5 ("if information or media has not been confirmed,
-  hide the section and place the requirement in the owner-confirmation
-  document"): no real project write-up or genuine review has been supplied
-  yet, so nothing renders here rather than showing empty/placeholder
-  content. See docs/07-owner-confirmations.md for what's needed to add
-  this section back (a real project write-up and/or genuine Google
-  reviews).
--->
 
-<!-- PROCESS -->
+<section class="section">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Recent work</p>
+      <h2>Recent installs</h2>
+    </div>
+    <div class="photo-gallery">
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/residential-solar-rooftop-1-480.avif 480w, /img/photos/residential-solar-rooftop-1-800.avif 800w, /img/photos/residential-solar-rooftop-1-1536.avif 1536w" sizes="(max-width: 900px) 100vw, 33vw">
+            <source type="image/webp" srcset="/img/photos/residential-solar-rooftop-1-480.webp 480w, /img/photos/residential-solar-rooftop-1-800.webp 800w, /img/photos/residential-solar-rooftop-1-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 33vw">
+            <img src="/img/photos/residential-solar-rooftop-1-1536.jpg" width="1536" height="1152" loading="lazy" decoding="async" alt="Solar panels installed on a residential rooftop">
+          </picture>
+        </div>
+        <figcaption>Residential solar installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="(max-width: 900px) 100vw, 33vw">
+            <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="(max-width: 900px) 100vw, 33vw">
+            <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" loading="lazy" decoding="async" alt="A FoxESS battery unit installed on an exterior wall">
+          </picture>
+        </div>
+        <figcaption>Battery storage installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/ev-charging/goodwe-home-ev-charger.webp" width="1320" height="1760" loading="lazy" decoding="async" alt="A GoodWe home EV charger installed on a garage wall">
+        </div>
+        <figcaption>Home EV charger installation</figcaption>
+      </figure>
+    </div>
+    <p class="text-center" style="margin-top:24px;"><a class="btn btn-ghost" href="/projects/">See more recent work →</a></p>
+
+    <p class="text-center hint" style="margin-top:16px;">Brands we install: Jinko Solar, JA Solar, Trina Solar (panels); FoxESS, Sungrow, Sigenergy, GoodWe (batteries and inverters); Ohme, Evnex (EV chargers).</p>
+  </div>
+</section>
+
+
 <section class="section section-accent">
   <div class="container">
     <div class="section-head">
@@ -448,29 +516,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="process-item">
         <p class="step-no">Step 1</p>
         <h3>Tell us about your property</h3>
-        <p>A short online assessment covers your address, property type and what you're trying to achieve.</p>
+        <p>A short online form covers your address, property type and goals.</p>
       </div>
       <div class="process-item">
         <p class="step-no">Step 2</p>
         <h3>We assess your bill, goals and electrical setup</h3>
-        <p>We review your electricity usage and, where needed, arrange a site inspection to check your switchboard, roof and existing equipment.</p>
+        <p>We review your usage and, if needed, inspect your switchboard, roof and equipment.</p>
       </div>
       <div class="process-item">
         <p class="step-no">Step 3</p>
         <h3>You receive a tailored design and quotation</h3>
-        <p>A tailored system design and clear written proposal matched to your property.</p>
+        <p>A system design and clear written proposal matched to your property.</p>
       </div>
       <div class="process-item">
         <p class="step-no">Step 4</p>
         <h3>We install, commission and support the system</h3>
-        <p>Our team installs and commissions the system, then remains the point of contact for servicing and support afterwards.</p>
+        <p>We install and commission the system, then stay your point of contact for support.</p>
       </div>
     </div>
-    <p class="process-note">Some projects require a site inspection before a fixed quotation can be issued. Grid-connected solar and battery systems also require approval from your local distribution network (DNSP) before installation; typical approval timeframes vary by network and are confirmed as part of your assessment rather than guaranteed upfront.</p>
+    <p class="process-note">Some projects need a site inspection before a fixed quote. Grid-connected systems also need DNSP approval before installation — timeframes vary by network and are confirmed during your assessment.</p>
   </div>
 </section>
 
-<!-- USEFUL FAQS (a short, real sample — full list at /faqs/) -->
+
 <section class="section">
   <div class="container container-narrow">
     <div class="section-head center">
@@ -495,22 +563,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- FINAL CTA -->
+
 <section class="section section-inverse final-cta">
   <div class="container container-narrow">
     <p class="eyebrow">Get started</p>
-    <h2>Start with your electricity bill. We'll help you understand the next practical step.</h2>
+    <h2>Start with your electricity bill — we'll show you the next step.</h2>
     <div class="cta-row">
       <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
-    <!-- Real HighLevel-hosted quick-quote widget (owner-supplied embed,
-         form ID ILAJCu9qJyVzX582GAtX). Shorter than the full assessment
-         above — for someone who wants to leave contact details right now
-         rather than click through. form_embed.js is loaded once, sitewide,
-         from src/layout.html's {{EXTRA_HEAD}}/{{EXTRA_SCRIPT}} for the full
-         /assessment/ page; it's safe to reuse the same script for this
-         second widget, so it's declared once via home/meta.json. -->
+
     <div style="max-width:560px;margin:32px auto 0;">
       <iframe
         src="https://link.ozhomeenergy.com.au/widget/form/ILAJCu9qJyVzX582GAtX"
@@ -540,12 +602,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="wordmark" style="text-decoration:none;">Oz Home Energy</a>
-        <p>Installer-led solar, battery, EV charging and electrical work for Sydney homes and businesses.</p>
-        <p class="footer-licence">NSW Electrical Contractor Licence 382607C</p>
-        <!-- Social links removed: no confirmed, active profile URLs yet.
-             Restore footer-social here (see git history) once genuine
-             profile links are supplied — see docs/07-owner-confirmations.md. -->
+        <a href="/" class="footer-logo-chip" aria-label="Oz Home Energy — home">
+          <img src="/img/brand/oz-home-energy-logo.png" alt="Oz Home Energy" width="1560" height="1038" loading="lazy">
+        </a>
+        <p>Oz Home Energy is a Sydney service-area electrical and energy contractor serving homes and businesses across Sydney and Greater Sydney, NSW.</p>
+        <p class="footer-licence">NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652</p>
+
       </div>
 
       <div>
@@ -590,7 +652,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><a href="/products/">Products &amp; Brands</a></li>
           <li><a href="/learning-centre/">Learning Centre</a></li>
           <li><a href="/locations/">Service Areas</a></li>
-          <li><a href="/assessment/">Contact</a></li>
+          <li><a href="/assessment/">Energy Assessment</a></li>
         </ul>
       </div>
     </div>
@@ -598,8 +660,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="footer-bottom">
       <div>
         <div>Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556</div>
-        <div>NSW Electrical Contractor Licence 382607C · Sydney, NSW</div>
-        <div>Phone <a href="tel:+61435336336">0435 336 336</a> · Email <a href="mailto:admin@ozhomeenergy.com.au">admin@ozhomeenergy.com.au</a></div>
+        <div>NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652 · Sydney, NSW</div>
+        <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
       </div>
       <ul class="legal-links">
         <li>&copy; <span id="footerYear">2026</span> Electrical Hub Pty Ltd trading as Oz Home Energy</li>
@@ -611,6 +673,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
+<div class="mobile-cta-bar" role="region" aria-label="Quick contact">
+  <a class="mobile-cta-bar-call" href="tel:+61435336336">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8Z" fill="currentColor"/></svg>
+    <span>Call 0435 336 336</span>
+  </a>
+  <a class="mobile-cta-bar-quote" href="/assessment/">Get My Free Quote</a>
+</div>
 <script src="/js/main.js" defer></script>
 <script src="/js/reviews.js" defer></script>
 <script src="https://link.ozhomeenergy.com.au/js/form_embed.js" defer></script>

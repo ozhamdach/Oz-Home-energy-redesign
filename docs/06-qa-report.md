@@ -108,7 +108,7 @@ after the two real defects below were found and fixed.
 | Visible focus states | ✅ | Sitewide `:focus-visible` rule with 3px outline, not just a colour change |
 | Descriptive alt text | ⚠️ Partial — see note | Real `<img>` tags aren't in this build yet (all image slots are placeholders with visible descriptive text instead of `<img>`); **when real photography is added, every `<img>` must get descriptive `alt` text** — the placeholder text itself shows what each alt should describe |
 | Accessible form labels & errors | ✅ | Every input has an associated `<label for>`; assessment form uses `reportValidity()` plus a visible outline on invalid radio groups; no reliance on placeholder-as-label |
-| WCAG AA colour contrast | ✅ (calculated, all pass AA; most pass AAA) | Brand blue `#0540C1` on white 8.37:1 · charcoal `#1A1A1A` on white 17.40:1 · white on charcoal 17.40:1 · white button text on brand blue 8.37:1 · muted body text `#5c5b54` on white 6.82:1 and on off-white 6.26:1 · brand blue on pale-blue surface 7.32:1 · footer body text on charcoal 10.86:1 · footer legal-links text on charcoal 5.46:1 · owner-flag badge text on its amber background 6.80:1. Every pair in the system clears the 4.5:1 AA text minimum. Verify final contrast once real photography sits behind the hero text overlay — the dark gradient overlay (`linear-gradient` to 78% black) is included specifically to protect this regardless of the photo underneath |
+| WCAG AA colour contrast | ✅ (calculated, all pass AA) | Brand blue changed from `#0540C1` to `#0560C1` on 23 Sep 2026 (launch-readiness repair pass, see below) — recalculated at **6.09:1 on white**, still clears AA (was 8.37:1/AAA before the change). Other pairs unaffected: charcoal `#1A1A1A` on white 17.40:1 · white on charcoal 17.40:1 · muted body text `#5c5b54` on white 6.82:1 and on off-white 6.26:1 · footer body text on charcoal 10.86:1 · footer legal-links text on charcoal 5.46:1 · owner-flag badge text on its amber background 6.80:1. Every pair in the system clears the 4.5:1 AA text minimum. Verify final contrast once real photography sits behind the hero text overlay — the dark gradient overlay (`linear-gradient` to 78% black) is included specifically to protect this regardless of the photo underneath |
 | Minimum tap targets | ✅ | `.btn`, nav links and form controls set `min-height: 48px` |
 | Reduced-motion support | ✅ | Sitewide `prefers-reduced-motion` media query disables animation/scroll-behaviour |
 | No intrusive pop-ups on entry | ✅ | None implemented; announcement bar exists but is HTML-commented-out by default (no verified current offer to show) |
@@ -247,3 +247,81 @@ larger acceptance-test matrix, split across two scripts:
 **Safari and Firefox remain unverified** — this repo's QA has only ever run
 against Chromium via Playwright. Do not describe this site as cross-browser
 tested beyond that without an actual WebKit/Firefox pass.
+
+## Launch-readiness repair pass (23 Sep 2026)
+
+A 9-section repair pass fixing several real gaps found in the previous
+"launch-ready" claims — most notably that Tesla material was not actually
+fully unreferenced (a live Tesla Wall Connector photo was still rendering
+on `/ev-charging/`), and that a hardcoded, working lead-capture webhook URL
+was sitting in public client-side JS. Full list of changes:
+
+1. **Deployment safety** — `deploy-pages.yml` now only auto-deploys `main`
+   (previously also deployed this review branch directly, which meant
+   in-progress work on this branch could reach the public preview URL
+   without review); `qa.yml` now also runs on pushes to `main`, not just
+   pull requests.
+2. **Tesla removal** — the live Wall Connector photo was removed from
+   `/ev-charging/` and replaced with a text-only section; the GoodWe EV
+   charger photo (already used correctly elsewhere) is now the page's one
+   real EV installation photo. All Tesla asset files were moved out of
+   `site/` to `assets/original-photography/` (previously they sat
+   unreferenced-but-deployed at `site/img/brand/tesla/`). **This does not
+   make them unrecoverable** — they remain in this public repository's git
+   history at their old path regardless of where they sit in the current
+   working tree.
+3. **Commercial funnel indexing** — a new `commercialBatteryAssessment`
+   gate was added to `src/data/site-status.json` and wired via
+   `publishGate`, and `noindex: true` was added to Commercial Load Review
+   and Commercial Solar & Battery Quote's `meta.json`. Re-verified in a
+   production build: all three are `noindex, follow` and absent from the
+   sitemap, while still resolving directly by URL (not 404).
+4. **Webhook removal** — the hardcoded `services.leadconnectorhq.com`
+   webhook URL was removed from both `commercial-load-review.js` and
+   `commercial-solar-battery-quote.js`. Both now show an honest "not
+   connected yet" panel on submit, verified with Playwright to produce
+   zero requests to any lead-capture endpoint and no success-style UI. The
+   Commercial Load Review bill-upload control was also removed pending the
+   server-side file-handling requirements it needs.
+5. **Analytics gating** — GTM and the Meta Pixel loader moved from
+   unconditional `src/layout.html` into `src/partials/analytics-{head,
+   body}.html`, injected only when `BUILD_TARGET=production`.
+   `scripts/qa-static-checks.js` now asserts zero analytics requests in a
+   preview build and exactly one GTM/Pixel/GTM-noscript load in a
+   production build.
+6. **SEO/accessibility/brand** — homepage H1 changed to "Solar, Battery &
+   EV Charger Installation in Sydney"; hero photo replaced with a
+   representative Sydney residential-complex solar photo (real intrinsic
+   dimensions, no invented location/capacity/customer/savings claim);
+   heading hierarchy fixed on 5 pages (assessment, commercial-project-
+   enquiry, complaints, service-request, solar-servicing) so an H2
+   precedes the first H3 group; the Ohme badge on `/ev-charging/` got
+   explicit width/height; brand blue changed from `#0540C1` to `#0560C1`
+   sitewide (contrast re-verified above); `og-image.png` regenerated at
+   1200×630 with the real logo and no licence/SAA number shown.
+7. **Unconfirmed claims removed** — "Assessed by the people who install
+   your system", "Direct support after installation", "One team from the
+   first phone call...", and the "licensed electricians ... compliance
+   documentation provided" sentence were all removed rather than kept as
+   unconfirmed. Service-area copy sitewide (footer, About, Locations,
+   FAQs, and four commercial page titles/descriptions that had been
+   contradicting their own `areaServed: "Greater Sydney"` schema) is now
+   limited to Sydney/Greater Sydney. The 15-year workmanship warranty
+   claim was temporarily removed from the homepage and About page
+   (commented out, not deleted — exact approved wording preserved)
+   pending solicitor review of the real contract terms. Full detail in
+   `docs/owner-inputs-required.md`.
+
+**Re-verification after all of the above**: `node scripts/build.js` +
+`node scripts/qa-static-checks.js` (preview) and
+`SITE_OUT_DIR=site-prod-check BUILD_TARGET=production node scripts/build.js`
++ `node scripts/qa-static-checks.js --production` both pass cleanly. A
+comment-stripped scan of the production build confirmed zero rendered
+Tesla content, zero occurrences of any of the removed claim phrases, and
+that the confirmed NSW Electrical Contractor Licence statement is
+unchanged and still present.
+
+**Not yet re-run as part of this pass**: the full Playwright suite
+(`scripts/qa-playwright.js`) via GitHub Actions — see the acceptance-test
+section of this pass's PR description for that run's result. Safari and
+Firefox remain unverified, as noted above.

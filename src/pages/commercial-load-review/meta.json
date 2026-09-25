@@ -1,0 +1,8 @@
+{
+  "title": "Commercial Load Review | Oz Home Energy",
+  "description": "Answer a few questions about your NSW business site and we'll tell you whether solar, storage or neither is the answer — a recent bill helps but isn't required.",
+  "canonical": "/commercial-load-review/",
+  "noindex": true,
+  "landingChromeStrict": true,
+  "extraScripts": ["/js/commercial-load-review.js"]
+}

@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - claude/cool-dirac-re7hub
       - main
     paths:
       - 'site/**'

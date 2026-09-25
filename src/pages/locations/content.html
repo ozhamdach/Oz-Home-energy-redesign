@@ -1,66 +1,68 @@
+<!-- Service-area scope note: owner confirmed the Greater Sydney boundary
+     24 Sep 2026 (site-loop, Home round 5) — see docs/owner-inputs-required.md.
+     Still no specific suburb list has been supplied, so this stays a
+     boundary statement rather than a suburb grid or individual suburb
+     pages; do not add either without a real supplied list. -->
 <section class="page-banner">
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Locations</p>
     <p class="eyebrow">Service Areas</p>
-    <h1>Based in Sydney, working across Greater Sydney and NSW</h1>
-    <p class="lede">Oz Home Energy operates from a single Sydney base — we don't run separate branch offices. Residential work is focused on Greater Sydney; suitable solar, battery and commercial projects are considered further afield across NSW.</p>
+    <h1>Sydney &amp; Greater Sydney Solar, Battery and Electrical Service Areas</h1>
+    <p class="lede">Oz Home Energy is a service-area business serving Sydney and Greater Sydney, NSW. Availability for an individual property is confirmed during the assessment process.</p>
   </div>
 </section>
 
+<!-- MAP — a plain Google Maps embed centred on Sydney/NSW, no API key
+     required (the no-key "output=embed" form). Not suburb-specific pins:
+     no suburb list has been supplied, so this shows the general service
+     region rather than implying a defined boundary it can't back up. -->
 <section class="section">
   <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Residential coverage</p>
-      <h2>Greater Sydney regions we regularly work in</h2>
-      <p class="lede">Travel time and site access can affect scheduling for jobs further from central Sydney — this is discussed at the assessment stage, not left as a surprise.</p>
+    <div class="section-head center">
+      <p class="eyebrow">Coverage area</p>
+      <h2>Sydney and Greater Sydney</h2>
     </div>
-    <div class="grid grid-3">
-      <div class="card">
-        <h3>Eastern Suburbs &amp; Inner Sydney</h3>
-        <div class="location-chip-grid" style="margin-top:12px;">
-          <span class="location-chip">Bondi</span><span class="location-chip">Randwick</span><span class="location-chip">Coogee</span><span class="location-chip">Maroubra</span><span class="location-chip">Rosebery</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Inner West</h3>
-        <div class="location-chip-grid" style="margin-top:12px;">
-          <span class="location-chip">Newtown</span><span class="location-chip">Marrickville</span><span class="location-chip">Leichhardt</span><span class="location-chip">Ashfield</span><span class="location-chip">Burwood</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3>North Shore</h3>
-        <div class="location-chip-grid" style="margin-top:12px;">
-          <span class="location-chip">Chatswood</span><span class="location-chip">Lane Cove</span><span class="location-chip">Willoughby</span><span class="location-chip">Hornsby</span><span class="location-chip">Ryde</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Northern Beaches</h3>
-        <div class="location-chip-grid" style="margin-top:12px;">
-          <span class="location-chip">Manly</span><span class="location-chip">Dee Why</span><span class="location-chip">Mona Vale</span><span class="location-chip">Avalon</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Western Sydney</h3>
-        <div class="location-chip-grid" style="margin-top:12px;">
-          <span class="location-chip">Parramatta</span><span class="location-chip">Blacktown</span><span class="location-chip">Penrith</span><span class="location-chip">Castle Hill</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3>South &amp; South-West Sydney</h3>
-        <div class="location-chip-grid" style="margin-top:12px;">
-          <span class="location-chip">Sutherland Shire</span><span class="location-chip">Hurstville</span><span class="location-chip">Liverpool</span><span class="location-chip">Campbelltown</span>
-        </div>
-      </div>
+    <div style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9;max-width:900px;margin:0 auto;">
+      <iframe
+        src="https://www.google.com/maps?q=Sydney,+NSW,+Australia&output=embed"
+        style="width:100%;height:100%;border:0;"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Map of Sydney and Greater Sydney, our general service area">
+      </iframe>
     </div>
-    <p class="hint" style="margin-top:20px;">This list is indicative of the areas we regularly service, not an exhaustive boundary. If your suburb isn't listed, get in touch — most of Greater Sydney is within reach.</p>
   </div>
 </section>
 
+<!-- LOCAL INSTALLS — genuine photography already used and verified
+     elsewhere on the site (see docs/asset-manifest.md), not attached to
+     specific suburbs since no suburb list has been supplied. -->
 <section class="section section-alt">
-  <div class="container container-narrow text-center">
-    <p class="eyebrow">Wider NSW</p>
-    <h2>Commercial and larger solar/battery projects beyond Sydney</h2>
-    <p class="lede" style="margin-inline:auto;">For commercial solar, battery storage, EV charging infrastructure and larger residential projects, we consider suitable sites across wider NSW. <a href="/commercial-project-enquiry/">Start a project enquiry</a> and we'll confirm whether your location is a fit.</p>
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Recent work</p>
+      <h2>Installs across Sydney and Greater Sydney</h2>
+    </div>
+    <div class="photo-gallery">
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/photos/residential-solar-rooftop-1-1536.jpg" width="1536" height="1152" loading="lazy" decoding="async" alt="Solar panels installed on a residential rooftop">
+        </div>
+        <figcaption>Residential solar installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-sigenergy-exterior.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Sigenergy battery system installed against an exterior wall">
+        </div>
+        <figcaption>Battery storage installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/ev-charging/goodwe-home-ev-charger.webp" width="1320" height="1760" loading="lazy" decoding="async" alt="A GoodWe home EV charger installed on a garage wall">
+        </div>
+        <figcaption>Home EV charger installation</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 

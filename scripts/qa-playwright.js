@@ -35,6 +35,8 @@ const pages = [
   '/commercial-batteries/',
   '/switchboard-upgrades/',
   '/projects/',
+  '/commercial-load-review/',
+  '/commercial-solar-battery-quote/',
 ];
 const errors = [];
 
@@ -297,6 +299,79 @@ async function run(label, fn) {
     await page.close();
   });
 
+  await run('homepage trust grid: six transparent credential cells, correct badge sizes, no evnex stage, matching desktop heights', async () => {
+    for (const width of [1440, 390]) {
+      const page = await context.newPage();
+      await page.setViewportSize({ width, height: 1100 });
+      await page.goto(BASE + '/', { waitUntil: 'load', timeout: 15000 });
+      // The trust grid's images use loading="lazy" by design (they're below
+      // the fold and shouldn't compete with LCP resources) — at narrow
+      // viewports the section can sit far enough down the page that the
+      // browser hasn't started fetching them right after the load event.
+      // Scroll the section into view and let the lazy-load fire, the same
+      // way a real visitor reaches it, before asserting on natural size.
+      await page.evaluate(() => document.querySelector('.trust-card--evnex .trust-card-mark img')?.scrollIntoView());
+      await page.waitForFunction(() => {
+        const img = document.querySelector('.trust-card--evnex .trust-card-mark img');
+        return !img || img.complete;
+      }, { timeout: 5000 }).catch(() => {});
+      const data = await page.evaluate(() => {
+        const cards = [...document.querySelectorAll('.trust-card')];
+        const rect = (sel) => {
+          const el = document.querySelector(sel);
+          return el ? el.getBoundingClientRect() : null;
+        };
+        const style = (sel) => {
+          const el = document.querySelector(sel);
+          return el ? getComputedStyle(el) : null;
+        };
+        const evnexImg = document.querySelector('.trust-card--evnex .trust-card-mark img');
+        const teslaImg = document.querySelector('.trust-card--tesla .trust-card-mark img');
+        return {
+          cardCount: cards.length,
+          cardHeights: cards.map((c) => c.getBoundingClientRect().height),
+          saaWidth: rect('.trust-card--saa .trust-card-mark img')?.width ?? 0,
+          secHeight: rect('.trust-card--sec .trust-card-mark img')?.height ?? 0,
+          ohmeHeight: rect('.trust-card--ohme .trust-card-mark img')?.height ?? 0,
+          evnexHeight: rect('.trust-card--evnex .trust-card-mark img')?.height ?? 0,
+          evnexNaturalW: evnexImg?.naturalWidth ?? 0,
+          evnexNaturalH: evnexImg?.naturalHeight ?? 0,
+          teslaNaturalW: teslaImg?.naturalWidth ?? 0,
+          teslaNaturalH: teslaImg?.naturalHeight ?? 0,
+          teslaWidth: rect('.trust-card--tesla .trust-card-mark img')?.width ?? 0,
+          evnexStageExists: !!document.querySelector('.evnex-badge-stage'),
+          cardBgs: [...document.querySelectorAll('.trust-card')].map((c) => getComputedStyle(c).backgroundColor),
+          cardShadows: [...document.querySelectorAll('.trust-card')].map((c) => getComputedStyle(c).boxShadow),
+        };
+      });
+
+      if (data.cardCount !== 6) errors.push(`/ @${width}: expected 6 .trust-card credential items, found ${data.cardCount}`);
+      if (data.evnexNaturalW === 0 || data.evnexNaturalH === 0) errors.push(`/ @${width}: Evnex badge image has zero natural dimensions (failed to load)`);
+      if (data.evnexHeight < 60) errors.push(`/ @${width}: Evnex badge rendered height ${data.evnexHeight}px is below the required 60px minimum`);
+      if (data.evnexStageExists) errors.push(`/ @${width}: .evnex-badge-stage still exists — should have been removed`);
+      if (data.teslaNaturalW === 0 || data.teslaNaturalH === 0) errors.push(`/ @${width}: Tesla badge image has zero natural dimensions (failed to load)`);
+      data.cardBgs.forEach((bg, i) => {
+        if (bg !== 'rgba(0, 0, 0, 0)') errors.push(`/ @${width}: trust-card #${i} has a non-transparent background (${bg})`);
+      });
+      data.cardShadows.forEach((sh, i) => {
+        if (sh !== 'none') errors.push(`/ @${width}: trust-card #${i} has a box-shadow (${sh}) — cells must not look like white tiles`);
+      });
+
+      if (width === 1440) {
+        if (data.saaWidth < 180) errors.push(`/ @${width}: SAA badge width ${data.saaWidth}px is below the required 180px minimum`);
+        if (data.secHeight < 80) errors.push(`/ @${width}: SEC badge height ${data.secHeight}px is below the required 80px minimum`);
+        if (data.ohmeHeight < 90) errors.push(`/ @${width}: Ohme badge height ${data.ohmeHeight}px is below the required 90px minimum`);
+        if (data.evnexHeight < 88) errors.push(`/ @${width}: Evnex badge height ${data.evnexHeight}px is below the required 88px desktop minimum`);
+        if (data.teslaWidth < 200) errors.push(`/ @${width}: Tesla badge width ${data.teslaWidth}px is below the required 200px desktop minimum`);
+        const maxH = Math.max(...data.cardHeights);
+        const minH = Math.min(...data.cardHeights);
+        if (maxH - minH > 2) errors.push(`/ @${width}: desktop credential cells do not have matching heights (max ${maxH}, min ${minH}, diff ${(maxH - minH).toFixed(2)}px)`);
+      }
+
+      await page.close();
+    }
+  });
+
   await run('no lead form has action="#" or shows a fake success state', async () => {
     for (const p of ['/service-request/', '/commercial-project-enquiry/']) {
       const page = await context.newPage();
@@ -310,39 +385,376 @@ async function run(label, fn) {
     }
   });
 
-  // /service-request/ now embeds a real HighLevel-hosted form (iframe,
-  // cross-origin) in place of the custom-built prototype form (and its
-  // ?type= preselect, which had no HighLevel equivalent) these tests used
-  // to exercise — see git history for that version, and the assessment
-  // page test above for the same pattern.
+  // /service-request/ and /commercial-project-enquiry/ both now embed a
+  // real HighLevel-hosted form (iframe, cross-origin) in place of the
+  // custom-built prototype forms these tests used to exercise — see git
+  // history for those versions, and the assessment page test above for
+  // the same pattern. Service Request's form ID was corrected from
+  // 2TfIfhVospnHx74eNcAP to D54fnMMf1LWTXOCNlh28 (the latter's internal
+  // HighLevel name is "Service Request"; the former's was the suspicious
+  // "Google/Meta ads Request a Quote").
   await run('service request page embeds the real HighLevel form, not a stale prototype', async () => {
     const page = await context.newPage();
     await page.goto(BASE + '/service-request/', { waitUntil: 'load', timeout: 15000 });
     const hasRealEmbed = await page.evaluate(
-      () => !!document.querySelector('iframe[data-form-id="2TfIfhVospnHx74eNcAP"]')
+      () => !!document.querySelector('iframe[data-form-id="D54fnMMf1LWTXOCNlh28"]')
     );
-    if (!hasRealEmbed) errors.push('/service-request/: expected HighLevel form iframe (2TfIfhVospnHx74eNcAP) not found');
+    if (!hasRealEmbed) errors.push('/service-request/: expected HighLevel form iframe (D54fnMMf1LWTXOCNlh28) not found');
     const hasStaleForm = await page.evaluate(() => !!document.getElementById('serviceRequestForm'));
     if (hasStaleForm) errors.push('/service-request/: retired custom #serviceRequestForm markup is still present');
     await page.close();
   });
 
-  await run('project enquiry prototype submit shows pending notice, not success', async () => {
+  await run('commercial project enquiry page embeds the real HighLevel form, not a stale prototype', async () => {
     const page = await context.newPage();
-    await page.setViewportSize({ width: 1024, height: 900 });
-    const urlBefore = BASE + '/commercial-project-enquiry/';
-    await page.goto(urlBefore, { waitUntil: 'load', timeout: 15000 });
-    await page.fill('#companyName', 'Test Co');
-    await page.fill('#contactName', 'Test Person');
-    await page.fill('#email', 'test@example.com');
-    await page.fill('#phone', '0400000000');
-    await page.fill('#siteAddress', '1 Test St, Sydney NSW');
-    await page.click('button[type="submit"]');
-    const pendingVisible = await page.evaluate(() => !!document.querySelector('.lead-pending-notice'));
-    if (!pendingVisible) errors.push('Project enquiry submit did not show the not-connected-yet notice');
-    const fakeSuccessVisible = await page.evaluate(() => !!document.querySelector('.assess-success'));
-    if (fakeSuccessVisible) errors.push('Project enquiry submit showed a success-style affordance — must never appear');
-    if (page.url() !== urlBefore) errors.push('Project enquiry submit navigated away — a live submission may have been attempted');
+    await page.goto(BASE + '/commercial-project-enquiry/', { waitUntil: 'load', timeout: 15000 });
+    const hasRealEmbed = await page.evaluate(
+      () => !!document.querySelector('iframe[data-form-id="UyzHXWGEaLtIQqI9z2kc"]')
+    );
+    if (!hasRealEmbed) errors.push('/commercial-project-enquiry/: expected HighLevel form iframe (UyzHXWGEaLtIQqI9z2kc) not found');
+    const hasStaleForm = await page.evaluate(() => !!document.getElementById('projectEnquiryForm'));
+    if (hasStaleForm) errors.push('/commercial-project-enquiry/: retired custom #projectEnquiryForm markup is still present');
+    await page.close();
+  });
+
+  // Commercial Load Review — single-page conversion funnel for paid Meta
+  // traffic (see the brief this page was built against). 23 Sep 2026
+  // (launch-readiness repair pass): the hardcoded LeadConnector webhook was
+  // removed from site/js/commercial-load-review.js — LEAD_ENDPOINT is now
+  // '' and every submission shows the honest "not connected" panel instead
+  // of attempting any network request. The tests below assert exactly
+  // that, not a successful submit.
+
+  await run('commercial load review: initial state — only Q1 visible, both consent boxes unticked', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+    const state = await page.evaluate(() => ({
+      q1Hidden: document.getElementById('clrQ1').hidden,
+      q2Hidden: document.getElementById('clrQ2').hidden,
+      q3Hidden: document.getElementById('clrQ3').hidden,
+      q4Hidden: document.getElementById('clrQ4').hidden,
+      q5Hidden: document.getElementById('clrQ5').hidden,
+      contactHidden: document.getElementById('clrContact').hidden,
+      consentChecked: document.getElementById('clrConsent').checked,
+      marketingChecked: document.getElementById('clrMarketing').checked,
+    }));
+    if (state.q1Hidden) errors.push('CLR: Q1 should be visible on load');
+    if (!state.q2Hidden || !state.q3Hidden || !state.q4Hidden || !state.q5Hidden || !state.contactHidden) {
+      errors.push('CLR: only Q1 should be visible before any answers — found a later question already revealed');
+    }
+    if (state.consentChecked || state.marketingChecked) errors.push('CLR: consent checkboxes must be unticked by default');
+    await page.close();
+  });
+
+  await run('commercial load review: individual-home exit, no contact capture', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+    await page.check('#siteType-home');
+    await page.waitForTimeout(600);
+    const exitVisible = await page.evaluate(() => !document.getElementById('clrExitSiteType').hidden);
+    const q2Visible = await page.evaluate(() => !document.getElementById('clrQ2').hidden);
+    const contactVisible = await page.evaluate(() => !document.getElementById('clrContact').hidden);
+    if (!exitVisible) errors.push('CLR: choosing "Individual home" did not show the out-of-scope exit panel');
+    if (q2Visible) errors.push('CLR: Q2 was revealed after an out-of-scope exit — should stop entirely');
+    if (contactVisible) errors.push('CLR: contact fields were revealed after an out-of-scope exit — must never capture contact details');
+    await page.close();
+  });
+
+  await run('commercial load review: non-NSW postcode exit', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+    await page.check('#siteType-business');
+    await page.waitForTimeout(600);
+    await page.fill('#clrSuburb', 'Melbourne');
+    await page.fill('#clrPostcode', '3000');
+    await page.waitForTimeout(700);
+    const exitVisible = await page.evaluate(() => !document.getElementById('clrExitPostcode').hidden);
+    const q3Visible = await page.evaluate(() => !document.getElementById('clrQ3').hidden);
+    if (!exitVisible) errors.push('CLR: a non-NSW postcode (3000) did not show the out-of-scope exit panel');
+    if (q3Visible) errors.push('CLR: Q3 was revealed after a non-NSW postcode exit');
+    await page.close();
+  });
+
+  await run('commercial load review: full happy path via mouse — "ask someone else" does not block submit, no PII in analytics, honest not-connected state (no fake success)', async () => {
+    const page = await context.newPage();
+    let webhookHit = false;
+    await page.route('https://services.leadconnectorhq.com/**', (route) => {
+      webhookHit = true;
+      route.abort();
+    });
+    await page.goto(BASE + '/commercial-load-review/?utm_source=meta&utm_campaign=loadreview&fbclid=abc123', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.check('#siteType-business');
+    await page.waitForTimeout(600);
+    await page.fill('#clrSuburb', 'Parramatta');
+    await page.fill('#clrPostcode', '2150');
+    await page.waitForTimeout(700);
+    await page.check('#loadPattern-overnight');
+    await page.waitForTimeout(600);
+    await page.check('#spend-3000-7500');
+    await page.waitForTimeout(600);
+    // "I'd need to ask someone else" must not block submission.
+    await page.check('#decision-askelse');
+    await page.waitForTimeout(600);
+    const contactVisible = await page.evaluate(() => !document.getElementById('clrContact').hidden);
+    if (!contactVisible) errors.push('CLR: contact fields did not reveal after "I\'d need to ask someone else" — that answer must not block progress');
+
+    await page.fill('#clrFullName', 'Test Person');
+    await page.fill('#clrBusinessName', 'Test Co Pty Ltd');
+    await page.fill('#clrWorkEmail', 'test.person@example.com');
+    await page.fill('#clrPhone', '0400000000');
+    await page.check('#clrConsent');
+
+    const dataLayerJson = await page.evaluate(() => {
+      window.__clrDL = [];
+      const push = Array.prototype.push;
+      window.dataLayer.push = function () {
+        push.apply(window.__clrDL, arguments);
+        return push.apply(this, arguments);
+      };
+      return true;
+    });
+    void dataLayerJson;
+
+    await page.click('#clrSubmit');
+    await page.waitForTimeout(500);
+
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('clrNotConnected').hidden);
+    const confirmVisible = await page.evaluate(() => !document.getElementById('clrConfirm').hidden);
+    const formHidden = await page.evaluate(() => document.getElementById('clrForm').hidden);
+    if (!notConnectedVisible) errors.push('CLR: "not connected" panel did not appear on submit — LEAD_ENDPOINT is unset, this must never show fake success');
+    if (confirmVisible) errors.push('CLR: the success confirmation panel is visible with no endpoint configured — this is a fake-success bug');
+    if (!formHidden) errors.push('CLR: form was not hidden after submit');
+    if (webhookHit) errors.push('CLR: a request was sent to a leadconnectorhq.com URL even though LEAD_ENDPOINT is unset');
+
+    const dl = await page.evaluate(() => window.__clrDL || []);
+    const dlText = JSON.stringify(dl).toLowerCase();
+    ['test person', 'test.person@example.com', '0400000000', 'test co pty ltd'].forEach((pii) => {
+      if (dlText.includes(pii.toLowerCase())) errors.push(`CLR: dataLayer push contained PII-looking value: ${pii}`);
+    });
+    if (dl.some((e) => e.event === 'form_complete')) errors.push('CLR: form_complete was pushed to dataLayer with no endpoint configured — nothing was actually submitted');
+    if (!dl.some((e) => e.event === 'form_submit_blocked_no_endpoint')) errors.push('CLR: form_submit_blocked_no_endpoint event was not pushed to dataLayer');
+    await page.close();
+  });
+
+  await run('commercial load review: keyboard-only completion', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-load-review/', { waitUntil: 'load', timeout: 15000 });
+
+    // Q1: Tab to the radio group, arrow to "Business or commercial premises"
+    // (first option), settle, then keep tabbing/arrowing through every
+    // subsequent question exactly as a keyboard-only visitor would.
+    await page.locator('#siteType-business').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#clrSuburb').focus();
+    await page.keyboard.type('Chatswood');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('2067');
+    await page.waitForTimeout(700);
+
+    await page.locator('#loadPattern-daytime').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#spend-under1000').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#decision-decide').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    const contactVisible = await page.evaluate(() => !document.getElementById('clrContact').hidden);
+    if (!contactVisible) {
+      errors.push('CLR keyboard-only: contact fields never revealed — keyboard-driven progressive reveal is broken');
+      await page.close();
+      return;
+    }
+
+    await page.locator('#clrFullName').focus();
+    await page.keyboard.type('Keyboard Tester');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('Keyboard Test Co');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('keyboard.tester@example.com');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('0400111222');
+    await page.locator('#clrConsent').focus();
+    await page.keyboard.press('Space');
+    await page.locator('#clrSubmit').focus();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
+
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('clrNotConnected').hidden);
+    if (!notConnectedVisible) errors.push('CLR keyboard-only: submission via keyboard did not reach the "not connected" panel');
+    await page.close();
+  });
+
+  await run('commercial load review: first-touch attribution survives a reload without query params', async () => {
+    // Own context so localStorage starts clean — the shared `context` above
+    // may already carry ft_ values from an earlier test's own first-touch
+    // capture (which is correct behavior for that test, but would make
+    // "first load ever" a false premise here).
+    const freshContext = await browser.newContext();
+    const page = await freshContext.newPage();
+    await page.goto(BASE + '/commercial-load-review/?utm_source=meta&utm_campaign=first_touch_test&campaign_id=camp1', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.waitForTimeout(200);
+    const ftAfterFirstLoad = await page.evaluate(() => localStorage.getItem('ft_utm_campaign'));
+    if (ftAfterFirstLoad !== 'first_touch_test') {
+      errors.push(`CLR: first-touch utm_campaign not captured to localStorage on first load (got ${ftAfterFirstLoad})`);
+    }
+    // Reload with a DIFFERENT campaign in the query string — first-touch
+    // must not be overwritten by this later visit.
+    await page.goto(BASE + '/commercial-load-review/?utm_source=meta&utm_campaign=second_touch_test', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.waitForTimeout(200);
+    const ftAfterSecondLoad = await page.evaluate(() => localStorage.getItem('ft_utm_campaign'));
+    const ltAfterSecondLoad = await page.evaluate(() => document.getElementById('lt_utm_campaign').value);
+    if (ftAfterSecondLoad !== 'first_touch_test') {
+      errors.push(`CLR: first-touch utm_campaign was overwritten by a later visit (got ${ftAfterSecondLoad})`);
+    }
+    if (ltAfterSecondLoad !== 'second_touch_test') {
+      errors.push(`CLR: latest-touch utm_campaign did not update to the current visit's value (got ${ltAfterSecondLoad})`);
+    }
+    await freshContext.close();
+  });
+
+  // Commercial Solar & Battery Quote — second single-page conversion funnel.
+  // 23 Sep 2026 (launch-readiness repair pass): same webhook removal as
+  // Commercial Load Review above — LEAD_ENDPOINT is now '' in
+  // site/js/commercial-solar-battery-quote.js, so submitting always shows
+  // the "not connected" panel rather than a fake success state.
+
+  await run('commercial solar battery quote: initial state — only Q1 visible, both consent boxes unticked', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-solar-battery-quote/', { waitUntil: 'load', timeout: 15000 });
+    const state = await page.evaluate(() => ({
+      q1Hidden: document.getElementById('csbqQ1').hidden,
+      q2Hidden: document.getElementById('csbqQ2').hidden,
+      q3Hidden: document.getElementById('csbqQ3').hidden,
+      contactHidden: document.getElementById('csbqContact').hidden,
+      consentChecked: document.getElementById('csbqConsent').checked,
+      marketingChecked: document.getElementById('csbqMarketing').checked,
+    }));
+    if (state.q1Hidden) errors.push('CSBQ: Q1 should be visible on load');
+    if (!state.q2Hidden || !state.q3Hidden || !state.contactHidden) {
+      errors.push('CSBQ: only Q1 should be visible before any answers — found a later question already revealed');
+    }
+    if (state.consentChecked || state.marketingChecked) errors.push('CSBQ: consent checkboxes must be unticked by default');
+    await page.close();
+  });
+
+  await run('commercial solar battery quote: full happy path via mouse — no PII in analytics, honest not-connected state (no fake success)', async () => {
+    const page = await context.newPage();
+    let webhookHit = false;
+    await page.route('https://services.leadconnectorhq.com/**', (route) => {
+      webhookHit = true;
+      route.abort();
+    });
+    await page.goto(BASE + '/commercial-solar-battery-quote/?utm_source=meta&utm_campaign=csbq&fbclid=xyz789', {
+      waitUntil: 'load',
+      timeout: 15000,
+    });
+    await page.check('#propType-warehouse');
+    await page.waitForTimeout(600);
+    await page.check('#spend-5000-15000');
+    await page.waitForTimeout(600);
+    await page.check('#goal-lowerbills');
+    await page.waitForTimeout(600);
+
+    const contactVisible = await page.evaluate(() => !document.getElementById('csbqContact').hidden);
+    if (!contactVisible) errors.push('CSBQ: contact fields did not reveal after answering all three questions');
+
+    await page.fill('#csbqFullName', 'Test Person');
+    await page.fill('#csbqBusinessName', 'Test Co Pty Ltd');
+    await page.fill('#csbqPhone', '0400000000');
+    await page.fill('#csbqWorkEmail', 'test.person@example.com');
+    await page.fill('#csbqSuburb', 'Parramatta');
+    await page.fill('#csbqPostcode', '2150');
+    await page.check('#csbqConsent');
+
+    await page.evaluate(() => {
+      window.__csbqDL = [];
+      const push = Array.prototype.push;
+      window.dataLayer.push = function () {
+        push.apply(window.__csbqDL, arguments);
+        return push.apply(this, arguments);
+      };
+    });
+
+    await page.click('#csbqSubmit');
+    await page.waitForTimeout(500);
+
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('csbqNotConnected').hidden);
+    const confirmVisible = await page.evaluate(() => !document.getElementById('csbqConfirm').hidden);
+    const formHidden = await page.evaluate(() => document.getElementById('csbqForm').hidden);
+    if (!notConnectedVisible) errors.push('CSBQ: "not connected" panel did not appear on submit — LEAD_ENDPOINT is unset, this must never show fake success');
+    if (confirmVisible) errors.push('CSBQ: the success confirmation panel is visible with no endpoint configured — this is a fake-success bug');
+    if (!formHidden) errors.push('CSBQ: form was not hidden after submit');
+    if (webhookHit) errors.push('CSBQ: a request was sent to a leadconnectorhq.com URL even though LEAD_ENDPOINT is unset');
+
+    const dl = await page.evaluate(() => window.__csbqDL || []);
+    const dlText = JSON.stringify(dl).toLowerCase();
+    ['test person', 'test.person@example.com', '0400000000', 'test co pty ltd'].forEach((pii) => {
+      if (dlText.includes(pii.toLowerCase())) errors.push(`CSBQ: dataLayer push contained PII-looking value: ${pii}`);
+    });
+    if (dl.some((e) => e.event === 'form_complete')) errors.push('CSBQ: form_complete was pushed to dataLayer with no endpoint configured — nothing was actually submitted');
+    if (!dl.some((e) => e.event === 'form_submit_blocked_no_endpoint')) errors.push('CSBQ: form_submit_blocked_no_endpoint event was not pushed to dataLayer');
+    await page.close();
+  });
+
+  await run('commercial solar battery quote: keyboard-only completion', async () => {
+    const page = await context.newPage();
+    await page.goto(BASE + '/commercial-solar-battery-quote/', { waitUntil: 'load', timeout: 15000 });
+
+    await page.locator('#propType-manufacturing').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#spend-under5000').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    await page.locator('#goal-resilience').focus();
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(600);
+
+    const contactVisible = await page.evaluate(() => !document.getElementById('csbqContact').hidden);
+    if (!contactVisible) {
+      errors.push('CSBQ keyboard-only: contact fields never revealed — keyboard-driven progressive reveal is broken');
+      await page.close();
+      return;
+    }
+
+    await page.locator('#csbqFullName').focus();
+    await page.keyboard.type('Keyboard Tester');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('Keyboard Test Co');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('0400111222');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('keyboard.tester@example.com');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('Chatswood');
+    await page.keyboard.press('Tab');
+    await page.keyboard.type('2067');
+    await page.locator('#csbqConsent').focus();
+    await page.keyboard.press('Space');
+    await page.locator('#csbqSubmit').focus();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
+
+    const notConnectedVisible = await page.evaluate(() => !document.getElementById('csbqNotConnected').hidden);
+    if (!notConnectedVisible) errors.push('CSBQ keyboard-only: submission via keyboard did not reach the "not connected" panel');
     await page.close();
   });
 

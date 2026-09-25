@@ -148,7 +148,7 @@ for (const file of files) {
   // individual suburb pages are still out of scope; that's a separate,
   // still-open item.
 
-  // --- 15-Year Workmanship Warranty: owner-directed restoration, 24 Sep
+  // --- 10-Year Workmanship Warranty: owner-directed restoration, 24 Sep
   // 2026 — this is an owner-supplied business claim, not independently
   // verified or solicitor-reviewed (see docs/owner-inputs-required.md).
   // Rather than banning the phrase, these checks confirm the claim only
@@ -156,11 +156,18 @@ for (const file of files) {
   // state it, and the About/FAQ explanations both distinguish workmanship
   // coverage from manufacturer product warranties and preserve Australian
   // Consumer Law rights.
+  // Duration corrected 25 Sep 2026 on direct owner instruction: 15 years
+  // -> 10 years, sitewide — this gate (and every occurrence of the phrase)
+  // updated to match. Do not revert to "15-Year" without a new, explicit
+  // owner instruction.
   const isHome = slug === '';
   const isAbout = slug === 'about';
   const isFaqs = slug === 'faqs';
-  if ((isHome || isAbout) && !/15-Year Workmanship Warranty/.test(rawHtml)) {
-    fail(`${rel}: expected the exact phrase "15-Year Workmanship Warranty"`);
+  if ((isHome || isAbout) && !/10-Year Workmanship Warranty/.test(rawHtml)) {
+    fail(`${rel}: expected the exact phrase "10-Year Workmanship Warranty"`);
+  }
+  if (/15-Year Workmanship Warranty/.test(rawHtml)) {
+    fail(`${rel}: stale "15-Year Workmanship Warranty" claim — the duration was corrected to 10 years sitewide on 25 Sep 2026`);
   }
   if (isAbout || isFaqs) {
     if (!/manufacturer/i.test(rawHtml) || !/separate/i.test(rawHtml)) {

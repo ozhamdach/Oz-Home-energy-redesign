@@ -413,6 +413,23 @@ explicit "yes, that's accurate" before launch, not just consistent phrasing:
       not be described as launch-ready on the strength of this visual work
       alone** — the solicitor review and real-contract alignment above are
       still open.
+      **Duration corrected, 25 Sep 2026: 15 years -> 10 years, direct owner
+      instruction ("change workmanship warranty to 10 years across the
+      board").** Every public occurrence of the claim — the homepage
+      hero-trust line, the homepage warranty-mark/warranty-strip, the
+      About page's `#warranty` heading and body, and the FAQ answer — now
+      says 10 years, and the permanent QA gate in
+      `scripts/qa-static-checks.js` was updated to require the "10-Year
+      Workmanship Warranty" phrase and fail on any stale "15-Year"
+      occurrence. **This does not by itself update the "OHE 15-Year
+      Workmanship Warranty — Draft Terms" doc referenced above** (the
+      17-decision draft that was approved by the owner at the 15-year
+      figure) or any real Sales and Installation Agreement/handover
+      template outside this repo — those still say 15 years wherever they
+      exist and need their own correction pass so the public-facing claim
+      and the actual contract terms don't diverge. The solicitor-review
+      and real-contract-alignment blocker above remains open regardless of
+      duration.
 - [ ] Any further accreditation, certification, award, installation count, savings figure — aside from the electrical contractor licence, the owner-confirmed SAA accreditation S5265652, and the three items above, **none are currently published**; this stays true only as long as nothing else is added without going through this checklist first
 
 Where confirmation is absent for any of the above, the current wording

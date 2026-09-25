@@ -313,6 +313,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Page (non-home) header banner */
 .page-banner { background: var(--bg-inverse); color: #fff; padding-block: 56px 44px; }
+.page-banner .eyebrow { color: #9db4ff; }
 .page-banner h1 { color: #fff; margin-bottom: 12px; }
 .page-banner .lede { color: #d8ddf5; }
 .breadcrumbs { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; }

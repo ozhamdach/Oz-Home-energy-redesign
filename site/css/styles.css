@@ -313,6 +313,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Page (non-home) header banner */
 .page-banner { background: var(--bg-inverse); color: #fff; padding-block: 56px 44px; }
+.page-banner .eyebrow { color: #9db4ff; }
 .page-banner h1 { color: #fff; margin-bottom: 12px; }
 .page-banner .lede { color: #d8ddf5; }
 .breadcrumbs { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; }
@@ -477,6 +478,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .trust-card--sec .trust-card-mark img { height: 98px; }
 .trust-card--ohme .trust-card-mark img { height: 108px; border-radius: 10px; }
 .trust-card--evnex .trust-card-mark img { height: 104px; }
+.trust-card--tesla .trust-card-mark img { width: 220px; }
 
 /* Bespoke OHE workmanship-warranty mark — a technical crop-mark motif,
    deliberately not styled as a manufacturer seal or award medal. */
@@ -537,6 +539,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
   .trust-card--sec .trust-card-mark img { height: 80px; }
   .trust-card--ohme .trust-card-mark img { height: 88px; }
   .trust-card--evnex .trust-card-mark img { height: 84px; }
+  .trust-card--tesla .trust-card-mark img { width: 180px; }
   .warranty-strip { flex-direction: column; text-align: center; gap: 12px; padding: 24px 12px; }
   .warranty-strip-text { text-align: center; align-items: center; }
 }
@@ -780,3 +783,33 @@ table.data-table tr:last-child td { border-bottom: none; }
   font-size: 0.86rem; color: var(--text-muted); margin-top: 16px;
 }
 .preview-note svg { width: 18px; height: 18px; color: var(--brand); flex-shrink: 0; margin-top: 1px; }
+
+/* ---------- Sticky mobile call/quote bar ---------- */
+/* Fixed to the viewport bottom on small screens only — a persistent,
+   low-friction path to call or start a quote without scrolling back up.
+   Desktop already has the header's own call/quote buttons, so this stays
+   hidden there to avoid a redundant, decorative bar. */
+.mobile-cta-bar { display: none; }
+@media (max-width: 760px) {
+  .mobile-cta-bar {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 200;
+    background: #fff; border-top: 1px solid var(--border);
+    box-shadow: 0 -6px 20px rgba(26,26,26,0.08);
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    gap: 10px;
+  }
+  .mobile-cta-bar-call, .mobile-cta-bar-quote {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px; border-radius: var(--radius-md);
+    font-family: var(--font-heading); font-weight: 600; font-size: 0.92rem;
+    text-decoration: none; text-align: center;
+  }
+  .mobile-cta-bar-call { background: var(--bg-alt); color: var(--text); border: 1px solid var(--border); }
+  .mobile-cta-bar-call svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .mobile-cta-bar-quote { background: var(--brand); color: #fff; }
+  .mobile-cta-bar-call:focus-visible, .mobile-cta-bar-quote:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  /* Keep the bar from covering the last section's content, and the footer
+     itself, on pages short enough for the footer to reach the bottom. */
+  #main { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  .site-footer { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+}

@@ -40,18 +40,21 @@
   "telephone": "+61435336336",
   "description": "Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.",
   "areaServed": [
-    { "@type": "City", "name": "Sydney" }
+    { "@type": "City", "name": "Sydney" },
+    { "@type": "AdministrativeArea", "name": "Greater Sydney" }
   ],
   "hasCredential": [
     {
       "@type": "EducationalOccupationalCredential",
       "credentialCategory": "license",
-      "name": "NSW Electrical Contractor Licence"
+      "name": "NSW Electrical Contractor Licence",
+      "identifier": "382607C"
     },
     {
       "@type": "EducationalOccupationalCredential",
       "credentialCategory": "certification",
-      "name": "SAA Accreditation"
+      "name": "SAA Accreditation",
+      "identifier": "S5265652"
     }
   ],
   "hasOfferCatalog": {
@@ -105,6 +108,58 @@
     {
       "@type": "City",
       "name": "Sydney"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Greater Sydney"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What size solar system suits my home?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's a balance of available roof space, your daytime electricity use, your DNSP-approved export limit and your budget. We'll talk through options rather than defaulting to the largest system your roof can physically hold."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need council or strata approval?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most standalone houses don't need council approval for a standard rooftop system, but strata properties, heritage-listed homes and some local overlays can have extra requirements. We'll flag this during your assessment if it applies to you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I add a battery later instead of now?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — many customers install solar first and add a battery once budget allows. We can design the initial system and switchboard with a future battery in mind, so the retrofit is simpler."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does shading actually affect output?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "More than most people expect — shading even one panel in a string can drag down the output of the whole string, not just that panel. We map shading from trees and neighbouring buildings at the assessment stage and design the layout, or recommend optimisers, around it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does my roof need to face north?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "North-facing gets the most output, but east and west-facing roofs still work well, especially if you use more electricity in the morning or evening. Splitting panels across multiple roof faces is common."
+      }
     }
   ]
 }
@@ -231,7 +286,7 @@
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Residential Solar</p>
     <p class="eyebrow">Residential Solar</p>
-    <h1>Solar sized to your roof, not a standard package</h1>
+    <h1>Sydney Solar Panel Installation — Sized to Your Roof</h1>
     <p class="lede">A solar system is only as good as the design behind it. We size panels and inverter capacity around your roof's orientation and shading, your household's electricity use, and your DNSP-approved export limit.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/assessment/?goal=new-solar">Start Your Free Energy Assessment</a>
@@ -285,6 +340,50 @@
   </div>
 </section>
 
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">System sizes</p>
+      <h2>Common system sizes</h2>
+      <p class="lede">Your actual size comes from your roof, usage and goals — these are common starting points.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card"><h3>6.6 kW</h3><p>A common size for smaller households or roofs with limited north-facing space.</p></div>
+      <div class="card"><h3>10 kW</h3><p>Suits a typical family home with daytime usage or plans to add a battery.</p></div>
+      <div class="card"><h3>13 kW</h3><p>For larger roofs, higher usage, or households planning an EV or battery alongside solar.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container container-narrow">
+    <div class="section-head">
+      <p class="eyebrow">STC rebate</p>
+      <h2>The upfront solar rebate (STCs)</h2>
+    </div>
+    <div class="card">
+      <p>New solar systems earn Small-scale Technology Certificates (STCs) — a federal rebate your installer applies as a discount on your upfront cost, not a separate claim. Sydney is rated Zone 3 (zone factor 1.382), one of the standard bands used to calculate how many STCs a system earns.</p>
+      <p class="hint">STC value depends on system size, zone and the current STC market price, and reduces slightly each year as the scheme phases down toward 2030. Indicative only, as of 24 Sep 2026 — your exact entitlement is confirmed as part of your quote. Source: <a href="https://www.solarchoice.net.au/learn/solar-rebates/stc-scheme/">Solar Choice — STC Rebate Scheme explained</a>.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Brands we install</p>
+      <h2>Panels and inverters</h2>
+    </div>
+    <div class="grid grid-2">
+      <div class="card"><h3>Panels</h3><p>Jinko Solar, JA Solar, Trina Solar.</p></div>
+      <div class="card"><h3>Inverters</h3><p>FoxESS, Sungrow, Sigenergy, GoodWe — matched to your system and any current or future battery plans.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="section section-alt">
   <div class="container">
     <div class="section-head">
@@ -303,6 +402,14 @@
       <details class="faq-item">
         <summary>Can I add a battery later instead of now?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
         <div class="answer"><p>Yes — many customers install solar first and add a battery once budget allows. We can design the initial system and switchboard with a future battery in mind, so the retrofit is simpler. See <a href="/solar-battery-upgrades/">solar &amp; battery upgrades</a>.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>How much does shading actually affect output?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="answer"><p>More than most people expect — shading even one panel in a string can drag down the output of the whole string, not just that panel. We map shading from trees and neighbouring buildings at the assessment stage and design the layout (or recommend optimisers) around it, rather than assuming a clear roof.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>Does my roof need to face north?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="answer"><p>North-facing gets the most output, but east and west-facing roofs still work well, especially if you use more electricity in the morning or evening. Splitting panels across multiple roof faces is common and can suit your usage pattern better than a single north-facing array.</p></div>
       </details>
     </div>
   </div>
@@ -356,8 +463,8 @@
         <a href="/" class="footer-logo-chip" aria-label="Oz Home Energy — home">
           <img src="/img/brand/oz-home-energy-logo.png" alt="Oz Home Energy" width="1560" height="1038" loading="lazy">
         </a>
-        <p>Oz Home Energy is a Sydney service-area electrical and energy contractor serving homes and businesses across Sydney, NSW.</p>
-        <p class="footer-licence">NSW Electrical Contractor Licence</p>
+        <p>Oz Home Energy is a Sydney service-area electrical and energy contractor serving homes and businesses across Sydney and Greater Sydney, NSW.</p>
+        <p class="footer-licence">NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652</p>
 
       </div>
 
@@ -411,7 +518,7 @@
     <div class="footer-bottom">
       <div>
         <div>Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556</div>
-        <div>NSW Electrical Contractor Licence · Sydney, NSW</div>
+        <div>NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652 · Sydney, NSW</div>
         <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
       </div>
       <ul class="legal-links">
@@ -424,6 +531,13 @@
   </div>
 </footer>
 
+<div class="mobile-cta-bar" role="region" aria-label="Quick contact">
+  <a class="mobile-cta-bar-call" href="tel:+61435336336">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8Z" fill="currentColor"/></svg>
+    <span>Call 0435 336 336</span>
+  </a>
+  <a class="mobile-cta-bar-quote" href="/assessment/">Get My Free Quote</a>
+</div>
 <script src="/js/main.js" defer></script>
 
 </body>

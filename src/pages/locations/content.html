@@ -1,13 +1,68 @@
-<!-- Service-area scope note: owner has confirmed Sydney, NSW only — no
-     approved Greater Sydney boundary or suburb list exists yet. Do not
-     re-add a suburb grid, a wider boundary claim, or suburb pages without
-     that confirmation. -->
+<!-- Service-area scope note: owner confirmed the Greater Sydney boundary
+     24 Sep 2026 (site-loop, Home round 5) — see docs/owner-inputs-required.md.
+     Still no specific suburb list has been supplied, so this stays a
+     boundary statement rather than a suburb grid or individual suburb
+     pages; do not add either without a real supplied list. -->
 <section class="page-banner">
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Locations</p>
     <p class="eyebrow">Service Areas</p>
-    <h1>Serving Sydney Homes and Businesses</h1>
-    <p class="lede">Oz Home Energy is a service-area business serving Sydney, NSW. Availability for an individual property is confirmed during the assessment process.</p>
+    <h1>Sydney &amp; Greater Sydney Solar, Battery and Electrical Service Areas</h1>
+    <p class="lede">Oz Home Energy is a service-area business serving Sydney and Greater Sydney, NSW. Availability for an individual property is confirmed during the assessment process.</p>
+  </div>
+</section>
+
+<!-- MAP — a plain Google Maps embed centred on Sydney/NSW, no API key
+     required (the no-key "output=embed" form). Not suburb-specific pins:
+     no suburb list has been supplied, so this shows the general service
+     region rather than implying a defined boundary it can't back up. -->
+<section class="section">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Coverage area</p>
+      <h2>Sydney and Greater Sydney</h2>
+    </div>
+    <div style="border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9;max-width:900px;margin:0 auto;">
+      <iframe
+        src="https://www.google.com/maps?q=Sydney,+NSW,+Australia&output=embed"
+        style="width:100%;height:100%;border:0;"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Map of Sydney and Greater Sydney, our general service area">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL INSTALLS — genuine photography already used and verified
+     elsewhere on the site (see docs/asset-manifest.md), not attached to
+     specific suburbs since no suburb list has been supplied. -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Recent work</p>
+      <h2>Installs across Sydney and Greater Sydney</h2>
+    </div>
+    <div class="photo-gallery">
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/photos/residential-solar-rooftop-1-1536.jpg" width="1536" height="1152" loading="lazy" decoding="async" alt="Solar panels installed on a residential rooftop">
+        </div>
+        <figcaption>Residential solar installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-sigenergy-exterior.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Sigenergy battery system installed against an exterior wall">
+        </div>
+        <figcaption>Battery storage installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/ev-charging/goodwe-home-ev-charger.webp" width="1320" height="1760" loading="lazy" decoding="async" alt="A GoodWe home EV charger installed on a garage wall">
+        </div>
+        <figcaption>Home EV charger installation</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 

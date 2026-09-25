@@ -46,12 +46,10 @@
      Premium redesign, 24 Sep 2026: badges enlarged and taken out of white
      card tiles (transparent grid cells); warranty moved out of the
      credential grid into its own full-width strip below.
-     Tesla: this pass does NOT activate the Tesla card. Publishing Tesla's
-     name/mark still requires Tesla's own written marketing/publication
-     consent under the executed installer agreement — a business's own
-     instruction to publish is not a substitute for that consent, since
-     it's not this business's mark to authorise. The fully-built,
-     commented-out card is preserved unchanged below the grid; uncomment
+     Tesla: activated 25 Sep 2026 — written marketing/publication consent
+     obtained from energyproductsmarketing@tesla.com under the executed
+     installer agreement (see the Tesla card's own comment below for the
+     full evidence trail and the title-consistency condition it sets).
      once genuine written approval exists. See docs/owner-inputs-required.md.
      Ohme: confirmed and enabled — Ohme EV charger installation (e-pod/
      Home Pro range) only, not a general EV-brand endorsement. The only
@@ -126,28 +124,28 @@
         <h3>Evnex Certified Installer</h3>
         <p class="trust-card-meta">Certified to install Evnex EV chargers</p>
       </a>
-      <!-- TESLA CARD — NOT activated in this pass. DO NOT ENABLE without
-           written marketing approval from energyproductsmarketing@tesla.com
-           (see the trust-section comment above for the full evidence
-           trail). 23 Sep 2026: the trust-tesla-badge-* image files this
-           card references were removed from site/img/photos/ (no Tesla
-           material may sit in the deployed output even unreferenced). The
-           source is archived at assets/original-photography/trust-badges/
-           tesla-powerwall-certified-installer.png. To reactivate: restore
-           the trust-tesla-badge job in scripts/process-photos.py, run it,
-           THEN uncomment this block.
-      <a class="trust-card" href="/about/">
+      <!-- TESLA CARD — ACTIVATED 25 Sep 2026. Tesla written marketing/
+           publication approval obtained from
+           energyproductsmarketing@tesla.com (Huynh Dong, Demand
+           Generation Intern – Energy, APAC), approving the exact
+           mock-ups sent for review (including this card, at the width/
+           placement shown), on condition the official titles "Tesla
+           Energy Certified Installer" and/or "Tesla Powerwall Certified
+           Installer" are used consistently sitewide — applied below.
+           Confirmed to also cover Wall Connector installer status. Asset
+           is the real tesla-certified-installer-black.svg badge Tesla
+           supplied, used exactly as given (not redrawn). See the Gmail
+           threads "Marketing approval request — Oz Home Energy website
+           content" and "Marketing/publication approval request — Tesla
+           Certified Installer, Oz Home Energy (Sydney)" for the full
+           evidence trail. -->
+      <a class="trust-card trust-card--tesla" href="/tesla-powerwall-3/">
         <span class="trust-card-mark">
-          <picture>
-            <source type="image/avif" srcset="/img/photos/trust-tesla-badge-320.avif 320w, /img/photos/trust-tesla-badge-480.avif 480w" sizes="160px">
-            <source type="image/webp" srcset="/img/photos/trust-tesla-badge-320.webp 320w, /img/photos/trust-tesla-badge-480.webp 480w" sizes="160px">
-            <img src="/img/photos/trust-tesla-badge-480.jpg" width="1920" height="780" loading="lazy" alt="Tesla Powerwall Certified Installer">
-          </picture>
+          <img src="/img/brand/tesla/tesla-certified-installer-black.svg" width="406" height="165" loading="lazy" decoding="async" alt="Tesla Energy Certified Installer">
         </span>
-        <h3>Tesla Certified Installer</h3>
+        <h3>Tesla Energy Certified Installer</h3>
         <p class="trust-card-meta">Powerwall &amp; Wall Connector</p>
       </a>
-      -->
     </div>
     <!-- 15-YEAR WORKMANSHIP WARRANTY STRIP — restored 24 Sep 2026 on direct
          owner instruction, moved 24 Sep 2026 (premium redesign) out of the

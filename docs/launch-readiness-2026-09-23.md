@@ -46,17 +46,17 @@ scratch, or from memory, when that day comes.
 
 ## Tesla
 
-- [ ] Either (a) Tesla has granted written marketing/publication approval
-      (an email from `energyproductsmarketing@tesla.com` or equivalent —
-      see the Tesla section of `docs/owner-inputs-required.md` for the
-      exact contractual clause this satisfies), and the commented-out
-      Tesla content has been activated following the steps in that
-      document, **or** (b) no such approval exists yet, and every Tesla
-      reference remains exactly as it is now: commented out in
-      `src/pages/home/content.html` and `src/pages/battery-storage/
-      content.html`, absent from `/ev-charging/`, the draft page kept at
-      `docs/tesla-powerwall-3-DRAFT/` outside `src/pages/`, and the asset
-      files under `assets/original-photography/` rather than `site/`.
+- [x] **Resolved 25 Sep 2026.** Tesla granted written marketing/
+      publication approval (replies from `energyproductsmarketing@tesla.com`
+      / Huynh Dong to the mock-up pack sent for review, on condition the
+      official titles "Tesla Energy Certified Installer" and/or "Tesla
+      Powerwall Certified Installer" are used consistently — see the
+      Tesla section of `docs/owner-inputs-required.md` for the full
+      evidence trail). The Tesla content has been activated: the trust
+      card is live in `src/pages/home/content.html`, the feature block is
+      live in `src/pages/battery-storage/content.html`, and
+      `src/pages/tesla-powerwall-3/` is now a real, building page (moved
+      from `docs/tesla-powerwall-3-DRAFT/`).
 - [ ] If Tesla assets were ever fully removed from git history (not just
       the working tree) as an additional precaution, that rewrite was done
       deliberately and with sign-off — it affects every existing clone of

@@ -141,18 +141,55 @@ Tesla trust card has been handled all along:
   current, approved Tesla source, so the draft page explicitly omits
   them rather than guessing.
 
-**To activate, once real Tesla written marketing approval exists:**
-1. Uncomment the feature block in `src/pages/battery-storage/content.html`
-   and the trust-card in `src/pages/home/content.html`.
-2. `mv docs/tesla-powerwall-3-DRAFT src/pages/tesla-powerwall-3`.
-3. Restore the three Tesla `JOBS` entries in `scripts/process-photos.py`
-   (commented explanations mark exactly where) pointing at the archived
-   files under `assets/original-photography/`, then run
-   `python3 scripts/process-photos.py` to regenerate the derivatives into
-   `site/img/photos/`.
-4. Run `node scripts/build.js`, confirm QA passes, then commit and push.
-5. Add real Powerwall 3 specs to the draft page only once a current,
-   approved Tesla source exists — cite that source.
+**25 Sep 2026 — ACTIVATED.** Real Tesla written marketing/publication
+approval was obtained from `energyproductsmarketing@tesla.com` (Huynh
+Dong, Demand Generation Intern – Energy, APAC), approving the exact
+mock-up pack sent for review (private, localhost-only, watermarked
+"DRAFT FOR TESLA MARKETING REVIEW — NOT PUBLISHED", per the process
+described above), on one condition: use the official titles **"Tesla
+Energy Certified Installer"** and/or **"Tesla Powerwall Certified
+Installer"** consistently sitewide, rather than the plain "Tesla
+Certified Installer" the original draft card used. Confirmed by the same
+reply to also cover Wall Connector installer status, and separately
+confirmed via a second thread ("Marketing/publication approval request —
+Tesla Certified Installer, Oz Home Energy (Sydney)") replying to the
+homepage/battery-storage/dedicated-page request specifically. Both are
+real Gmail threads to/from `energyproductsmarketing@tesla.com`, dated 25
+Sep 2026 — see the account's mailbox for the full text if needed.
+
+What was actually done (differs slightly from the original activation
+plan below, since the approved card uses the newer SVG badge from the
+review pack rather than the older JPG/AVIF/WebP picture markup this plan
+was written against):
+1. Uncommented the feature block in `src/pages/battery-storage/content.html`
+   and the trust-card in `src/pages/home/content.html`, updating both to
+   the Tesla-approved title wording.
+2. `git mv docs/tesla-powerwall-3-DRAFT src/pages/tesla-powerwall-3`,
+   updating its own "We're a certified Tesla Powerwall installer" lede to
+   the approved title wording too, for sitewide consistency.
+3. Copied the two approved assets — `tesla-certified-installer-black.svg`
+   and `tesla-powerwall-3-lifestyle-webpack.webp` (renamed
+   `tesla-powerwall-3-lifestyle.webp` to match the existing markup) —
+   directly into `site/img/brand/tesla/`, unmodified, matching how every
+   other brand badge (Evnex, Ohme, SAA) is handled: a direct copy, not
+   run through `scripts/process-photos.py`'s responsive-derivative
+   pipeline (that pipeline is for original photography, not pre-sized
+   brand marks). The three `process-photos.py` `JOBS` entries this plan
+   originally referenced were never restored — they targeted the old,
+   no-longer-used picture markup and are superseded by this direct-copy
+   approach.
+4. Added `.trust-card--tesla` sizing rules to `site/css/styles.css`
+   (220px desktop / 180px mobile), matching the width agreed in the
+   review pack sent to Tesla.
+5. Ran the full build + QA suite (static preview, both production
+   variants, full Playwright regression suite, axe-core at 375px/1440px,
+   Lighthouse mobile) before commit — see the PR for exact results.
+
+Real Powerwall 3 specs (capacity, output, price, warranty) are still not
+written anywhere on the now-live page — none exist in this repo from a
+current, approved Tesla source, so it continues to omit them rather than
+guess. Add them only once a current, approved Tesla source exists, citing
+that source.
 
 ### Public-source safety (what comment-stripping does and doesn't do)
 23 Sep 2026 (critical audit repair pass): `scripts/build.js` strips every
@@ -492,7 +529,7 @@ confirmed" framing for these specific items.
 - **Google Business Profile URL and NAP alignment** — not supplied; the
   site's own NAP (name/address/phone) is now internally consistent, but
   hasn't been checked against GBP, HighLevel, or any live ad campaign.
-- **Tesla marketing approval** — see the Tesla section above.
+- ~~**Tesla marketing approval**~~ — **resolved 25 Sep 2026**, see the Tesla section above.
 - **Evnex Certified Installer status — independent confirmation** — the
   badge and status are now published (24 Sep 2026, direct owner
   instruction) but this is an owner-supplied claim, not independently

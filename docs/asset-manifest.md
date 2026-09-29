@@ -48,10 +48,11 @@ owner-confirmed as authorised for publication — see
 | `ground-mount-wide` | Homepage hero background | Manifest's suggested hero candidate |
 | `trust-ohme-badge`, `trust-tesla-badge` | ⚠️ Currently **hidden** — see below | Section markup/CSS/assets all still in place, ready to re-enable |
 | `residential-solar-rooftop-1` (regional-rooftop-overview-01) | `/residential-solar/` | |
-| `battery-fox-installed` (fox-battery-context, cropped) | `/battery-storage/` | |
+| `battery-fox-installed` (fox-battery-context, cropped) | `/home/` | Moved off `/battery-storage/` 29 Sep 2026 (owner: "every photo in battery storage must change") |
 | `ev-tesla-wall-connector` (cropped) | `/ev-charging/` | |
 | `commercial-array-team` | `/commercial-solar/` | Manifest's "strongest commercial image" |
-| `battery-sungrow-installed` | `/commercial-batteries/` | |
+| `battery-sungrow-installed` | `/commercial-batteries/`, `/battery-storage/` (hero, 29 Sep 2026) | Chosen for the battery-storage hero because, unlike `battery-fox-detail`, it has no hazard-warning stickers in frame |
+| `battery-fox-detail-crop` (fox-battery-detail, cropped to exclude hazard stickers — see `scripts/process-photos.py`) | `/battery-storage/` (inline "Adding a battery" photo, 29 Sep 2026) | `battery-fox-detail` itself (uncropped) is still used elsewhere; this is a separate derivative for a slot where the stickers were in frame |
 | `process-switchboard-open-1` | `/switchboard-upgrades/` | Captioned/alt-texted as mid-installation, not a finished board |
 | `team-installers` | `/about/` (Licensing & compliance section) | |
 | `fleet-van` (van-wrap-rear-side, cropped) | `/about/` (new "On the road" section) | Not used as the site's main hero |

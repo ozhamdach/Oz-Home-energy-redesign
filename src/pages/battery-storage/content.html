@@ -1,4 +1,19 @@
-<section class="page-banner">
+<!-- Photo hero added 29 Sep 2026 (site-loop design pass): uses
+     battery-white-unit rather than battery-fox-installed (both real,
+     already-approved install photos) — battery-fox-installed's source
+     is only 707px wide, which visibly softened when stretched to a
+     full-width desktop hero; battery-white-unit's 1200px source holds
+     up much better at that size. battery-fox-installed moved to the
+     inline slot below instead, where it's shown at its native size. -->
+<section class="page-banner page-banner--photo">
+  <div class="page-banner-media">
+    <picture>
+      <source type="image/avif" srcset="/img/photos/battery-white-unit-480.avif 480w, /img/photos/battery-white-unit-800.avif 800w, /img/photos/battery-white-unit-1200.avif 1200w" sizes="100vw">
+      <source type="image/webp" srcset="/img/photos/battery-white-unit-480.webp 480w, /img/photos/battery-white-unit-800.webp 800w, /img/photos/battery-white-unit-1200.webp 1200w" sizes="100vw">
+      <img src="/img/photos/battery-white-unit-1200.jpg" width="1200" height="1600" fetchpriority="high" alt="A white battery storage unit installed outside against a brick wall">
+    </picture>
+  </div>
+  <div class="page-banner-overlay"></div>
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Battery Storage</p>
     <p class="eyebrow">Battery Storage</p>

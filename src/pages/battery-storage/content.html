@@ -203,35 +203,40 @@
      (no customer names, locations, capacities or results stated). Backup
      changeover photo included since this page's lede and FAQ both
      genuinely discuss backup circuits/changeover equipment.
-     Gallery upgraded 29 Sep 2026 (site-loop, Home batteries — user
-     request: "use better photos"): the round-2 blind audit flagged the
-     original 4 tiles as "flat, low-contrast... reading closer to
-     placeholder than showcase-quality photography." Added the two
-     strongest real photos available from the owner-supplied pack that
-     weren't used anywhere on the site — a clean, well-lit 4-unit Hinen
-     garage install and a tidy AlphaESS exterior install (picked over
-     battery-alphaess-tower, which has visible site litter in frame) —
-     bringing the gallery to 6 for a clean 3x2/2x3 grid instead of an
-     odd 4. Hinen and AlphaESS are deliberately NOT added to the "Brands
-     we install" line above: same as the Tesla exclusion elsewhere on
-     this page, showing a real completed job in a photo gallery is not
-     the same as adding a brand to the sitewide installed-brands claim —
-     confirmed with the owner earlier this session (see the photo-wiring
-     branch site/wire-unused-battery-solar-photos and
-     docs/asset-manifest.md).
-     A 7th photo added the same day, owner-supplied directly in chat:
-     two installers with a completed FoxESS install (processed to
-     site/img/recent-work/battery/battery-foxess-installers-thumbsup.webp
-     — EXIF stripped, resized from a 2000x2000 source to 1400x1400, no
-     crop needed). This is the strongest "real people, real job" photo
-     supplied so far, matching a gap the round-2 audit's steal list
-     flagged. Three other photos supplied in the same batch (awning-
-     covered inverter/battery installs) were deliberately NOT added:
-     their source resolution (255-571px on the long edge) would have
-     reintroduced the exact "flat, low-contrast" softness this pass was
-     meant to fix — see the reply to the owner for detail. Odd count (7)
-     accepted over forcing an 8th filler photo just to keep the grid
-     even. -->
+     Gallery rebuilt 29 Sep 2026 (owner feedback: "recent battery work
+     looks terrible"). Checked every tile's actual on-page crop (the
+     .gallery-item .photo-frame rule center-crops to 4:3) rather than
+     just the source file, and found the previous 7-photo set had real
+     problems: battery-sigenergy-exterior, battery-alphaess-exterior and
+     battery-foxess-installers-thumbsup all show "DANGER — RISK OF
+     BATTERY EXPLOSION / TOXIC FUMES" hazard stickers prominently inside
+     the visible crop — alarming signage to feature in a trust-building
+     gallery. battery-sungrow-brick-wall has harsh dappled shadow
+     (bird-spike shelf above, midday sun) crossing both units. And
+     battery-foxess-installers-thumbsup reads as a casual customer
+     selfie (shorts and thongs, cluttered storage shelving behind) more
+     than documented work — a wrong call on my part when it was added.
+     All four removed.
+     Kept battery-backup-changeover and battery-hinen-multi-unit-garage
+     (both genuinely clean). Added three more clean, hazard-sticker-free
+     photos from the existing owner-supplied pack, each verified by
+     simulating the actual 4:3 crop before use: battery-hinen-garage-door,
+     battery-hinen-garage, and battery-alphaess-tower (previously
+     rejected for "visible site litter" — re-checked, and the litter
+     sits outside the 4:3 crop entirely, leaving a clean shot against a
+     rustic stone wall). battery-foxess-four-module was also salvageable:
+     its default center-crop shows the DANGER stickers, but the object
+     itself is clean, so it's kept with an inline
+     object-position: 50% 75% to bias the crop toward the four visible
+     FOX ESS modules and away from the stickers above them (a small strip
+     of garden bed at the very bottom is the trade-off, not a hazard
+     warning). Six photos gives a clean 3x2 grid on desktop instead of
+     the previous odd 7; brand variety (Hinen/FoxESS/AlphaESS, plus the
+     non-branded backup-changeover shot) still comes through despite three
+     of six being Hinen. Hinen and AlphaESS remain deliberately NOT added
+     to the "Brands we install" line above, per the standing rule that a
+     photo in this gallery isn't the same claim as a sitewide installed-
+     brands line (see docs/asset-manifest.md). -->
 
 <section class="section section-alt">
   <div class="container">
@@ -240,24 +245,6 @@
       <h2>Recent battery work</h2>
     </div>
     <div class="photo-gallery">
-      <figure class="gallery-item">
-        <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-sigenergy-exterior.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Sigenergy battery system installed against an exterior wall">
-        </div>
-        <figcaption>Sigenergy battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-sungrow-brick-wall.webp" width="707" height="944" loading="lazy" decoding="async" alt="Sungrow battery and inverter equipment mounted on a brick wall">
-        </div>
-        <figcaption>Sungrow battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-foxess-four-module.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="FoxESS inverter and four battery modules installed on a brick wall">
-        </div>
-        <figcaption>FoxESS battery installation</figcaption>
-      </figure>
       <figure class="gallery-item">
         <div class="photo-frame">
           <img src="/img/recent-work/electrical-backup/battery-backup-changeover.webp" width="1600" height="2133" loading="lazy" decoding="async" alt="Battery backup changeover switch, solar meter and essential circuits board">
@@ -272,15 +259,27 @@
       </figure>
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-alphaess-exterior.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Two AlphaESS battery units installed against an exterior brick wall">
+          <img src="/img/recent-work/battery/battery-hinen-garage.webp" width="1350" height="1800" loading="lazy" decoding="async" alt="Hinen inverter and four battery modules installed on an exterior wall">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-hinen-garage-door.webp" width="707" height="1508" loading="lazy" decoding="async" alt="Hinen battery unit installed beside a garage door, protected by bollards">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-alphaess-tower.webp" width="707" height="1536" loading="lazy" decoding="async" alt="AlphaESS battery tower installed against an exterior stone wall">
         </div>
         <figcaption>AlphaESS battery installation</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-foxess-installers-thumbsup.webp" width="1400" height="1400" loading="lazy" decoding="async" alt="Two installers giving a thumbs up beside a completed FoxESS battery installation in a garage">
+          <img src="/img/recent-work/battery/battery-foxess-four-module.webp" width="1200" height="1600" loading="lazy" decoding="async" style="object-position: 50% 75%;" alt="FoxESS inverter and four battery modules installed on a brick wall">
         </div>
-        <figcaption>FoxESS battery installation, completed</figcaption>
+        <figcaption>FoxESS battery installation</figcaption>
       </figure>
     </div>
   </div>

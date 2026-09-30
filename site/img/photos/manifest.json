@@ -8,6 +8,15 @@
       1320
     ]
   },
+  "battery-fox-detail-crop": {
+    "height": 1757,
+    "width": 980,
+    "widths": [
+      480,
+      800,
+      980
+    ]
+  },
   "battery-fox-installed": {
     "height": 944,
     "width": 707,

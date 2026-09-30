@@ -66,6 +66,15 @@ JOBS = [
     # fox-battery-context.jpg: same letterbox pattern (rows 0-295 / 1240-1535 of 1536).
     ("battery-fox-installed", "battery-systems/fox-battery-context.jpg", (0, 296, 707, 1240), [480, 707]),
     ("battery-fox-detail", "battery-systems/fox-battery-detail.jpg", None, [480, 800, 1320]),
+    # battery-fox-detail-crop: same source, cropped to drop the "DANGER —
+    # RISK OF BATTERY EXPLOSION" hazard stickers visible on the left wall
+    # in the full frame (see /battery-storage/ inline "Adding a battery"
+    # slot — 29 Sep 2026, owner: "every photo in battery storage must
+    # change"). Crop box keeps everything right of x=340 (full height):
+    # the FOX unit, the glass door and dog stay in frame, the stickers
+    # don't. battery-fox-detail itself is left untouched since it's still
+    # used uncropped elsewhere (projects, commercial-batteries).
+    ("battery-fox-detail-crop", "battery-systems/fox-battery-detail.jpg", (340, 0, 1320, 1757), [480, 800, 980]),
     ("battery-sungrow-installed", "battery-systems/sungrow-battery-system.jpg", None, [480, 800, 1152]),
     ("battery-white-unit", "battery-systems/white-battery-system.jpg", None, [480, 800, 1200]),
     # -- EV charging --

@@ -52,12 +52,15 @@ owner-confirmed as authorised for publication — see
 | `ev-tesla-wall-connector` (cropped) | `/ev-charging/` | |
 | `commercial-array-team` | `/commercial-solar/` | Manifest's "strongest commercial image" |
 | `battery-sungrow-installed` | `/commercial-batteries/`, `/battery-storage/` (hero, 29 Sep 2026) | Chosen for the battery-storage hero because, unlike `battery-fox-detail`, it has no hazard-warning stickers in frame |
-| `battery-fox-detail-crop` (fox-battery-detail, cropped to exclude hazard stickers — see `scripts/process-photos.py`) | `/battery-storage/` (inline "Adding a battery" photo, 29 Sep 2026) | `battery-fox-detail` itself (uncropped) is still used elsewhere; this is a separate derivative for a slot where the stickers were in frame |
+| `battery-fox-detail-crop` (fox-battery-detail, cropped to exclude hazard stickers — see `scripts/process-photos.py`) | `/battery-storage/` (inline photo), `/commercial-batteries/` (inline photo), `/projects/` gallery — all 30 Sep 2026 | `battery-fox-detail` itself (uncropped) is no longer used anywhere public; every slot that previously showed it (with hazard stickers in frame) now uses this cropped derivative instead |
 | `process-switchboard-open-1` | `/switchboard-upgrades/` | Captioned/alt-texted as mid-installation, not a finished board |
 | `team-installers` | `/about/` (Licensing & compliance section) | |
 | `fleet-van` (van-wrap-rear-side, cropped) | `/about/` (new "On the road" section) | Not used as the site's main hero |
-| `ground-mount-close`, `commercial-panel-detail`, `residential-solar-rooftop-2`, `commercial-lift-team-1/2`, `battery-fox-detail`, `battery-white-unit` | `/projects/` "Recent work" gallery | Genuine photos, no case-study narrative attached — no location, system size, savings or customer identity is stated anywhere |
+| `ground-mount-close`, `commercial-panel-detail`, `residential-solar-rooftop-2`, `commercial-lift-team-1/2`, `battery-white-unit` | `/projects/` "Recent work" gallery | Genuine photos, no case-study narrative attached — no location, system size, savings or customer identity is stated anywhere |
 | `process-switchboard-open-2`, `process-commercial-array-lift`, `process-commercial-commissioning-1/2` | `/projects/` "Installation and commissioning in progress" gallery | Explicitly captioned as in-progress/commissioning — open switchboards and exposed wiring are never presented as completed work |
+| `battery-foxess-four-module` (recent-work) | `/battery-storage/` gallery, `/locations/` gallery (30 Sep 2026) | Same hazard-sticker crop fix as elsewhere, via inline `object-position` (the stickers sit above the equipment in frame, not overlapping it, so a CSS crop works here unlike the `battery-fox-detail` slots) |
+| `battery-hinen-garage` (recent-work) | `/battery-storage/` gallery, `/solar-battery-upgrades/` (30 Sep 2026) | Replaced `battery-neovolt-brick-wall`, which had extensive hazard stickers covering most of the frame |
+| `residential-solar-rooftop-3` | `/residential-solar/` gallery (30 Sep 2026) | Replaces `solar-residential-complex` (recent-work), which turned out to be the exact same source photo as the homepage hero (`hero-solar-residential-complex`) reprocessed through a different pipeline — same dimensions, same shot. This was a previously-unused, high-quality photo sitting idle in the pool |
 
 Photos supplied but not placed on any page (kept only in
 `assets/original-photography/`): the two exact-duplicate rooftop photos and

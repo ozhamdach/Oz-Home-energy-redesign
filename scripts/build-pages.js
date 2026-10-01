@@ -7,6 +7,14 @@
  *
  * Run: node scripts/build.js && node scripts/build-pages.js
  * Output: pages-dist/ (gitignored — generated at deploy time, not committed)
+ *
+ * Publication gating (src/data/site-status.json, ALLOW_DRAFT) is entirely
+ * scripts/build.js's responsibility, applied before this script ever runs
+ * — whatever is or isn't in site/ is what ends up in pages-dist/, path-
+ * rewritten but otherwise unchanged. This file has no gating logic of its
+ * own and needs none: a publishGate page build.js omitted from site/ was
+ * never there for this script to copy, a gated content block it stripped
+ * stays stripped. Nothing here can accidentally re-introduce draft content.
  */
 const fs = require('fs');
 const path = require('path');

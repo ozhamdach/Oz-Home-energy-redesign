@@ -31,6 +31,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build site
+        # Deliberately no env vars beyond what the job environment sets
+        # itself — in particular, never ALLOW_DRAFT=true. ALLOW_DRAFT is a
+        # local-only editorial review mode (see scripts/build.js's own
+        # top-of-file comment) that shows draft Projects/Products content
+        # and other closed publishGate/NAV:key gates; this workflow's
+        # output is what the public actually sees, so every gate in
+        # src/data/site-status.json must be respected here exactly as
+        # authored. If a step is ever added to this job that reviews draft
+        # content, it must write to its own throwaway directory, never
+        # site/ or pages-dist/ (scripts/build.js refuses that combination
+        # outright) — never add ALLOW_DRAFT to this step.
         run: |
           node scripts/build.js
           node scripts/build-pages.js

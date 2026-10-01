@@ -9,10 +9,39 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const SRC_PAGES = path.join(ROOT, 'src', 'pages');
+
+// ALLOW_DRAFT=true is a local-only editorial review mode: every
+// publishGate page and every <!--NAV:key--> content block builds
+// regardless of its site-status.json `published` value, exactly like
+// this build used to behave unconditionally before 30 Sep 2026 (see the
+// Tesla/Projects/Products/customerReviews gates below). It exists so a
+// human can still review draft content before it's approved. It is NOT
+// for any public deploy: the GitHub Pages workflow
+// (.github/workflows/deploy-pages.yml) runs a plain `node scripts/build.js`
+// with no env vars and must never set this.
+const ALLOW_DRAFT = process.env.ALLOW_DRAFT === 'true';
+
 // SITE_OUT_DIR lets QA build a production-mode copy into a throwaway
 // directory (e.g. `site-prod-check`) without touching the committed
-// `site/` tree, which is always the preview build. Defaults to `site`.
-const SITE_DIR = path.join(ROOT, process.env.SITE_OUT_DIR || 'site');
+// `site/` tree, which is always the preview build. Defaults to `site` —
+// EXCEPT in ALLOW_DRAFT mode, which defaults to `review-build` instead,
+// so a human reviewing draft/gated content can never mistake that output
+// for (or accidentally commit it as, or have a script pick it up as)
+// the real `site/` tree that actually ships. SITE_OUT_DIR can still
+// override this explicitly, but ALLOW_DRAFT refuses to write into `site`
+// or `pages-dist` even then (see the guard right below) — draft content
+// must physically live somewhere the public build never reads from.
+const DEFAULT_OUT_DIR = ALLOW_DRAFT ? 'review-build' : 'site';
+const SITE_DIR = path.join(ROOT, process.env.SITE_OUT_DIR || DEFAULT_OUT_DIR);
+if (ALLOW_DRAFT) {
+  const forbidden = [path.join(ROOT, 'site'), path.join(ROOT, 'pages-dist')];
+  if (forbidden.some((p) => path.resolve(SITE_DIR) === p)) {
+    console.error(
+      `ALLOW_DRAFT=true refuses to write into ${path.relative(ROOT, SITE_DIR)} — draft/gated content must never land in the directory a real deploy reads from. Use the default (review-build/) or a different SITE_OUT_DIR.`
+    );
+    process.exit(1);
+  }
+}
 
 const layout = fs.readFileSync(path.join(ROOT, 'src', 'layout.html'), 'utf8');
 let header = fs.readFileSync(path.join(ROOT, 'src', 'partials', 'header.html'), 'utf8');
@@ -72,13 +101,26 @@ const ANALYTICS_ENABLED = IS_PRODUCTION && process.env.ENABLE_ANALYTICS === 'tru
 const siteStatus = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'site-status.json'), 'utf8'));
 
 // Strip <!--NAV:key--> ... <!--/NAV:key--> blocks from header/footer markup
-// (and, since the 25 Sep 2026 audit pass, page content.html too — e.g. the
-// homepage's "See more recent work" link to /projects/) for any key that
-// isn't published, but only for the production build — the preview build
-// always shows every marked block so it stays fully reviewable and
-// clickable during development.
+// (and page content.html too — e.g. the homepage's "See more recent work"
+// link to /projects/, or the "What customers say" review section) for any
+// key that isn't published.
+//
+// Changed 30 Sep 2026 (preview-safety pass): this used to only apply in a
+// production build — the preview build showed every marked block
+// unconditionally, on the theory that preview = "reviewable draft." That
+// was wrong for a build whose output is actually deployed publicly (see
+// .github/workflows/deploy-pages.yml, which runs the plain preview build):
+// a visitor could reach draft Projects/Products content or an unverified
+// review widget simply because nobody had flipped BUILD_TARGET=production
+// yet, even though the preview is itself a public, crawlable-if-not-for-
+// noindex URL. Gating now applies in EVERY normal build, preview or
+// production alike — the preview/production axis controls indexing
+// (ROBOTS_META below), this axis controls whether gated content exists in
+// the output at all. The only way to see gated content is the separate
+// ALLOW_DRAFT=true local-only review mode (see its definition above),
+// which the public deploy workflow never sets.
 function applyNavGating(html) {
-  if (!IS_PRODUCTION) return html.replace(/<!--\/?NAV:[\w-]+-->/g, '');
+  if (ALLOW_DRAFT) return html.replace(/<!--\/?NAV:[\w-]+-->/g, '');
   return html.replace(/<!--NAV:([\w-]+)-->([\s\S]*?)<!--\/NAV:\1-->/g, (m, key, inner) =>
     siteStatus[key] && siteStatus[key].published ? inner : ''
   );
@@ -187,21 +229,36 @@ for (const dir of pageDirs) {
     schema += fs.readFileSync(path.join(pageDir, meta.extraSchemaFile), 'utf8') + '\n';
   }
 
-  let extraScript = '';
-  if (meta.extraScripts) {
-    extraScript = meta.extraScripts.map((s) => `<script src="${s}" defer></script>`).join('\n');
-  }
-
   // The 404 page is never indexed, in preview or production — a "not found"
   // page ranking in search results is a bug in every configuration.
   const is404 = meta.canonical === '/404.html';
 
   // publishGate points a page at a src/data/site-status.json key (e.g.
-  // "projects", "products") — a page whose gate isn't published yet stays
-  // out of the sitemap and gets noindex even in a production build, until
-  // real, owner-approved content exists for it.
+  // "projects", "products") — a page whose gate isn't published yet is
+  // omitted from this build ENTIRELY (never written to SITE_DIR, in any
+  // mode) unless ALLOW_DRAFT=true. Changed 30 Sep 2026 — see
+  // applyNavGating's comment above for why a noindex-only treatment
+  // wasn't enough for a build whose output is actually publicly deployed.
   const gate = meta.publishGate ? siteStatus[meta.publishGate] : null;
   const gateUnpublished = gate ? !gate.published : false;
+  if (gateUnpublished && !ALLOW_DRAFT) {
+    console.log(`Skipped ${meta.canonical} (publishGate "${meta.publishGate}" not published — omitted entirely; set ALLOW_DRAFT=true for local editorial review)`);
+    continue;
+  }
+
+  // Same gate, applied to the extraScripts list — a page can reference
+  // /js/reviews.js in its meta.json unconditionally; this drops it whenever
+  // the customerReviews gate is closed, so the review widget's loader never
+  // ships even though the content block it targets is also already gone
+  // (via applyNavGating's <!--NAV:customerReviews--> marker in the page's
+  // own content.html). Two independent removals — script AND markup — so
+  // neither one being missed alone leaves a dangling reference.
+  let extraScript = '';
+  if (meta.extraScripts) {
+    const reviewsGateOpen = ALLOW_DRAFT || (siteStatus.customerReviews && siteStatus.customerReviews.published);
+    const scripts = meta.extraScripts.filter((s) => reviewsGateOpen || s !== '/js/reviews.js');
+    extraScript = scripts.map((s) => `<script src="${s}" defer></script>`).join('\n');
+  }
 
   // meta.noindex: true is for pages that are real, working destinations —
   // not gated on missing owner content like publishGate above — but have
@@ -210,11 +267,16 @@ for (const dir of pageDirs) {
   // genuine successful submission redirect, is the first use of this).
   const explicitNoindex = meta.noindex === true;
 
+  // gateUnpublished can only still be true here if ALLOW_DRAFT let it
+  // through above — always noindex,nofollow in that case regardless of
+  // BUILD_TARGET, since draft/unpublished content must never be indexable
+  // even if someone runs ALLOW_DRAFT and BUILD_TARGET=production together.
   let robotsMeta;
   if (is404) robotsMeta = 'noindex, nofollow';
   else if (!IS_PRODUCTION) robotsMeta = 'noindex, nofollow';
   else if (explicitNoindex) robotsMeta = 'noindex, follow';
-  else robotsMeta = gateUnpublished ? 'noindex, follow' : 'index, follow';
+  else if (gateUnpublished) robotsMeta = 'noindex, nofollow';
+  else robotsMeta = 'index, follow';
 
   // header-landing.html's own CTA target/label are per-page (each
   // landingChrome page's form lives at a different anchor) — filled here
@@ -256,10 +318,11 @@ for (const dir of pageDirs) {
   const outDir = meta.canonical === '/' ? SITE_DIR : path.join(SITE_DIR, meta.canonical.replace(/^\/|\/$/g, ''));
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, 'index.html'), html, 'utf8');
-  // Unpublished-gate pages are still built (reviewable, and always in the
-  // preview build) but never listed in the sitemap once in production.
-  if (!(IS_PRODUCTION && gateUnpublished) && !explicitNoindex) builtPages.push(meta.canonical);
-  console.log(`Built ${meta.canonical}${IS_PRODUCTION && gateUnpublished ? ' (production: noindex, kept out of sitemap/nav — publishGate not yet published)' : ''}`);
+  // A page only reaches this line with gateUnpublished still true when
+  // ALLOW_DRAFT let it through above — never add it to the sitemap even
+  // then, since it's still not actually published content.
+  if (!gateUnpublished && !explicitNoindex) builtPages.push(meta.canonical);
+  console.log(`Built ${meta.canonical}${gateUnpublished ? ' (ALLOW_DRAFT review build: unpublished, kept out of sitemap/nav)' : ''}`);
 }
 
 // ---------------------------------------------------------------------

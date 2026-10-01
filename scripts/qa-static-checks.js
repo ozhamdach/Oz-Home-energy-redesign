@@ -375,32 +375,78 @@ for (const route of legacyRoutes) {
   }
 }
 
-// --- production robots.txt + sitemap exclusion for gated/noindex pages ---
+// --- gated (publishGate, unpublished) pages must not exist in this build
+// at all — changed 30 Sep 2026 (preview-safety pass). scripts/build.js no
+// longer writes a publishGate page whose gate is closed, in EITHER preview
+// or production, unless the build ran with ALLOW_DRAFT=true (a local-only
+// editorial mode this QA script never sets — it always checks the real
+// site/ or site-prod-check/ tree a normal build produces). This replaces
+// the old assertion that such a page "must still be directly accessible by
+// URL, not removed" — that was correct for the old noindex-only gating,
+// it is now backwards: the whole point of the 30 Sep change is that a
+// closed gate means the content isn't there to find. ---
+for (const [slug, key] of gatedSlugs) {
+  if (siteStatus[key] && !siteStatus[key].published) {
+    if (fs.existsSync(path.join(SITE_DIR, slug, 'index.html'))) {
+      fail(`/${slug}/ has publishGate "${key}" set to published:false but was still built — scripts/build.js must omit it entirely (run without ALLOW_DRAFT=true)`);
+    }
+  }
+}
+
+// --- customerReviews gate: while closed, zero trace of the review widget
+// anywhere in the build — not the widget URL/ID, not reviews.js, in either
+// mode. Complements the content-level <!--NAV:customerReviews--> removal
+// and the extraScripts filtering in scripts/build.js; this is the
+// regression check that both actually worked. ---
+if (!(siteStatus.customerReviews && siteStatus.customerReviews.published)) {
+  const REVIEW_WIDGET_ID = 'iqh8HIe7GtEKNtnlIaho';
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    const rel = path.relative(SITE_DIR, file);
+    if (html.includes(REVIEW_WIDGET_ID)) {
+      fail(`${rel}: contains the review widget ID (${REVIEW_WIDGET_ID}) while siteStatus.customerReviews.published is false`);
+    }
+    if (/reviews\.js/.test(html)) {
+      fail(`${rel}: references reviews.js while siteStatus.customerReviews.published is false`);
+    }
+    if (/What customers say/.test(html)) {
+      fail(`${rel}: contains the "What customers say" review section while siteStatus.customerReviews.published is false`);
+    }
+  }
+  // reviews.js itself staying in site/js/ is fine — it's never referenced
+  // by a built page while the gate is closed, per the checks above; the
+  // file existing on disk isn't what matters, a page loading it is.
+}
+
+// --- homepage must not link to /projects/ while that gate is unpublished
+// — both preview and production now, since gating applies in both (see
+// scripts/build.js's applyNavGating comment). ---
+if (!(siteStatus.projects && siteStatus.projects.published) && fs.existsSync(path.join(SITE_DIR, 'index.html'))) {
+  const homeHtml = fs.readFileSync(path.join(SITE_DIR, 'index.html'), 'utf8');
+  if (/href="\/projects\/"/.test(homeHtml)) {
+    fail('index.html: links to /projects/ while siteStatus.projects.published is false — a visitor would land on a page that was never built');
+  }
+}
+
+// --- production robots.txt + sitemap ---
 if (IS_PRODUCTION_CHECK) {
   const robotsTxt = fs.readFileSync(path.join(SITE_DIR, 'robots.txt'), 'utf8');
   if (!/Allow: \//.test(robotsTxt)) fail('production robots.txt does not Allow: /');
   if (!robotsTxt.includes(PRODUCTION_ORIGIN)) fail('production robots.txt sitemap line does not use the production origin');
 
-  // Every gated (publishGate, unpublished) or explicit-noindex page must be
-  // both absent from the production sitemap AND still directly accessible
-  // by URL — it's hidden from discovery, not deleted.
+  // Explicit-noindex pages (not gated — those are omitted entirely above)
+  // DO still build and must stay out of the sitemap while reachable by URL
+  // — e.g. a lead-capture thank-you page, a real working destination with
+  // no standalone search value, as opposed to a publishGate page with no
+  // real content behind it yet.
   const sitemapXml = fs.readFileSync(path.join(SITE_DIR, 'sitemap.xml'), 'utf8');
-  const allExcludedSlugs = new Set([...explicitNoindexSlugs, ...[...gatedSlugs.keys()].filter(isGated)]);
-  for (const slug of allExcludedSlugs) {
+  for (const slug of explicitNoindexSlugs) {
     const loc = `${PRODUCTION_ORIGIN}/${slug}/`;
     if (sitemapXml.includes(loc)) {
-      fail(`sitemap.xml: gated/noindex page /${slug}/ must not appear in the production sitemap`);
+      fail(`sitemap.xml: noindex page /${slug}/ must not appear in the production sitemap`);
     }
     if (!fs.existsSync(path.join(SITE_DIR, slug, 'index.html'))) {
-      fail(`/${slug}/ is gated/noindex but was not built — it must still be directly accessible by URL, not removed`);
-    }
-  }
-
-  // --- homepage must not link to /projects/ while that gate is unpublished ---
-  if (!(siteStatus.projects && siteStatus.projects.published)) {
-    const homeHtml = fs.readFileSync(path.join(SITE_DIR, 'index.html'), 'utf8');
-    if (/href="\/projects\/"/.test(homeHtml)) {
-      fail('index.html (production): links to /projects/ while siteStatus.projects.published is false — a visitor would land on an unpublished, noindex page');
+      fail(`/${slug}/ is explicit-noindex but was not built — it must still be directly accessible by URL, not removed`);
     }
   }
 } else {

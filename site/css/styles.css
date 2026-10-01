@@ -192,11 +192,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    this, at a 320px viewport the hamburger is pushed ~23px past the right
    edge of the screen, off-screen and untappable on real narrow phones. */
 .brand-logo { display: flex; align-items: center; text-decoration: none; color: var(--text); min-width: 0; flex-shrink: 0; }
-/* The exact supplied logo PNG, used unmodified — sized by height only so
+/* The exact supplied logo artwork, used unmodified — sized by height only so
    width follows its real aspect ratio (object-fit: contain covers the
-   rare case a future replacement asset isn't pre-cropped to its content). */
+   rare case a future replacement asset isn't pre-cropped to its content).
+   The 44px/52px mobile-and-up sizes are left untouched (320px viewports
+   need every pixel to keep the hamburger on-screen, see above) — the
+   1080px bump below is desktop-only, where the horizontal nav already
+   has room to spare. */
 .brand-logo-img { height: 44px; width: auto; max-width: 100%; object-fit: contain; display: block; }
 @media (min-width: 480px) { .brand-logo-img { height: 52px; } }
+@media (min-width: 1080px) { .brand-logo-img { height: 58px; } }
 .header-inner { min-width: 0; }
 
 .primary-nav { display: none; }

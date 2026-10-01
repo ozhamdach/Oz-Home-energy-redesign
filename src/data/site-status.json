@@ -1,5 +1,5 @@
 {
-  "_comment": "Publication gates for sections that are only real once genuine, owner-approved content exists behind them (see docs/owner-inputs-required.md). `published: true` means the production build indexes the page and includes it in primary navigation and the sitemap; `published: false` means the page still builds (so it's reviewable in preview and stays live for development) but a production build marks it noindex and removes it from nav/sitemap — never shown to customers as 'coming soon'. Flip a flag to true only once its `requiredForPublish` conditions are actually met, and record what was supplied in docs/owner-inputs-required.md.",
+  "_comment": "Publication gates for sections that are only real once genuine, owner-approved content exists behind them (see docs/owner-inputs-required.md). `published: true` means the page/content block is built and included — indexed and in nav/sitemap for a page-level gate (meta.publishGate), rendered for a content-block gate (<!--NAV:key-->...<!--/NAV:key--> markers, see scripts/build.js). `published: false` means it is omitted entirely from every normal build (preview AND production, local AND the GitHub Pages public deploy) — not just noindexed. A page/block behind a false gate is reviewable only via ALLOW_DRAFT=true, a local-only editorial mode that writes outside site/ and pages-dist/ and the GitHub Pages workflow never sets (see scripts/build.js's top-of-file comment). Flip a flag to true only once its `requiredForPublish` conditions are actually met, and record what was supplied in docs/owner-inputs-required.md.",
   "projects": {
     "published": false,
     "requiredForPublish": "At least three owner-approved, real completed-project case studies (see docs/07-owner-confirmations.md and docs/05-photography-shotlist.md).",
@@ -19,5 +19,15 @@
     "published": false,
     "requiredForPublish": "Secure CRM submission is connected and a complete end-to-end lead test has passed.",
     "currentCount": 0
+  },
+  "customerReviews": {
+    "published": false,
+    "requiredForPublish": "Owner has verified the full review set the embedded HighLevel widget (widget ID 6a98ba1ddb444e2cfc4f0d6f) actually displays — this exact widget is also used by the existing live site, whose indexed output has shown Melbourne-labelled testimonials and duplicated review wording. Until verified, the 'What customers say' section is omitted sitewide, not shown empty or with a placeholder.",
+    "currentCount": 0
+  },
+  "teslaMarketing": {
+    "published": true,
+    "requiredForPublish": "Tesla's own written marketing/publication approval. Owner-confirmed directly in this Claude session (30 Sep 2026) as already granted — see docs/owner-inputs-required.md's Tesla section for the full history, including the real Gmail-thread evidence trail from an earlier pass. This flag is a status record only; no code path in scripts/build.js conditionally removes Tesla content based on it (the owner's explicit instruction was to preserve it, not gate it) — scripts/qa-static-checks.js's existing Tesla checks (approved pages + approved titles only) remain the active safeguard.",
+    "currentCount": 1
   }
 }

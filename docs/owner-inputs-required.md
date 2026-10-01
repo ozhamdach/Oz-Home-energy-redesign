@@ -12,6 +12,22 @@ returns nothing:
 grep -rn "OWNER CONFIRMATION REQUIRED" site --include=*.html
 ```
 
+## CURRENT STATUS (read this first)
+
+The detailed sections below this table are a dated history of how each item
+got here — useful for context, but several entries supersede earlier ones
+in the same section, which reads as contradictory if skimmed out of order.
+This table is the single current truth for the five items that have
+changed hands the most; everything else in the document is unaffected.
+
+| Item | Current status |
+| --- | --- |
+| **Tesla marketing** | **APPROVED — owner-confirmed.** Real Tesla written approval obtained 25 Sep 2026 (Gmail threads with `energyproductsmarketing@tesla.com`), and separately re-confirmed by the owner directly in a Claude session on 30 Sep 2026. Retain the approved placements and official title wording ("Tesla Energy Certified Installer" / "Tesla Powerwall Certified Installer") exactly as published on the homepage trust grid, `/battery-storage/`, and `/tesla-powerwall-3/`. Not pending, not unverified. See the Tesla section below for the full evidence trail. |
+| **Public phone number** | **0435 336 336** (`tel:+61435336336`) sitewide. The older `0420 113 216` number no longer appears anywhere in the build. **Still open**: confirm the real HighLevel account, Google Business Profile and any live ad campaigns show this same number — this repo only controls the website's own copy. |
+| **Workmanship warranty duration** | **10 years**, published sitewide (homepage hero-trust line, warranty strip, About `#warranty`, FAQ). **Still blocking for launch**: solicitor review of the draft terms has not happened, and the 10-year figure is not yet reflected in the real Sales and Installation Agreement/handover templates outside this repo (those still say 15 years wherever they exist). Do not describe the site as launch-ready on copy alone. |
+| **Service area wording** | **Sydney and Greater Sydney, NSW** — owner-confirmed 24 Sep 2026. Published in the footer, About, Locations, FAQs, the two commercial pages that name an area, and `areaServed` schema sitewide. No specific suburb list exists; do not add a suburb grid or suburb pages. |
+| **Licence number display** | **Shown** — "NSW Electrical Contractor Licence 382607C" and SAA accreditation "S5265652" are both published (footer, About, schema `hasCredential`). An earlier 22 Sep decision removed the numbers; a later site-loop scorecard pass flagged the removal as a hard-gate fail, the owner was asked again, and confirmed: publish them. This is the current, standing decision. |
+
 ## 🔴 Blocking — resolve before any of the below matters
 
 ### Phone number conflict — ✅ resolved
@@ -95,7 +111,17 @@ meta lines. The credential claims were never in question — only the
 number display changed. This is a current, active owner decision;
 nothing further is open on this specific item.
 
-### 🟡 Tesla Powerwall 3 page + battery-storage feature block — built, held back
+### ✅ Tesla Powerwall 3 page + battery-storage feature block — APPROVED, live
+**30 Sep 2026 — re-confirmed directly by the owner in a Claude session.**
+Tesla marketing approval is recorded as **APPROVED — owner-confirmed;
+retain the approved placements and official title wording.** This affirms
+the 25 Sep 2026 activation below (real Gmail-thread approval from
+`energyproductsmarketing@tesla.com`) — it does not change what's published,
+only removes any remaining doubt that the approval is current. See the
+CURRENT STATUS table at the top of this document. Nothing described below
+as "held back", "pending" or "unverified" reflects the current state —
+those notes are kept only as history of how this item reached approval.
+
 **24 Sep 2026 (homepage premium badge-grid request):** a task requested
 adding a sixth "Tesla Certified Installer" credential card to the
 homepage trust grid, framed as a direct owner instruction and explicitly
@@ -443,32 +469,40 @@ project names, workmanship guarantees beyond actual contract terms).
 
 ## Lead capture / HighLevel integration checklist
 
-**Current state (updated 23 Sep 2026, launch-readiness repair pass) — four
-forms are live HighLevel embeds, three funnels are not connected to
+**Current state (updated 1 Oct 2026) — six embed placements across the
+site, using five unique HighLevel form IDs (the homepage and Contact page
+deliberately share one form), three funnels are not connected to
 anything.**
 
 ### Live — real HighLevel iframe embeds (`form_embed.js`)
 
-These four forms are HighLevel's own hosted widgets embedded via iframe,
-not this repo's custom-built markup — submissions go directly to
+These six placements are HighLevel's own hosted widgets embedded via
+iframe, not this repo's custom-built markup — submissions go directly to
 HighLevel, this repo never sees the data:
 
 - [ ] **Homepage Quick Free Quote** — form ID `ILAJCu9qJyVzX582GAtX`.
+- [ ] **Contact page** — `/contact/`, same form ID `ILAJCu9qJyVzX582GAtX`
+      (shared with the homepage by design, not a duplicate to fix).
 - [ ] **Energy Assessment / Detailed Contact-Quote form** —
       `/assessment/`, form ID `7CTbeFedTXyoPJoS2CmH`.
 - [ ] **Commercial Project Enquiry** — `/commercial-project-enquiry/`,
       form ID `UyzHXWGEaLtIQqI9z2kc`.
 - [ ] **Service Request** — `/service-request/`, form ID
       `D54fnMMf1LWTXOCNlh28`.
+- [ ] **EV Charging enquiry** — `/ev-charging/`, form ID
+      `OmaWW64OZ3FaCGGvEIgx`.
 
-For all four: confirm a real test submission actually lands in the
+For all six: confirm a real test submission actually lands in the
 correct HighLevel pipeline with correct tags before relying on any of
 this — this repo can confirm the widget loads and renders, not that
 HighLevel's own pipeline/workflow routing behind it is configured
-correctly. Note also (see `docs/analytics-integration.md`, "Attribution
-regression") that this site's own UTM/`gclid`/`fbclid` capture does not
-reach these four forms, since HighLevel's hosted widget is a same-origin
-iframe this repo's JS cannot read into or populate.
+correctly. **All end-to-end CRM delivery tests remain pending** — none
+of the five form IDs above has a confirmed real submission reaching its
+intended HighLevel pipeline yet. Note also (see
+`docs/analytics-integration.md`, "Attribution regression") that this
+site's own UTM/`gclid`/`fbclid` capture does not reach these forms, since
+HighLevel's hosted widget is a same-origin iframe this repo's JS cannot
+read into or populate.
 
 ### Not connected — custom-built funnels with no CRM endpoint configured
 
@@ -560,9 +594,12 @@ confirmed" framing for these specific items.
 - **Website phone number**: **0435 336 336** / `+61435336336` — the only
   number published anywhere on the site (see the phone/NAP conflict
   history above).
-- **Geographic wording**: Sydney, NSW. Public copy, metadata and schema
-  are now limited to this — no "Greater Sydney" boundary or suburb list
-  is published pending a separate owner-approved boundary.
+- **Geographic wording**: Sydney, NSW, at the time of this 23 Sep entry —
+  **superseded 24 Sep 2026**, see "Service area — Greater Sydney boundary"
+  above and the CURRENT STATUS table: the owner has since confirmed
+  Greater Sydney, and that wording is now published sitewide. A suburb
+  list still doesn't exist; no suburb pages or chip grid until one is
+  supplied.
 - **Business type**: strictly a service-area business, with no
   customer-facing street address or shopfront implied anywhere. No
   `address` object exists in the sitewide schema.

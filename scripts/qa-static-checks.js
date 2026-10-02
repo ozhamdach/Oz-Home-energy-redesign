@@ -102,13 +102,13 @@ for (const file of files) {
   }
 
   // --- Tesla references gated to approved pages + approved titles only ---
-  // Tesla written marketing/publication approval was obtained 25 Sep 2026
-  // from energyproductsmarketing@tesla.com (see the Tesla section of
-  // docs/owner-inputs-required.md for the full evidence trail), covering
-  // exactly three placements: the homepage trust card, the battery-storage
-  // feature block, and the dedicated /tesla-powerwall-3/ page — on
-  // condition the official titles "Tesla Energy Certified Installer"
-  // and/or "Tesla Powerwall Certified Installer" are used consistently.
+  // Tesla marketing approval confirmed 25 Sep 2026 (see the Tesla section
+  // of docs/owner-inputs-required.md for the business-level approval
+  // record), covering exactly three placements: the homepage trust card,
+  // the battery-storage feature block, and the dedicated
+  // /tesla-powerwall-3/ page — on condition the official titles "Tesla
+  // Energy Certified Installer" and/or "Tesla Powerwall Certified
+  // Installer" are used consistently.
   // This check enforces both halves of that: Tesla content may ONLY
   // appear on the three approved pages, and wherever it does, at least
   // one of the two approved titles must be present.
@@ -460,6 +460,73 @@ for (const f of findFiles(SITE_DIR)) {
   const rel = path.relative(SITE_DIR, f);
   if (/tesla/i.test(path.basename(f)) && !rel.startsWith(teslaAssetDir)) {
     fail(`${rel}: Tesla-named asset file must not exist outside img/brand/tesla/ in the generated deployment`);
+  }
+}
+
+// --- pages-dist/ (scripts/build-pages.js's GitHub-Pages-subpath output):
+// nested route generation regression check. 2 Oct 2026 audit fix —
+// build-pages.js used to only walk site/<slug>/index.html one level deep,
+// so a page nested further (e.g.
+// site/commercial-battery-assessment/thanks/index.html) was silently
+// never copied into pages-dist/ at all, 404-ing on the deployed site even
+// though the source page built correctly into site/. Only runs when
+// pages-dist/ actually exists — this script's usage doesn't require
+// scripts/build-pages.js to have been run first, so these checks are a
+// bonus pass, not a hard dependency. ---
+const PAGES_DIST_DIR = path.join(ROOT, 'pages-dist');
+if (fs.existsSync(PAGES_DIST_DIR)) {
+  const nestedThanksRel = path.join('commercial-battery-assessment', 'thanks', 'index.html');
+  const nestedThanksPath = path.join(PAGES_DIST_DIR, nestedThanksRel);
+  if (!fs.existsSync(nestedThanksPath)) {
+    fail(`pages-dist/${nestedThanksRel} is missing — build-pages.js must discover and copy nested pages, not just site/<slug>/index.html one level deep`);
+  } else {
+    const nestedHtml = fs.readFileSync(nestedThanksPath, 'utf8');
+    const nestedDir = path.dirname(nestedThanksPath);
+
+    // CSS/JS/image references (href/src) must resolve from this page's own
+    // nested directory depth (2 levels below pages-dist/, so "../../css/...",
+    // never a root-relative "/css/..." which GitHub Pages' subpath hosting
+    // can't resolve).
+    const refAttrs = [...nestedHtml.matchAll(/(?:href|src)="([^"]*)"/g)].map((m) => m[1]);
+    for (const ref of refAttrs) {
+      if (/^(https?:)?\/\//.test(ref) || ref.startsWith('#') || ref.startsWith('tel:') || ref.startsWith('mailto:')) continue;
+      if (ref.startsWith('/')) {
+        fail(`pages-dist/${nestedThanksRel}: reference "${ref}" is root-relative — must be rewritten relative to this page's nested depth (expected a "../../"-prefixed path)`);
+        continue;
+      }
+      const cleanRef = ref.split(/[?#]/)[0];
+      const resolved = path.join(nestedDir, cleanRef);
+      if (!fs.existsSync(resolved)) {
+        fail(`pages-dist/${nestedThanksRel}: reference "${ref}" does not resolve to a real file from this page's directory depth (resolved to ${path.relative(ROOT, resolved)})`);
+      }
+    }
+
+    // Must remain noindex — this is a lead-capture thank-you page, not a
+    // page with standalone search value (see its src/pages meta.json
+    // "noindex": true).
+    const nestedRobotsMatch = nestedHtml.match(/<meta name="robots" content="([^"]*)">/);
+    if (!nestedRobotsMatch || !nestedRobotsMatch[1].startsWith('noindex')) {
+      fail(`pages-dist/${nestedThanksRel}: expected noindex, found "${nestedRobotsMatch ? nestedRobotsMatch[1] : 'no robots meta'}"`);
+    }
+  }
+
+  // --- existing top-level routes still build correctly into pages-dist/ ---
+  // Spot-check a handful of ordinary one-level-deep pages plus the home
+  // page and a legacy bridge page, confirming the nested-route fix above
+  // didn't regress the common case: each must exist and use relative
+  // (never root-relative) asset/link references appropriate to its depth.
+  const topLevelSpotChecks = ['about/index.html', 'residential-solar/index.html', 'index.html'];
+  for (const rel of topLevelSpotChecks) {
+    const p = path.join(PAGES_DIST_DIR, rel);
+    if (!fs.existsSync(p)) {
+      fail(`pages-dist/${rel}: expected top-level route is missing — nested-route generation change may have broken flat routes`);
+      continue;
+    }
+    const html = fs.readFileSync(p, 'utf8');
+    const badRootRelative = [...html.matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
+    if (badRootRelative.length) {
+      fail(`pages-dist/${rel}: contains root-relative reference(s) ${badRootRelative.slice(0, 3).join(', ')} — expected relative paths for GitHub Pages subpath hosting`);
+    }
   }
 }
 

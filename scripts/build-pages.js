@@ -83,21 +83,34 @@ function rewriteHtml(html, prefix) {
     .replace(SRCSET_RE, (m, value) => `srcset="${rewriteSrcsetValue(value, prefix)}"`);
 }
 
-// Every page is one level deep (site/<slug>/index.html) except the home
-// page (site/index.html) itself, so this is a flat two-tier structure.
-const entries = fs.readdirSync(SITE, { withFileTypes: true });
+// Most pages are one level deep (site/<slug>/index.html), but some are
+// nested further (e.g. site/commercial-battery-assessment/thanks/index.html)
+// — walk recursively at any depth so a nested page isn't silently skipped.
+// relSegments is the slug path split on "/" (e.g.
+// ["commercial-battery-assessment", "thanks"]); its length is the page's
+// depth, which determines both the "../"-repeated relative-path prefix
+// every link on that page needs and the nested output directory it's
+// written to under pages-dist/.
 let count = 0;
-for (const entry of entries) {
-  if (!entry.isDirectory() || ['css', 'js', 'img'].includes(entry.name)) continue;
-  const srcFile = path.join(SITE, entry.name, 'index.html');
-  if (!fs.existsSync(srcFile)) continue;
-  const html = fs.readFileSync(srcFile, 'utf8');
-  const rewritten = rewriteHtml(html, '../');
-  const outDir = path.join(OUT, entry.name);
-  fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(path.join(outDir, 'index.html'), rewritten, 'utf8');
-  count++;
+function collectPages(dir, relSegments) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (relSegments.length === 0 && ['css', 'js', 'img'].includes(entry.name)) continue; // top-level asset dirs, already copied above
+    if (!entry.isDirectory()) continue;
+    const childRel = [...relSegments, entry.name];
+    const srcFile = path.join(dir, entry.name, 'index.html');
+    if (fs.existsSync(srcFile)) {
+      const html = fs.readFileSync(srcFile, 'utf8');
+      const prefix = '../'.repeat(childRel.length);
+      const rewritten = rewriteHtml(html, prefix);
+      const outDir = path.join(OUT, ...childRel);
+      fs.mkdirSync(outDir, { recursive: true });
+      fs.writeFileSync(path.join(outDir, 'index.html'), rewritten, 'utf8');
+      count++;
+    }
+    collectPages(path.join(dir, entry.name), childRel);
+  }
 }
+collectPages(SITE, []);
 
 const homeHtml = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
 fs.writeFileSync(path.join(OUT, 'index.html'), rewriteHtml(homeHtml, ''), 'utf8');

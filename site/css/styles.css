@@ -311,6 +311,72 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .hero-trust .dot { width: 4px; height: 4px; border-radius: 50%; background: #7c8ab8; }
 .hero-photo-credit { position: absolute; z-index: 2; bottom: 10px; right: 16px; font-size: 0.7rem; color: rgba(255,255,255,0.55); }
 
+/* ---------- Homepage hero (visual pass, 3 Oct 2026) ----------
+   Scoped to .hero--home: the two commercial landing pages still use the
+   legacy .hero rules above. The photograph is never washed with a
+   full-width gradient. Under 1200px the whole photo sits above the copy,
+   so there is no text on it at all. From 1200px the copy sits in the sky
+   (the photo's clear area) and a thin credentials rail runs along the
+   bottom edge, so the house and solar panels stay uncovered.
+   .hero-frame is a 16:9 window onto the 4:3 poster (source rows 200-1100,
+   the same crop the hero loop was generated from), so the poster and the
+   video line up exactly when the video fades in. */
+.hero--home { display: block; min-height: 0; align-items: initial; }
+.hero--home .hero-media { position: relative; inset: auto; aspect-ratio: 4 / 3; overflow: hidden; background: var(--charcoal-700); }
+.hero--home .hero-frame { position: absolute; inset: 0; }
+.hero--home .hero-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.hero--home .hero-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity .9s ease; pointer-events: none; }
+.hero--home .hero-frame video.is-playing { opacity: 1; }
+.hero--home .hero-overlay { display: none; }
+.hero--home .hero-inner { max-width: var(--maxw); text-align: left; padding-block: 28px 4px; }
+.hero--home .eyebrow { color: #dbe6ff; margin-bottom: 10px; }
+.hero--home h1 { font-size: clamp(1.7rem, 6.6vw, 2.1rem); line-height: 1.12; margin-bottom: 14px; text-wrap: balance; }
+.hero--home .lede { font-size: 1.05rem; margin: 0; max-width: 46ch; color: #f4f6ff; }
+.hero--home .hero-ctas { justify-content: flex-start; margin-top: 22px; }
+.hero--home .hero-ctas .btn { width: 100%; }
+.hero--home .hero-rail { padding-block: 22px 30px; }
+.hero--home .hero-trust { margin: 0; justify-content: flex-start; gap: 6px 10px; font-size: 0.85rem; color: #d8ddf5; }
+
+@media (min-width: 560px) {
+  .hero--home .hero-ctas .btn { width: auto; }
+}
+/* 760-1199px: a 16:9 band of the photo, copy beneath. */
+@media (min-width: 760px) {
+  .hero--home .hero-media { aspect-ratio: 16 / 9; }
+  .hero--home .hero-frame { inset: auto; left: 0; top: 50%; width: 100%; aspect-ratio: 16 / 9; transform: translateY(-50%); }
+  .hero--home .hero-frame img { inset: auto; left: 0; top: -22.2222%; height: 133.3333%; }
+  .hero--home .hero-inner { padding-block: 36px 4px; }
+  .hero--home h1 { font-size: clamp(2rem, 3.2vw + .8rem, 2.6rem); max-width: 22em; }
+  .hero--home .lede { font-size: 1.15rem; }
+}
+/* 1200px and up: copy in the sky, rail along the bottom. */
+@media (min-width: 1200px) {
+  .hero--home { aspect-ratio: 16 / 9; max-height: 820px; min-height: 640px; }
+  .hero--home .hero-media { position: absolute; inset: 0; aspect-ratio: auto; }
+  /* Scrim sits only behind the copy: full strength across the left ~55% of
+     the top half, then masked away before it reaches the roofline, so the
+     house and panels are never darkened. */
+  .hero--home .hero-overlay {
+    display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(100deg, rgba(8,14,30,0.68) 0%, rgba(8,14,30,0.56) 46%, rgba(8,14,30,0) 80%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 40%, transparent 58%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 40%, transparent 58%);
+  }
+  .hero--home::after {
+    content: ""; position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; height: 20%; pointer-events: none;
+    background: linear-gradient(0deg, rgba(8,12,22,0.74) 0%, rgba(8,12,22,0) 100%);
+  }
+  .hero--home .btn-secondary { background: rgba(8,14,30,0.4); }
+  .hero--home .hero-inner { position: absolute; z-index: 2; top: 0; left: 0; right: 0; margin-inline: auto; padding-block: clamp(36px, 3.6vw, 52px) 0; }
+  .hero--home .hero-inner > * { max-width: 780px; }
+  .hero--home .hero-inner > .hero-ctas { max-width: none; }
+  .hero--home h1 { font-size: clamp(2.35rem, 1.1rem + 2.2vw, 2.9rem); max-width: 17em; margin-bottom: 12px; }
+  .hero--home .lede { font-size: 1.2rem; }
+  .hero--home .hero-ctas { margin-top: 24px; }
+  .hero--home .hero-rail { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; margin-inline: auto; padding-block: 0 26px; }
+  .hero--home .hero-trust { font-size: 0.9rem; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.55); }
+}
+
 /* Page (non-home) header banner */
 .page-banner { background: var(--bg-inverse); color: #fff; padding-block: 56px 44px; }
 .page-banner .eyebrow { color: #9db4ff; }
@@ -341,12 +407,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .page-banner--photo { padding-block: 64px 48px; }
   .page-banner-overlay { background: linear-gradient(180deg, rgba(10,12,20,0.7) 0%, rgba(10,12,20,0.92) 100%); }
 }
-
-/* ---------- Proof strip ---------- */
-.proof-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-alt); }
-.proof-list { list-style: none; margin: 0; padding: 22px 0; display: flex; flex-wrap: wrap; gap: 20px 40px; justify-content: center; }
-.proof-list li { display: flex; align-items: center; gap: 10px; font-size: 0.92rem; font-weight: 500; color: var(--text); }
-.proof-list svg { width: 20px; height: 20px; color: var(--brand); flex-shrink: 0; }
 
 /* ---------- Pathway selector ---------- */
 .pathway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -574,6 +634,32 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .gallery-item { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); background: #fff; }
 .gallery-item .photo-frame { min-height: 0; aspect-ratio: 4/3; border-radius: 0; }
 .gallery-item figcaption { padding: 12px 14px 16px; font-size: 0.86rem; color: var(--text-muted); }
+
+/* Homepage "Recent installs": one row, each frame close to its photo's own
+   shape (visual pass, 3 Oct 2026). The old 4:3 frame forced two portrait
+   photos into a landscape box and cut the top off the EV charger. Crops are
+   CSS-only (object-position); the photographs are not edited. */
+.photo-gallery--mixed { grid-template-columns: 1fr; align-items: stretch; }
+.photo-gallery--mixed .gallery-item { display: flex; flex-direction: column; margin: 0; }
+.photo-gallery--mixed .photo-frame { position: relative; flex: 1 1 auto; height: auto; }
+.photo-gallery--mixed .photo-frame picture, .photo-gallery--mixed .photo-frame img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.photo-gallery--mixed .gallery-item--landscape .photo-frame { aspect-ratio: 4 / 3; }
+.photo-gallery--mixed .gallery-item--portrait .photo-frame { aspect-ratio: 4 / 5; }
+.photo-gallery--mixed .gallery-item--battery img { object-position: 50% 22%; }
+.photo-gallery--mixed .gallery-item--ev img { object-position: 50% 28%; }
+.photo-gallery--mixed .gallery-item--landscape img { object-position: 50% 55%; }
+@media (min-width: 561px) {
+  .photo-gallery--mixed { grid-template-columns: 1fr 1fr; }
+  .photo-gallery--mixed .gallery-item--landscape { grid-column: 1 / -1; }
+  .photo-gallery--mixed .gallery-item--landscape .photo-frame { aspect-ratio: 16 / 9; }
+  .photo-gallery--mixed .gallery-item--portrait .photo-frame { aspect-ratio: 4 / 5; }
+}
+@media (min-width: 901px) {
+  .photo-gallery--mixed { grid-template-columns: 5fr 3fr 3fr; }
+  .photo-gallery--mixed .gallery-item--landscape { grid-column: auto; }
+  .photo-gallery--mixed .gallery-item--landscape .photo-frame { aspect-ratio: auto; }
+  .photo-gallery--mixed .gallery-item--portrait .photo-frame { aspect-ratio: 3 / 4; flex: none; }
+}
 
 /* ---------- Why us ---------- */
 .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }

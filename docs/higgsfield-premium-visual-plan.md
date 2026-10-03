@@ -217,3 +217,74 @@ Order stays: Hero → Credentials → Founder statement → Pathways → Generat
 6. Supply a real founder photo (nothing will be generated).
 7. Montserrat for body text, or keep Inter?
 8. Comfort with the hero being disclosed as AI-animated in the asset manifest only, rather than on the page.
+
+## 14. Phase 3 draft record (owner-approval gate)
+
+Status: **four low-cost drafts generated; nothing downloaded into the repo, nothing implemented, nothing deployed.** Drafts live in the Higgsfield workspace only. Discarded generations are not committed.
+
+### 14.1 What was run
+
+| Item | Value |
+|---|---|
+| Tool / model | Higgsfield MCP → `cinematic_studio_video_v2` (Cinema Studio video) |
+| Reference | `hero-reference-16x9.jpg` (pixel crop of the genuine homepage hero; no generative edit), imported to Higgsfield by URL as media `26e94b40-5c57-47c8-beb9-ab384e55f75b` |
+| Settings (all four) | 16:9 · 5 s · `mode: std` · `sound: off` · `genre: auto` · `speedramp: linear` · `cfg_scale: 0.7` · `multi_shots: false` |
+| Output (all four) | 1280×720, 5.04 s, H.264 MP4 |
+| Cost | 5 credits each, 20 total. Balance after: 90 credits |
+| Presets | A suggested "IN THE DARK" preset was declined; drafts were generated literally from the prompt |
+| Not uploaded | No Tesla, Ohme, Evnex, SAA, SEC, NSW or warranty artwork, no contracts or emails. The reference contains none |
+
+| Draft | Camera sentence | Frames used | Higgsfield job | Size |
+|---|---|---|---|---|
+| D1 | 35 mm, very slow dolly-in | start image only | `a2c407b4-9418-4613-86c8-c4859551f80a` | 5.68 MB |
+| D2 | 50 mm, very slow dolly-in | start image only | `cedd2d92-3211-4d96-b80c-f6c733dfd0f3` | 5.46 MB |
+| D3 | 35 mm, ~3° lateral arc | start image only | `ee25a6da-5471-48b2-85c3-5176a73ed57b` | 6.12 MB |
+| D4 | 35 mm, <1 % dolly, closed loop | start = end = reference | `67280234-0523-48ac-acef-235eec6f6dda` | 1.76 MB |
+
+One batch item (D1) was rejected at submission with an "out of credits" error although the balance was sufficient; no job was created and nothing was charged. It was resubmitted on its own and succeeded.
+
+### 14.2 How the drafts were inspected, and the limits of that
+
+The sandbox cannot download the drafts (egress policy), so they were inspected in the built-in browser pane with an in-page canvas analysis at 320×180 greyscale: for each draft, the reference was aligned to the first, middle and last frames by brute-force scale + translation search, and the residual (mean absolute grey-level difference) was measured for the roof/panel band, the panel strip, the sky, and a Sobel edge map. A static clip's own frame-to-frame noise (≈ 6.1 band / 4.5 strip / 18.5 edge) is the floor: a residual near that floor after a rigid zoom means the geometry was only scaled, not reshaped.
+
+What this method **cannot** show: panel-by-panel comparison at full resolution (the pane gives ~800×450), subtle texture artefacts, foliage and cloud motion quality, text legibility behind the final overlay (layout not built yet), and whether an audio track is absent (`sound: off` was set; not independently verified). Scores below are provisional on that basis; "n/a" means not inspected.
+
+### 14.3 Measurements
+
+| Draft | Total push (scale at last frame vs reference) | Residual after alignment (band / strip / edge) | Reading |
+|---|---|---|---|
+| D1 | 1.154 (≈ 15 %) | near floor | Rigid dolly, geometry preserved. Push is ~5× what was asked (2–3 %). |
+| D2 | 1.086 (≈ 8.6 %) | near floor | Rigid dolly, geometry preserved. Push ~3× what was asked. |
+| D3 | not a pure scale | band 20 → 36 · strip 13.6 → 31 · edge 51 → 99 | Viewpoint change is **invented**: perspective on the building and fence is re-drawn. Not faithful to the real property. |
+| D4 | 1.000 | at floor | Effectively **static**: sky MAD start → end ≈ 0.85 grey levels. A perfect loop, but no visible motion. |
+
+Observed distortion, stated plainly: D1 and D2 exceed the requested restraint but do not change the building, roof, panel layout, fence or bollards in the checks that were possible. D3 fabricates a new viewpoint (reject). D4 does not move enough to justify a video over the still. Neither D1 nor D2 loops on its own: each ends ~9–15 % closer than it starts.
+
+### 14.4 Rubric scorecard (1–5, provisional)
+
+| Criterion | D1 | D2 | D3 | D4 |
+|---|---|---|---|---|
+| Realism | 4 | 4 | 2 | 4 |
+| Brand fit | 4 | 4 | 3 | 4 |
+| Architectural stability | 4 | 4 | 1 | 5 |
+| Equipment accuracy (panel rows and count) | 4 | 4 | 2 | 5 |
+| Premium quality | 4 | 4 | 2 | 2 (reads as a still) |
+| Lack of AI artefacts | 4 | 4 | 2 | 5 |
+| Text legibility behind overlay | n/a | n/a | n/a | n/a |
+| Loop quality | 2 | 3 | 1 | 5 (but no motion) |
+| Mobile cropping | n/a | n/a | n/a | n/a |
+
+Mobile cropping is not applicable by design: the video would load only at ≥ 900 px wide; phones keep the real still.
+
+Hard-reject rule (below 4 on realism, stability or equipment accuracy): **D3 is rejected.** D4 passes the rule but fails the purpose (no visible motion). D1 and D2 pass provisionally.
+
+### 14.5 Recommendation
+
+**D2 as the base**, because it has the smaller push and the stable geometry. Two ways to make it usable, owner's choice:
+
+- **A. Use D2 with loop handling in post** (ping-pong or a cross-dissolve at the seam, ffmpeg). No further Higgsfield spend. The visible push stays at ~9 %.
+- **B. One gentler regeneration** of D2 (≈ 5 credits at `std`) with the camera sentence tightened toward a 2–3 % move, then loop handling. Preferred if you want the more restrained look the plan called for.
+
+Either way, a final would be checked again frame-by-frame and against the kill criteria in Section 11 before anything reaches the site. If you would rather not use any animated version, the real still stays as the hero and Section 11 step 1 still applies for the layout and scrim.
+
+Pending owner confirmation: **permission to use the hero photograph** (Section 8.1). Nothing further is generated or built until that and a draft choice are confirmed.

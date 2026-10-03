@@ -2,15 +2,11 @@
 
 ## What triggered this pass
 
-Tesla's marketing team replied to the mock-up pack sent for review
-(`OHE-Tesla-Marketing-Review.pdf`, `OHE-Tesla-Proposed-Copy.txt`) — two
-emails from Huynh Dong (Demand Generation Intern, Energy, APAC,
-`huydong@tesla.com`) granting written marketing/publication approval, on
-condition the official titles **"Tesla Energy Certified Installer"**
-and/or **"Tesla Powerwall Certified Installer"** are used consistently.
-This satisfies the standing gate that has blocked all Tesla content on
-this site since the project began (`docs/owner-inputs-required.md`, Tesla
-section).
+Tesla marketing approval confirmed 25 September 2026, on condition the
+official titles **"Tesla Energy Certified Installer"** and/or **"Tesla
+Powerwall Certified Installer"** are used consistently. This satisfies
+the standing gate that has blocked all Tesla content on this site since
+the project began (`docs/owner-inputs-required.md`, Tesla section).
 
 ## What changed
 

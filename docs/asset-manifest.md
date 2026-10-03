@@ -129,27 +129,21 @@ of the credential grid into its own full-width strip below it.
   `site/img/brand/evnex/evnex-certified-installer-dark.png`. This is
   still an owner-supplied business claim, not independently verified —
   no certification number, issue date or expiry was supplied or shown.
-- **Tesla Certified Installer** — **still hidden from the public site.**
-  This pass's request asked for a sixth Tesla credential card, framed as
-  a direct owner instruction with explicit caveats against inventing
-  approval metadata. It was **not implemented**: final written
-  marketing/publication approval from Tesla
-  (`energyproductsmarketing@tesla.com`) still has not been received, and
-  a business's own instruction to publish a partner's mark is not that
-  partner's consent to use it — the missing requirement is Tesla's
-  consent specifically, which no instruction from this business can
-  supply. See the Tesla section of `docs/owner-inputs-required.md`.
-  Nothing was deleted or altered: the existing commented-out card in
-  `src/pages/home/content.html` is unchanged, still the only Tesla
-  implementation, still ready to uncomment once genuine written approval
-  exists. No Tesla asset, page, spec, pricing or lifestyle imagery was
-  added anywhere in this pass.
-  **Update, 25 Sep 2026: resolved.** Tesla granted written marketing/
-  publication approval (`energyproductsmarketing@tesla.com`) — see the
-  Tesla section of `docs/owner-inputs-required.md` for the full evidence
-  trail. The trust card, the battery-storage feature block and the
-  dedicated `/tesla-powerwall-3/` page are now all live, using the
-  official titles Tesla's approval required.
+- **Tesla Certified Installer** — at the time this pass's request was
+  made, a sixth Tesla credential card had been requested but **not
+  implemented**: Tesla's own marketing/publication consent — a separate
+  requirement from the installer agreement itself, and not something any
+  instruction from this business could supply on Tesla's behalf — had not
+  yet been received. See the Tesla section of
+  `docs/owner-inputs-required.md`.
+  **Update, 25 Sep 2026: resolved. Tesla marketing approval confirmed 25
+  September 2026.** Retain the approved titles "Tesla Energy Certified
+  Installer" and/or "Tesla Powerwall Certified Installer" and the
+  approved content currently published — see the Tesla section of
+  `docs/owner-inputs-required.md` for the business-level approval record.
+  The trust card, the battery-storage feature block and the dedicated
+  `/tesla-powerwall-3/` page are now all live, using the official titles
+  Tesla's approval required.
 
 ## Alt text policy applied
 

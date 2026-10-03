@@ -12,6 +12,20 @@ returns nothing:
 grep -rn "OWNER CONFIRMATION REQUIRED" site --include=*.html
 ```
 
+## CURRENT STATUS (read this first)
+
+| Item | Status |
+| --- | --- |
+| Tesla content | Approved and active. |
+| Tesla approved wording | Locked — use only "Tesla Energy Certified Installer" and/or "Tesla Powerwall Certified Installer". |
+| Website phone | 0435 336 336. |
+| Electrical licence | Displayed. |
+| Workmanship warranty | 10 years; contract/document alignment still requires owner verification. |
+| Reviews | Disabled pending validation. |
+| Embedded forms | Browser and CRM delivery testing still required. |
+| Repository privacy/access | Owner action outside the codebase. |
+| Production redirects | Hosting action still required. |
+
 ## 🔴 Blocking — resolve before any of the below matters
 
 ### Phone number conflict — ✅ resolved
@@ -95,7 +109,7 @@ meta lines. The credential claims were never in question — only the
 number display changed. This is a current, active owner decision;
 nothing further is open on this specific item.
 
-### 🟡 Tesla Powerwall 3 page + battery-storage feature block — built, held back
+### ✅ Tesla Powerwall 3 page + battery-storage feature block — approved, active
 **24 Sep 2026 (homepage premium badge-grid request):** a task requested
 adding a sixth "Tesla Certified Installer" credential card to the
 homepage trust grid, framed as a direct owner instruction and explicitly
@@ -165,21 +179,14 @@ Tesla trust card has been handled all along:
   current, approved Tesla source, so the draft page explicitly omits
   them rather than guessing.
 
-**25 Sep 2026 — ACTIVATED.** Real Tesla written marketing/publication
-approval was obtained from `energyproductsmarketing@tesla.com` (Huynh
-Dong, Demand Generation Intern – Energy, APAC), approving the exact
-mock-up pack sent for review (private, localhost-only, watermarked
-"DRAFT FOR TESLA MARKETING REVIEW — NOT PUBLISHED", per the process
-described above), on one condition: use the official titles **"Tesla
-Energy Certified Installer"** and/or **"Tesla Powerwall Certified
-Installer"** consistently sitewide, rather than the plain "Tesla
-Certified Installer" the original draft card used. Confirmed by the same
-reply to also cover Wall Connector installer status, and separately
-confirmed via a second thread ("Marketing/publication approval request —
-Tesla Certified Installer, Oz Home Energy (Sydney)") replying to the
-homepage/battery-storage/dedicated-page request specifically. Both are
-real Gmail threads to/from `energyproductsmarketing@tesla.com`, dated 25
-Sep 2026 — see the account's mailbox for the full text if needed.
+**25 Sep 2026 — ACTIVATED. Tesla marketing approval confirmed 25
+September 2026.** Retain the approved titles **"Tesla Energy Certified
+Installer"** and/or **"Tesla Powerwall Certified Installer"** and the
+approved content currently published, rather than the plain "Tesla
+Certified Installer" the original draft card used. Approval also covers
+Wall Connector installer status. This is the current, standing
+business-level approval record — see the CURRENT STATUS table near the
+top of this document.
 
 What was actually done (differs slightly from the original activation
 plan below, since the approved card uses the newer SVG badge from the
@@ -359,10 +366,9 @@ explicit "yes, that's accurate" before launch, not just consistent phrasing:
       explicitly confirmed Greater Sydney. See the "Service area —
       Greater Sydney boundary" entry below for the full restoration
       detail. "Sydney only" no longer reflects the current site.
-- [x] **Ohme approved installer** — ✅ resolved: confirmed via the 11 Sep 2026 Ohme onboarding call (Julian Coxon) and the owner-supplied badge asset (`assets/original-photography/trust-badges/ohme-approved-installer.jpg`). Enabled on the homepage trust section, the About page, and the EV charging page, scoped to Ohme EV charger installation only (not a general EV-brand claim).
-- [ ] **Tesla Certified Installer (Powerwall & Wall Connector)** — **certification itself is now confirmed** (22 Sep 2026): Tesla's own Contracts system (`CLM_PROD@tesla.com`, automated) sent "Fully Executed Document" for the Certified Installer Agreement (AU), Document ID 694645, covering both Powerwall and Home-Charging Equipment (Wall Connector), Services + Purchase & Resale, Territory: Australia. Corroborated by `mofuller@tesla.com`'s same-day "Tesla Certified Installer Final Step" email. This resolves the doubt from the 18 Sep "Onboarding Tasks have not been completed" email and the unsigned company signature block found in the contract PDF on 21 Sep — both are now superseded by actual execution.
-  **Still blocked from publishing, for a different and more specific reason**: the executed agreement's Exhibit 3 §10(b) requires Tesla's **prior written consent** before either party "advertise[s] or publicize[s] that the Parties have entered into this Agreement, or use[s] the other Party's name, mark or logo in any document or communication published." A badge — even text-only, no logo — publicizes the relationship and would breach this clause without that separate consent. **This is not my caution, it's the contract terms Oz Home Energy signed.**
-  Real, official Tesla marketing assets have since been supplied (22 Sep 2026) — a "Powerwall / Certified Installer" logo lockup and a Powerwall + Wall Connector lifestyle photo, both sourced from Tesla's own "Marketing Links" resource document. That same document states, in Tesla's own words, directly above the asset links: **"Please ensure you email energyproductsmarketing@tesla.com for marketing approval"** — no exception for pre-built vs. custom marketing. The logo has replaced the placeholder asset at `assets/original-photography/trust-badges/tesla-powerwall-certified-installer.png` (confirmed byte-identical to what was already in the repo — the original asset was correct all along); the lifestyle photo is processed and ready at `assets/original-photography/tesla-marketing/`. A fully built trust-section card is commented out at the end of the homepage grid (`src/pages/home/content.html`), ready to uncomment with no further work. Owner has sent a request for that consent to Morris Fuller; his reply pointed to the same Marketing Guidelines/approval-email process rather than granting consent directly. The moment written consent exists, enable immediately as **"Tesla Certified Installer — Powerwall & Wall Connector"** — nothing else needs building.
+- [x] **Ohme approved installer** — ✅ resolved: confirmed via the 11 Sep 2026 Ohme onboarding call and the owner-supplied badge asset (`assets/original-photography/trust-badges/ohme-approved-installer.jpg`). Enabled on the homepage trust section, the About page, and the EV charging page, scoped to Ohme EV charger installation only (not a general EV-brand claim).
+  **🟠 2 Oct 2026 (audit remediation) — the supplied Ohme badge's background is baked into the image pixels, not a real transparent layer** (`site/img/brand/trust/ohme-approved-installer.png` is RGB, no alpha channel — confirmed via image inspection). This pass resized it (proportions, colours and the embedded background preserved exactly, LANCZOS-resampled, no cropping or recolouring) to roughly 2x its max rendered CSS size, but did **not** attempt to fake transparency with CSS clipping, filters, or image editing — the badge keeps its solid rectangular backing exactly as supplied, which currently sits visibly offset against the trust-grid's own background. **An official transparent-background asset (PNG with alpha or SVG) still needs to be supplied by Ohme or the owner** before this can look fully consistent with the other (transparent) credential badges.
+- [x] **Tesla Certified Installer (Powerwall & Wall Connector)** — **superseded, now resolved.** This entry is historical: at the time it was written (22 Sep 2026), the signed installer agreement was confirmed but Tesla's separate marketing/publication consent (required under the agreement's own terms before any badge, mark or public mention of the relationship) had not yet been granted, so the badge, Powerwall page and related marketing stayed unpublished. **Tesla marketing approval confirmed 25 September 2026** — see the "Tesla Powerwall 3 page + battery-storage feature block" entry above and the CURRENT STATUS table near the top of this document for the current, standing record. Retain the approved titles "Tesla Energy Certified Installer" and/or "Tesla Powerwall Certified Installer" and the approved content currently published.
   **24 Sep 2026 (site-loop, Home round 2):** owner supplied a list of
   battery brands installed that included Tesla, for the homepage's
   "brands we install" sentence — plain text, no badge or logo. Left out
@@ -533,13 +539,21 @@ HighLevel's side.
       webhook rotation above is fixing — don't reintroduce it.)
 
 ### Review widget
-The homepage now embeds the verified HighLevel review widget
+**2 Oct 2026 (audit remediation) — homepage reviews are disabled.** The
+embedded HighLevel review widget
 (`https://link.ozhomeenergy.com.au/reputation/widgets/review_widget/iqh8HIe7GtEKNtnlIaho?widgetId=6a98ba1ddb444e2cfc4f0d6f`)
-as a lazy-loaded iframe (`site/js/reviews.js`) that only reveals itself once
-it actually loads, and fails silently (stays hidden) otherwise. **Confirm
-this widget still resolves to the intended review set** and that its
-content requires no further sign-off — no review text is hard-coded
-anywhere in this repo.
+was capable of rendering a visibly broken iframe on the homepage. The
+"What customers say" section and its `/js/reviews.js` script reference
+have been removed from `src/pages/home/content.html` and
+`src/pages/home/meta.json`. **Homepage reviews are disabled pending
+verification of the HighLevel review source, Sydney relevance and iframe
+behaviour.** No static, rewritten or fabricated testimonials were added
+in their place. `site/js/reviews.js` itself has been left in the
+repository (unmodified) for possible future reuse — it is simply no
+longer referenced by the homepage. The Projects page (`/projects/`)
+still embeds the same widget via its own, separate `<!--NAV:...-->`-free
+section and is unaffected by this change; if the same broken-iframe
+behaviour is confirmed there too, it needs its own, separate review.
 
 ## Legal & business detail
 

@@ -315,16 +315,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    Scoped to .hero--home: the two commercial landing pages still use the
    legacy .hero rules above. The photograph is never washed with a
    full-width gradient. Under 1200px the whole photo sits above the copy,
-   so there is no text on it at all. From 1200px the copy sits in the sky
+   so there is no text on it at all (a 16:9 band: on a phone this keeps the
+   house the same width as the full photo and the call to action in the first
+   screen). From 1200px the copy sits in the sky
    (the photo's clear area) and a thin credentials rail runs along the
    bottom edge, so the house and solar panels stay uncovered.
    .hero-frame is a 16:9 window onto the 4:3 poster (source rows 200-1100,
    the same crop the hero loop was generated from), so the poster and the
    video line up exactly when the video fades in. */
 .hero--home { display: block; min-height: 0; align-items: initial; }
-.hero--home .hero-media { position: relative; inset: auto; aspect-ratio: 4 / 3; overflow: hidden; background: var(--charcoal-700); }
-.hero--home .hero-frame { position: absolute; inset: 0; }
-.hero--home .hero-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.hero--home .hero-media { position: relative; inset: auto; aspect-ratio: 16 / 9; overflow: hidden; background: var(--charcoal-700); }
+.hero--home .hero-frame { position: absolute; inset: auto; left: 0; top: 50%; width: 100%; aspect-ratio: 16 / 9; transform: translateY(-50%); }
+.hero--home .hero-frame img { position: absolute; inset: auto; left: 0; top: -22.2222%; width: 100%; height: 133.3333%; object-fit: cover; object-position: center; display: block; }
 .hero--home .hero-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity .9s ease; pointer-events: none; }
 .hero--home .hero-frame video.is-playing { opacity: 1; }
 .hero--home .hero-overlay { display: none; }
@@ -340,11 +342,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (min-width: 560px) {
   .hero--home .hero-ctas .btn { width: auto; }
 }
-/* 760-1199px: a 16:9 band of the photo, copy beneath. */
+/* 760-1199px: larger type, copy still beneath the photo. */
 @media (min-width: 760px) {
-  .hero--home .hero-media { aspect-ratio: 16 / 9; }
-  .hero--home .hero-frame { inset: auto; left: 0; top: 50%; width: 100%; aspect-ratio: 16 / 9; transform: translateY(-50%); }
-  .hero--home .hero-frame img { inset: auto; left: 0; top: -22.2222%; height: 133.3333%; }
   .hero--home .hero-inner { padding-block: 36px 4px; }
   .hero--home h1 { font-size: clamp(2rem, 3.2vw + .8rem, 2.6rem); max-width: 22em; }
   .hero--home .lede { font-size: 1.15rem; }

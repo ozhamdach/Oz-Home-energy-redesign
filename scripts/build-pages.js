@@ -32,6 +32,9 @@ function copyDir(src, dest) {
 copyDir(path.join(SITE, 'css'), path.join(OUT, 'css'));
 copyDir(path.join(SITE, 'js'), path.join(OUT, 'js'));
 copyDir(path.join(SITE, 'img'), path.join(OUT, 'img'));
+// Hero loop (silent, decorative; see docs/asset-manifest.md). Optional: the
+// homepage still works, using the still photograph, if this folder is absent.
+if (fs.existsSync(path.join(SITE, 'media'))) copyDir(path.join(SITE, 'media'), path.join(OUT, 'media'));
 fs.copyFileSync(path.join(SITE, 'robots.txt'), path.join(OUT, 'robots.txt'));
 fs.copyFileSync(path.join(SITE, 'sitemap.xml'), path.join(OUT, 'sitemap.xml'));
 

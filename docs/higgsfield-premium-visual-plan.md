@@ -116,7 +116,7 @@ Checked live on 3 Oct 2026; nothing assumed from earlier documentation.
 
 | Condition | Finding |
 |---|---|
-| Owned / permitted | **Not documented for this file.** It is `assets/original-photography/web-pack-solar/solar-residential-complex.webp`, outside the numbered pack that carries the owner's authorisation statement, and no doc records who took it. It is the live hero, supplied into the repo as original photography. **Owner to confirm.** |
+| Owned / permitted | `assets/original-photography/web-pack-solar/solar-residential-complex.webp`. The repo did not record who took it; **the owner confirmed on 3 Oct 2026 that it is theirs to use** (the check is recorded here; no contract or third-party claim was in play). |
 | No identifiable customer information | Pass on inspection: no house number, street sign, letterbox or text visible. |
 | No address / number plate / person | Pass: no vehicles, no people, no plate. A street-level view of a residential building; not geolocated (no EXIF; stripped on all derivatives). |
 
@@ -202,7 +202,7 @@ Order stays: Hero → Credentials → Founder statement → Pathways → Generat
 ## 13. Unverified items and owner decisions
 
 **Unverified**
-1. Ownership/permission for the hero photograph (Section 8.1).
+1. ~~Ownership/permission for the hero photograph~~ confirmed by the owner, 3 Oct 2026 (Section 8.1).
 2. Provenance of the 19 images under `site/img/recent-work/` (e.g. `goodwe-home-ev-charger.webp`): not in the original-photography pack and not documented in `docs/asset-manifest.md`. Not used as Higgsfield inputs.
 3. `/projects/` (currently unpublished) has an H1 containing "Real Reviews". The owner decided on 24 Sep not to headline the 6 reviews; worth reconciling before that page is published. Out of scope for this pass.
 4. Live-site Lighthouse/typography (blocked in the audit environment).
@@ -288,3 +288,47 @@ Hard-reject rule (below 4 on realism, stability or equipment accuracy): **D3 is 
 Either way, a final would be checked again frame-by-frame and against the kill criteria in Section 11 before anything reaches the site. If you would rather not use any animated version, the real still stays as the hero and Section 11 step 1 still applies for the layout and scrim.
 
 Pending owner confirmation: **permission to use the hero photograph** (Section 8.1). Nothing further is generated or built until that and a draft choice are confirmed.
+
+## 15. Owner decisions, 3 Oct 2026, and the Phase 5 review build
+
+### 15.1 Decisions received
+1. The hero photograph is the owner's: confirmed.
+2. **D2, handled as Option A** (loop blended in post; no further Higgsfield credits, balance stays 90).
+3. Layout decisions (hero layout, proof strip, founder excerpt pages, gallery image swap, founder photo, body font, manifest disclosure): *the owner wants to see them first.* A review build was made for that; those decisions remain open.
+
+### 15.2 What the review build contains (branch only; not merged, not deployed)
+| Change | Scope | Notes |
+|---|---|---|
+| Hero layout | homepage only (`.hero--home`) | Whole photo shown unwashed. From 1200 px the copy sits in the sky and a thin credentials rail runs along the bottom of the photo; below 1200 px a 16:9 band of the photo sits above the copy (no text on the photo). Scrim only behind the copy (masked away before the roofline). Wording, links, poster image unchanged. `Storage&nbsp;—` stops the em dash starting a line. |
+| Proof strip | removed | It repeated the hero trust line and the credentials section; the licence number stays in the footer. The CSS it alone used is removed. |
+| "Recent installs" | homepage only (`.photo-gallery--mixed`) | Frames follow each photo's shape; explicit `object-position`; the 40 px default `figure` margin that narrowed every card is reset here. Photos unedited. |
+| Flow block | `.flow-diagram` (homepage only) | Four boxes become one hairline with four nodes (horizontal from 821 px, vertical below). Draws once on scroll; fully drawn without JS or with reduced motion. Decorative icon chips removed; text unchanged. |
+| Section rhythm | homepage | Pale-blue bands replaced by white / off-white; one charcoal block. |
+| Hero video code | `site/js/hero-video.js` | Written, not yet referenced by any page: it is wired in only once the approved loop file exists. Loads after `load` and idle, at 900 px and wider, with no reduced-motion or Data Saver; the still stays as the poster and the fallback. |
+| Loop pipeline | `scripts/process-hero-loop.py` | Pendulum time-remap of the approved draft (see below). |
+
+**Not touched:** Tesla, Ohme, Evnex, SAA, SEC, NSW contractor artwork and copy; the Oz warranty badge and the 10-year workmanship wording; the credentials section; titles, meta, canonicals, JSON-LD, form IDs, CRM embeds; the other pages' banners and galleries; the sticky mobile call bar.
+
+### 15.3 Loop handling (Option A)
+The approved draft is one slow dolly-in. A cross-dissolve at the seam would double every panel edge, so the pipeline plays it forward and back along a cosine time curve (12 s period, 24 fps): the camera eases to a stop at both ends, the first and last frames are the same frame, and only Higgsfield's own frames are used (fractional positions are a blend of two neighbouring frames, which differ by under a pixel). Output: silent 1280×720 WebM (VP9) and MP4 (H.264). The push is the draft's own ~8.6 %, so it reads as slow breathing, not a stronger move.
+
+### 15.4 QA of the review build (local, Chromium; Google Fonts and the CRM embed are blocked in the audit environment, so fonts were supplied locally for screenshots)
+| Check | Before (`main`) | After |
+|---|---|---|
+| Repo static QA | pass | pass |
+| Repo Playwright suite (360/390/768/1024/1440, console errors, overflow, interactions) | pass | pass |
+| axe (WCAG 2 A/AA, 2.1 AA, best-practice) at 1440 | 0 violations | 0 violations |
+| axe "needs manual review" (contrast over imagery) | 5 nodes | 13 nodes: hero text over the photo (measured by hand, below) and header nav |
+| Hero text contrast, measured from pixels behind the text, poster still, 1200–1920 px | not measured | eyebrow ≥ 8.2:1, H1 ≥ 6.2:1, supporting line ≥ 7.1:1, Call button label ≥ 11.7:1, credentials line ≥ 5.0:1 (worst pixel) |
+| Lighthouse mobile ×3 (local, simulated) | 95 / 95 / 95 perf, 100 a11y, 96 best practices | 95 / 96 / 97 perf, 100 a11y, 96 best practices; SEO 69 = the intentional preview `noindex` |
+| LCP / CLS (Lighthouse) | 2.5 s / 0 | 2.5–2.6 s / 0 |
+| Page height 375 / 768 / 1440 px | 12,161 / 9,702 / 8,951 | 12,320 / 10,181 / 9,088 |
+| Hero box 375 / 768 / 1440 px | 715 / 640 / 696 | 738 / 804 / 810 |
+| Horizontal overflow | none | none |
+
+**Trade-offs to know about:** the hero is taller at 768 and 1440 (the whole photo is shown); on a phone the primary CTA sits 46–54 px lower than today (top at ~527 px on a 375×667 screen against 481 px now), still fully above the sticky bar from 375×667 up, but the in-hero Call button falls behind the sticky bar's own Call button on 667 px-tall screens. The 360×640 case is the same as today (CTA wraps and clips under the bar).
+
+**Not verified:** hero video (not yet built); contrast over video frames; real-device Safari/Firefox (the suite is Chromium only); live-site PageSpeed (rate-limited earlier); the final-CTA section height with the CRM iframe loaded.
+
+### 15.5 Still open
+Founder excerpt on `home`, `battery-storage`, `residential-solar` or fewer; whether to swap the regional rooftop image in "Recent installs" (the page stays factually safe either way; a real suburban Sydney photo from the owner is needed); real founder photo; Montserrat vs Inter for body text; disclosure of the AI-animated hero in the manifest only; whether to carry the banner/gallery/reveal changes to other pages.

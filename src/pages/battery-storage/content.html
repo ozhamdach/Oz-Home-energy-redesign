@@ -1,19 +1,25 @@
-<!-- Photo hero swapped 29 Sep 2026 (owner: "every photo in battery
-     storage must change"). Now battery-sungrow-installed — a clean shot
-     with no hazard signage in frame, unlike the other unused battery
-     photo in this pool (battery-fox-detail, which has "DANGER"/"RESTRICTED
-     ACCESS" stickers on the wall next to the unit). battery-fox-detail
-     is used inline below instead, as a new cropped derivative
-     (battery-fox-detail-crop, see scripts/process-photos.py) that
-     physically excludes the sticker side of the frame rather than
-     relying on CSS object-position, which didn't crop enough in that
-     slot to hide them. -->
+<!-- Photo hero swapped 3 Oct 2026 (owner: "the battery hero photo must
+     change"). Was battery-sungrow-installed — technically clean (no
+     hazard stickers) but shot in a shed/garage interior (corrugated
+     wall, loose rope and hay visible on the floor), which read as
+     utilitarian rather than premium. Now battery-fox-installed: a
+     modern home exterior (rendered wall, glass door, living-wall
+     landscaping), no hazard/warning stickers in frame. Only a 707px-wide
+     derivative exists (see scripts/process-photos.py's fox-battery-
+     context.jpg job — the original source itself is native 707px wide,
+     so there's no higher-resolution crop to generate); this is narrower
+     than this page's other hero candidates but still within the range
+     already used for other page-banner--photo heroes sitewide (About's
+     team-installers hero is 571px wide). battery-white-unit was also
+     considered and rejected: it has its own visible yellow "WARNING"
+     sticker in frame, the same category of issue this page's photos
+     were audited for before. -->
 <section class="page-banner page-banner--photo">
   <div class="page-banner-media">
     <picture>
-      <source type="image/avif" srcset="/img/photos/battery-sungrow-installed-480.avif 480w, /img/photos/battery-sungrow-installed-800.avif 800w, /img/photos/battery-sungrow-installed-1152.avif 1152w" sizes="100vw">
-      <source type="image/webp" srcset="/img/photos/battery-sungrow-installed-480.webp 480w, /img/photos/battery-sungrow-installed-800.webp 800w, /img/photos/battery-sungrow-installed-1152.webp 1152w" sizes="100vw">
-      <img src="/img/photos/battery-sungrow-installed-1152.jpg" width="1152" height="1536" fetchpriority="high" alt="A Sungrow inverter and battery unit installed against a wall">
+      <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="100vw">
+      <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="100vw">
+      <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" fetchpriority="high" alt="A FoxESS battery and inverter installed outside a modern home, beside a glass entry door and a living-wall garden">
     </picture>
   </div>
   <div class="page-banner-overlay"></div>

@@ -260,16 +260,4 @@
       wrap.focus();
     });
   });
-
-  // Pathway selector -> preselect assessment step 1 via query string
-  document.querySelectorAll('[data-pathway]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      var val = el.getAttribute('data-pathway');
-      try {
-        sessionStorage.setItem('ohe_pathway', val);
-      } catch (err) {
-        /* private browsing: ignore, assessment page falls back to step 1 */
-      }
-    });
-  });
 })();

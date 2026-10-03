@@ -53,8 +53,7 @@
     {
       "@type": "EducationalOccupationalCredential",
       "credentialCategory": "certification",
-      "name": "SAA Accreditation",
-      "identifier": "S5265652"
+      "name": "SAA Accreditation"
     }
   ],
   "hasOfferCatalog": {
@@ -159,7 +158,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand-logo" href="/" aria-label="Oz Home Energy — home">
-      <img class="brand-logo-img" src="/img/brand/oz-home-energy-logo.png" alt="Oz Home Energy" width="1560" height="1038" loading="eager">
+      <img class="brand-logo-img" src="/img/brand/oz-home-energy-logo.svg" alt="Oz Home Energy" width="366" height="241" loading="eager">
     </a>
 
     <nav class="primary-nav" aria-label="Primary">
@@ -268,16 +267,35 @@
 </div>
 
 <main id="main">
-<section class="page-banner">
+
+<section class="page-banner page-banner--photo">
+  <div class="page-banner-media">
+    <picture>
+      <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="100vw">
+      <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="100vw">
+      <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" fetchpriority="high" alt="A FoxESS battery and inverter installed outside a modern home, beside a glass entry door and a living-wall garden">
+    </picture>
+  </div>
+  <div class="page-banner-overlay"></div>
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Battery Storage</p>
     <p class="eyebrow">Battery Storage</p>
     <h1>Sydney Home Battery Storage — Use More of Your Solar</h1>
     <p class="lede">A battery stores the solar you're not using during the day so it's available in the evening. Backup power during a blackout may be available where suitable backup functionality and essential circuits are specifically designed and installed. We install new battery systems and retrofit batteries to existing solar.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="/assessment/?goal=add-battery">Start Your Free Energy Assessment</a>
+      <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
+  </div>
+</section>
+
+
+<section class="section section-accent">
+  <div class="container container-narrow" style="text-align:center;">
+    <p class="eyebrow">Why Oz Home Energy</p>
+    <p class="lede">"I started Oz Home Energy because I got tired of doing great work for companies that didn't always care what happened to the customer after the sale."</p>
+    <p class="hint" style="margin-top:8px;">— Oz, Founder</p>
+    <p style="margin-top:16px;"><a class="btn btn-ghost" href="/about/#founder">Read why I started this business →</a></p>
   </div>
 </section>
 
@@ -285,9 +303,9 @@
   <div class="container grid grid-2" style="align-items:center;">
     <div class="photo-frame" style="min-height:300px;">
       <picture>
-        <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="(min-width: 780px) 50vw, 100vw">
-        <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="(min-width: 780px) 50vw, 100vw">
-        <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" loading="lazy" alt="A Fox ESS battery unit and inverter installed on an exterior wall beside a front door">
+        <source type="image/avif" srcset="/img/photos/battery-fox-detail-crop-480.avif 480w, /img/photos/battery-fox-detail-crop-800.avif 800w, /img/photos/battery-fox-detail-crop-980.avif 980w" sizes="(min-width: 780px) 50vw, 100vw">
+        <source type="image/webp" srcset="/img/photos/battery-fox-detail-crop-480.webp 480w, /img/photos/battery-fox-detail-crop-800.webp 800w, /img/photos/battery-fox-detail-crop-980.webp 980w" sizes="(min-width: 780px) 50vw, 100vw">
+        <img src="/img/photos/battery-fox-detail-crop-980.jpg" width="980" height="1757" loading="lazy" alt="A FoxESS battery unit installed on an exterior wall beside a glass door">
       </picture>
     </div>
     <div>
@@ -309,7 +327,7 @@
       <div class="card"><h3>Compatibility check</h3><p>Existing inverter brand, age and warranty status reviewed before we recommend a specific battery.</p></div>
       <div class="card"><h3>Backup circuit planning</h3><p>We help you decide which circuits — lighting, fridge, internet — stay powered during an outage, and wire backup accordingly.</p></div>
       <div class="card"><h3>Switchboard assessment</h3><p>Confirms there's safe capacity and correct protection for the added equipment.</p></div>
-      <div class="card"><h3>Licensed installation</h3><p>Battery, inverter and any backup switchboard work completed to Australian Standards.</p></div>
+      <div class="card"><h3>Licensed installation</h3><p>Battery, inverter and any backup switchboard work completed to Australian Standards, backed by our <a href="/about/#warranty">10-year workmanship warranty</a>. Manufacturer warranties on the battery and inverter are separate.</p></div>
       <div class="card"><h3>Commissioning &amp; app setup</h3><p>System tested and, where applicable, monitoring app configured so you can see performance.</p></div>
       <div class="card"><h3>Ongoing support</h3><p>A point of contact for servicing, firmware questions or expanding storage later.</p></div>
     </div>
@@ -321,13 +339,13 @@
   <div class="container container-narrow">
     <div class="section-head">
       <p class="eyebrow">Federal rebate</p>
-      <h2>The Cheaper Home Batteries Program, explained</h2>
-      <p class="lede">A federal discount applied to eligible battery systems (5-100 kWh) at the time of purchase — your installer applies it directly to your quote, not a separate claim afterwards.</p>
+      <h2>How the federal battery discount is calculated</h2>
+      <p class="lede">The Cheaper Home Batteries Program supports eligible battery installations through small-scale technology certificates (STCs). For an eligible battery installed from 1 May to 31 December 2026, the base factor is 6.8 STCs per kWh of usable capacity, subject to the capacity taper below.</p>
     </div>
     <div class="card">
-      <h3>Worked example — 10 kWh battery, Sydney (Zone 3)</h3>
-      <p>At the current Zone 3 rate of approximately $252 per usable kWh, a 10&nbsp;kWh battery (under the 14&nbsp;kWh full-rate cap) works out to roughly <strong>$2,520</strong> off the upfront cost — commonly summarised as around a 30% discount on typical system pricing.</p>
-      <p class="hint">Rate applies in full up to 14&nbsp;kWh, then tapers (60% from 14-28&nbsp;kWh, 15% from 28-50&nbsp;kWh). The rate steps down roughly every 6 months until the scheme ends in 2030 — next change expected 1 Jan 2027. Indicative only, as of 24 Sep 2026; your exact eligible rebate depends on your installation date and is confirmed as part of your quote, not guaranteed by this page. Source: <a href="https://www.solarchoice.net.au/learn/solar-rebates/government-battery-rebate/changes-1-may-2026/">Solar Choice — Cheaper Home Batteries Program changes</a>.</p>
+      <h3>Worked example: 10 kWh usable battery</h3>
+      <p>A qualifying 10&nbsp;kWh usable battery installed during this period may create <strong>68 STCs</strong>: 10&nbsp;kWh × 6.8. This is a certificate estimate, not a fixed dollar discount. The dollar value depends on the STC price, the retailer or registered agent's offer, applicable fees and final eligibility.</p>
+      <p class="hint">Eligible systems must generally have a nominal capacity between 5&nbsp;kWh and 100&nbsp;kWh. STCs can be claimed only for the first 50&nbsp;kWh of usable capacity. The factor applies at 100% through 14&nbsp;kWh, 60% for capacity above 14&nbsp;kWh through 28&nbsp;kWh, and 15% for capacity above 28&nbsp;kWh through 50&nbsp;kWh. Confirmed as part of your quote, not guaranteed by this page. Sources: <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-technology-certificates/calculate-small-scale-technology-certificate-entitlements">Clean Energy Regulator — calculate STC entitlements</a>, <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-renewable-energy-systems/solar-batteries">Clean Energy Regulator — solar batteries</a>.</p>
     </div>
   </div>
 </section>
@@ -419,6 +437,7 @@
 </section>
 
 
+
 <section class="section section-alt">
   <div class="container">
     <div class="section-head">
@@ -428,39 +447,39 @@
     <div class="photo-gallery">
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-sigenergy-exterior.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Sigenergy battery system installed against an exterior wall">
-        </div>
-        <figcaption>Sigenergy battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-sungrow-brick-wall.webp" width="707" height="944" loading="lazy" decoding="async" alt="Sungrow battery and inverter equipment mounted on a brick wall">
-        </div>
-        <figcaption>Sungrow battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-foxess-four-module.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="FoxESS inverter and four battery modules installed on a brick wall">
-        </div>
-        <figcaption>FoxESS battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
           <img src="/img/recent-work/electrical-backup/battery-backup-changeover.webp" width="1600" height="2133" loading="lazy" decoding="async" alt="Battery backup changeover switch, solar meter and essential circuits board">
         </div>
         <figcaption>Backup changeover &amp; essential circuits</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-alphaess-tower.webp" width="707" height="1536" loading="lazy" decoding="async" alt="AlphaESS battery tower installed against an exterior sandstone wall">
+          <img src="/img/recent-work/battery/battery-hinen-multi-unit-garage.webp" width="1600" height="1200" loading="lazy" decoding="async" alt="Four Hinen battery units and two inverters installed in a garage">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-hinen-garage.webp" width="1350" height="1800" loading="lazy" decoding="async" alt="Hinen inverter and four battery modules installed on an exterior wall">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-hinen-garage-door.webp" width="707" height="1508" loading="lazy" decoding="async" alt="Hinen battery unit installed beside a garage door, protected by bollards">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-alphaess-tower.webp" width="707" height="1536" loading="lazy" decoding="async" alt="AlphaESS battery tower installed against an exterior stone wall">
         </div>
         <figcaption>AlphaESS battery installation</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-hinen-garage.webp" width="1350" height="1800" loading="lazy" decoding="async" alt="Two Hinen battery stacks and an inverter mounted on an exterior wall">
+          <img src="/img/recent-work/battery/battery-foxess-four-module.webp" width="1200" height="1600" loading="lazy" decoding="async" style="object-position: 50% 75%;" alt="FoxESS inverter and four battery modules installed on a brick wall">
         </div>
-        <figcaption>Hinen battery installation</figcaption>
+        <figcaption>FoxESS battery installation</figcaption>
       </figure>
     </div>
   </div>
@@ -470,7 +489,7 @@
   <div class="container container-narrow">
     <h2>Find out if your solar is ready for a battery</h2>
     <div class="cta-row">
-      <a class="btn btn-primary" href="/assessment/?goal=add-battery">Start Your Free Energy Assessment</a>
+      <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
   </div>
@@ -482,10 +501,10 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="/" class="footer-logo-chip" aria-label="Oz Home Energy — home">
-          <img src="/img/brand/oz-home-energy-logo.png" alt="Oz Home Energy" width="1560" height="1038" loading="lazy">
+          <img src="/img/brand/oz-home-energy-logo.svg" alt="Oz Home Energy" width="366" height="241" loading="lazy">
         </a>
         <p>Oz Home Energy is a Sydney service-area electrical and energy contractor serving homes and businesses across Sydney and Greater Sydney, NSW.</p>
-        <p class="footer-licence">NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652</p>
+        <p class="footer-licence">Licensed NSW electrical contractor · SAA accredited</p>
 
       </div>
 
@@ -540,7 +559,7 @@
     <div class="footer-bottom">
       <div>
         <div>Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556</div>
-        <div>NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652 · Sydney, NSW</div>
+        <div>NSW Electrical Contractor Licence 382607C · SAA accredited · Sydney, NSW</div>
         <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
       </div>
       <ul class="legal-links">

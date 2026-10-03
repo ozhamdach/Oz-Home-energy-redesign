@@ -46,13 +46,12 @@ scratch, or from memory, when that day comes.
 
 ## Tesla
 
-- [x] **Resolved 25 Sep 2026.** Tesla granted written marketing/
-      publication approval (replies from `energyproductsmarketing@tesla.com`
-      / Huynh Dong to the mock-up pack sent for review, on condition the
-      official titles "Tesla Energy Certified Installer" and/or "Tesla
-      Powerwall Certified Installer" are used consistently — see the
-      Tesla section of `docs/owner-inputs-required.md` for the full
-      evidence trail). The Tesla content has been activated: the trust
+- [x] **Resolved 25 Sep 2026.** Tesla marketing approval confirmed 25
+      September 2026, on condition the official titles "Tesla Energy
+      Certified Installer" and/or "Tesla Powerwall Certified Installer"
+      are used consistently — see the Tesla section of
+      `docs/owner-inputs-required.md` for the business-level approval
+      record. The Tesla content has been activated: the trust
       card is live in `src/pages/home/content.html`, the feature block is
       live in `src/pages/battery-storage/content.html`, and
       `src/pages/tesla-powerwall-3/` is now a real, building page (moved

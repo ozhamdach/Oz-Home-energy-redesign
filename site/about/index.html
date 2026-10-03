@@ -53,8 +53,7 @@
     {
       "@type": "EducationalOccupationalCredential",
       "credentialCategory": "certification",
-      "name": "SAA Accreditation",
-      "identifier": "S5265652"
+      "name": "SAA Accreditation"
     }
   ],
   "hasOfferCatalog": {
@@ -103,7 +102,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand-logo" href="/" aria-label="Oz Home Energy — home">
-      <img class="brand-logo-img" src="/img/brand/oz-home-energy-logo.png" alt="Oz Home Energy" width="1560" height="1038" loading="eager">
+      <img class="brand-logo-img" src="/img/brand/oz-home-energy-logo.svg" alt="Oz Home Energy" width="366" height="241" loading="eager">
     </a>
 
     <nav class="primary-nav" aria-label="Primary">
@@ -212,7 +211,16 @@
 </div>
 
 <main id="main">
-<section class="page-banner">
+
+<section class="page-banner page-banner--photo">
+  <div class="page-banner-media">
+    <picture>
+      <source type="image/avif" srcset="/img/photos/team-installers-480.avif 480w, /img/photos/team-installers-571.avif 571w" sizes="100vw">
+      <source type="image/webp" srcset="/img/photos/team-installers-480.webp 480w, /img/photos/team-installers-571.webp 571w" sizes="100vw">
+      <img src="/img/photos/team-installers-571.jpg" width="571" height="829" fetchpriority="high" alt="Two Oz Home Energy installers standing between rows of townhouses next to wall-mounted battery units">
+    </picture>
+  </div>
+  <div class="page-banner-overlay"></div>
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>About</p>
     <p class="eyebrow">Why Oz Home Energy</p>
@@ -277,16 +285,16 @@
   <div class="container grid grid-2" style="align-items:center;">
     <div class="photo-frame" style="min-height:300px;">
       <picture>
-        <source type="image/avif" srcset="/img/photos/team-installers-480.avif 480w, /img/photos/team-installers-571.avif 571w" sizes="(min-width: 780px) 50vw, 100vw">
-        <source type="image/webp" srcset="/img/photos/team-installers-480.webp 480w, /img/photos/team-installers-571.webp 571w" sizes="(min-width: 780px) 50vw, 100vw">
-        <img src="/img/photos/team-installers-571.jpg" width="571" height="829" loading="lazy" alt="Two Oz Home Energy installers standing between rows of townhouses next to wall-mounted battery units">
+        <source type="image/avif" srcset="/img/photos/fleet-van-480.avif 480w, /img/photos/fleet-van-800.avif 800w, /img/photos/fleet-van-1320.avif 1320w" sizes="(min-width: 780px) 50vw, 100vw">
+        <source type="image/webp" srcset="/img/photos/fleet-van-480.webp 480w, /img/photos/fleet-van-800.webp 800w, /img/photos/fleet-van-1320.webp 1320w" sizes="(min-width: 780px) 50vw, 100vw">
+        <img src="/img/photos/fleet-van-1320.jpg" width="1320" height="880" loading="lazy" alt="The rear and side of an Oz Home Energy branded service van">
       </picture>
     </div>
     <div>
       <p class="eyebrow">Licensing &amp; compliance</p>
       <h2>Licensed NSW Electrical Contractor</h2>
-      <p>NSW Electrical Contractor Licence <strong>382607C</strong>.</p>
-      <p>SAA Accreditation <strong>S5265652</strong>.</p>
+      <p>Licensed electrical contractor, NSW.</p>
+      <p>SAA accredited.</p>
       <p>We're also an <a href="/ev-charging/">Ohme Approved Installer</a> for the e-pod/Home Pro charger range and a Smart Energy Council Small Business Member.</p>
     </div>
   </div>
@@ -297,8 +305,8 @@
   <div class="container container-narrow">
     <div id="warranty" class="card warranty-feature">
       <p class="eyebrow">Our workmanship commitment</p>
-      <h2>15-Year Workmanship Warranty</h2>
-      <p>Oz Home Energy backs its installation workmanship for 15 years. This warranty covers installation workmanship performed by Oz Home Energy and is separate from product warranties provided by the relevant manufacturers.</p>
+      <h2>10-Year Workmanship Warranty</h2>
+      <p>Oz Home Energy backs its installation workmanship for 10 years. This warranty covers installation workmanship performed by Oz Home Energy and is separate from product warranties provided by the relevant manufacturers.</p>
       <p>Eligibility, exclusions and the claim process are set out in the written warranty terms provided with the applicable quotation and contract. Nothing in this warranty limits rights available under the Australian Consumer Law.</p>
       <a class="btn btn-secondary" href="/service-request/">Request warranty support</a>
     </div>
@@ -329,10 +337,10 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="/" class="footer-logo-chip" aria-label="Oz Home Energy — home">
-          <img src="/img/brand/oz-home-energy-logo.png" alt="Oz Home Energy" width="1560" height="1038" loading="lazy">
+          <img src="/img/brand/oz-home-energy-logo.svg" alt="Oz Home Energy" width="366" height="241" loading="lazy">
         </a>
         <p>Oz Home Energy is a Sydney service-area electrical and energy contractor serving homes and businesses across Sydney and Greater Sydney, NSW.</p>
-        <p class="footer-licence">NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652</p>
+        <p class="footer-licence">Licensed NSW electrical contractor · SAA accredited</p>
 
       </div>
 
@@ -387,7 +395,7 @@
     <div class="footer-bottom">
       <div>
         <div>Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556</div>
-        <div>NSW Electrical Contractor Licence 382607C · SAA Accreditation S5265652 · Sydney, NSW</div>
+        <div>NSW Electrical Contractor Licence 382607C · SAA accredited · Sydney, NSW</div>
         <div>Phone <a href="tel:+61435336336">0435 336 336</a></div>
       </div>
       <ul class="legal-links">

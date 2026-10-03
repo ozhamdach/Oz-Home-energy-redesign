@@ -45,6 +45,20 @@ substitute for real redirects.** Before this site goes live on
 `redirects/_redirects` (or `redirects/redirects.json`) into that host's real
 redirect mechanism — see §4.
 
+**Production requirement, confirmed in the 25 Sep 2026 audit pass:** the
+production site must serve genuine HTTP 301/302 responses for every legacy
+route, configured at whatever real host it ends up on (§7 has the
+translation for common hosts). The GitHub Pages meta-refresh compatibility
+pages described in this section are acceptable only on the preview
+deployment — they must never be the production migration mechanism, unless
+a deliberate, informed decision is made to keep the production site itself
+on GitHub Pages long-term (see the tradeoff noted in §7). Separately, and
+regardless of which host is chosen: **`ozhomeenergy.com.au` must not be
+pointed at this preview deployment.** The preview is noindex/nofollow
+sitewide and gates unfinished content (see `src/data/site-status.json`); the
+real domain must only ever resolve to a production build
+(`BUILD_TARGET=production`) served with real redirects.
+
 ## 3. Single source of truth
 
 `redirects/legacy-routes.json` is the only place mappings are hand-maintained.
@@ -104,6 +118,17 @@ that `/locations/` is its permanent replacement. Do not change any of these
 to 301 until real, unique content exists at that specific route — at that
 point, delete its entry from `legacy-routes.json` entirely (it becomes a real
 page, not a redirect) rather than reclassifying the redirect.
+
+**Before deciding whether to rebuild each of these nine as its own page or
+consolidate them permanently into `/locations/`, pull each route's Search
+Console performance** (clicks, impressions, average position), its current
+inbound links (Search Console → Links, plus any known external citations),
+and its historical lead/conversion volume if available from the CRM. A
+route with real organic traffic and links is a strong case for rebuilding
+a genuine local page; a route with negligible traffic/links is a weaker
+case and a permanent 301 to `/locations/` may be the better outcome. This
+decision should not be made on content-freshness grounds alone (25 Sep 2026
+audit pass).
 
 ## 6. What's still not covered
 

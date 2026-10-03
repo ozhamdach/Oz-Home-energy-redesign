@@ -1,13 +1,52 @@
-<section class="page-banner">
+<!-- Photo hero swapped 3 Oct 2026 (owner: "the battery hero photo must
+     change"). Was battery-sungrow-installed — technically clean (no
+     hazard stickers) but shot in a shed/garage interior (corrugated
+     wall, loose rope and hay visible on the floor), which read as
+     utilitarian rather than premium. Now battery-fox-installed: a
+     modern home exterior (rendered wall, glass door, living-wall
+     landscaping), no hazard/warning stickers in frame. Only a 707px-wide
+     derivative exists (see scripts/process-photos.py's fox-battery-
+     context.jpg job — the original source itself is native 707px wide,
+     so there's no higher-resolution crop to generate); this is narrower
+     than this page's other hero candidates but still within the range
+     already used for other page-banner--photo heroes sitewide (About's
+     team-installers hero is 571px wide). battery-white-unit was also
+     considered and rejected: it has its own visible yellow "WARNING"
+     sticker in frame, the same category of issue this page's photos
+     were audited for before. -->
+<section class="page-banner page-banner--photo">
+  <div class="page-banner-media">
+    <picture>
+      <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="100vw">
+      <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="100vw">
+      <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" fetchpriority="high" alt="A FoxESS battery and inverter installed outside a modern home, beside a glass entry door and a living-wall garden">
+    </picture>
+  </div>
+  <div class="page-banner-overlay"></div>
   <div class="container">
     <p class="breadcrumbs"><a href="/">Home</a><span class="sep">/</span>Battery Storage</p>
     <p class="eyebrow">Battery Storage</p>
     <h1>Sydney Home Battery Storage — Use More of Your Solar</h1>
     <p class="lede">A battery stores the solar you're not using during the day so it's available in the evening. Backup power during a blackout may be available where suitable backup functionality and essential circuits are specifically designed and installed. We install new battery systems and retrofit batteries to existing solar.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="/assessment/?goal=add-battery">Start Your Free Energy Assessment</a>
+      <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
+  </div>
+</section>
+
+<!-- FOUNDER LINK — added 29 Sep 2026 (site-loop, Home batteries round 2):
+     round 1 flagged "no director photo/story link" as a fixable Trust
+     gap (the founder story itself was already live on /about/#founder
+     and excerpted on Home since round 3 — this page just never linked
+     to it). Same excerpt convention as Home, owner's own words,
+     unchanged. -->
+<section class="section section-accent">
+  <div class="container container-narrow" style="text-align:center;">
+    <p class="eyebrow">Why Oz Home Energy</p>
+    <p class="lede">"I started Oz Home Energy because I got tired of doing great work for companies that didn't always care what happened to the customer after the sale."</p>
+    <p class="hint" style="margin-top:8px;">— Oz, Founder</p>
+    <p style="margin-top:16px;"><a class="btn btn-ghost" href="/about/#founder">Read why I started this business →</a></p>
   </div>
 </section>
 
@@ -15,9 +54,9 @@
   <div class="container grid grid-2" style="align-items:center;">
     <div class="photo-frame" style="min-height:300px;">
       <picture>
-        <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="(min-width: 780px) 50vw, 100vw">
-        <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="(min-width: 780px) 50vw, 100vw">
-        <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" loading="lazy" alt="A Fox ESS battery unit and inverter installed on an exterior wall beside a front door">
+        <source type="image/avif" srcset="/img/photos/battery-fox-detail-crop-480.avif 480w, /img/photos/battery-fox-detail-crop-800.avif 800w, /img/photos/battery-fox-detail-crop-980.avif 980w" sizes="(min-width: 780px) 50vw, 100vw">
+        <source type="image/webp" srcset="/img/photos/battery-fox-detail-crop-480.webp 480w, /img/photos/battery-fox-detail-crop-800.webp 800w, /img/photos/battery-fox-detail-crop-980.webp 980w" sizes="(min-width: 780px) 50vw, 100vw">
+        <img src="/img/photos/battery-fox-detail-crop-980.jpg" width="980" height="1757" loading="lazy" alt="A FoxESS battery unit installed on an exterior wall beside a glass door">
       </picture>
     </div>
     <div>
@@ -39,33 +78,32 @@
       <div class="card"><h3>Compatibility check</h3><p>Existing inverter brand, age and warranty status reviewed before we recommend a specific battery.</p></div>
       <div class="card"><h3>Backup circuit planning</h3><p>We help you decide which circuits — lighting, fridge, internet — stay powered during an outage, and wire backup accordingly.</p></div>
       <div class="card"><h3>Switchboard assessment</h3><p>Confirms there's safe capacity and correct protection for the added equipment.</p></div>
-      <div class="card"><h3>Licensed installation</h3><p>Battery, inverter and any backup switchboard work completed to Australian Standards.</p></div>
+      <div class="card"><h3>Licensed installation</h3><p>Battery, inverter and any backup switchboard work completed to Australian Standards, backed by our <a href="/about/#warranty">10-year workmanship warranty</a>. Manufacturer warranties on the battery and inverter are separate.</p></div>
       <div class="card"><h3>Commissioning &amp; app setup</h3><p>System tested and, where applicable, monitoring app configured so you can see performance.</p></div>
       <div class="card"><h3>Ongoing support</h3><p>A point of contact for servicing, firmware questions or expanding storage later.</p></div>
     </div>
   </div>
 </section>
 
-<!-- FEDERAL BATTERY REBATE — added site-loop, Home batteries round 1.
-     Figures match src/data/rebates.json (the shared source-of-truth file
-     the scorecard's Page 0 asks for). Sourced from Solar Choice's
-     Cheaper Home Batteries Program explainer (already cited elsewhere in
-     the scorecard doc itself) — could not fetch the government DCCEEW
-     page directly from this environment (network egress blocked), so
-     Solar Choice is the primary citation. Worked example uses a 10 kWh
-     battery (under the 14 kWh full-rate cap) purely as an illustration,
-     not a product this business sells at that exact size. -->
+<!-- FEDERAL BATTERY REBATE — corrected 25 Sep 2026 audit pass. Figures
+     match src/data/rebates.json (the shared source-of-truth file the
+     scorecard's Page 0 asks for). The program pays out in small-scale
+     technology certificates (STCs), not a fixed dollar amount — a prior
+     version of this section incorrectly stated a Zone 3 dollar-per-kWh
+     rate and a guaranteed $2,520 discount, neither of which is how this
+     federal program works. Sourced from the Clean Energy Regulator
+     directly (the authoritative source, not a broker's explainer). -->
 <section class="section">
   <div class="container container-narrow">
     <div class="section-head">
       <p class="eyebrow">Federal rebate</p>
-      <h2>The Cheaper Home Batteries Program, explained</h2>
-      <p class="lede">A federal discount applied to eligible battery systems (5-100 kWh) at the time of purchase — your installer applies it directly to your quote, not a separate claim afterwards.</p>
+      <h2>How the federal battery discount is calculated</h2>
+      <p class="lede">The Cheaper Home Batteries Program supports eligible battery installations through small-scale technology certificates (STCs). For an eligible battery installed from 1 May to 31 December 2026, the base factor is 6.8 STCs per kWh of usable capacity, subject to the capacity taper below.</p>
     </div>
     <div class="card">
-      <h3>Worked example — 10 kWh battery, Sydney (Zone 3)</h3>
-      <p>At the current Zone 3 rate of approximately $252 per usable kWh, a 10&nbsp;kWh battery (under the 14&nbsp;kWh full-rate cap) works out to roughly <strong>$2,520</strong> off the upfront cost — commonly summarised as around a 30% discount on typical system pricing.</p>
-      <p class="hint">Rate applies in full up to 14&nbsp;kWh, then tapers (60% from 14-28&nbsp;kWh, 15% from 28-50&nbsp;kWh). The rate steps down roughly every 6 months until the scheme ends in 2030 — next change expected 1 Jan 2027. Indicative only, as of 24 Sep 2026; your exact eligible rebate depends on your installation date and is confirmed as part of your quote, not guaranteed by this page. Source: <a href="https://www.solarchoice.net.au/learn/solar-rebates/government-battery-rebate/changes-1-may-2026/">Solar Choice — Cheaper Home Batteries Program changes</a>.</p>
+      <h3>Worked example: 10 kWh usable battery</h3>
+      <p>A qualifying 10&nbsp;kWh usable battery installed during this period may create <strong>68 STCs</strong>: 10&nbsp;kWh × 6.8. This is a certificate estimate, not a fixed dollar discount. The dollar value depends on the STC price, the retailer or registered agent's offer, applicable fees and final eligibility.</p>
+      <p class="hint">Eligible systems must generally have a nominal capacity between 5&nbsp;kWh and 100&nbsp;kWh. STCs can be claimed only for the first 50&nbsp;kWh of usable capacity. The factor applies at 100% through 14&nbsp;kWh, 60% for capacity above 14&nbsp;kWh through 28&nbsp;kWh, and 15% for capacity above 28&nbsp;kWh through 50&nbsp;kWh. Confirmed as part of your quote, not guaranteed by this page. Sources: <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-technology-certificates/calculate-small-scale-technology-certificate-entitlements">Clean Energy Regulator — calculate STC entitlements</a>, <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-renewable-energy-systems/solar-batteries">Clean Energy Regulator — solar batteries</a>.</p>
     </div>
   </div>
 </section>
@@ -122,16 +160,12 @@
   </div>
 </section>
 
-<!-- TESLA POWERWALL 3 FEATURE BLOCK — ACTIVATED 25 Sep 2026. Tesla written
-     marketing/publication approval obtained from
-     energyproductsmarketing@tesla.com (Huynh Dong, Demand Generation
-     Intern – Energy, APAC), approving the exact mock-ups sent for
-     review, on condition the official titles "Tesla Energy Certified
-     Installer" and/or "Tesla Powerwall Certified Installer" are used
-     consistently sitewide. See the Gmail threads "Marketing approval
-     request — Oz Home Energy website content" and "Marketing/publication
-     approval request — Tesla Certified Installer, Oz Home Energy
-     (Sydney)" for the full evidence trail. -->
+<!-- TESLA POWERWALL 3 FEATURE BLOCK. Tesla marketing approval confirmed
+     25 September 2026. Retain the approved titles "Tesla Energy Certified
+     Installer" and/or "Tesla Powerwall Certified Installer" and the
+     approved content currently published. See
+     docs/owner-inputs-required.md for the business-level approval
+     record. -->
 <section class="section section-alt">
   <div class="container grid grid-2" style="align-items:center;">
     <div class="photo-frame" style="min-height:280px;">
@@ -173,7 +207,42 @@
 <!-- RECENT WORK — genuine photography, not attached to named case studies
      (no customer names, locations, capacities or results stated). Backup
      changeover photo included since this page's lede and FAQ both
-     genuinely discuss backup circuits/changeover equipment. -->
+     genuinely discuss backup circuits/changeover equipment.
+     Gallery rebuilt 29 Sep 2026 (owner feedback: "recent battery work
+     looks terrible"). Checked every tile's actual on-page crop (the
+     .gallery-item .photo-frame rule center-crops to 4:3) rather than
+     just the source file, and found the previous 7-photo set had real
+     problems: battery-sigenergy-exterior, battery-alphaess-exterior and
+     battery-foxess-installers-thumbsup all show "DANGER — RISK OF
+     BATTERY EXPLOSION / TOXIC FUMES" hazard stickers prominently inside
+     the visible crop — alarming signage to feature in a trust-building
+     gallery. battery-sungrow-brick-wall has harsh dappled shadow
+     (bird-spike shelf above, midday sun) crossing both units. And
+     battery-foxess-installers-thumbsup reads as a casual customer
+     selfie (shorts and thongs, cluttered storage shelving behind) more
+     than documented work — a wrong call on my part when it was added.
+     All four removed.
+     Kept battery-backup-changeover and battery-hinen-multi-unit-garage
+     (both genuinely clean). Added three more clean, hazard-sticker-free
+     photos from the existing owner-supplied pack, each verified by
+     simulating the actual 4:3 crop before use: battery-hinen-garage-door,
+     battery-hinen-garage, and battery-alphaess-tower (previously
+     rejected for "visible site litter" — re-checked, and the litter
+     sits outside the 4:3 crop entirely, leaving a clean shot against a
+     rustic stone wall). battery-foxess-four-module was also salvageable:
+     its default center-crop shows the DANGER stickers, but the object
+     itself is clean, so it's kept with an inline
+     object-position: 50% 75% to bias the crop toward the four visible
+     FOX ESS modules and away from the stickers above them (a small strip
+     of garden bed at the very bottom is the trade-off, not a hazard
+     warning). Six photos gives a clean 3x2 grid on desktop instead of
+     the previous odd 7; brand variety (Hinen/FoxESS/AlphaESS, plus the
+     non-branded backup-changeover shot) still comes through despite three
+     of six being Hinen. Hinen and AlphaESS remain deliberately NOT added
+     to the "Brands we install" line above, per the standing rule that a
+     photo in this gallery isn't the same claim as a sitewide installed-
+     brands line (see docs/asset-manifest.md). -->
+
 <section class="section section-alt">
   <div class="container">
     <div class="section-head">
@@ -183,39 +252,39 @@
     <div class="photo-gallery">
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-sigenergy-exterior.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Sigenergy battery system installed against an exterior wall">
-        </div>
-        <figcaption>Sigenergy battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-sungrow-brick-wall.webp" width="707" height="944" loading="lazy" decoding="async" alt="Sungrow battery and inverter equipment mounted on a brick wall">
-        </div>
-        <figcaption>Sungrow battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-foxess-four-module.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="FoxESS inverter and four battery modules installed on a brick wall">
-        </div>
-        <figcaption>FoxESS battery installation</figcaption>
-      </figure>
-      <figure class="gallery-item">
-        <div class="photo-frame">
           <img src="/img/recent-work/electrical-backup/battery-backup-changeover.webp" width="1600" height="2133" loading="lazy" decoding="async" alt="Battery backup changeover switch, solar meter and essential circuits board">
         </div>
         <figcaption>Backup changeover &amp; essential circuits</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-alphaess-tower.webp" width="707" height="1536" loading="lazy" decoding="async" alt="AlphaESS battery tower installed against an exterior sandstone wall">
+          <img src="/img/recent-work/battery/battery-hinen-multi-unit-garage.webp" width="1600" height="1200" loading="lazy" decoding="async" alt="Four Hinen battery units and two inverters installed in a garage">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-hinen-garage.webp" width="1350" height="1800" loading="lazy" decoding="async" alt="Hinen inverter and four battery modules installed on an exterior wall">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-hinen-garage-door.webp" width="707" height="1508" loading="lazy" decoding="async" alt="Hinen battery unit installed beside a garage door, protected by bollards">
+        </div>
+        <figcaption>Hinen battery installation</figcaption>
+      </figure>
+      <figure class="gallery-item">
+        <div class="photo-frame">
+          <img src="/img/recent-work/battery/battery-alphaess-tower.webp" width="707" height="1536" loading="lazy" decoding="async" alt="AlphaESS battery tower installed against an exterior stone wall">
         </div>
         <figcaption>AlphaESS battery installation</figcaption>
       </figure>
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/recent-work/battery/battery-hinen-garage.webp" width="1350" height="1800" loading="lazy" decoding="async" alt="Two Hinen battery stacks and an inverter mounted on an exterior wall">
+          <img src="/img/recent-work/battery/battery-foxess-four-module.webp" width="1200" height="1600" loading="lazy" decoding="async" style="object-position: 50% 75%;" alt="FoxESS inverter and four battery modules installed on a brick wall">
         </div>
-        <figcaption>Hinen battery installation</figcaption>
+        <figcaption>FoxESS battery installation</figcaption>
       </figure>
     </div>
   </div>
@@ -225,7 +294,7 @@
   <div class="container container-narrow">
     <h2>Find out if your solar is ready for a battery</h2>
     <div class="cta-row">
-      <a class="btn btn-primary" href="/assessment/?goal=add-battery">Start Your Free Energy Assessment</a>
+      <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
   </div>

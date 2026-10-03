@@ -102,13 +102,13 @@ for (const file of files) {
   }
 
   // --- Tesla references gated to approved pages + approved titles only ---
-  // Tesla written marketing/publication approval was obtained 25 Sep 2026
-  // from energyproductsmarketing@tesla.com (see the Tesla section of
-  // docs/owner-inputs-required.md for the full evidence trail), covering
-  // exactly three placements: the homepage trust card, the battery-storage
-  // feature block, and the dedicated /tesla-powerwall-3/ page — on
-  // condition the official titles "Tesla Energy Certified Installer"
-  // and/or "Tesla Powerwall Certified Installer" are used consistently.
+  // Tesla marketing approval confirmed 25 Sep 2026 (see the Tesla section
+  // of docs/owner-inputs-required.md for the business-level approval
+  // record), covering exactly three placements: the homepage trust card,
+  // the battery-storage feature block, and the dedicated
+  // /tesla-powerwall-3/ page — on condition the official titles "Tesla
+  // Energy Certified Installer" and/or "Tesla Powerwall Certified
+  // Installer" are used consistently.
   // This check enforces both halves of that: Tesla content may ONLY
   // appear on the three approved pages, and wherever it does, at least
   // one of the two approved titles must be present.
@@ -148,7 +148,7 @@ for (const file of files) {
   // individual suburb pages are still out of scope; that's a separate,
   // still-open item.
 
-  // --- 15-Year Workmanship Warranty: owner-directed restoration, 24 Sep
+  // --- 10-Year Workmanship Warranty: owner-directed restoration, 24 Sep
   // 2026 — this is an owner-supplied business claim, not independently
   // verified or solicitor-reviewed (see docs/owner-inputs-required.md).
   // Rather than banning the phrase, these checks confirm the claim only
@@ -156,11 +156,18 @@ for (const file of files) {
   // state it, and the About/FAQ explanations both distinguish workmanship
   // coverage from manufacturer product warranties and preserve Australian
   // Consumer Law rights.
+  // Duration corrected 25 Sep 2026 on direct owner instruction: 15 years
+  // -> 10 years, sitewide — this gate (and every occurrence of the phrase)
+  // updated to match. Do not revert to "15-Year" without a new, explicit
+  // owner instruction.
   const isHome = slug === '';
   const isAbout = slug === 'about';
   const isFaqs = slug === 'faqs';
-  if ((isHome || isAbout) && !/15-Year Workmanship Warranty/.test(rawHtml)) {
-    fail(`${rel}: expected the exact phrase "15-Year Workmanship Warranty"`);
+  if ((isHome || isAbout) && !/10-Year Workmanship Warranty/.test(rawHtml)) {
+    fail(`${rel}: expected the exact phrase "10-Year Workmanship Warranty"`);
+  }
+  if (/15-Year Workmanship Warranty/.test(rawHtml)) {
+    fail(`${rel}: stale "15-Year Workmanship Warranty" claim — the duration was corrected to 10 years sitewide on 25 Sep 2026`);
   }
   if (isAbout || isFaqs) {
     if (!/manufacturer/i.test(rawHtml) || !/separate/i.test(rawHtml)) {
@@ -388,6 +395,14 @@ if (IS_PRODUCTION_CHECK) {
       fail(`/${slug}/ is gated/noindex but was not built — it must still be directly accessible by URL, not removed`);
     }
   }
+
+  // --- homepage must not link to /projects/ while that gate is unpublished ---
+  if (!(siteStatus.projects && siteStatus.projects.published)) {
+    const homeHtml = fs.readFileSync(path.join(SITE_DIR, 'index.html'), 'utf8');
+    if (/href="\/projects\/"/.test(homeHtml)) {
+      fail('index.html (production): links to /projects/ while siteStatus.projects.published is false — a visitor would land on an unpublished, noindex page');
+    }
+  }
 } else {
   // Preview robots.txt must be crawlable (Allow: /), not a Disallow — see
   // the matching comment in scripts/build.js for why a Disallow can't
@@ -400,6 +415,26 @@ if (IS_PRODUCTION_CHECK) {
   if (!/Allow: \//.test(robotsTxt)) fail('preview robots.txt does not Allow: / (crawlers must be able to reach the noindex meta tag)');
   if (/Disallow:/.test(robotsTxt)) fail('preview robots.txt still contains a Disallow directive — indexing control must be the page-level noindex meta tag only');
   if (/Sitemap:/.test(robotsTxt)) fail('preview robots.txt must not advertise a sitemap');
+}
+
+// --- no ?goal= links, data-pathway attributes, or ohe_pathway code ---
+// Removed 25 Sep 2026 audit pass: the pathway-prefill mechanism never
+// actually prefilled the cross-origin HighLevel forms — nothing read
+// sessionStorage's ohe_pathway value — so it was link decoration with no
+// effect. This is a permanent gate against it (or something like it)
+// being reintroduced without first confirming a method HighLevel's own
+// docs actually support.
+for (const f of files) {
+  const html = fs.readFileSync(f, 'utf8');
+  const rel = path.relative(SITE_DIR, f);
+  if (/\?goal=/.test(html)) fail(`${rel}: contains a "?goal=" query parameter — the pathway-prefill mechanism was removed as non-functional; use a clean destination URL`);
+  if (/data-pathway=/.test(html)) fail(`${rel}: contains a "data-pathway" attribute — the pathway-prefill mechanism was removed as non-functional`);
+}
+const siteJsDir = path.join(ROOT, 'site', 'js');
+for (const f of findFiles(siteJsDir).filter((f) => f.endsWith('.js'))) {
+  const js = fs.readFileSync(f, 'utf8');
+  const rel = path.relative(ROOT, f);
+  if (/ohe_pathway/.test(js)) fail(`${rel}: contains "ohe_pathway" — this sessionStorage key was removed as dead code (nothing ever read it); do not reintroduce it without a real, HighLevel-supported prefill integration`);
 }
 
 // --- Evnex badge file actually exists in the generated deployment ---
@@ -425,6 +460,73 @@ for (const f of findFiles(SITE_DIR)) {
   const rel = path.relative(SITE_DIR, f);
   if (/tesla/i.test(path.basename(f)) && !rel.startsWith(teslaAssetDir)) {
     fail(`${rel}: Tesla-named asset file must not exist outside img/brand/tesla/ in the generated deployment`);
+  }
+}
+
+// --- pages-dist/ (scripts/build-pages.js's GitHub-Pages-subpath output):
+// nested route generation regression check. 2 Oct 2026 audit fix —
+// build-pages.js used to only walk site/<slug>/index.html one level deep,
+// so a page nested further (e.g.
+// site/commercial-battery-assessment/thanks/index.html) was silently
+// never copied into pages-dist/ at all, 404-ing on the deployed site even
+// though the source page built correctly into site/. Only runs when
+// pages-dist/ actually exists — this script's usage doesn't require
+// scripts/build-pages.js to have been run first, so these checks are a
+// bonus pass, not a hard dependency. ---
+const PAGES_DIST_DIR = path.join(ROOT, 'pages-dist');
+if (fs.existsSync(PAGES_DIST_DIR)) {
+  const nestedThanksRel = path.join('commercial-battery-assessment', 'thanks', 'index.html');
+  const nestedThanksPath = path.join(PAGES_DIST_DIR, nestedThanksRel);
+  if (!fs.existsSync(nestedThanksPath)) {
+    fail(`pages-dist/${nestedThanksRel} is missing — build-pages.js must discover and copy nested pages, not just site/<slug>/index.html one level deep`);
+  } else {
+    const nestedHtml = fs.readFileSync(nestedThanksPath, 'utf8');
+    const nestedDir = path.dirname(nestedThanksPath);
+
+    // CSS/JS/image references (href/src) must resolve from this page's own
+    // nested directory depth (2 levels below pages-dist/, so "../../css/...",
+    // never a root-relative "/css/..." which GitHub Pages' subpath hosting
+    // can't resolve).
+    const refAttrs = [...nestedHtml.matchAll(/(?:href|src)="([^"]*)"/g)].map((m) => m[1]);
+    for (const ref of refAttrs) {
+      if (/^(https?:)?\/\//.test(ref) || ref.startsWith('#') || ref.startsWith('tel:') || ref.startsWith('mailto:')) continue;
+      if (ref.startsWith('/')) {
+        fail(`pages-dist/${nestedThanksRel}: reference "${ref}" is root-relative — must be rewritten relative to this page's nested depth (expected a "../../"-prefixed path)`);
+        continue;
+      }
+      const cleanRef = ref.split(/[?#]/)[0];
+      const resolved = path.join(nestedDir, cleanRef);
+      if (!fs.existsSync(resolved)) {
+        fail(`pages-dist/${nestedThanksRel}: reference "${ref}" does not resolve to a real file from this page's directory depth (resolved to ${path.relative(ROOT, resolved)})`);
+      }
+    }
+
+    // Must remain noindex — this is a lead-capture thank-you page, not a
+    // page with standalone search value (see its src/pages meta.json
+    // "noindex": true).
+    const nestedRobotsMatch = nestedHtml.match(/<meta name="robots" content="([^"]*)">/);
+    if (!nestedRobotsMatch || !nestedRobotsMatch[1].startsWith('noindex')) {
+      fail(`pages-dist/${nestedThanksRel}: expected noindex, found "${nestedRobotsMatch ? nestedRobotsMatch[1] : 'no robots meta'}"`);
+    }
+  }
+
+  // --- existing top-level routes still build correctly into pages-dist/ ---
+  // Spot-check a handful of ordinary one-level-deep pages plus the home
+  // page and a legacy bridge page, confirming the nested-route fix above
+  // didn't regress the common case: each must exist and use relative
+  // (never root-relative) asset/link references appropriate to its depth.
+  const topLevelSpotChecks = ['about/index.html', 'residential-solar/index.html', 'index.html'];
+  for (const rel of topLevelSpotChecks) {
+    const p = path.join(PAGES_DIST_DIR, rel);
+    if (!fs.existsSync(p)) {
+      fail(`pages-dist/${rel}: expected top-level route is missing — nested-route generation change may have broken flat routes`);
+      continue;
+    }
+    const html = fs.readFileSync(p, 'utf8');
+    const badRootRelative = [...html.matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
+    if (badRootRelative.length) {
+      fail(`pages-dist/${rel}: contains root-relative reference(s) ${badRootRelative.slice(0, 3).join(', ')} — expected relative paths for GitHub Pages subpath hosting`);
+    }
   }
 }
 

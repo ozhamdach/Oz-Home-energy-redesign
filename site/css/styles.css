@@ -322,6 +322,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .breadcrumbs .sep { margin: 0 6px; }
 .page-banner .breadcrumbs, .page-banner .breadcrumbs a { color: #b6bfe6; }
 
+/* Photographic page-banner variant — added 29 Sep 2026 (site-loop design
+   pass): reuses a real install photo already living on that same page,
+   the same technique as the homepage hero (a real <img> behind an
+   overlay, not a CSS background, so it keeps width/height, srcset/AVIF-
+   WebP negotiation and alt text). Left-aligned overlay (darkest at the
+   text side, fading toward the photo) rather than the homepage hero's
+   centred top-to-bottom gradient, since page-banner copy is left-aligned. */
+.page-banner--photo { position: relative; overflow: hidden; padding-block: 76px 60px; }
+.page-banner-media { position: absolute; inset: 0; z-index: 0; }
+.page-banner-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.page-banner-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(100deg, rgba(10,12,20,0.92) 0%, rgba(10,12,20,0.72) 42%, rgba(10,12,20,0.38) 100%);
+}
+.page-banner--photo .container { position: relative; z-index: 2; }
+@media (max-width: 640px) {
+  .page-banner--photo { padding-block: 64px 48px; }
+  .page-banner-overlay { background: linear-gradient(180deg, rgba(10,12,20,0.7) 0%, rgba(10,12,20,0.92) 100%); }
+}
+
 /* ---------- Proof strip ---------- */
 .proof-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-alt); }
 .proof-list { list-style: none; margin: 0; padding: 22px 0; display: flex; flex-wrap: wrap; gap: 20px 40px; justify-content: center; }
@@ -478,7 +498,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .trust-card--sec .trust-card-mark img { height: 98px; }
 .trust-card--ohme .trust-card-mark img { height: 108px; border-radius: 10px; }
 .trust-card--evnex .trust-card-mark img { height: 104px; }
-.trust-card--tesla .trust-card-mark img { width: 220px; }
+.trust-card--tesla .trust-card-mark img { width: 280px; max-width: 100%; }
 
 /* Bespoke OHE workmanship-warranty mark — a technical crop-mark motif,
    deliberately not styled as a manufacturer seal or award medal. */
@@ -531,15 +551,15 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
   .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .trust-grid { grid-template-columns: 1fr; row-gap: 24px; }
+  .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 14px; row-gap: 20px; }
   .trust-card { grid-template-rows: 96px minmax(2.5em, auto) minmax(2.9em, auto); }
   .trust-card-mark { height: 96px; min-height: 96px; }
   .trust-card--nsw .trust-card-mark svg { width: 48px; height: 48px; }
-  .trust-card--saa .trust-card-mark img { width: 180px; }
+  .trust-card--saa .trust-card-mark img { width: 180px; max-width: 100%; }
   .trust-card--sec .trust-card-mark img { height: 80px; }
   .trust-card--ohme .trust-card-mark img { height: 88px; }
   .trust-card--evnex .trust-card-mark img { height: 84px; }
-  .trust-card--tesla .trust-card-mark img { width: 180px; }
+  .trust-card--tesla .trust-card-mark img { width: 150px; max-width: 100%; }
   .warranty-strip { flex-direction: column; text-align: center; gap: 12px; padding: 24px 12px; }
   .warranty-strip-text { text-align: center; align-items: center; }
 }

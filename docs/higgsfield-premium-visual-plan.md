@@ -304,7 +304,7 @@ Pending owner confirmation: **permission to use the hero photograph** (Section 8
 | "Recent installs" | homepage only (`.photo-gallery--mixed`) | Frames follow each photo's shape; explicit `object-position`; the 40 px default `figure` margin that narrowed every card is reset here. Photos unedited. |
 | Flow block | `.flow-diagram` (homepage only) | Four boxes become one hairline with four nodes (horizontal from 821 px, vertical below). Draws once on scroll; fully drawn without JS or with reduced motion. Decorative icon chips removed; text unchanged. |
 | Section rhythm | homepage | Pale-blue bands replaced by white / off-white; one charcoal block. |
-| Hero video code | `site/js/hero-video.js` | Written, not yet referenced by any page: it is wired in only once the approved loop file exists. Loads after `load` and idle, at 900 px and wider, with no reduced-motion or Data Saver; the still stays as the poster and the fallback. |
+| Hero video | `site/js/hero-video.js`, `site/media/hero-loop.{webm,mp4}`, `<template>` in the hero | Wired in (see §15.6). Loads after `load` and idle, at 900 px and wider, with no reduced-motion, Data Saver or 2G; the still stays as the poster and the fallback. |
 | Loop pipeline | `scripts/process-hero-loop.py` | Pendulum time-remap of the approved draft (see below). |
 
 **Not touched:** Tesla, Ohme, Evnex, SAA, SEC, NSW contractor artwork and copy; the Oz warranty badge and the 10-year workmanship wording; the credentials section; titles, meta, canonicals, JSON-LD, form IDs, CRM embeds; the other pages' banners and galleries; the sticky mobile call bar.
@@ -328,7 +328,29 @@ The approved draft is one slow dolly-in. A cross-dissolve at the seam would doub
 
 **Trade-offs to know about:** the hero is taller at 768 and 1440 (the whole photo is shown); on a phone the primary CTA sits 46–54 px lower than today (top at ~527 px on a 375×667 screen against 481 px now), still fully above the sticky bar from 375×667 up, but the in-hero Call button falls behind the sticky bar's own Call button on 667 px-tall screens. The 360×640 case is the same as today (CTA wraps and clips under the bar).
 
-**Not verified:** hero video (not yet built); contrast over video frames; real-device Safari/Firefox (the suite is Chromium only); live-site PageSpeed (rate-limited earlier); the final-CTA section height with the CRM iframe loaded.
+**Not verified:** real-device Safari/Firefox (the suite is Chromium only; H.264 playback in the Playwright Chromium build was not exercised, only WebM); live-site PageSpeed (rate-limited earlier); the final-CTA section height with the CRM iframe loaded. Hero-video results are in §15.6.
 
 ### 15.5 Still open
 Founder excerpt on `home`, `battery-storage`, `residential-solar` or fewer; whether to swap the regional rooftop image in "Recent installs" (the page stays factually safe either way; a real suburban Sydney photo from the owner is needed); real founder photo; Montserrat vs Inter for body text; disclosure of the AI-animated hero in the manifest only; whether to carry the banner/gallery/reveal changes to other pages.
+
+### 15.6 Hero video: build, QA and kill-criteria result (3 Oct 2026)
+
+**Build.** `scripts/process-hero-loop.py` on the approved D2 clip (121 frames) → 288-frame, 12 s, 24 fps loop. WebM (VP9, CRF 35) **642 KB**; MP4 (H.264, CRF 27) **826 KB**; both 1280×720, one video stream, no audio. Targets were ≤ 1.2 MB / ≤ 1.5 MB. Both files carry an AI-disclosure `comment` tag (see `docs/asset-manifest.md`).
+
+**Wiring.** `<template id="hero-video-template">` inside `.hero-frame` (WebM first, MP4 second); `/js/hero-video.js` added through `meta.json` `extraScripts`; `build-pages.js` copies `media/`. The `<img>` poster is unchanged and remains the LCP element.
+
+**What the footage is.** D2 is the model's re-render of the still, so frame 0 differs slightly from the photograph (mean colour within 1.7 of 255 per channel; luma difference ≈ 2–3.5 of 255, fine texture; measured rendering offset ≤ 0.4 px). Across the loop the camera moves in 8.6 % and back. Roof panels, window frames, fence and trees match the photograph at the start, at the far end and in between; no panel appears, disappears or bends (checked by eye on full-resolution frames and strips; an automated panel count was too noisy to use and is **not** relied on).
+
+**Seam.** Ideal first/last frame difference is 0.006 (luma, of 255). After encoding it is ≈ 2 luma on fine texture only (a difference map shows edges and foliage, no structure), the same size as the encoder noise between any two frames; first and last frames are visually indistinguishable at 2× zoom. Raising quality (x264 CRF 22, one keyframe) only lowered it to ≈ 1.6 at 2× the file size, so the defaults were kept. Keyframes elsewhere fall in fast-moving stretches where they are masked.
+
+**Behaviour (Playwright, Chromium, Range-capable server, 24/24 checks on both the root build and the relative-path `pages-dist` build).** Plays and advances at 900 / 1280 / 1440 / 1920 px; box equals the frame box; video fetched with HTTP 206; no console errors. No video element and no media request at 375 px, 899 px, reduced motion, Data Saver, 2G. If the media request fails the video is removed and the still is intact. Paused when the hero is off-screen and resumed on return; removed if the window is narrowed below 900 px. A `play()` interrupted by a `pause()` (AbortError) is no longer treated as a failure.
+
+**Text contrast over the video** (pixels behind the text, text hidden, sampled at 0, 1.5, 3, 4.5, 6, 7.5, 9 and 10.5 s plus the poster; worst pixel over 1200–2560 px): eyebrow ≥ 8.0:1, H1 ≥ 6.0:1, supporting line ≥ 7.0:1, Call button label ≥ 11.4:1, credentials line ≥ 4.7:1 (the credentials line's worst case, at 1200 px, is the still itself, not a video frame). No element is more than 0.9 below its value on the still.
+
+**Performance (Lighthouse 12, local, simulated).** Mobile ×3 sequential: perf 97 / 94 / 94, a11y 100, best practices 96, LCP 2.5–2.6 s, CLS 0, TBT 14–58 ms, 303 KB transferred (no video on phones). Before the video: 95 / 96 / 97, LCP 2.5–2.6 s, so no regression. Desktop ×2: perf 100, LCP 0.65 s, CLS 0, TBT 0 ms (979 KB transferred including the first part of the WebM). Three runs launched in parallel gave one 85 (TBT 411 ms) from CPU contention; the sequential runs are the valid ones. Repo static QA and Playwright suite pass; axe at 1440 and 375: 0 violations.
+
+**Kill criteria (§11):** none triggered. Mobile Lighthouse ≥ 90 ✔; LCP unchanged ✔; no visible loop jump ✔ (to be judged by the owner on a real screen); no deformed detail ✔; contrast reliable ✔; "still looks more premium" is the owner's call.
+
+**Bug found and fixed on the way (my own, in the review build).** Above ~1460 px viewport width the hero box stopped at 1458 px (aspect-ratio plus `max-height` shrinks the box) and left a white strip on the right. The hero is now `width: 100%`, its height cap follows the viewport (`clamp(820px, 100vh − 76px, 1000px)`), and the 16:9 frame is anchored to the top so only ground is cropped on very wide screens. Checked at 1366, 1440, 1600, 1920 and 2560 px. Beyond ~2560 px (ultra-wide) the lower part of the house is cropped.
+
+**Still not verified:** Safari, Firefox and real phones/tablets; H.264 (MP4) playback in a browser (Chromium here picked WebM); how the loop looks on a real display at full brightness; the live Pages preview.

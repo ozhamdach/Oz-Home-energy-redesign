@@ -31,6 +31,14 @@
     return wide.matches && !reduce.matches && document.visibilityState === 'visible' && visible;
   }
 
+  // play() rejects with AbortError when a pause() lands before it settles (scrolling
+  // the hero out of view just after it resumed, say). That is not a failure; only a
+  // blocked or broken video is removed and the still left in place.
+  function playFailed(err) {
+    if (err && err.name === 'AbortError') return;
+    remove();
+  }
+
   function sync() {
     if (!video) return;
     if (!wide.matches || reduce.matches) {
@@ -39,7 +47,7 @@
     }
     if (allowed()) {
       var p = video.play();
-      if (p && typeof p.catch === 'function') p.catch(function () { remove(); });
+      if (p && typeof p.catch === 'function') p.catch(playFailed);
     } else {
       video.pause();
     }
@@ -73,7 +81,7 @@
     });
     frame.appendChild(video);
     var p = video.play();
-    if (p && typeof p.catch === 'function') p.catch(function () { remove(); });
+    if (p && typeof p.catch === 'function') p.catch(playFailed);
   }
 
   function whenIdle(fn) {

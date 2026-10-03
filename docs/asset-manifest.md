@@ -66,6 +66,27 @@ Photos supplied but not placed on any page (kept only in
 `assets/original-photography/`): the two exact-duplicate rooftop photos and
 the van-wrap mockup sheet, as above.
 
+## Generated media (AI) — homepage hero loop
+
+The only AI-generated media on the site. It is an animation made **from** a genuine
+Oz Home Energy photograph, not a depiction of anything that did not happen.
+
+| Field | Value |
+|---|---|
+| Served files | `site/media/hero-loop.webm` (VP9, ~0.64 MB) and `site/media/hero-loop.mp4` (H.264, ~0.83 MB); 1280×720, 12 s seamless loop, no audio track |
+| Where | Homepage hero only (`.hero--home`), injected by `site/js/hero-video.js` after page load, ≥ 900 px wide, never under reduced-motion / Data Saver / 2G |
+| What the visitor sees underneath | The genuine photograph (`hero-solar-residential-complex`, unchanged) stays as the poster, the LCP element and the permanent fallback |
+| Role | Decorative. `aria-hidden`, silent, carries no information the photograph does not; it is not presented as an installation video, a recent install, a customer or a team member, and it is not placed beside any "Recent installs" claim |
+| Tool / model | Higgsfield MCP → `cinematic_studio_video_v2` (Cinema Studio video) |
+| Settings | 16:9 · 5 s · `mode: std` · `sound: off` · `genre: auto` · `speedramp: linear` · `cfg_scale: 0.7` · `multi_shots: false`; prompt: 50 mm, very slow dolly-in on the still; start image only; no preset |
+| Higgsfield job | `cedd2d92-3211-4d96-b80c-f6c733dfd0f3` (draft "D2"; 5 credits) |
+| Reference image | `assets/higgsfield/source-references/hero-reference-16x9.jpg`: a pixel crop (rows 200–1100) of the genuine hero photograph, no generative edit; Higgsfield media `26e94b40-5c57-47c8-beb9-ab384e55f75b`. Contains no Tesla, Ohme, Evnex, SAA, SEC, NSW or warranty artwork |
+| Approved source clip | `assets/higgsfield/approved/hero-d2-source.mp4` (5.04 s, 1280×720, h264, no audio; sha256 `c1a71ca2…`). The three other drafts were discarded and are not committed |
+| Processing | `scripts/process-hero-loop.py`: plays the 121 source frames forward and back on a cosine time curve (first and last frame identical, camera at rest at both ends) and encodes the two files. No pixel is invented beyond Higgsfield's own frames |
+| Embedded labels | Both served files carry a `comment` tag: "AI-animated loop made from a genuine Oz Home Energy photograph (Higgsfield cinematic_studio_video_v2). Decorative; not a real installation video." The original Higgsfield download carries its own embedded AI-generation tag naming the underlying video model; it is kept in the approved source file |
+| Disclosure on the page | None visible (decorative loop of the owner's own photograph). Recorded here per the brief; owner to confirm that is acceptable |
+| Kill criteria | Retire the video (the poster remains) if mobile Lighthouse < 90, LCP materially worse, a visible loop jump, deformed detail or unreliable text contrast. Results: `docs/higgsfield-premium-visual-plan.md` §15.6 |
+
 ## ✅ Phone number discrepancy found in the vehicle photography — resolved
 
 The van livery shown in `fleet-van` (and in the unused mockup sheet) prints

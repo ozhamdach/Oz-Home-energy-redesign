@@ -32,6 +32,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "assets", "higgsfield", "approved", "hero-d2-source.mp4")
 OUT_DIR = os.path.join(ROOT, "site", "media")
 W, H = 1280, 720
+DISCLOSURE = ("AI-animated loop made from a genuine Oz Home Energy photograph "
+              "(Higgsfield cinematic_studio_video_v2). Decorative; not a real installation video.")
 
 
 def read_frames(path):
@@ -43,15 +45,19 @@ def read_frames(path):
     return np.frombuffer(raw, dtype=np.uint8)[: n * size].reshape(n, H, W, 3)
 
 
-def encoder(path, fps, codec):
+def encoder(path, fps, codec, o):
     base = ["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24",
-            "-s", f"{W}x{H}", "-r", str(fps), "-i", "-", "-an"]
+            "-s", f"{W}x{H}", "-r", str(fps), "-i", "-", "-an",
+            "-map_metadata", "-1", "-metadata", f"comment={DISCLOSURE}"]
+    gop = str(o.gop or fps * 4)
     if codec == "webm":
-        args = ["-c:v", "libvpx-vp9", "-crf", "35", "-b:v", "0", "-deadline", "good",
-                "-cpu-used", "2", "-row-mt", "1", "-g", str(fps * 4), "-pix_fmt", "yuv420p"]
+        args = ["-c:v", "libvpx-vp9", "-crf", str(o.crf_webm), "-b:v", "0", "-deadline", "good",
+                "-cpu-used", "2", "-row-mt", "1", "-g", gop, "-pix_fmt", "yuv420p"]
     else:
-        args = ["-c:v", "libx264", "-crf", "27", "-preset", "slow", "-profile:v", "high",
-                "-g", str(fps * 4), "-pix_fmt", "yuv420p", "-movflags", "+faststart"]
+        args = ["-c:v", "libx264", "-crf", str(o.crf_mp4), "-preset", "slow", "-profile:v", "high",
+                "-g", gop, "-pix_fmt", "yuv420p", "-movflags", "+faststart"]
+        if o.x264_params:
+            args += ["-x264-params", o.x264_params]
     return subprocess.Popen(base + args + [path], stdin=subprocess.PIPE)
 
 
@@ -61,6 +67,11 @@ def main():
     ap.add_argument("--fps", type=int, default=24)
     ap.add_argument("--src", default=SRC)
     ap.add_argument("--out", default=OUT_DIR)
+    ap.add_argument("--crf-mp4", type=int, default=27)
+    ap.add_argument("--crf-webm", type=int, default=35)
+    ap.add_argument("--gop", type=int, default=0, help="keyframe interval in frames (default fps*4)")
+    ap.add_argument("--x264-params", default="")
+    ap.add_argument("--only", choices=("webm", "mp4"), help="encode just one format")
     a = ap.parse_args()
 
     frames = read_frames(a.src)
@@ -69,7 +80,8 @@ def main():
         sys.exit(f"only {n} frames decoded from {a.src}")
     total = int(round(a.period * a.fps))
     os.makedirs(a.out, exist_ok=True)
-    procs = {c: encoder(os.path.join(a.out, f"hero-loop.{c}"), a.fps, c) for c in ("webm", "mp4")}
+    codecs = (a.only,) if a.only else ("webm", "mp4")
+    procs = {c: encoder(os.path.join(a.out, f"hero-loop.{c}"), a.fps, c, a) for c in codecs}
     for k in range(total):
         # 0 -> n-1 -> 0 along a cosine, so velocity is zero at both ends
         pos = (n - 1) * (1 - math.cos(2 * math.pi * k / total)) / 2

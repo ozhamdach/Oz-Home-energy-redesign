@@ -350,8 +350,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 /* 1200px and up: copy in the sky, rail along the bottom. */
 @media (min-width: 1200px) {
-  .hero--home { aspect-ratio: 16 / 9; max-height: 820px; min-height: 640px; }
+  /* width:100% is required: with aspect-ratio plus max-height the box would
+     otherwise shrink to 820px x 16/9 = 1458px and leave a gap on wider screens. */
+  .hero--home { width: 100%; aspect-ratio: 16 / 9; max-height: clamp(820px, calc(100vh - 76px), 1000px); min-height: 640px; }
   .hero--home .hero-media { position: absolute; inset: 0; aspect-ratio: auto; }
+  /* Beyond 1458px the 16:9 frame is taller than the hero; anchor it to the top
+     so the sky (where the copy sits) is never cropped and only ground is lost. */
+  .hero--home .hero-frame { top: 0; transform: none; }
   /* Scrim sits only behind the copy: full strength across the left ~55% of
      the top half, then masked away before it reaches the roofline, so the
      house and panels are never darkened. */

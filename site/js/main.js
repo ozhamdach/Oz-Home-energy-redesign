@@ -260,4 +260,23 @@
       wrap.focus();
     });
   });
+  // Homepage flow diagram: draw the connecting line once, when it first
+  // scrolls into view. The default (no JavaScript, no IntersectionObserver,
+  // or prefers-reduced-motion) is the fully drawn diagram, so nothing is
+  // ever hidden from anyone who cannot or does not want the animation.
+  (function flowDraw() {
+    var el = document.querySelector('.flow-diagram');
+    if (!el || !('IntersectionObserver' in window) || typeof window.matchMedia !== 'function') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    el.classList.add('flow-pending');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        el.classList.remove('flow-pending');
+        el.classList.add('flow-drawn');
+        io.disconnect();
+      });
+    }, { threshold: 0.25 });
+    io.observe(el);
+  })();
 })();

@@ -76,6 +76,12 @@ scratch, or from memory, when that day comes.
       **direct owner instruction** — an owner-supplied business claim, not
       independently verified, solicitor-reviewed, ACCC-approved or
       government-endorsed. This does **not** close the item below.
+      **Correction, 8 Oct 2026 (audit-remediation pass):** this entry's
+      own date (24 Sep) predates the very next day's duration correction —
+      the public claim has read **10-Year Workmanship Warranty** since 25
+      Sep 2026, not 15, with a permanent QA gate against any stale
+      "15-Year" occurrence. See `docs/owner-inputs-required.md` for the
+      current status.
 - [ ] **Still blocking, restoration notwithstanding:** a solicitor has
       reviewed the "OHE 15-Year Workmanship Warranty — Draft Terms"
       document (particularly its Section 10 ACL wording) and the terms
@@ -150,11 +156,14 @@ scratch, or from memory, when that day comes.
 
 ## Lead capture
 
-- [ ] All four live HighLevel-embedded forms — Energy Assessment (form ID
-      `7CTbeFedTXyoPJoS2CmH`), homepage Quick Free Quote
+- [ ] All five live HighLevel-embedded forms — Energy Assessment (form ID
+      `7CTbeFedTXyoPJoS2CmH`), Quick Free Quote, used on Home and Contact
       (`ILAJCu9qJyVzX582GAtX`), Commercial Project Enquiry
-      (`UyzHXWGEaLtIQqI9z2kc`), Service Request (`D54fnMMf1LWTXOCNlh28`) —
-      have each had a real end-to-end test submission confirmed to land in
+      (`UyzHXWGEaLtIQqI9z2kc`), Service Request (`D54fnMMf1LWTXOCNlh28`),
+      and EV Quick Quote on `/ev-charging/` (`OmaWW64OZ3FaCGGvEIgx`) —
+      corrected 8 Oct 2026 (audit-remediation pass): the EV form existed
+      in the repo but had never been added to this checklist — have each
+      had a real end-to-end test submission confirmed to land in
       the correct HighLevel pipeline with the correct tags. This repo can
       only confirm the widgets load; it cannot confirm HighLevel's own
       pipeline/workflow configuration behind them.

@@ -740,3 +740,71 @@ GTM/Pixel IDs and setup.
 - [ ] Export the full current-site indexed URL list (Search Console → Pages
       report, plus an independent crawl) for any legacy route not already
       covered in `redirects/legacy-routes.json`.
+
+## Competitor-informed improvement pass (9 Oct 2026) — private checklist
+
+Branch `improve/competitor-informed-pass`, committed locally, **not
+pushed**. Everything below is a real gap this pass found but could not
+close without inventing a fact — tracked here, never as a public
+placeholder on the site itself.
+
+### 🔴 Assessment form (`/assessment/`) — HighLevel admin changes, not code
+This form is a fully-hosted HighLevel iframe (form ID
+`7CTbeFedTXyoPJoS2CmH`). This repo cannot see or edit its internal field
+configuration — it's cross-origin, opaque to the codebase, and no local
+HTML change touches what's actually inside it. These need doing directly
+in the HighLevel form builder:
+- [ ] Add "Not sure" and "No existing solar" as selectable options on
+      whichever question asks about an existing solar/battery system.
+- [ ] Make the message/additional-details field optional (remove any
+      required validation on it), if it's currently required.
+- [ ] Split the electricity-bill question into two separate fields: bill
+      amount, and billing period (e.g. monthly vs. quarterly) — currently
+      one combined question as far as this page's own markup can tell.
+- [ ] Add short helper text near the address and bill-amount fields
+      explaining why they're asked for. Suggested copy (reusing language
+      already live elsewhere on the site, not newly invented): for
+      address — "We use this to check what's actually feasible on your
+      property — orientation, shading, switchboard and supply"; for bill
+      amount — "We work from your electricity bill and household routine
+      first, rather than sizing purely to fill the roof" (this exact
+      sentence is already published in the homepage FAQ).
+- [ ] Once the above are done, confirm a real end-to-end test submission
+      still lands correctly in the HighLevel pipeline — field changes can
+      silently break custom-field mapping.
+
+### 🔴 Three project case studies — the actual blocker on Priority 3
+The brief asked to improve three existing project examples with verified
+suburb, equipment, system size, customer goal and work completed. **That
+dataset doesn't exist yet for any photograph on this site.** The Projects
+page has said so explicitly since it was built ("None are published yet
+— call us…") and every photo caption sitewide is deliberately generic
+for exactly this reason — this isn't an oversight this pass could fix by
+writing better copy. What this pass did instead: promoted the one fact
+that *was* already confirmed (equipment brand, visible in each photo's
+existing alt text) into the visible caption — "FoxESS battery storage
+installation", "GoodWe home EV charger installation", "Hinen commercial
+battery storage installation" — without touching anything unconfirmed.
+To actually do Priority 3, this is the real input needed, per photo (at
+least 3 of the existing gallery images, customer-approved to publish
+with):
+- [ ] Suburb
+- [ ] System size / specific equipment model (brand is already known for
+      some; model and capacity aren't)
+- [ ] What the customer was trying to achieve
+- [ ] A one-paragraph description of the work completed
+- [ ] Confirmation the customer has agreed to be featured
+
+### 🟡 Response-time commitment (Priority 1)
+No response time (e.g. "within one business day") has been confirmed by
+Oz anywhere in this repo's history. None was added to the homepage or
+assessment page's "what happens after" copy as part of this pass — only
+the already-confirmed process description was reused. If Oz wants to
+commit to a specific timeframe (several competitor sites reviewed for
+this pass do state one), that's his call to make and supply.
+
+### Still open from before this pass (unchanged, listed here only as a
+reminder since Priority 4 touched the same section)
+- [ ] A photo of Oz for the founder-story section — see the existing
+      `TODO-OZ` comment in `src/pages/about/content.html` and
+      `src/pages/home/content.html`. Not invented or stock-substituted.

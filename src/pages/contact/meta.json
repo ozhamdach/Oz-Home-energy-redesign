@@ -8,5 +8,6 @@
   ],
   "extraScripts": [
     "https://link.ozhomeenergy.com.au/js/form_embed.js"
-  ]
+  ],
+  "extraSchemaFile": "schema-faq.html"
 }

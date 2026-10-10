@@ -23,7 +23,7 @@ grep -rn "OWNER CONFIRMATION REQUIRED" site --include=*.html
 | Workmanship warranty | 10 years; contract/document alignment still requires owner verification. |
 | Reviews | Disabled pending validation. |
 | Embedded forms | Browser and CRM delivery testing still required. |
-| Repository privacy/access | Owner action outside the codebase. |
+| Repository privacy/access | **Currently public** (confirmed via GitHub API, 8 Oct 2026). Making it private, if desired, is a separate owner action outside the codebase. |
 | Production redirects | Hosting action still required. |
 
 ## 🔴 Blocking — resolve before any of the below matters
@@ -162,11 +162,20 @@ Tesla trust card has been handled all along:
   they were unreferenced-but-deployed; they are now not deployed at all.
   **This does not make them unrecoverable**: the repository's git history
   (including every earlier commit on this branch) still contains them at
-  their old path, and anyone with a clone made while the repository was
-  public — or, once private, anyone with repository access — can retrieve
-  them regardless of where they currently sit in the working tree. The
-  owner has since made this repository private, which stops new public
-  clones but does nothing for clones that already exist. Full removal
+  their old path, and anyone with a clone — or, since the repository is
+  public, anyone who makes a new one — can retrieve them regardless of
+  where they currently sit in the working tree.
+  **Correction, 8 Oct 2026 (audit-remediation pass):** a prior version of
+  this note claimed "the owner has since made this repository private."
+  Checked directly against the GitHub API on this date: the repository is
+  **public** (`"private": false, "visibility": "public"`). That earlier
+  claim was wrong — not merely outdated — and is corrected here rather
+  than quietly re-worded, per this document's own practice of flagging a
+  wrong "resolved" note instead of trusting it next time (see the phone
+  number correction above for the precedent). Making the repository
+  private, if desired, remains a separate owner action outside this
+  codebase — see the CURRENT STATUS table near the top of this document.
+  Full removal
   from history (a rewrite) was not done in this pass and would need
   explicit sign-off, since it rewrites shared commit history other clones
   may depend on. Separately: stripping HTML comments from the *deployed
@@ -229,15 +238,18 @@ the "zero HTML comments" check in `scripts/qa-static-checks.js`, which
 fails the build if one survives). This stops a visitor from reading
 internal notes, evidence trails or disabled draft blocks via
 "View Page Source" on the deployed site — that's all it does. It does
-**not** protect the repository itself: anyone with repository access
-(or, from before it was made private, an existing clone) can still read
-every comment in `src/`, every past commit, and every file under
-`assets/`. The owner has made this repository private, which stops new
-public clones going forward but does nothing to a clone that already
-exists. Treat these as two separate, both-necessary measures — comment
-stripping for the deployed site, repository access control for the
-source — neither is a substitute for the other, and neither is a
-complete guarantee by itself.
+**not** protect the repository itself: the repository is currently
+**public** (confirmed via the GitHub API, 8 Oct 2026 — see the correction
+in the Tesla asset-removal entry above, where an earlier version of this
+document wrongly claimed it had been made private), so anyone can clone
+it and read every comment in `src/`, every past commit, and every file
+under `assets/`. Making the repository private, if desired, is a separate
+owner action outside this codebase; it would stop new public clones going
+forward but would do nothing about a clone that already exists. Treat
+these as two separate, both-necessary measures — comment stripping for
+the deployed site, repository access control for the source — neither is
+a substitute for the other, and neither is a complete guarantee by
+itself.
 
 ### ✅ Evnex Certified Installer status — published 24 Sep 2026 on direct owner instruction
 **Superseded, 24 Sep 2026:** the owner directly instructed publication of
@@ -380,7 +392,7 @@ explicit "yes, that's accurate" before launch, not just consistent phrasing:
 - [x] **Inverter brands** — **resolved, 24 Sep 2026 (site-loop, Home round 5):** owner confirmed these are the same brands already supplied for batteries — FoxESS, Sungrow, Sigenergy and GoodWe are genuine hybrid battery/inverter manufacturers, so the homepage's "brands we install" line now credits them as both. No separate, standalone inverter-only brand was supplied or added.
 - [x] **Service area — Greater Sydney boundary** — **resolved, 24 Sep 2026 (site-loop, Home round 5): owner explicitly confirmed Greater Sydney.** Supersedes the 23 Sep decision below (which limited claims to "Sydney" only because no Greater Sydney boundary had been confirmed yet — that specific gap is now closed). Restored sitewide: footer, About (lede + service-area section), Locations (H1, lede, meta description), FAQs, the two commercial pages whose descriptions named an area (`commercial-solar`, `commercial-batteries`), and `areaServed` schema everywhere it appears (`src/layout.html` plus all 13 `schema-service.html` files) — each now lists both `{"@type":"City","name":"Sydney"}` and `{"@type":"AdministrativeArea","name":"Greater Sydney"}`. The permanent QA gate in `scripts/qa-static-checks.js` that blocked the phrase "Greater Sydney" has been removed (its comment now explains why). **Still not supplied: a specific suburb list.** This closes the *boundary* question only — "which suburbs" remains open, and `src/pages/locations/content.html` still explicitly warns against adding a suburb grid or suburb pages until a real list exists.
 - [ ] **Founder photo + story** — **partially resolved, 24 Sep 2026 (site-loop, Home round 3):** owner supplied the founder's story directly in chat, verbatim, no rewriting beyond paragraph breaks. Added as a new `#founder` section on the About page (`src/pages/about/content.html`) and a short excerpt + link on the homepage (`src/pages/home/content.html`). **Still open: no photo has been supplied.** Both sections are text-only by design — no stock or placeholder photo was used — pending a real photo of Oz. Add it to `src/pages/about/content.html`'s `#founder` section (and optionally the homepage excerpt) once supplied.
-- [x] **Live Google rating + review count strip** — **resolved by owner decision, 24 Sep 2026 (site-loop, Home round 4):** owner supplied a Google Business Profile link and, once told this environment couldn't reach it, confirmed the actual count directly: **6 reviews**. Owner's call: a standalone "★ rating (6 reviews)" strip near the hero would read as thin next to competitors showing hundreds, so it's deliberately **not** being added right now. The existing genuine HighLevel review widget further down the homepage (`#reviewsSection`) already shows real review content and stays as the page's proof mechanism. This is a closed decision, not an open gap — revisit once the review count is one the owner wants to headline.
+- [x] **Live Google rating + review count strip** — **resolved by owner decision, 24 Sep 2026 (site-loop, Home round 4):** owner supplied a Google Business Profile link and, once told this environment couldn't reach it, confirmed the actual count directly: **6 reviews**. Owner's call: a standalone "★ rating (6 reviews)" strip near the hero would read as thin next to competitors showing hundreds, so it's deliberately **not** being added right now. This is a closed decision, not an open gap — revisit once the review count is one the owner wants to headline. **Correction, 8 Oct 2026:** this entry originally went on to say the homepage's HighLevel review widget "stays as the page's proof mechanism" — that's now stale. See "Review widget" below: the homepage widget was found capable of rendering a visibly broken iframe and was disabled on 2 Oct 2026. Homepage reviews are currently off; the Projects page's separate embed of the same widget is unaffected.
 - [x] **Smart Energy Council — Small Business Member** — ✅ resolved: confirmed via real, ongoing correspondence, not just the supplied badge PDF. `accounts@smartenergy.org.au` "Welcome to Smart Energy Council" and `marcela@smartenergy.org.au` "Welcome Electrical hub! Let's get started with your Small Business Member benefits" (both 1–4 Aug 2026), a paid Stripe receipt ($990, 1 Aug 2026), and active membership correspondence through 20 Sep 2026 (AGM proxy form with member number 2026CS3965610, September member eMagazine). This is Electrical Hub Pty Ltd's real, current, paid membership at the "Small Business Member" tier specifically — not a higher tier. Badge artwork extracted unaltered from the owner-supplied PDF and enabled on the homepage trust section and the About page.
 - [x] **15-Year Workmanship Warranty** — **Superseded, 24 Sep 2026: restored
       to the public build on direct owner instruction.** The homepage
@@ -449,17 +461,27 @@ project names, workmanship guarantees beyond actual contract terms).
 
 ## Lead capture / HighLevel integration checklist
 
-**Current state (updated 23 Sep 2026, launch-readiness repair pass) — four
-forms are live HighLevel embeds, three funnels are not connected to
-anything.**
+**Current state (updated 23 Sep 2026, launch-readiness repair pass; form
+count corrected 8 Oct 2026, audit-remediation pass) — five forms are live
+HighLevel embeds, three funnels are not connected to anything.**
+
+**Correction, 8 Oct 2026:** this section previously said "four forms."
+The EV Quick Quote form (`/ev-charging/`, site-loop EV chargers round 1,
+PR #32) was added after the 23 Sep count was written and had never been
+folded back into this checklist — confirmed directly against the current
+source (`grep -rn data-form-id= src/pages/*/content.html`) rather than
+assumed. Five unique form IDs are live; the Homepage Quick Free Quote
+form is also now reused, unchanged, on `/contact/` (site-loop Contact
+round 2, PR #53) — same form ID, two placements, not a sixth form.
 
 ### Live — real HighLevel iframe embeds (`form_embed.js`)
 
-These four forms are HighLevel's own hosted widgets embedded via iframe,
+These five forms are HighLevel's own hosted widgets embedded via iframe,
 not this repo's custom-built markup — submissions go directly to
 HighLevel, this repo never sees the data:
 
-- [ ] **Homepage Quick Free Quote** — form ID `ILAJCu9qJyVzX582GAtX`.
+- [ ] **Quick Free Quote** — form ID `ILAJCu9qJyVzX582GAtX`. Used on the
+      homepage and on `/contact/`.
 - [ ] **Energy Assessment / Detailed Contact-Quote form** —
       `/assessment/`, form ID `2TfIfhVospnHx74eNcAP` ("Google/Meta ads
       Request a Quote" — swapped in 10 Oct 2026 on direct owner
@@ -470,14 +492,16 @@ HighLevel, this repo never sees the data:
       form ID `UyzHXWGEaLtIQqI9z2kc`.
 - [ ] **Service Request** — `/service-request/`, form ID
       `D54fnMMf1LWTXOCNlh28`.
+- [ ] **EV Quick Quote** — `/ev-charging/`, form ID
+      `OmaWW64OZ3FaCGGvEIgx`.
 
-For all four: confirm a real test submission actually lands in the
+For all five: confirm a real test submission actually lands in the
 correct HighLevel pipeline with correct tags before relying on any of
 this — this repo can confirm the widget loads and renders, not that
 HighLevel's own pipeline/workflow routing behind it is configured
 correctly. Note also (see `docs/analytics-integration.md`, "Attribution
 regression") that this site's own UTM/`gclid`/`fbclid` capture does not
-reach these four forms, since HighLevel's hosted widget is a same-origin
+reach these five forms, since HighLevel's hosted widget is a same-origin
 iframe this repo's JS cannot read into or populate.
 
 ### Not connected — custom-built funnels with no CRM endpoint configured
@@ -611,12 +635,17 @@ confirmed" framing for these specific items.
   instruction) but this is an owner-supplied claim, not independently
   verified; no certification number, issue date or expiry exists in this
   repo. See the Evnex section above.
-- **15-year workmanship warranty — solicitor review and real-contract
+- **10-year workmanship warranty — solicitor review and real-contract
   alignment** — the claim is now published (24 Sep 2026, direct owner
-  instruction) but solicitor review has not happened and the terms are
-  not yet in the actual Sales and Installation Agreement; see the
-  warranty entry above. Restoring the public claim does not resolve this
-  item — it remains a production-launch blocker.
+  instruction, duration corrected from an earlier 15-year draft to 10
+  years on 25 Sep 2026) but solicitor review has not happened and the
+  terms are not yet in the actual Sales and Installation Agreement; see
+  the warranty entry above. Restoring the public claim does not resolve
+  this item — it remains a production-launch blocker. (Corrected 8 Oct
+  2026, audit-remediation pass: this entry's own heading still said
+  "15-year," a full two weeks after the site itself was corrected to
+  10 years — exactly the kind of stale-label drift this pass exists to
+  catch.)
 - **Privacy Policy / Terms / Complaints legal review** — all three remain
   structured drafts, not reviewed legal documents. **All must be reviewed
   by an Australian solicitor before launch.**

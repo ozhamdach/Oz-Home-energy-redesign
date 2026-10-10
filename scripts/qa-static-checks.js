@@ -140,6 +140,26 @@ for (const file of files) {
     fail(`${rel}: generated output contains the superseded phone number 0420 113 216`);
   }
 
+  // --- phone number internal consistency: 8 Oct 2026 audit-remediation
+  // pass. The check above only bans the one specific known-bad number
+  // (0420 113 216) — this is the general-purpose regression gate: every
+  // tel: link must point at exactly +61435336336, and every
+  // human-readable phone-shaped string must read exactly "0435 336 336",
+  // so a *new*, different wrong number (not just the old one) would also
+  // be caught. ---
+  const telHrefs = [...rawHtml.matchAll(/href="tel:([^"]*)"/g)].map((m) => m[1]);
+  for (const tel of telHrefs) {
+    if (tel !== '+61435336336') {
+      fail(`${rel}: tel: link "${tel}" does not match the confirmed number +61435336336`);
+    }
+  }
+  const visiblePhones = rawHtml.match(/\b0\d{3}\s\d{3}\s\d{3}\b/g) || [];
+  for (const phone of visiblePhones) {
+    if (phone !== '0435 336 336') {
+      fail(`${rel}: visible phone number "${phone}" does not match the confirmed number 0435 336 336`);
+    }
+  }
+
   // --- "Greater Sydney" service-area claim ---
   // Superseded 24 Sep 2026 (site-loop, Home round 5): owner explicitly
   // confirmed the Greater Sydney boundary (previously this gate blocked
@@ -460,6 +480,60 @@ for (const f of findFiles(SITE_DIR)) {
   const rel = path.relative(SITE_DIR, f);
   if (/tesla/i.test(path.basename(f)) && !rel.startsWith(teslaAssetDir)) {
     fail(`${rel}: Tesla-named asset file must not exist outside img/brand/tesla/ in the generated deployment`);
+  }
+}
+
+// --- Tesla content stays positively present, not just correctly gated —
+// 8 Oct 2026 audit-remediation pass. The per-file check above (~line 104)
+// only restricts WHERE Tesla content may appear if present; it doesn't
+// assert it's actually there. These are the positive-presence companion
+// checks: the approved badge asset, the homepage link to the dedicated
+// page, and the approved title on both the battery-storage feature block
+// and the /tesla-powerwall-3/ page itself, so none of this can be quietly
+// dropped (e.g. a commented-out block) without the build going red. ---
+const TESLA_APPROVED_TITLES = /Tesla Energy Certified Installer|Tesla Powerwall Certified Installer/;
+if (!fs.existsSync(path.join(SITE_DIR, 'img', 'brand', 'tesla', 'tesla-certified-installer-black.svg'))) {
+  fail('site/img/brand/tesla/tesla-certified-installer-black.svg is missing from the generated deployment — the approved Tesla badge asset');
+}
+const homeHtmlForTesla = fs.readFileSync(path.join(SITE_DIR, 'index.html'), 'utf8');
+if (!homeHtmlForTesla.includes('href="/tesla-powerwall-3/"')) {
+  fail('index.html: expected a link to /tesla-powerwall-3/ — the approved Tesla Powerwall 3 page');
+}
+for (const rel of ['battery-storage/index.html', 'tesla-powerwall-3/index.html']) {
+  const p = path.join(SITE_DIR, rel);
+  if (!fs.existsSync(p)) {
+    fail(`${rel}: expected file is missing — this page must remain built and present`);
+    continue;
+  }
+  const html = fs.readFileSync(p, 'utf8');
+  if (!TESLA_APPROVED_TITLES.test(html)) {
+    fail(`${rel}: expected approved Tesla content ("Tesla Energy Certified Installer" or "Tesla Powerwall Certified Installer") to remain present — it must not be silently removed or re-commented-out`);
+  }
+}
+
+// --- HighLevel form IDs present on their expected pages — 8 Oct 2026
+// audit-remediation pass. Five unique forms are live (the EV Quick Quote
+// form, added later via site-loop, had never had a permanent check).
+// This only confirms the widget's own id attribute is rendered on the
+// expected page(s) — it never calls or submits any live HighLevel form. ---
+const EXPECTED_FORM_IDS = {
+  '7CTbeFedTXyoPJoS2CmH': ['assessment/index.html'], // Energy Assessment
+  'ILAJCu9qJyVzX582GAtX': ['index.html', 'contact/index.html'], // Quick Free Quote — Home + Contact
+  'UyzHXWGEaLtIQqI9z2kc': ['commercial-project-enquiry/index.html'], // Commercial Project Enquiry
+  'D54fnMMf1LWTXOCNlh28': ['service-request/index.html'], // Service Request
+  'OmaWW64OZ3FaCGGvEIgx': ['ev-charging/index.html'], // EV Quick Quote
+};
+for (const [formId, expectedPages] of Object.entries(EXPECTED_FORM_IDS)) {
+  for (const rel of expectedPages) {
+    const p = path.join(SITE_DIR, rel);
+    if (!fs.existsSync(p)) {
+      fail(`${rel}: expected file is missing — cannot confirm HighLevel form ${formId} is embedded`);
+      continue;
+    }
+    const html = fs.readFileSync(p, 'utf8');
+    if (!html.includes(`data-form-id="${formId}"`)) {
+      fail(`${rel}: expected HighLevel form ${formId} to be embedded (data-form-id attribute not found)`);
+    }
   }
 }
 

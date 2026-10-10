@@ -312,6 +312,16 @@ was sitting in public client-side JS. Full list of changes:
    pending solicitor review of the real contract terms. Full detail in
    `docs/owner-inputs-required.md`.
 
+   **Current-state note added 8 Oct 2026 (audit-remediation pass):** this
+   paragraph is a historical record of this report's own date and is kept
+   as written. The warranty claim was restored on direct owner
+   instruction shortly after this report (24 Sep 2026) and its duration
+   was corrected from 15 to 10 years the following day (25 Sep 2026) — it
+   has published as **10-Year Workmanship Warranty** ever since, with a
+   permanent QA gate against any stale "15-Year" occurrence. Solicitor
+   review and real-contract alignment remain open; see the current status
+   in `docs/owner-inputs-required.md`.
+
 **Re-verification after all of the above**: `node scripts/build.js` +
 `node scripts/qa-static-checks.js` (preview) and
 `SITE_OUT_DIR=site-prod-check BUILD_TARGET=production node scripts/build.js`

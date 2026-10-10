@@ -4,5 +4,7 @@
   "canonical": "/commercial-load-review/",
   "noindex": true,
   "landingChromeStrict": true,
+  "mobileCtaHref": "#clrFormSection",
+  "mobileCtaText": "Start My Review",
   "extraScripts": ["/js/commercial-load-review.js"]
 }

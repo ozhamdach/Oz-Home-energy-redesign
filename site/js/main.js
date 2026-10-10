@@ -279,4 +279,29 @@
       el.classList.add('is-visible');
     });
   }
+
+  // Embedded HighLevel quote-form loading state (9 Oct 2026, competitor-
+  // informed improvement pass). Applies to any ".form-embed-wrap" — the
+  // homepage's quick-quote widget and the /assessment/ page's main form —
+  // showing a ".form-embed-loading" spinner (see styles.css) until the
+  // iframe's own load event fires, or hiding it after a timeout regardless
+  // so a slow/blocked embed never leaves a spinner stuck on screen. The
+  // static "Form not loading? Call …" line beneath each iframe (in the
+  // page's own HTML) stays visible the whole time regardless of load
+  // state — it's not gated by this script, so it still works with
+  // JavaScript disabled or if this handler never runs.
+  var FORM_EMBED_TIMEOUT_MS = 8000;
+  document.querySelectorAll('.form-embed-wrap').forEach(function (wrap) {
+    var loadingEl = wrap.querySelector('.form-embed-loading');
+    var iframe = wrap.querySelector('iframe');
+    if (!loadingEl || !iframe) return;
+    var hidden = false;
+    function hideLoading() {
+      if (hidden) return;
+      hidden = true;
+      loadingEl.style.display = 'none';
+    }
+    iframe.addEventListener('load', hideLoading);
+    setTimeout(hideLoading, FORM_EMBED_TIMEOUT_MS);
+  });
 })();

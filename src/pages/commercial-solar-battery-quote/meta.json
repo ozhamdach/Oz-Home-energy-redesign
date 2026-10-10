@@ -4,5 +4,7 @@
   "canonical": "/commercial-solar-battery-quote/",
   "noindex": true,
   "landingChromeStrict": true,
+  "mobileCtaHref": "#csbqFormSection",
+  "mobileCtaText": "Get My Quote",
   "extraScripts": ["/js/commercial-solar-battery-quote.js"]
 }

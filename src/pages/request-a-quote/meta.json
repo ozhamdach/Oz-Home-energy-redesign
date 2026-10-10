@@ -1,0 +1,10 @@
+{
+  "title": "Request a Quote | Oz Home Energy",
+  "description": "Request a solar, battery or EV charging quote from Oz Home Energy — a licensed NSW electrical contractor based in Sydney.",
+  "canonical": "/request-a-quote/",
+  "noindex": true,
+  "landingChromeStrict": true,
+  "mobileCtaHref": "#quoteForm",
+  "mobileCtaText": "Request a Quote",
+  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"]
+}

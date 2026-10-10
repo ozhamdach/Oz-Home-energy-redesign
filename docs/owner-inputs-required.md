@@ -461,7 +461,11 @@ HighLevel, this repo never sees the data:
 
 - [ ] **Homepage Quick Free Quote** — form ID `ILAJCu9qJyVzX582GAtX`.
 - [ ] **Energy Assessment / Detailed Contact-Quote form** —
-      `/assessment/`, form ID `7CTbeFedTXyoPJoS2CmH`.
+      `/assessment/`, form ID `2TfIfhVospnHx74eNcAP` ("Google/Meta ads
+      Request a Quote" — swapped in 10 Oct 2026 on direct owner
+      instruction, replacing the longer `7CTbeFedTXyoPJoS2CmH`, to make
+      this page's form shorter. The same form is also now embedded on
+      `/request-a-quote/`).
 - [ ] **Commercial Project Enquiry** — `/commercial-project-enquiry/`,
       form ID `UyzHXWGEaLtIQqI9z2kc`.
 - [ ] **Service Request** — `/service-request/`, form ID
@@ -740,3 +744,102 @@ GTM/Pixel IDs and setup.
 - [ ] Export the full current-site indexed URL list (Search Console → Pages
       report, plus an independent crawl) for any legacy route not already
       covered in `redirects/legacy-routes.json`.
+
+## Competitor-informed improvement pass (9 Oct 2026) — private checklist
+
+Branch `improve/competitor-informed-pass`, committed locally, **not
+pushed**. Everything below is a real gap this pass found but could not
+close without inventing a fact — tracked here, never as a public
+placeholder on the site itself.
+
+### 🔴 Assessment form (`/assessment/`) — HighLevel admin changes, not code
+**Updated 10 Oct 2026: the form embedded on this page changed.** It's now
+`2TfIfhVospnHx74eNcAP` ("Google/Meta ads Request a Quote"), swapped in on
+direct owner instruction to replace the longer `7CTbeFedTXyoPJoS2CmH` and
+make the page easier to complete. Like the old one, it's a fully-hosted
+HighLevel iframe — this repo cannot see or edit its internal field
+configuration, so none of the following has been re-checked against the
+*new* form's actual fields:
+- [ ] **First and most important**: open `/assessment/` for real and
+      check what the new form actually asks — it's assumed to be shorter
+      (that's why it was chosen), but its exact questions aren't visible
+      from this codebase.
+- [ ] Confirm a real end-to-end test submission lands correctly in the
+      HighLevel pipeline for this form ID (it may already be tested via
+      Google/Meta ads — if so this is just confirming the same pipeline
+      still fires when reached from `/assessment/`, not just from
+      `/request-a-quote/`).
+
+The checklist below was written against the **old** form
+(`7CTbeFedTXyoPJoS2CmH`) and is kept only as a record of what was found
+wrong with it at the time — it may or may not still apply to the new one:
+- [ ] Add "Not sure" and "No existing solar" as selectable options on
+      whichever question asks about an existing solar/battery system.
+- [ ] Make the message/additional-details field optional (remove any
+      required validation on it), if it's currently required.
+- [ ] Split the electricity-bill question into two separate fields: bill
+      amount, and billing period (e.g. monthly vs. quarterly) — currently
+      one combined question as far as this page's own markup can tell.
+- [ ] Add short helper text near the address and bill-amount fields
+      explaining why they're asked for. Suggested copy (reusing language
+      already live elsewhere on the site, not newly invented): for
+      address — "We use this to check what's actually feasible on your
+      property — orientation, shading, switchboard and supply"; for bill
+      amount — "We work from your electricity bill and household routine
+      first, rather than sizing purely to fill the roof" (this exact
+      sentence is already published in the homepage FAQ).
+
+### 🔴 Three project case studies — the actual blocker on Priority 3
+The brief asked to improve three existing project examples with verified
+suburb, equipment, system size, customer goal and work completed. **That
+dataset doesn't exist yet for any photograph on this site.** The Projects
+page has said so explicitly since it was built ("None are published yet
+— call us…") and every photo caption sitewide is deliberately generic
+for exactly this reason — this isn't an oversight this pass could fix by
+writing better copy. What this pass did instead: promoted the one fact
+that *was* already confirmed (equipment brand, visible in each photo's
+existing alt text) into the visible caption — "FoxESS battery storage
+installation", "GoodWe home EV charger installation", "Hinen commercial
+battery storage installation" — without touching anything unconfirmed.
+To actually do Priority 3, this is the real input needed, per photo (at
+least 3 of the existing gallery images, customer-approved to publish
+with):
+- [ ] Suburb
+- [ ] System size / specific equipment model (brand is already known for
+      some; model and capacity aren't)
+- [ ] What the customer was trying to achieve
+- [ ] A one-paragraph description of the work completed
+- [ ] Confirmation the customer has agreed to be featured
+
+### 🟡 Response-time commitment (Priority 1)
+No response time (e.g. "within one business day") has been confirmed by
+Oz anywhere in this repo's history. None was added to the homepage or
+assessment page's "what happens after" copy as part of this pass — only
+the already-confirmed process description was reused. If Oz wants to
+commit to a specific timeframe (several competitor sites reviewed for
+this pass do state one), that's his call to make and supply.
+
+### Still open from before this pass (unchanged, listed here only as a
+reminder since Priority 4 touched the same section)
+- [ ] A photo of Oz for the founder-story section — see the existing
+      `TODO-OZ` comment in `src/pages/about/content.html` and
+      `src/pages/home/content.html`. Not invented or stock-substituted.
+
+### 🟡 New page: `/request-a-quote/` (10 Oct 2026) — ad-landing page for form `2TfIfhVospnHx74eNcAP`
+Built as a dedicated, noindex, nav-free (`landingChromeStrict`) page for
+the HighLevel form internally named "Google/Meta ads Request a Quote" —
+the same form ID that was briefly placed on `/service-request/` in an
+earlier pass before being recognised as a mismatch there and swapped for
+`D54fnMMf1LWTXOCNlh28`. This page is its correct destination.
+- [ ] Confirm the iframe's fallback height (currently `700px`, copied
+      from the homepage's similarly short "Quick Free Quote" widget as a
+      reasonable guess) actually fits this form once viewed live —
+      `form_embed.js` resizes it after load, but the static value matters
+      for the instant before that fires.
+- [ ] Point the actual Google/Meta ad campaigns at
+      `https://ozhomeenergy.com.au/request-a-quote/` once this is live in
+      production — it does nothing until ads are pointed at it.
+- [ ] Decide whether this page needs its own Meta Pixel / Google Ads
+      conversion tracking beyond whatever sitewide analytics already
+      covers (see "Analytics — staging vs. production" above) — ad
+      landing pages are usually where conversion tracking matters most.

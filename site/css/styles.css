@@ -135,6 +135,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   margin: 0 0 12px; opacity: 0.9;
 }
 .section-inverse .eyebrow { color: #9db4ff; }
+/* 9 Oct 2026 (competitor-informed improvement pass): the eyebrow's
+   opacity:0.9 (added in the design-system refresh) drops brand-blue text
+   on a .section-accent's light-blue background to 4.47:1 — just under
+   the 4.5:1 WCAG AA threshold (axe-core flagged it on three real
+   sections). Full opacity only where that specific combination needs
+   it; every other background keeps the 0.9 look unchanged. */
+.section-accent .eyebrow, .split-panel.home .eyebrow { opacity: 1; }
 .section-head { max-width: 720px; margin-bottom: 44px; }
 .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
 .section-head h2 { margin-bottom: 14px; }
@@ -638,6 +645,25 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 @media (prefers-reduced-motion: reduce) { .review-widget-loading .spinner { animation: none; } }
 @keyframes review-spin { to { transform: rotate(360deg); } }
 
+/* Embedded HighLevel quote-form loading state (9 Oct 2026, competitor-
+   informed improvement pass) — shared by the homepage's quick-quote
+   widget and the /assessment/ page's main form. Same visual language as
+   the review-widget spinner above, generalised since this now backs more
+   than one embed. See site/js/main.js for the hide-on-load/timeout logic
+   and each page's own HTML for the static phone-fallback line beneath
+   the iframe, which is never gated by this. */
+.form-embed-wrap { position: relative; }
+.form-embed-loading {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px; color: var(--text-muted); font-size: 0.9rem;
+  background: var(--bg-alt); border-radius: var(--radius-md); z-index: 0;
+}
+.form-embed-loading .spinner {
+  width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--border);
+  border-top-color: var(--brand); animation: review-spin 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) { .form-embed-loading .spinner { animation: none; } }
+
 /* ---------- Audience split ---------- */
 .split { display: grid; grid-template-columns: 1fr 1fr; }
 @media (max-width: 780px) { .split { grid-template-columns: 1fr; } }
@@ -704,6 +730,14 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
 .form-field .hint { margin-top: 4px; }
 .page-banner .hint, .hero .hint, .section-inverse .hint { color: #d8ddf5; }
+/* 9 Oct 2026 (competitor-informed improvement pass): a plain <a> inside
+   a .hint on a dark section doesn't inherit the hint's own light colour
+   above (link text has its own default colour) — the brand-blue link
+   colour against the dark section-inverse background measured 2.85:1,
+   well under the 4.5:1 threshold axe-core requires. White + underline
+   matches how .btn-secondary already handles text on these same dark
+   backgrounds. */
+.section-inverse .hint a, .hero .hint a, .page-banner .hint a { color: #fff; text-decoration: underline; }
 .form-field input[type="text"], .form-field input[type="tel"], .form-field input[type="email"],
 .form-field input[type="number"], .form-field select, .form-field textarea {
   width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
@@ -830,7 +864,17 @@ table.data-table tr:last-child td { border-bottom: none; }
     flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
     min-height: 44px; border-radius: var(--radius-md);
     font-family: var(--font-heading); font-weight: 600; font-size: 0.92rem;
-    text-decoration: none; text-align: center;
+    text-decoration: none; text-align: center; white-space: nowrap; overflow: hidden;
+  }
+  /* 9 Oct 2026 (competitor-informed improvement pass): the phone number
+     wrapping onto a second line on narrow phones was a real bug, not a
+     theoretical one — "Call 0435 336 336" plus the icon didn't reliably
+     fit a half-width button at 320–375px. Shortened the label (the icon
+     already signals "call" — see src/layout.html) and added
+     white-space: nowrap as a hard guarantee; a very narrow viewport
+     shrinks the font slightly instead of wrapping. */
+  @media (max-width: 360px) {
+    .mobile-cta-bar-call, .mobile-cta-bar-quote { font-size: 0.82rem; gap: 6px; }
   }
   .mobile-cta-bar-call { background: var(--bg-alt); color: var(--text); border: 1px solid var(--border); }
   .mobile-cta-bar-call svg { width: 18px; height: 18px; flex-shrink: 0; }

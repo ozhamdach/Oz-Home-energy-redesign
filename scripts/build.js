@@ -120,6 +120,18 @@ function stripHtmlComments(html) {
 // docs/legacy-url-migration.md.
 const PRODUCTION_ORIGIN = 'https://ozhomeenergy.com.au';
 
+// Sitewide default for the fixed mobile contact bar's second button (see
+// {{MOBILE_CTA_HREF}}/{{MOBILE_CTA_TEXT}} in src/layout.html) — overridable
+// per page via meta.mobileCtaHref/meta.mobileCtaText. Needed for
+// landingChromeStrict pages specifically: that chrome's whole point (see
+// the comment above conversionHeader/conversionFooter) is "no way to leave
+// the page at all except genuinely necessary contact/legal links", but
+// without this override the bar still linked to /assessment/ on every
+// page, including these — a second, different lead form a paid-traffic
+// visitor could leak into without meaning to.
+const DEFAULT_MOBILE_CTA_HREF = '/assessment/';
+const DEFAULT_MOBILE_CTA_TEXT = 'Get My Free Quote';
+
 // site/ is committed to the repo so it already exists, but a throwaway
 // SITE_OUT_DIR (see above) needs creating on a fresh checkout/CI run.
 fs.mkdirSync(SITE_DIR, { recursive: true });
@@ -242,6 +254,8 @@ for (const dir of pageDirs) {
     BODY: body,
     FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
     EXTRA_SCRIPT: extraScript,
+    MOBILE_CTA_HREF: meta.mobileCtaHref || DEFAULT_MOBILE_CTA_HREF,
+    MOBILE_CTA_TEXT: meta.mobileCtaText || DEFAULT_MOBILE_CTA_TEXT,
   }));
 
   if (is404) {
@@ -298,6 +312,8 @@ for (const route of legacyRoutes) {
     BODY: body,
     FOOTER: footer,
     EXTRA_SCRIPT: '',
+    MOBILE_CTA_HREF: DEFAULT_MOBILE_CTA_HREF,
+    MOBILE_CTA_TEXT: DEFAULT_MOBILE_CTA_TEXT,
   }));
   const outDir = path.join(SITE_DIR, slug);
   fs.mkdirSync(outDir, { recursive: true });

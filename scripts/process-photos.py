@@ -84,6 +84,15 @@ JOBS = [
     # (never deployed) in case Tesla approval later covers it.
     # -- Team --
     ("team-installers", "team/team-at-installation.jpg", None, [480, 571]),
+    # -- Founder --
+    # oz-foxess-battery-install.webp: real on-the-job photo, owner-supplied
+    # 10 Oct 2026 and confirmed as Oz himself (navy Oz Home Energy shirt,
+    # left) at a FoxESS battery install, resolving the long-open "photo of
+    # Oz" gap (see docs/owner-inputs-required.md). Owner asked for the feet
+    # cropped out; crop box keeps the top 72% of the original 1500x2000
+    # frame (0,0,1500,1440) — verified against the original before being
+    # hard-coded here, same as every other crop in this file.
+    ("founder-oz-foxess-install", "founder/oz-foxess-battery-install.webp", (0, 0, 1500, 1440), [480, 800, 1200]),
     # -- Vehicle branding --
     # van-wrap-rear-side.png: letterbox rows 0-993 / 1874-2867 of 2868.
     ("fleet-van", "vehicle-branding/van-wrap-rear-side.png", (0, 994, 1320, 1874), [480, 800, 1320]),

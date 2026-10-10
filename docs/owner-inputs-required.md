@@ -808,3 +808,22 @@ reminder since Priority 4 touched the same section)
 - [ ] A photo of Oz for the founder-story section — see the existing
       `TODO-OZ` comment in `src/pages/about/content.html` and
       `src/pages/home/content.html`. Not invented or stock-substituted.
+
+### 🟡 New page: `/request-a-quote/` (10 Oct 2026) — ad-landing page for form `2TfIfhVospnHx74eNcAP`
+Built as a dedicated, noindex, nav-free (`landingChromeStrict`) page for
+the HighLevel form internally named "Google/Meta ads Request a Quote" —
+the same form ID that was briefly placed on `/service-request/` in an
+earlier pass before being recognised as a mismatch there and swapped for
+`D54fnMMf1LWTXOCNlh28`. This page is its correct destination.
+- [ ] Confirm the iframe's fallback height (currently `700px`, copied
+      from the homepage's similarly short "Quick Free Quote" widget as a
+      reasonable guess) actually fits this form once viewed live —
+      `form_embed.js` resizes it after load, but the static value matters
+      for the instant before that fires.
+- [ ] Point the actual Google/Meta ad campaigns at
+      `https://ozhomeenergy.com.au/request-a-quote/` once this is live in
+      production — it does nothing until ads are pointed at it.
+- [ ] Decide whether this page needs its own Meta Pixel / Google Ads
+      conversion tracking beyond whatever sitewide analytics already
+      covers (see "Analytics — staging vs. production" above) — ad
+      landing pages are usually where conversion tracking matters most.

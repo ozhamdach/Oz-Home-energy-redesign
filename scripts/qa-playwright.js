@@ -287,13 +287,16 @@ async function run(label, fn) {
   // the iframe's internal behavior (different origin, and this sandbox can't
   // reach link.ozhomeenergy.com.au anyway); the presence/attributes of the
   // embed itself are checked by scripts/qa-static-checks.js instead.
+  // Form ID updated 10 Oct 2026: swapped from 7CTbeFedTXyoPJoS2CmH to the
+  // shorter 2TfIfhVospnHx74eNcAP ("Google/Meta ads Request a Quote") on
+  // direct owner instruction — see src/pages/assessment/content.html.
   await run('assessment page embeds the real HighLevel form, not a stale prototype', async () => {
     const page = await context.newPage();
     await page.goto(BASE + '/assessment/', { waitUntil: 'load', timeout: 15000 });
     const hasRealEmbed = await page.evaluate(
-      () => !!document.querySelector('iframe[data-form-id="7CTbeFedTXyoPJoS2CmH"]')
+      () => !!document.querySelector('iframe[data-form-id="2TfIfhVospnHx74eNcAP"]')
     );
-    if (!hasRealEmbed) errors.push('/assessment/: expected HighLevel form iframe (7CTbeFedTXyoPJoS2CmH) not found');
+    if (!hasRealEmbed) errors.push('/assessment/: expected HighLevel form iframe (2TfIfhVospnHx74eNcAP) not found');
     const hasStaleForm = await page.evaluate(() => !!document.getElementById('assessmentForm'));
     if (hasStaleForm) errors.push('/assessment/: retired custom #assessmentForm markup is still present');
     await page.close();

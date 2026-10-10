@@ -22,22 +22,30 @@
     <h2 class="visually-hidden">Start your energy assessment</h2>
     <div class="assessment-grid">
 
-      <!-- HighLevel Form. Loading state + phone fallback added 9 Oct 2026
-           (competitor-informed improvement pass) — see
-           .form-embed-wrap/.form-embed-loading in styles.css and the
-           shared handler in site/js/main.js. The sidebar's "Prefer to
-           skip the form?" card already covered the phone fallback; this
-           adds the same short line directly under the form itself too,
-           for anyone who doesn't scroll to the sidebar. -->
+      <!-- HighLevel Form. Swapped 10 Oct 2026 from 7CTbeFedTXyoPJoS2CmH
+           ("Request a Quote", the long-form assessment) to
+           2TfIfhVospnHx74eNcAP ("Google/Meta ads Request a Quote") on
+           direct owner instruction, to make this page's form shorter and
+           easier to complete — the owner-supplied ads form is the same
+           one now also embedded on /request-a-quote/. Height is an
+           ESTIMATE (not yet visually confirmed against this specific
+           form's real field list — see docs/owner-inputs-required.md);
+           form_embed.js resizes it after load regardless. Loading state +
+           phone fallback (.form-embed-wrap/.form-embed-loading in
+           styles.css, shared handler in site/js/main.js) kept from the
+           previous embed. The sidebar's "Prefer to skip the form?" card
+           already covers the phone fallback; this adds the same short
+           line directly under the form itself too, for anyone who
+           doesn't scroll to the sidebar. -->
       <div class="assess-wrap form-embed-wrap">
         <div class="form-embed-loading" aria-hidden="true">
           <span class="spinner"></span>
           <span>Loading form…</span>
         </div>
         <iframe
-          src="https://link.ozhomeenergy.com.au/widget/form/7CTbeFedTXyoPJoS2CmH"
-          style="width:100%;height:1363px;border:none;border-radius:8px;display:block;position:relative;z-index:1;background:#fff;"
-          id="inline-7CTbeFedTXyoPJoS2CmH"
+          src="https://link.ozhomeenergy.com.au/widget/form/2TfIfhVospnHx74eNcAP"
+          style="width:100%;height:700px;border:none;border-radius:8px;display:block;position:relative;z-index:1;background:#fff;"
+          id="inline-2TfIfhVospnHx74eNcAP"
           data-layout="{'id':'INLINE'}"
           data-trigger-type="alwaysShow"
           data-trigger-value=""
@@ -45,10 +53,10 @@
           data-activation-value=""
           data-deactivation-type="neverDeactivate"
           data-deactivation-value=""
-          data-form-name="Request a Quote"
-          data-height="1363"
-          data-layout-iframe-id="inline-7CTbeFedTXyoPJoS2CmH"
-          data-form-id="7CTbeFedTXyoPJoS2CmH"
+          data-form-name="Google/Meta ads Request a Quote"
+          data-height="700"
+          data-layout-iframe-id="inline-2TfIfhVospnHx74eNcAP"
+          data-form-id="2TfIfhVospnHx74eNcAP"
           data-cookie-consent="true"
           data-cookie-consent-provider="auto"
           title="Request a Quote">

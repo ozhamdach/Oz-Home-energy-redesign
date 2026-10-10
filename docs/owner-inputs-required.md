@@ -461,7 +461,11 @@ HighLevel, this repo never sees the data:
 
 - [ ] **Homepage Quick Free Quote** — form ID `ILAJCu9qJyVzX582GAtX`.
 - [ ] **Energy Assessment / Detailed Contact-Quote form** —
-      `/assessment/`, form ID `7CTbeFedTXyoPJoS2CmH`.
+      `/assessment/`, form ID `2TfIfhVospnHx74eNcAP` ("Google/Meta ads
+      Request a Quote" — swapped in 10 Oct 2026 on direct owner
+      instruction, replacing the longer `7CTbeFedTXyoPJoS2CmH`, to make
+      this page's form shorter. The same form is also now embedded on
+      `/request-a-quote/`).
 - [ ] **Commercial Project Enquiry** — `/commercial-project-enquiry/`,
       form ID `UyzHXWGEaLtIQqI9z2kc`.
 - [ ] **Service Request** — `/service-request/`, form ID
@@ -749,11 +753,26 @@ close without inventing a fact — tracked here, never as a public
 placeholder on the site itself.
 
 ### 🔴 Assessment form (`/assessment/`) — HighLevel admin changes, not code
-This form is a fully-hosted HighLevel iframe (form ID
-`7CTbeFedTXyoPJoS2CmH`). This repo cannot see or edit its internal field
-configuration — it's cross-origin, opaque to the codebase, and no local
-HTML change touches what's actually inside it. These need doing directly
-in the HighLevel form builder:
+**Updated 10 Oct 2026: the form embedded on this page changed.** It's now
+`2TfIfhVospnHx74eNcAP` ("Google/Meta ads Request a Quote"), swapped in on
+direct owner instruction to replace the longer `7CTbeFedTXyoPJoS2CmH` and
+make the page easier to complete. Like the old one, it's a fully-hosted
+HighLevel iframe — this repo cannot see or edit its internal field
+configuration, so none of the following has been re-checked against the
+*new* form's actual fields:
+- [ ] **First and most important**: open `/assessment/` for real and
+      check what the new form actually asks — it's assumed to be shorter
+      (that's why it was chosen), but its exact questions aren't visible
+      from this codebase.
+- [ ] Confirm a real end-to-end test submission lands correctly in the
+      HighLevel pipeline for this form ID (it may already be tested via
+      Google/Meta ads — if so this is just confirming the same pipeline
+      still fires when reached from `/assessment/`, not just from
+      `/request-a-quote/`).
+
+The checklist below was written against the **old** form
+(`7CTbeFedTXyoPJoS2CmH`) and is kept only as a record of what was found
+wrong with it at the time — it may or may not still apply to the new one:
 - [ ] Add "Not sure" and "No existing solar" as selectable options on
       whichever question asks about an existing solar/battery system.
 - [ ] Make the message/additional-details field optional (remove any
@@ -769,9 +788,6 @@ in the HighLevel form builder:
       amount — "We work from your electricity bill and household routine
       first, rather than sizing purely to fill the roof" (this exact
       sentence is already published in the homepage FAQ).
-- [ ] Once the above are done, confirm a real end-to-end test submission
-      still lands correctly in the HighLevel pipeline — field changes can
-      silently break custom-field mapping.
 
 ### 🔴 Three project case studies — the actual blocker on Priority 3
 The brief asked to improve three existing project examples with verified

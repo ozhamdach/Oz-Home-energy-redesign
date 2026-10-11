@@ -1003,3 +1003,21 @@ table.data-table tr:last-child td { border-bottom: none; }
 }
 .founder-vc-attr span { font-size: 0.9rem; color: var(--text-muted); }
 .founder-vc-attr strong { color: var(--text); }
+
+
+/* Location district pages */
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.tag {
+  display: inline-block; padding: 5px 14px;
+  background: var(--bg-accent); border: 1px solid var(--border);
+  border-radius: 100px; font-size: 0.875rem; color: var(--text-muted);
+}
+.district-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.district-card {
+  display: block; padding: 20px 24px; background: var(--bg-accent);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  text-decoration: none; transition: border-color .2s ease, box-shadow .2s ease;
+}
+.district-card:hover { border-color: rgba(5,96,193,0.35); box-shadow: var(--shadow-md); text-decoration: none; }
+.district-card-name { font-weight: 600; color: var(--text); display: block; margin-bottom: 4px; }
+.district-card-meta { font-size: 0.85rem; color: var(--text-muted); }

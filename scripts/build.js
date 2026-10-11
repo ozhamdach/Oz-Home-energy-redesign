@@ -173,10 +173,20 @@ function breadcrumbSchema(crumbs, canonical) {
   )}\n</script>`;
 }
 
-const pageDirs = fs
-  .readdirSync(SRC_PAGES)
-  .filter((d) => fs.statSync(path.join(SRC_PAGES, d)).isDirectory())
-  .sort();
+function collectPageDirs(base, prefix) {
+  const results = [];
+  for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+    const abs = path.join(base, entry.name);
+    const hasMeta = fs.existsSync(path.join(abs, 'meta.json'));
+    const hasContent = fs.existsSync(path.join(abs, 'content.html'));
+    if (hasMeta && hasContent) results.push(rel);
+    results.push(...collectPageDirs(abs, rel));
+  }
+  return results;
+}
+const pageDirs = collectPageDirs(SRC_PAGES, '').sort();
 
 const builtPages = [];
 

@@ -7,7 +7,7 @@
     </p>
 
     <h1 style="font-size:clamp(1.5rem, 1.2rem + 1.6vw, 2.1rem); margin-bottom:6px;">
-      Sydney Energy Assessment — Let's Understand Your Property First
+      Get a tailored solar, battery or EV quote for your Sydney home
     </h1>
 
     <p class="lede" style="font-size:0.95rem; margin-bottom:0;">
@@ -37,6 +37,7 @@
            already covers the phone fallback; this adds the same short
            line directly under the form itself too, for anyone who
            doesn't scroll to the sidebar. -->
+      <p class="assess-trust-strip">Licensed NSW Electrical Contractor &middot; SAA Accredited &middot; 10-Year Workmanship Warranty</p>
       <div class="assess-wrap form-embed-wrap">
         <div class="form-embed-loading" aria-hidden="true">
           <span class="spinner"></span>
@@ -81,9 +82,7 @@
           <h3 class="mt-0">What happens after you submit</h3>
 
           <p>
-            We review your answers, and where a site visit is needed to check
-            your switchboard, roof or supply, we'll arrange a time that suits you.
-            You'll then receive a tailored system design and clear written proposal.
+            We review your answers and aim to respond within one business day. Where a site visit is needed to check your switchboard, roof or supply, we'll arrange a time that suits you. You'll then receive a tailored system design and clear written proposal.
           </p>
         </div>
 
@@ -126,6 +125,21 @@
   .assessment-grid aside {
     width: 100%;
     min-width: 0;
+  }
+
+  .assess-trust-strip {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+    padding: 8px 12px;
+    background: var(--bg-accent);
+    border-radius: var(--radius);
+    text-align: center;
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .assess-trust-strip { display: block; }
   }
 
   @media (max-width: 991px) {

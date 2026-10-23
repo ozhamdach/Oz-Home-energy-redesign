@@ -840,3 +840,39 @@ earlier pass before being recognised as a mismatch there and swapped for
       conversion tracking beyond whatever sitewide analytics already
       covers (see "Analytics — staging vs. production" above) — ad
       landing pages are usually where conversion tracking matters most.
+
+### 🟡 Privacy Policy rewrite (23 Oct 2026)
+Oz supplied a privacy-policy draft prepared externally, against the live
+GHL-hosted site (its own description of "the current page" — US
+CAN-SPAM language, a Do-Not-Track contradiction, no mention of Meta lead
+forms — did not match what was already in this repo, which already had
+the correct ABN/phone and none of those issues). `src/pages/privacy-policy/content.html`
+was rewritten to fold in the draft's genuinely new disclosures (Meta/
+Facebook/Instagram lead forms, WhatsApp as a channel, cookies/ad-platform
+data, an overseas-storage disclosure, SMS/marketing opt-out language)
+while keeping everything already owner-confirmed exactly as it was:
+- ABN 72 665 477 556 — unchanged, already correct in the draft too.
+- Phone 0435 336 336 — unchanged. The draft's notes mentioned
+  "0431 555 699 (confirmed 23 Oct)", a third number that doesn't appear
+  anywhere in this repo's extensive phone-number confirmation history
+  (`docs/07-owner-confirmations.md`, the entries above). Asked Oz
+  directly; he confirmed 0435 336 336 is still correct and the
+  0431 555 699 note was a mix-up. Not changed anywhere.
+- The service-provider list (HighLevel, GreenSketch, Gmail, Meta,
+  WhatsApp) is owner-supplied, from the draft's own "Notes for Oz"
+  section ("the tools you said you use").
+
+Still open, deliberately left off the page rather than invented:
+- [ ] A confirmed contact email — neither `admin@` nor
+      `support@ozhomeenergy.com.au` is owner-confirmed as monitored (see
+      the "Contact email addresses" entry above). The rewritten policy
+      uses phone + `/service-request/` instead, same pattern as
+      `/complaints/`.
+- [ ] Payment and accounting providers — the draft flagged these as
+      "to add" but didn't name any; none were added.
+- [ ] Exact overseas-storage locations — the policy states only that
+      "some" providers store data outside Australia, including the US,
+      without naming which ones specifically.
+- [ ] This rewrite has not been reviewed by a solicitor — same caveat
+      that already applies to the warranty section (see above).
+      landing pages are usually where conversion tracking matters most.

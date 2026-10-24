@@ -1,237 +1,266 @@
-<!-- Battery storage page, rebuilt 24 Oct 2026 with the taste-skill "One motif"
-     direction (seed 6831415). The motif is the battery module: the stacked
-     boxes visible in the owner's own install photos. Page-only styles live in
-     /css/battery-storage.css and the calculator/motion in
-     /js/battery-storage.js, so no other page is affected.
+<!-- Battery storage page, redesigned 25 Oct 2026 with the ui-ux-pro-max skill:
+     pattern "Trust & Authority + Conversion" (hero with credibility > proof >
+     solution > transparent pricing > clear CTA path), style "Flat Design"
+     (no gradients or shadows, simple colour-shift hovers, SVG line icons).
+     Brand colours and fonts kept; icons are Phosphor (MIT), inlined below.
+     Page-only styles: /css/battery-storage.css; calculator: /js/battery-storage.js.
      Content rules carried over from earlier rounds:
-     - Rebate figures must match src/data/rebates.json (STC factor, taper,
-       caps, 2027 factor, as-of date, CER sources). The calculator reads the
-       same numbers from data attributes below.
+     - Rebate figures must match src/data/rebates.json (factor, taper, caps,
+       2027 factor, as-of date, CER sources); the calculator reads them from
+       the data attributes on #discount.
      - Hero photo battery-fox-installed (no hazard stickers in frame).
-     - Recent-work photos limited to the clean, sticker-free set; Hinen and
-       AlphaESS appear as work photos only and are deliberately NOT listed
-       as brands we install.
-     - Tesla: approved titles and approved copy kept verbatim; the Tesla
-       image and badge are shown unaltered (no motif slicing). -->
+     - Recent work uses the owner-audited, sticker-free set at the same 4:3
+       crop it was checked at (foxess-four-module keeps object-position
+       50% 75%). Hinen and AlphaESS appear as work photos only and are NOT
+       listed as brands we install.
+     - Credentials shown are the battery-relevant ones already approved on
+       the homepage trust grid (NETCC, SAA, Smart Energy Council, Tesla
+       Energy Certified Installer). Tesla approved titles and copy kept;
+       Tesla badge and image shown unaltered. -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-sun" viewBox="0 0 256 256"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></symbol><symbol id="i-battery-charging" viewBox="0 0 256 256"><path d="M200,56H32A24,24,0,0,0,8,80v96a24,24,0,0,0,24,24H200a24,24,0,0,0,24-24V80A24,24,0,0,0,200,56Zm8,120a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V80a8,8,0,0,1,8-8H200a8,8,0,0,1,8,8Zm48-80v64a8,8,0,0,1-16,0V96a8,8,0,0,1,16,0ZM138.81,123.79a8,8,0,0,1,.35,7.79l-16,32a8,8,0,0,1-14.32-7.16L119.06,136H100a8,8,0,0,1-7.16-11.58l16-32a8,8,0,1,1,14.32,7.16L112.94,120H132A8,8,0,0,1,138.81,123.79Z"/></symbol><symbol id="i-moon-stars" viewBox="0 0 256 256"><path d="M240,96a8,8,0,0,1-8,8H216v16a8,8,0,0,1-16,0V104H184a8,8,0,0,1,0-16h16V72a8,8,0,0,1,16,0V88h16A8,8,0,0,1,240,96ZM144,56h8v8a8,8,0,0,0,16,0V56h8a8,8,0,0,0,0-16h-8V32a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16Zm72.77,97a8,8,0,0,1,1.43,8A96,96,0,1,1,95.07,37.8a8,8,0,0,1,10.6,9.06A88.07,88.07,0,0,0,209.14,150.33,8,8,0,0,1,216.77,153Zm-19.39,14.88c-1.79.09-3.59.14-5.38.14A104.11,104.11,0,0,1,88,64c0-1.79,0-3.59.14-5.38A80,80,0,1,0,197.38,167.86Z"/></symbol><symbol id="i-lightning" viewBox="0 0 256 256"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></symbol><symbol id="i-magnifying-glass" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></symbol><symbol id="i-plugs-connected" viewBox="0 0 256 256"><path d="M237.66,18.34a8,8,0,0,0-11.32,0l-52.4,52.41-5.37-5.38a32.05,32.05,0,0,0-45.26,0L100,88.69l-6.34-6.35A8,8,0,0,0,82.34,93.66L88.69,100,65.37,123.31a32,32,0,0,0,0,45.26l5.38,5.37-52.41,52.4a8,8,0,0,0,11.32,11.32l52.4-52.41,5.37,5.38a32,32,0,0,0,45.26,0L156,167.31l6.34,6.35a8,8,0,0,0,11.32-11.32L167.31,156l23.32-23.31a32,32,0,0,0,0-45.26l-5.38-5.37,52.41-52.4A8,8,0,0,0,237.66,18.34Zm-116.29,161a16,16,0,0,1-22.62,0L76.69,157.25a16,16,0,0,1,0-22.62L100,111.31,144.69,156Zm57.94-57.94L156,144.69,111.31,100l23.32-23.31a16,16,0,0,1,22.62,0l22.06,22A16,16,0,0,1,179.31,121.37ZM88.57,35A8,8,0,0,1,103.43,29l8,20A8,8,0,0,1,96.57,55ZM24.57,93A8,8,0,0,1,35,88.57l20,8A8,8,0,0,1,49,111.43l-20-8A8,8,0,0,1,24.57,93ZM231.43,163a8,8,0,0,1-10.4,4.46l-20-8A8,8,0,1,1,207,144.57l20,8A8,8,0,0,1,231.43,163Zm-64,58.06A8,8,0,0,1,152.57,227l-8-20A8,8,0,0,1,159.43,201Z"/></symbol><symbol id="i-shield-check" viewBox="0 0 256 256"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></symbol><symbol id="i-gauge" viewBox="0 0 256 256"><path d="M207.06,72.67A111.24,111.24,0,0,0,128,40h-.4C66.07,40.21,16,91,16,153.13V176a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V152A111.25,111.25,0,0,0,207.06,72.67ZM224,176H119.71l54.76-75.3a8,8,0,0,0-12.94-9.42L99.92,176H32V153.13c0-3.08.15-6.12.43-9.13H56a8,8,0,0,0,0-16H35.27c10.32-38.86,44-68.24,84.73-71.66V80a8,8,0,0,0,16,0V56.33A96.14,96.14,0,0,1,221,128H200a8,8,0,0,0,0,16h23.67c.21,2.65.33,5.31.33,8Z"/></symbol><symbol id="i-calendar-check" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-38.34-85.66a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L116,164.69l42.34-42.35A8,8,0,0,1,169.66,122.34Z"/></symbol><symbol id="i-receipt" viewBox="0 0 256 256"><path d="M72,104a8,8,0,0,1,8-8h96a8,8,0,0,1,0,16H80A8,8,0,0,1,72,104Zm8,40h96a8,8,0,0,0,0-16H80a8,8,0,0,0,0,16ZM232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"/></symbol><symbol id="i-wrench" viewBox="0 0 256 256"><path d="M226.76,69a8,8,0,0,0-12.84-2.88l-40.3,37.19-17.23-3.7-3.7-17.23,37.19-40.3A8,8,0,0,0,187,29.24,72,72,0,0,0,88,96,72.34,72.34,0,0,0,94,124.94L33.79,177c-.15.12-.29.26-.43.39a32,32,0,0,0,45.26,45.26c.13-.13.27-.28.39-.42L131.06,162A72,72,0,0,0,232,96,71.56,71.56,0,0,0,226.76,69ZM160,152a56.14,56.14,0,0,1-27.07-7,8,8,0,0,0-9.92,1.77L67.11,211.51a16,16,0,0,1-22.62-22.62L109.18,133a8,8,0,0,0,1.77-9.93,56,56,0,0,1,58.36-82.31l-31.2,33.81a8,8,0,0,0-1.94,7.1L141.83,108a8,8,0,0,0,6.14,6.14l26.35,5.66a8,8,0,0,0,7.1-1.94l33.81-31.2A56.06,56.06,0,0,1,160,152Z"/></symbol><symbol id="i-phone" viewBox="0 0 256 256"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/></symbol><symbol id="i-arrow-right" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol><symbol id="i-check-circle" viewBox="0 0 256 256"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></symbol><symbol id="i-caret-down" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-seal-check" viewBox="0 0 256 256"><path d="M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.15,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.15,214.31,142.11ZM173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34Z"/></symbol><symbol id="i-house-line" viewBox="0 0 256 256"><path d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,120l80-80,80,80v88H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48Zm96,88H112V160h32Z"/></symbol></svg>
 
-<section class="bp-hero">
-  <div class="bp-frame bp-hero-grid">
-    <div class="bp-hero-copy">
-      <h1 class="bp-display" data-rise>Home batteries for Sydney solar</h1>
-      <p class="bp-lede" data-rise>Store the solar your panels make at noon and use it after dark. We fit new battery systems and add batteries to solar you already have, after checking your inverter and switchboard.</p>
-      <div class="bp-hero-actions" data-rise>
-        <a class="bp-btn" href="/assessment/">Start your free energy assessment</a>
-        <a class="bp-link" href="tel:+61435336336">or call 0435 336 336</a>
+<section class="bx-hero">
+  <div class="bx-wrap bx-hero-grid">
+    <div class="bx-hero-copy">
+      <nav class="bx-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Battery storage</span></nav>
+      <h1>Home battery storage for Sydney solar homes</h1>
+      <p class="bx-lede">Store the solar your panels make during the day and use it in the evening. We install new battery systems and add batteries to existing solar, after checking your inverter and switchboard first.</p>
+      <div class="bx-actions">
+        <a class="bx-btn bx-btn--primary" href="/assessment/">Get my free battery assessment<svg class="bx-i" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        <a class="bx-btn bx-btn--outline" href="tel:+61435336336"><svg class="bx-i" aria-hidden="true"><use href="#i-phone"/></svg>Call 0435 336 336</a>
+      </div>
+      <p class="bx-helper">No obligation. We aim to reply within one business day.</p>
+      <ul class="bx-checks">
+        <li><svg class="bx-i" aria-hidden="true"><use href="#i-check-circle"/></svg>Licensed NSW electrical contractor</li>
+        <li><svg class="bx-i" aria-hidden="true"><use href="#i-check-circle"/></svg>Tesla Energy Certified Installer</li>
+        <li><svg class="bx-i" aria-hidden="true"><use href="#i-check-circle"/></svg>10-year workmanship warranty</li>
+      </ul>
+    </div>
+    <figure class="bx-hero-media">
+      <picture>
+        <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="(min-width: 960px) 44vw, 100vw">
+        <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="(min-width: 960px) 44vw, 100vw">
+        <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" fetchpriority="high" alt="A FoxESS battery and inverter installed outside a modern Sydney home, beside a glass entry door and a living-wall garden">
+      </picture>
+      <a class="bx-hero-chip" href="#discount">
+        <svg class="bx-i" aria-hidden="true"><use href="#i-receipt"/></svg>
+        <span><strong>68 STCs</strong> may apply to a 10&nbsp;kWh battery. Work out yours</span>
+      </a>
+    </figure>
+  </div>
+</section>
+
+<section class="bx-proof" aria-labelledby="bx-proof-h">
+  <div class="bx-wrap">
+    <h2 id="bx-proof-h" class="bx-proof-h">Credentials behind every battery we install</h2>
+    <ul class="bx-badges">
+      <li><span class="bx-badge-mark"><img src="/img/brand/trust/netcc-approved-seller.jpg" width="969" height="968" loading="lazy" decoding="async" alt="New Energy Tech Consumer Code Approved Seller"></span><span><strong>NETCC Approved Seller</strong>New Energy Tech Consumer Code</span></li>
+      <li><span class="bx-badge-mark"><img src="/img/brand/trust/solar-accreditation-australia.png" width="440" height="120" loading="lazy" decoding="async" alt="Solar Accreditation Australia"></span><span><strong>Solar Accreditation Australia</strong>SAA accredited</span></li>
+      <li><span class="bx-badge-mark"><img src="/img/brand/trust/smart-energy-council.png" width="320" height="196" loading="lazy" decoding="async" alt="Smart Energy Council Small Business Member"></span><span><strong>Smart Energy Council</strong>Small Business Member</span></li>
+      <li><a href="/tesla-powerwall-3/"><span class="bx-badge-mark bx-badge-mark--tesla"><img src="/img/brand/tesla/tesla-certified-installer-black.svg" width="406" height="165" loading="lazy" decoding="async" alt="Tesla Energy Certified Installer"></span><span><strong class="bx-sr">Tesla Energy Certified Installer</strong>Powerwall &amp; Wall Connector</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="bx-section" aria-labelledby="bx-how-h">
+  <div class="bx-wrap">
+    <div class="bx-head">
+      <h2 id="bx-how-h">How a home battery saves you money</h2>
+      <p>Savings happen automatically once the battery is configured. Backup during a blackout is a separate design choice.</p>
+    </div>
+    <ol class="bx-flow">
+      <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-sun"/></svg></span><h3>Daytime</h3><p>Your panels make more than the house uses. Without a battery, the surplus is exported for little value.</p></li>
+      <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-battery-charging"/></svg></span><h3>Stored</h3><p>The battery charges from that surplus instead of sending it to the grid.</p></li>
+      <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-moon-stars"/></svg></span><h3>Evening</h3><p>Cooking, lights and appliances run from storage instead of buying grid power.</p></li>
+    </ol>
+    <div class="bx-callout">
+      <span class="bx-icon bx-icon--warm"><svg aria-hidden="true"><use href="#i-lightning"/></svg></span>
+      <div>
+        <h3>Backup is designed in, not automatic</h3>
+        <p>Keeping circuits on during a blackout only works where changeover equipment and essential circuits are specifically designed and installed for it. Not every battery installation includes this, so we decide with you which circuits (lighting, fridge, internet) should stay on before the system is designed.</p>
       </div>
     </div>
   </div>
-  <div class="bp-hero-stack bp-stack bp-shutter">
-    <picture>
-      <source type="image/avif" srcset="/img/photos/battery-fox-installed-480.avif 480w, /img/photos/battery-fox-installed-707.avif 707w" sizes="(min-width: 900px) 46vw, 100vw">
-      <source type="image/webp" srcset="/img/photos/battery-fox-installed-480.webp 480w, /img/photos/battery-fox-installed-707.webp 707w" sizes="(min-width: 900px) 46vw, 100vw">
-      <img src="/img/photos/battery-fox-installed-707.jpg" width="707" height="944" fetchpriority="high" alt="A FoxESS battery and inverter installed outside a modern Sydney home, beside a glass entry door and a living-wall garden">
-    </picture>
-    <span class="bp-seams" aria-hidden="true"><i></i><i></i><i></i></span>
-  </div>
 </section>
 
-<section class="bp-intro" aria-labelledby="bp-intro-h">
-  <div class="bp-frame">
-    <h2 id="bp-intro-h" class="bp-visually-hidden">How a home battery works</h2>
-    <p class="bp-statement" data-rise>Your panels <span class="bp-thumb"><img src="/img/photos/residential-solar-rooftop-1-480.jpg" width="480" height="360" loading="lazy" alt="Solar panels on a roof"></span> peak at noon. A battery <span class="bp-thumb"><img src="/img/photos/battery-fox-detail-crop-480.jpg" width="480" height="861" loading="lazy" alt="Battery modules on a wall"></span> keeps what the house doesn't use, and your switchboard <span class="bp-thumb"><img src="/img/photos/process-switchboard-open-1-480.jpg" width="480" height="1043" loading="lazy" alt="An open switchboard"></span> sends it to the evening.</p>
-  </div>
-</section>
-
-<section class="bp-check" aria-labelledby="bp-check-h">
-  <div class="bp-check-photo bp-stack">
-    <picture>
-      <source type="image/avif" srcset="/img/photos/battery-fox-detail-crop-480.avif 480w, /img/photos/battery-fox-detail-crop-800.avif 800w, /img/photos/battery-fox-detail-crop-980.avif 980w" sizes="(min-width: 900px) 40vw, 82vw">
-      <source type="image/webp" srcset="/img/photos/battery-fox-detail-crop-480.webp 480w, /img/photos/battery-fox-detail-crop-800.webp 800w, /img/photos/battery-fox-detail-crop-980.webp 980w" sizes="(min-width: 900px) 40vw, 82vw">
-      <img src="/img/photos/battery-fox-detail-crop-980.jpg" width="980" height="1757" loading="lazy" alt="A FoxESS inverter above a stack of battery modules on an exterior wall beside a glass door">
-    </picture>
-    <span class="bp-seams" aria-hidden="true"><i></i><i></i><i></i></span>
-  </div>
-  <div class="bp-frame bp-check-grid">
-    <div class="bp-check-body">
-      <h2 class="bp-h2" data-rise>We check your system first</h2>
-      <p class="bp-body" data-rise>Already have solar? We look at the brand, age and condition of what's on your wall before recommending a battery. Starting from nothing? Solar and battery can be designed and installed together, and older systems may need <a href="/solar-battery-upgrades/">solar and battery upgrades</a> first.</p>
-      <ul class="bp-points">
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>Inverter check</h3><p>Brand, age and warranty status reviewed before we recommend a specific battery.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>DC or AC coupled</h3><p>Some inverters take a matching battery from the same maker; others need an AC-coupled battery with its own inverter.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>Switchboard capacity</h3><p>We confirm there's safe capacity and correct protection for the added equipment.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>Backup circuits</h3><p>You choose which circuits stay on in an outage (lighting, fridge, internet) and we wire backup to suit.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>Licensed installation</h3><p>Work to Australian Standards, backed by our <a href="/about/#warranty">10-year workmanship warranty</a>. Manufacturer warranties are separate.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>Commissioning</h3><p>System tested and, where applicable, the monitoring app set up so you can see performance.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>Usually one visit</h3><p>A straightforward retrofit, where your switchboard already has capacity, is usually done in a single visit.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>No surprises</h3><p>If backup wiring or a switchboard upgrade is needed first, it's scoped and quoted during your assessment.</p></li>
-        <li data-rise><h3><span class="bp-mod" aria-hidden="true"></span>Ongoing support</h3><p>One point of contact for servicing, firmware questions or adding storage later.</p></li>
+<section class="bx-section bx-section--tint" aria-labelledby="bx-inc-h">
+  <div class="bx-wrap bx-split">
+    <div class="bx-split-media">
+      <picture>
+        <source type="image/avif" srcset="/img/photos/battery-fox-detail-crop-480.avif 480w, /img/photos/battery-fox-detail-crop-800.avif 800w" sizes="(min-width: 960px) 36vw, 100vw">
+        <source type="image/webp" srcset="/img/photos/battery-fox-detail-crop-480.webp 480w, /img/photos/battery-fox-detail-crop-800.webp 800w" sizes="(min-width: 960px) 36vw, 100vw">
+        <img src="/img/photos/battery-fox-detail-crop-800.jpg" width="800" height="1434" loading="lazy" alt="A FoxESS inverter above a stack of battery modules on an exterior wall beside a glass door">
+      </picture>
+    </div>
+    <div>
+      <div class="bx-head bx-head--left">
+        <h2 id="bx-inc-h">What your battery installation includes</h2>
+        <p>Already have solar? We check what's on your wall before recommending anything. Starting fresh? Solar and battery can be designed together, and older systems may need <a href="/solar-battery-upgrades/">solar and battery upgrades</a> first.</p>
+      </div>
+      <ul class="bx-features">
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-magnifying-glass"/></svg></span><div><h3>Inverter check</h3><p>Brand, age and warranty status reviewed before we recommend a battery.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-plugs-connected"/></svg></span><div><h3>DC or AC coupled</h3><p>Some inverters take a matching battery; others need an AC-coupled battery with its own inverter.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-lightning"/></svg></span><div><h3>Switchboard capacity</h3><p>We confirm safe capacity and correct protection for the added equipment.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-house-line"/></svg></span><div><h3>Backup circuit planning</h3><p>You choose which circuits stay on in an outage and we wire backup to suit.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-shield-check"/></svg></span><div><h3>Licensed installation</h3><p>Work to Australian Standards, backed by our <a href="/about/#warranty">10-year workmanship warranty</a>. Manufacturer warranties are separate.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-gauge"/></svg></span><div><h3>Commissioning and app setup</h3><p>System tested and, where applicable, monitoring set up so you can see performance.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-calendar-check"/></svg></span><div><h3>Usually one visit</h3><p>A straightforward retrofit, where your switchboard already has capacity, is usually done in a single visit.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-receipt"/></svg></span><div><h3>No surprises</h3><p>Backup wiring or switchboard upgrades are scoped and quoted during your assessment.</p></div></li>
+        <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-wrench"/></svg></span><div><h3>Ongoing support</h3><p>One point of contact for servicing, firmware questions or adding storage later.</p></div></li>
       </ul>
     </div>
   </div>
 </section>
 
-<section class="bp-calc" aria-labelledby="bp-calc-h" id="discount"
+<section class="bx-section" id="discount" aria-labelledby="bx-calc-h"
   data-factor="6.8" data-cap="50" data-t1="14" data-t2="28" data-p2="0.6" data-p3="0.15">
-  <div class="bp-frame bp-calc-grid">
-    <div class="bp-tile bp-tile--accent" data-rise>
-      <p class="bp-figure"><output id="bp-stc" for="bp-kwh">68</output> <span class="bp-figure-unit">STCs</span></p>
-      <div class="bp-cells" id="bp-cells" aria-hidden="true"></div>
-      <div class="bp-slider">
-        <label for="bp-kwh">Usable battery capacity: <strong><span id="bp-kwh-out">10</span> kWh</strong></label>
-        <input type="range" id="bp-kwh" min="5" max="50" step="1" value="10">
+  <div class="bx-wrap">
+    <div class="bx-head">
+      <h2 id="bx-calc-h">Work out your federal battery discount</h2>
+      <p>The Cheaper Home Batteries Program pays out in small-scale technology certificates (STCs), counted per kWh of usable capacity. Pick a household size or set your own capacity.</p>
+    </div>
+    <div class="bx-calc">
+      <div class="bx-calc-controls">
+        <fieldset class="bx-sizes">
+          <legend>What size battery do I need?</legend>
+          <button type="button" class="bx-size" data-kwh="6" aria-pressed="false"><strong>Small household</strong><span class="bx-size-kwh">5–7 kWh</span><span>Lower evening usage, mainly self-consumption.</span></button>
+          <button type="button" class="bx-size" data-kwh="10" aria-pressed="true"><strong>Typical family home</strong><span class="bx-size-kwh">10–13 kWh</span><span>Evening cooking, appliances and some backup circuits.</span></button>
+          <button type="button" class="bx-size" data-kwh="16" aria-pressed="false"><strong>Larger household or EV</strong><span class="bx-size-kwh">13 kWh and up</span><span>Higher evening load, more backup circuits, or charging an EV overnight.</span></button>
+        </fieldset>
+        <div class="bx-range">
+          <label for="bx-kwh">Usable battery capacity</label>
+          <div class="bx-range-row">
+            <input type="range" id="bx-kwh" min="5" max="50" step="1" value="10" aria-describedby="bx-kwh-hint">
+            <output id="bx-kwh-out" for="bx-kwh">10 kWh</output>
+          </div>
+          <p id="bx-kwh-hint" class="bx-hint">5 to 50 kWh. Certificates are claimed on the first 50&nbsp;kWh of usable capacity.</p>
+        </div>
       </div>
-      <p class="bp-tile-caption" id="bp-split">10 kWh counted in full at 6.8 certificates per kWh, rounded down to whole certificates, for a battery installed by 31 December 2026.</p>
+      <div class="bx-calc-result" aria-live="polite">
+        <p class="bx-result-label">Estimated certificates, installed by 31 December 2026</p>
+        <p class="bx-result"><span id="bx-stc">68</span> STCs</p>
+        <table class="bx-table">
+          <caption class="bx-sr">How the certificates are counted</caption>
+          <thead><tr><th scope="col">Capacity band</th><th scope="col">kWh counted</th><th scope="col">Rate</th><th scope="col">STCs</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">First 14 kWh</th><td id="bx-a">10</td><td>6.8 per kWh</td><td id="bx-sa">68</td></tr>
+            <tr><th scope="row">Over 14, to 28 kWh</th><td id="bx-b">0</td><td>60%</td><td id="bx-sb">0</td></tr>
+            <tr><th scope="row">Over 28, to 50 kWh</th><td id="bx-c">0</td><td>15%</td><td id="bx-sc">0</td></tr>
+          </tbody>
+        </table>
+        <p class="bx-hint">Total rounded down to whole certificates. From 1 January 2027 the base rate drops to 5.7 per kWh.</p>
+      </div>
     </div>
-    <h2 id="bp-calc-h" class="bp-h2 bp-calc-h" data-rise>Size it, see the federal discount</h2>
-    <div class="bp-tile bp-tile--ink" data-rise>
-      <p class="bp-figure">6.8</p>
-      <p class="bp-tile-caption">certificates per kWh for the first 14&nbsp;kWh, then 60% to 28&nbsp;kWh and 15% to 50&nbsp;kWh</p>
-    </div>
-    <div class="bp-tile bp-tile--mid" data-rise>
-      <p class="bp-figure">5.7</p>
-      <p class="bp-tile-caption">per kWh for batteries installed from 1 January 2027</p>
-    </div>
-  </div>
-  <div class="bp-frame bp-sizes">
-    <h3 class="bp-sub" data-rise>What size battery do I need?</h3>
-    <div class="bp-size-list" role="group" aria-label="Typical battery sizes">
-      <button type="button" class="bp-size" data-kwh="6" data-rise><span class="bp-size-name">Small household</span><span class="bp-size-kwh">5–7 kWh</span><span class="bp-size-text">Lower evening usage, mainly self-consumption.</span></button>
-      <button type="button" class="bp-size is-on" data-kwh="12" data-rise><span class="bp-size-name">Typical family home</span><span class="bp-size-kwh">10–13 kWh</span><span class="bp-size-text">Evening cooking, appliances and some backup circuits.</span></button>
-      <button type="button" class="bp-size" data-kwh="16" data-rise><span class="bp-size-name">Larger household or EV</span><span class="bp-size-kwh">13 kWh and up</span><span class="bp-size-text">Higher evening load, more backup circuits, or charging an EV overnight.</span></button>
-    </div>
-    <p class="bp-note">A certificate estimate, not a fixed dollar discount. The dollar value depends on the STC price, the retailer or registered agent's offer, fees and final eligibility. Eligible systems generally have a nominal capacity of 5 to 100&nbsp;kWh, and certificates are claimed on the first 50&nbsp;kWh of usable capacity. Your actual size comes from your usage, and the final figure is confirmed in your quote. As of 25 September 2026. Sources: <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-technology-certificates/calculate-small-scale-technology-certificate-entitlements">Clean Energy Regulator, calculating STC entitlements</a>; <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-renewable-energy-systems/solar-batteries">Clean Energy Regulator, solar batteries</a>.</p>
-  </div>
-</section>
-
-<section class="bp-flowsec" aria-labelledby="bp-flow-h">
-  <div class="bp-frame">
-    <div class="bp-flow-head">
-      <h2 id="bp-flow-h" class="bp-h2" data-rise>Savings first, backup by design</h2>
-      <p class="bp-body" data-rise>Savings happen automatically once the battery is configured. Backup during a blackout is a separate decision: it only works where changeover equipment and essential circuits are designed and installed for it, and not every battery installation includes it.</p>
-    </div>
-    <div class="bp-flow-figure" data-rise>
-      <svg class="bp-flow bp-flow--wide" viewBox="0 0 900 200" role="img" aria-label="Scattered daytime solar is gathered into the battery and released in ordered rows in the evening"><rect x="20.0" y="171.1" width="14" height="7" fill="#c7d7f1"/><rect x="74.7" y="137.6" width="14" height="7" fill="#e1e9f7"/><rect x="105.6" y="141.6" width="14" height="7" fill="#e1e9f7"/><rect x="161.1" y="129.8" width="14" height="7" fill="#e1e9f7"/><rect x="232.4" y="52.4" width="14" height="7" fill="#c7d7f1"/><rect x="204.1" y="132.2" width="14" height="7" fill="#c7d7f1"/><rect x="197.8" y="91.9" width="14" height="7" fill="#e1e9f7"/><rect x="229.9" y="31.5" width="14" height="7" fill="#e1e9f7"/><rect x="260.0" y="130.5" width="14" height="7" fill="#e1e9f7"/><rect x="170.1" y="169.6" width="14" height="7" fill="#e1e9f7"/><rect x="116.8" y="68.7" width="14" height="7" fill="#e1e9f7"/><rect x="106.4" y="36.7" width="14" height="7" fill="#c7d7f1"/><rect x="131.4" y="61.6" width="14" height="7" fill="#e1e9f7"/><rect x="164.9" y="137.6" width="14" height="7" fill="#e1e9f7"/><rect x="35.2" y="57.9" width="14" height="7" fill="#e1e9f7"/><rect x="152.3" y="83.8" width="14" height="7" fill="#c7d7f1"/><rect x="256.3" y="19.6" width="14" height="7" fill="#c7d7f1"/><rect x="109.5" y="126.3" width="14" height="7" fill="#e1e9f7"/><rect x="153.9" y="39.0" width="14" height="7" fill="#c7d7f1"/><rect x="93.7" y="73.8" width="14" height="7" fill="#c7d7f1"/><rect x="106.5" y="103.0" width="14" height="7" fill="#e1e9f7"/><rect x="80.6" y="168.6" width="14" height="7" fill="#c7d7f1"/><rect x="244.4" y="121.1" width="14" height="7" fill="#e1e9f7"/><rect x="154.2" y="98.4" width="14" height="7" fill="#e1e9f7"/><rect x="264.3" y="79.4" width="14" height="7" fill="#e1e9f7"/><rect x="85.3" y="112.7" width="14" height="7" fill="#c7d7f1"/><rect x="106.0" y="78.5" width="14" height="7" fill="#e1e9f7"/><rect x="248.2" y="29.4" width="14" height="7" fill="#e1e9f7"/><rect x="40.2" y="81.2" width="14" height="7" fill="#c7d7f1"/><rect x="40.2" y="184.3" width="14" height="7" fill="#c7d7f1"/><rect x="184.4" y="35.2" width="14" height="7" fill="#c7d7f1"/><rect x="174.2" y="34.1" width="14" height="7" fill="#e1e9f7"/><rect x="250.0" y="165.9" width="14" height="7" fill="#e1e9f7"/><rect x="256.0" y="143.2" width="14" height="7" fill="#c7d7f1"/><rect x="22.7" y="53.5" width="14" height="7" fill="#c7d7f1"/><rect x="20.4" y="117.9" width="14" height="7" fill="#c7d7f1"/><rect x="212.7" y="95.6" width="14" height="7" fill="#e1e9f7"/><rect x="81.9" y="164.4" width="14" height="7" fill="#c7d7f1"/><rect x="117.2" y="166.5" width="14" height="7" fill="#c7d7f1"/><rect x="147.2" y="10.5" width="14" height="7" fill="#e1e9f7"/><rect x="185.6" y="171.4" width="14" height="7" fill="#c7d7f1"/><rect x="254.0" y="42.9" width="14" height="7" fill="#e1e9f7"/><rect x="167.0" y="128.9" width="14" height="7" fill="#c7d7f1"/><rect x="77.9" y="46.6" width="14" height="7" fill="#e1e9f7"/><rect x="33.6" y="144.6" width="14" height="7" fill="#e1e9f7"/><rect x="205.7" y="97.2" width="14" height="7" fill="#c7d7f1"/><rect x="48.7" y="170.8" width="14" height="7" fill="#c7d7f1"/><rect x="198.8" y="166.3" width="14" height="7" fill="#c7d7f1"/><rect x="318.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="318.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="318.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="335.5" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="335.5" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="335.5" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="353.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="353.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="353.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="370.5" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="370.5" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="370.5" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="388.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="388.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="388.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="405.5" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="405.5" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="405.5" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="423.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="423.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="423.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="440.5" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="440.5" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="440.5" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="458.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="458.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="458.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="475.5" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="475.5" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="475.5" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="493.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="493.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="493.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="510.5" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="510.5" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="510.5" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="528.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="528.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="528.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="545.5" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="545.5" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="545.5" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="563.0" y="86.0" width="14" height="7" fill="#7fa6dc"/><rect x="563.0" y="96.0" width="14" height="7" fill="#7fa6dc"/><rect x="563.0" y="106.0" width="14" height="7" fill="#7fa6dc"/><rect x="640.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="640.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="640.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="640.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="640.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="640.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="661.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="661.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="661.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="661.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="661.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="661.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="682.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="682.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="682.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="682.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="682.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="682.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="703.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="703.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="703.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="703.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="703.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="703.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="724.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="724.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="724.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="724.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="724.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="724.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="745.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="745.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="745.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="745.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="745.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="745.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="766.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="766.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="766.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="766.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="766.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="766.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="787.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="787.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="787.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="787.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="787.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="787.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="808.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="808.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="808.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="808.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="808.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="808.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="829.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="829.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="829.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="829.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="829.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="829.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="850.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="850.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="850.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="850.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="850.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="850.0" y="160.0" width="14" height="7" fill="#0560c1"/><rect x="871.0" y="30.0" width="14" height="7" fill="#0560c1"/><rect x="871.0" y="56.0" width="14" height="7" fill="#0560c1"/><rect x="871.0" y="82.0" width="14" height="7" fill="#0560c1"/><rect x="871.0" y="108.0" width="14" height="7" fill="#0560c1"/><rect x="871.0" y="134.0" width="14" height="7" fill="#0560c1"/><rect x="871.0" y="160.0" width="14" height="7" fill="#0560c1"/></svg>
-<svg class="bp-flow bp-flow--tall" viewBox="0 0 200 266" aria-hidden="true"><rect x="164.5" y="66.3" width="12" height="6" fill="#e1e9f7"/><rect x="177.0" y="59.5" width="12" height="6" fill="#c7d7f1"/><rect x="53.4" y="56.9" width="12" height="6" fill="#e1e9f7"/><rect x="79.7" y="22.4" width="12" height="6" fill="#c7d7f1"/><rect x="165.2" y="45.1" width="12" height="6" fill="#c7d7f1"/><rect x="118.8" y="57.4" width="12" height="6" fill="#c7d7f1"/><rect x="136.9" y="35.6" width="12" height="6" fill="#c7d7f1"/><rect x="64.6" y="75.0" width="12" height="6" fill="#e1e9f7"/><rect x="120.7" y="67.1" width="12" height="6" fill="#e1e9f7"/><rect x="44.9" y="51.2" width="12" height="6" fill="#c7d7f1"/><rect x="97.1" y="45.0" width="12" height="6" fill="#e1e9f7"/><rect x="175.5" y="39.7" width="12" height="6" fill="#c7d7f1"/><rect x="88.2" y="17.6" width="12" height="6" fill="#e1e9f7"/><rect x="101.3" y="45.3" width="12" height="6" fill="#e1e9f7"/><rect x="142.5" y="31.4" width="12" height="6" fill="#e1e9f7"/><rect x="14.6" y="26.9" width="12" height="6" fill="#e1e9f7"/><rect x="45.5" y="56.6" width="12" height="6" fill="#c7d7f1"/><rect x="51.3" y="52.2" width="12" height="6" fill="#c7d7f1"/><rect x="23.2" y="60.1" width="12" height="6" fill="#e1e9f7"/><rect x="170.2" y="69.7" width="12" height="6" fill="#e1e9f7"/><rect x="177.8" y="7.8" width="12" height="6" fill="#e1e9f7"/><rect x="115.2" y="56.7" width="12" height="6" fill="#e1e9f7"/><rect x="16.5" y="15.5" width="12" height="6" fill="#c7d7f1"/><rect x="28.9" y="11.9" width="12" height="6" fill="#c7d7f1"/><rect x="115.9" y="72.2" width="12" height="6" fill="#c7d7f1"/><rect x="33.4" y="20.2" width="12" height="6" fill="#e1e9f7"/><rect x="52.6" y="37.9" width="12" height="6" fill="#e1e9f7"/><rect x="84.0" y="53.2" width="12" height="6" fill="#e1e9f7"/><rect x="79.5" y="35.2" width="12" height="6" fill="#c7d7f1"/><rect x="50.3" y="62.5" width="12" height="6" fill="#e1e9f7"/><rect x="36.7" y="70.8" width="12" height="6" fill="#e1e9f7"/><rect x="31.4" y="20.7" width="12" height="6" fill="#e1e9f7"/><rect x="39.8" y="11.5" width="12" height="6" fill="#c7d7f1"/><rect x="123.1" y="44.9" width="12" height="6" fill="#c7d7f1"/><rect x="76.0" y="100.0" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="108.5" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="117.0" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="125.5" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="134.0" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="142.5" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="151.0" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="159.5" width="12" height="6" fill="#7fa6dc"/><rect x="76.0" y="168.0" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="100.0" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="108.5" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="117.0" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="125.5" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="134.0" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="142.5" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="151.0" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="159.5" width="12" height="6" fill="#7fa6dc"/><rect x="92.0" y="168.0" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="100.0" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="108.5" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="117.0" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="125.5" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="134.0" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="142.5" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="151.0" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="159.5" width="12" height="6" fill="#7fa6dc"/><rect x="108.0" y="168.0" width="12" height="6" fill="#7fa6dc"/><rect x="14.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="14.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="14.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="14.0" y="247.0" width="12" height="6" fill="#0560c1"/><rect x="36.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="36.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="36.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="36.0" y="247.0" width="12" height="6" fill="#0560c1"/><rect x="58.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="58.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="58.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="58.0" y="247.0" width="12" height="6" fill="#0560c1"/><rect x="80.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="80.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="80.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="80.0" y="247.0" width="12" height="6" fill="#0560c1"/><rect x="102.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="102.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="102.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="102.0" y="247.0" width="12" height="6" fill="#0560c1"/><rect x="124.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="124.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="124.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="124.0" y="247.0" width="12" height="6" fill="#0560c1"/><rect x="146.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="146.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="146.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="146.0" y="247.0" width="12" height="6" fill="#0560c1"/><rect x="168.0" y="196.0" width="12" height="6" fill="#0560c1"/><rect x="168.0" y="213.0" width="12" height="6" fill="#0560c1"/><rect x="168.0" y="230.0" width="12" height="6" fill="#0560c1"/><rect x="168.0" y="247.0" width="12" height="6" fill="#0560c1"/></svg>
-    </div>
-    <ol class="bp-flow-steps">
-      <li data-rise><h3>Noon</h3><p>Your panels make more than the house uses. Without a battery, the surplus is exported for little value.</p></li>
-      <li data-rise><h3>Stored</h3><p>The battery charges from that surplus. On backup systems, chosen circuits are wired to draw from it in an outage.</p></li>
-      <li data-rise><h3>Evening</h3><p>Cooking, lights and appliances run from storage instead of buying power from the grid.</p></li>
-    </ol>
+    <p class="bx-note">A certificate estimate, not a fixed dollar discount. The dollar value depends on the STC price, the retailer or registered agent's offer, fees and final eligibility. Eligible systems generally have a nominal capacity of 5 to 100&nbsp;kWh. Your actual size comes from your usage, and the final figure is confirmed in your quote. As of 25 September 2026. Sources: <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-technology-certificates/calculate-small-scale-technology-certificate-entitlements">Clean Energy Regulator, calculating STC entitlements</a>; <a href="https://cer.gov.au/schemes/renewable-energy-target/small-scale-renewable-energy-scheme/small-scale-renewable-energy-systems/solar-batteries">Clean Energy Regulator, solar batteries</a>.</p>
   </div>
 </section>
 
-<section class="bp-brands" aria-labelledby="bp-brands-h">
-  <div class="bp-frame bp-brands-grid">
-    <figure class="bp-brands-photo" data-rise>
-      <img src="/img/brand/tesla/tesla-powerwall-3-lifestyle.webp" width="1600" height="1103" loading="lazy" decoding="async" alt="Two Tesla Powerwall units installed outside a solar-equipped home beside a vehicle in daylight">
-    </figure>
-    <div class="bp-brands-body">
-      <div>
-        <h2 id="bp-brands-h" class="bp-h2" data-rise>Batteries we fit</h2>
-        <p class="bp-body" data-rise>Matched to your property and the inverter you already have, not a single default.</p>
-      </div>
-      <dl class="bp-brand-list">
-        <div data-rise><dt><img src="/img/brand/tesla/tesla-certified-installer-black.svg" alt="Tesla Powerwall Certified Installer badge" class="bp-tesla-badge"><span>Tesla Powerwall 3</span></dt><dd>We're a Tesla Powerwall Certified Installer. If you're considering Powerwall 3 specifically, see how it fits alongside solar and backup planning.</dd></div>
-        <div data-rise><dt>FoxESS</dt><dd>Hybrid inverter and battery systems, commonly paired for a retrofit onto existing FoxESS inverters.</dd></div>
-        <div data-rise><dt>Sungrow</dt><dd>Widely installed hybrid inverter and battery range, often paired with new solar installs.</dd></div>
-        <div data-rise><dt>Sigenergy</dt><dd>Newer-generation hybrid battery and inverter system with app-based monitoring.</dd></div>
-        <div data-rise><dt>GoodWe</dt><dd>Hybrid inverter and battery systems, a common retrofit option for existing GoodWe solar installs.</dd></div>
-      </dl>
-      <div class="bp-cells2" data-rise>
-        <a class="bp-cell bp-cell--ink" href="/tesla-powerwall-3/">Tesla Powerwall 3 installation</a>
-        <a class="bp-cell bp-cell--tone" href="/assessment/">Which brand suits my system?</a>
-      </div>
+<section class="bx-section bx-section--tint" aria-labelledby="bx-brands-h">
+  <div class="bx-wrap">
+    <div class="bx-head">
+      <h2 id="bx-brands-h">Battery brands we install</h2>
+      <p>Matched to your property and the inverter you already have, not a single default.</p>
+    </div>
+    <div class="bx-brands">
+      <article class="bx-tesla">
+        <img class="bx-tesla-photo" src="/img/brand/tesla/tesla-powerwall-3-lifestyle.webp" width="1600" height="1103" loading="lazy" decoding="async" alt="Two Tesla Powerwall units installed outside a solar-equipped home beside a vehicle in daylight">
+        <div class="bx-tesla-body">
+          <img class="bx-tesla-badge" src="/img/brand/tesla/tesla-certified-installer-black.svg" width="406" height="165" loading="lazy" decoding="async" alt="Tesla Powerwall Certified Installer badge">
+          <h3>Tesla Powerwall 3</h3>
+          <p>We're a Tesla Powerwall Certified Installer. If you're considering Powerwall 3 specifically, see how it fits alongside solar and backup planning.</p>
+          <a class="bx-link" href="/tesla-powerwall-3/">Tesla Powerwall 3 installation<svg class="bx-i" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </article>
+      <ul class="bx-brand-list">
+        <li><h3>FoxESS</h3><p>Hybrid inverter and battery systems, commonly paired for a retrofit onto existing FoxESS inverters.</p></li>
+        <li><h3>Sungrow</h3><p>Widely installed hybrid inverter and battery range, often paired with new solar installs.</p></li>
+        <li><h3>Sigenergy</h3><p>Newer-generation hybrid battery and inverter system with app-based monitoring.</p></li>
+        <li><h3>GoodWe</h3><p>Hybrid inverter and battery systems, a common retrofit option for existing GoodWe solar installs.</p></li>
+      </ul>
     </div>
   </div>
 </section>
 
-<section class="bp-work" aria-labelledby="bp-work-h">
-  <div class="bp-frame bp-work-grid">
-    <div class="bp-work-copy">
-      <h2 id="bp-work-h" class="bp-h2" data-rise>Recent battery work</h2>
-      <p class="bp-body" data-rise>Installations by our team across Sydney, from a single unit beside a garage door to multi-unit systems with a backup changeover board. Tap the photo to see the next one.</p>
+<section class="bx-section" aria-labelledby="bx-work-h">
+  <div class="bx-wrap">
+    <div class="bx-head">
+      <h2 id="bx-work-h">Recent battery installations</h2>
+      <p>Work by our team across Sydney, from single units to multi-unit systems with a backup changeover board.</p>
     </div>
-    <figure class="bp-reel" data-rise>
-      <button type="button" class="bp-reel-frame bp-stack" aria-label="Show next photo">
-        <img class="is-on" src="/img/recent-work/electrical-backup/battery-backup-changeover.webp" width="1600" height="2133" loading="lazy" decoding="async" alt="Battery backup changeover switch, solar meter and essential circuits board" data-cap="Backup changeover and essential circuits">
-        <img src="/img/recent-work/battery/battery-hinen-multi-unit-garage.webp" width="1600" height="1200" loading="lazy" decoding="async" alt="Four Hinen battery units and two inverters installed in a garage" data-cap="Multi-unit Hinen system in a garage">
-        <img src="/img/recent-work/battery/battery-hinen-garage.webp" width="1350" height="1800" loading="lazy" decoding="async" alt="Hinen inverter and four battery modules installed on an exterior wall" data-cap="Hinen inverter and four battery modules">
-        <img src="/img/recent-work/battery/battery-hinen-garage-door.webp" width="707" height="1508" loading="lazy" decoding="async" alt="Hinen battery unit installed beside a garage door, protected by bollards" data-cap="Single Hinen unit beside a garage door">
-        <img src="/img/recent-work/battery/battery-alphaess-tower.webp" width="707" height="1536" loading="lazy" decoding="async" alt="AlphaESS battery tower installed against an exterior stone wall" data-cap="AlphaESS tower against a stone wall">
-        <span class="bp-seams" aria-hidden="true"><i></i><i></i><i></i></span>
-      </button>
-      <figcaption id="bp-reel-cap" aria-live="polite">Backup changeover and essential circuits</figcaption>
-    </figure>
+    <ul class="bx-gallery">
+      <li><figure><img src="/img/recent-work/electrical-backup/battery-backup-changeover.webp" width="1600" height="2133" loading="lazy" decoding="async" alt="Battery backup changeover switch, solar meter and essential circuits board"><figcaption>Backup changeover and essential circuits</figcaption></figure></li>
+      <li><figure><img src="/img/recent-work/battery/battery-hinen-multi-unit-garage.webp" width="1600" height="1200" loading="lazy" decoding="async" alt="Four Hinen battery units and two inverters installed in a garage"><figcaption>Multi-unit Hinen system in a garage</figcaption></figure></li>
+      <li><figure><img src="/img/recent-work/battery/battery-hinen-garage.webp" width="1350" height="1800" loading="lazy" decoding="async" alt="Hinen inverter and four battery modules installed on an exterior wall"><figcaption>Hinen inverter and four battery modules</figcaption></figure></li>
+      <li><figure><img src="/img/recent-work/battery/battery-hinen-garage-door.webp" width="707" height="1508" loading="lazy" decoding="async" alt="Hinen battery unit installed beside a garage door, protected by bollards"><figcaption>Hinen unit beside a garage door</figcaption></figure></li>
+      <li><figure><img src="/img/recent-work/battery/battery-alphaess-tower.webp" width="707" height="1536" loading="lazy" decoding="async" alt="AlphaESS battery tower installed against an exterior stone wall"><figcaption>AlphaESS tower against a stone wall</figcaption></figure></li>
+      <li><figure><img class="bx-pos-low" src="/img/recent-work/battery/battery-foxess-four-module.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="FoxESS inverter and four battery modules installed on a brick wall"><figcaption>FoxESS inverter and four modules</figcaption></figure></li>
+    </ul>
   </div>
 </section>
 
-<section class="bp-about" aria-labelledby="bp-about-h">
-  <div class="bp-panel">
-    <div class="bp-panel-left">
-      <h2 id="bp-about-h" class="bp-h2 bp-on-dark" data-rise>Why Oz started this business</h2>
-      <div class="bp-portrait bp-stack bp-stack--dark">
-        <picture>
-          <source type="image/avif" srcset="/img/photos/founder-oz-foxess-install-480.avif 480w, /img/photos/founder-oz-foxess-install-800.avif 800w" sizes="(min-width: 900px) 36vw, 86vw">
-          <source type="image/webp" srcset="/img/photos/founder-oz-foxess-install-480.webp 480w, /img/photos/founder-oz-foxess-install-800.webp 800w" sizes="(min-width: 900px) 36vw, 86vw">
-          <img src="/img/photos/founder-oz-foxess-install-800.jpg" width="800" height="768" loading="lazy" alt="Oz, founder of Oz Home Energy, on site beside a completed FoxESS battery installation">
-        </picture>
-        <span class="bp-seams" aria-hidden="true"><i></i><i></i></span>
-      </div>
-    </div>
-    <div class="bp-panel-right">
-      <div data-rise>
-        <h3 class="bp-sub bp-on-dark">In his words</h3>
-        <blockquote class="bp-quote"><p>I started Oz Home Energy because I got tired of doing great work for companies that didn't always care what happened to the customer after the sale.</p></blockquote>
-        <p class="bp-attr">Oz, founder</p>
-      </div>
-      <div data-rise>
-        <h3 class="bp-sub bp-on-dark">Licensed and accountable</h3>
-        <p class="bp-body bp-on-dark">NSW electrical contractor licence 382607C. Battery, inverter and switchboard work is backed by our 10-year workmanship warranty, with manufacturer warranties on top.</p>
-      </div>
-      <a class="bp-btn" href="/about/#founder" data-rise>Read why I started this business</a>
+<section class="bx-section bx-section--tint" aria-labelledby="bx-founder-h">
+  <div class="bx-wrap bx-founder">
+    <picture>
+      <source type="image/avif" srcset="/img/photos/founder-oz-foxess-install-480.avif 480w, /img/photos/founder-oz-foxess-install-800.avif 800w" sizes="(min-width: 960px) 30vw, 100vw">
+      <source type="image/webp" srcset="/img/photos/founder-oz-foxess-install-480.webp 480w, /img/photos/founder-oz-foxess-install-800.webp 800w" sizes="(min-width: 960px) 30vw, 100vw">
+      <img src="/img/photos/founder-oz-foxess-install-800.jpg" width="800" height="768" loading="lazy" alt="Oz, founder of Oz Home Energy, on site beside a completed FoxESS battery installation">
+    </picture>
+    <div>
+      <h2 id="bx-founder-h">Why Oz started Oz Home Energy</h2>
+      <blockquote class="bx-quote"><p>I started Oz Home Energy because I got tired of doing great work for companies that didn't always care what happened to the customer after the sale.</p></blockquote>
+      <p class="bx-attr">Oz, founder. NSW Electrical Contractor Licence 382607C.</p>
+      <a class="bx-link" href="/about/#founder">Read why I started this business<svg class="bx-i" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
     </div>
   </div>
 </section>
 
-<section class="bp-faq" aria-labelledby="bp-faq-h">
-  <div class="bp-frame bp-faq-grid">
-    <h2 id="bp-faq-h" class="bp-h2 bp-faq-h" data-rise>Battery questions</h2>
-    <div class="bp-faq-list">
-      <details name="bp-faq" data-rise>
-        <summary>Is a battery right for my existing solar?<span class="bp-plus" aria-hidden="true"></span></summary>
+<section class="bx-section" aria-labelledby="bx-faq-h">
+  <div class="bx-wrap bx-narrow">
+    <div class="bx-head">
+      <h2 id="bx-faq-h">Battery storage questions</h2>
+    </div>
+    <div class="bx-faq">
+      <details>
+        <summary>Is a battery right for my existing solar?<svg class="bx-i bx-chev" aria-hidden="true"><use href="#i-caret-down"/></svg></summary>
         <p>It depends on how much solar you currently export unused, your evening electricity use, and your existing inverter's compatibility. A short assessment of your bill and system details usually answers this before any site visit.</p>
       </details>
-      <details name="bp-faq" data-rise>
-        <summary>Will a battery work with my current inverter?<span class="bp-plus" aria-hidden="true"></span></summary>
+      <details>
+        <summary>Will a battery work with my current inverter?<svg class="bx-i bx-chev" aria-hidden="true"><use href="#i-caret-down"/></svg></summary>
         <p>Some inverters have a matching battery from the same manufacturer; others need an AC-coupled battery with its own inverter. We'll confirm what your specific system supports before quoting.</p>
       </details>
-      <details name="bp-faq" data-rise>
-        <summary>What should I know about backup power?<span class="bp-plus" aria-hidden="true"></span></summary>
+      <details>
+        <summary>What should I know about backup power?<svg class="bx-i bx-chev" aria-hidden="true"><use href="#i-caret-down"/></svg></summary>
         <p>Most battery systems don't automatically back up your whole home. Backup is usually a defined set of essential circuits, set up deliberately during installation, so it's worth deciding what should stay on before the system is designed.</p>
       </details>
-      <details name="bp-faq" data-rise>
-        <summary>What size battery do I need?<span class="bp-plus" aria-hidden="true"></span></summary>
+      <details>
+        <summary>What size battery do I need?<svg class="bx-i bx-chev" aria-hidden="true"><use href="#i-caret-down"/></svg></summary>
         <p>As a rough guide: around 5 to 7&nbsp;kWh for a small household using it mainly in the evening, 10 to 13&nbsp;kWh for a typical family home with some backup circuits, and 13&nbsp;kWh or more for larger loads or overnight EV charging. Your size is confirmed from your usage during the assessment.</p>
       </details>
-      <details name="bp-faq" data-rise>
-        <summary>How is the federal battery discount worked out?<span class="bp-plus" aria-hidden="true"></span></summary>
-        <p>The Cheaper Home Batteries Program pays out in small-scale technology certificates (STCs), not a fixed dollar amount. For an eligible battery installed from 1 May to 31 December 2026, the base is 6.8 STCs per kWh of usable capacity, at 100% to 14&nbsp;kWh, 60% to 28&nbsp;kWh and 15% to 50&nbsp;kWh. A 10&nbsp;kWh battery may create 68 STCs. The dollar value is confirmed in your quote.</p>
+      <details>
+        <summary>How is the federal battery discount worked out?<svg class="bx-i bx-chev" aria-hidden="true"><use href="#i-caret-down"/></svg></summary>
+        <p>The program pays out in small-scale technology certificates (STCs), not a fixed dollar amount. For an eligible battery installed from 1 May to 31 December 2026, the base is 6.8 STCs per kWh of usable capacity, at 100% to 14&nbsp;kWh, 60% to 28&nbsp;kWh and 15% to 50&nbsp;kWh. A 10&nbsp;kWh battery may create 68 STCs. The dollar value is confirmed in your quote.</p>
       </details>
-      <details name="bp-faq" data-rise>
-        <summary>How long does installation take?<span class="bp-plus" aria-hidden="true"></span></summary>
+      <details>
+        <summary>How long does installation take?<svg class="bx-i bx-chev" aria-hidden="true"><use href="#i-caret-down"/></svg></summary>
         <p>A straightforward retrofit, where your switchboard already has capacity, is usually completed in a single visit. If backup circuit work or a switchboard upgrade is needed first, that's scoped and quoted separately during your assessment, so there are no surprises on install day.</p>
       </details>
     </div>
   </div>
 </section>
 
-<section class="bp-cta" aria-labelledby="bp-cta-h">
-  <a class="bp-cta-band" href="/assessment/">
-    <span class="bp-cta-top">
-      <span id="bp-cta-h" class="bp-cta-line">Find out if your solar is ready for a battery. Start your free energy assessment.</span>
-      <svg class="bp-cta-arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 36 36 12M16 12h20v20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="square"/></svg>
-    </span>
-    <span class="bp-cta-word" aria-hidden="true">Check</span>
-  </a>
+<section class="bx-cta" aria-labelledby="bx-cta-h">
+  <div class="bx-wrap bx-cta-grid">
+    <div>
+      <h2 id="bx-cta-h">Find out if your solar is ready for a battery</h2>
+      <div class="bx-actions">
+        <a class="bx-btn bx-btn--light" href="/assessment/">Get my free battery assessment<svg class="bx-i" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        <a class="bx-btn bx-btn--ghost" href="tel:+61435336336"><svg class="bx-i" aria-hidden="true"><use href="#i-phone"/></svg>Call 0435 336 336</a>
+      </div>
+    </div>
+    <ol class="bx-steps">
+      <li><h3>Tell us about your home</h3><p>A short form about your property and energy use, or answer the same questions by phone.</p></li>
+      <li><h3>We check your system</h3><p>We review your answers and aim to reply within one business day, arranging a visit if your switchboard or supply needs checking.</p></li>
+      <li><h3>Get a written proposal</h3><p>A tailored system design and clear written proposal, with the certificate discount confirmed.</p></li>
+    </ol>
+  </div>
 </section>

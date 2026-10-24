@@ -152,3 +152,4 @@ pages-dist/
 # output (noindex flip, sitemap/nav gating) without touching the
 # committed preview build in site/ — see scripts/qa-static-checks.js
 site-prod-check/
+.taste-skill/

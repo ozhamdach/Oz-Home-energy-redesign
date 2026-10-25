@@ -1,0 +1,90 @@
+/* Home page only. Shared ui-ux-pro-max components live in /css/uipro.css. */
+
+.hm-hero-media { aspect-ratio: 16 / 11; }
+.hm-hero-media img { object-position: 50% 88%; }
+.hm-center { text-align: center; margin: 28px 0 0; }
+.hm-center.bx-hint { margin-top: 12px; }
+
+/* Credentials: six cards, three per row, plus the warranty card */
+.hm-badges { grid-template-columns: repeat(3, 1fr); }
+.hm-warranty {
+  display: flex; align-items: center; gap: 18px; margin-top: 16px; padding: 20px 24px;
+  background: var(--bx-tint-2); border: 1px solid var(--bx-border); border-radius: var(--bx-radius);
+  color: var(--bx-muted-fg); text-decoration: none; font-size: 0.9375rem; line-height: 1.45;
+  transition: border-color 160ms var(--bx-ease), background-color 160ms var(--bx-ease);
+}
+.hm-warranty strong { display: block; font-family: var(--font-heading); font-size: 1.1rem; color: var(--bx-fg); }
+.hm-warranty:hover { border-color: var(--bx-primary); background: #e1e9fb; }
+.hm-warranty-arrow { margin-left: auto; color: var(--bx-primary); }
+
+/* Pathways */
+.hm-paths { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.hm-paths a {
+  display: flex; align-items: flex-start; gap: 16px; height: 100%; min-height: 44px; padding: 22px;
+  border: 1px solid var(--bx-border); border-radius: var(--bx-radius); background: #fff;
+  color: var(--bx-muted-fg); text-decoration: none; font-size: 0.9375rem; line-height: 1.5;
+  transition: border-color 160ms var(--bx-ease), background-color 160ms var(--bx-ease);
+}
+.hm-paths strong { display: block; margin-bottom: 4px; font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.3; color: var(--bx-fg); }
+.hm-go { margin-left: auto; margin-top: 2px; color: var(--bx-primary); transition: transform 160ms var(--bx-ease); }
+.hm-paths a:hover { border-color: var(--bx-primary); background: var(--bx-tint); }
+.hm-paths a:hover .hm-go { transform: translateX(3px); }
+
+/* Connected system: four steps */
+.hm-flow { grid-template-columns: repeat(4, 1fr); }
+.hm-flow li { background: #fff; }
+
+/* Homes / business */
+.hm-duo { padding-block: var(--bx-section); }
+.hm-duo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.hm-panel { display: flex; flex-direction: column; align-items: flex-start; padding: clamp(28px, 4vw, 44px); border-radius: var(--bx-radius); background: var(--bx-tint-2); }
+.hm-panel h2 { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.1rem); margin: 18px 0 8px; }
+.hm-panel > p { margin: 0 0 20px; color: var(--bx-muted-fg) !important; }
+.hm-panel .bx-btn { margin-top: auto; }
+.hm-list { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 12px; }
+.hm-list li { display: flex; gap: 10px; align-items: flex-start; line-height: 1.45; }
+.hm-list .bx-i { color: var(--bx-primary); margin-top: 1px; }
+.hm-panel--dark { background: var(--bx-primary-hover); }
+.hm-panel--dark h2, .hm-panel--dark li, .hm-panel--dark > p { color: #fff !important; }
+.hm-panel--dark .bx-icon { background: rgba(255,255,255,0.14); color: #fff; }
+.hm-panel--dark .hm-list .bx-i { color: #9fc1ff; }
+
+/* Process: four numbered steps */
+.hm-process { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: hm-step; }
+.hm-process li { counter-increment: hm-step; padding: 24px; background: #fff; border: 1px solid var(--bx-border); border-radius: var(--bx-radius); }
+.hm-process li::before {
+  content: counter(hm-step); display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%; margin-bottom: 16px;
+  background: var(--bx-primary); color: #fff; font-family: var(--font-heading); font-weight: 700;
+}
+.hm-process h3 { font-size: 1.1rem; line-height: 1.3; margin: 0 0 8px; }
+.hm-process p { margin: 0; color: var(--bx-muted-fg) !important; font-size: 0.975rem; line-height: 1.55; }
+.hm-note { max-width: 80ch; margin: 24px auto 0; text-align: center; font-size: 0.9375rem; color: var(--bx-muted-fg) !important; }
+
+/* Final CTA with the quick-quote form */
+.hm-cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: start; }
+.hm-cta-grid h2 { font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem); margin: 0 0 28px; max-width: 18ch; }
+.hm-cta-after { margin: 24px 0 0; max-width: 52ch; line-height: 1.6; opacity: 0.95; }
+.hm-form-card { background: #fff; border-radius: var(--bx-radius); padding: 24px; }
+.hm-form-card h3 { color: var(--bx-fg) !important; font-size: 1.15rem; margin: 0 0 14px; }
+.hm-form-card .bx-hint { color: var(--bx-muted-fg) !important; margin-top: 12px; }
+.hm-form-card .bx-hint a { color: var(--bx-primary); }
+
+@media (max-width: 1023px) {
+  .hm-badges, .hm-paths { grid-template-columns: repeat(2, 1fr); }
+  .hm-flow, .hm-process { grid-template-columns: repeat(2, 1fr); }
+  .hm-flow li::after { display: none; }
+}
+@media (max-width: 959px) {
+  .hm-duo-grid, .hm-cta-grid { grid-template-columns: 1fr; }
+  .hm-hero-media { aspect-ratio: 4 / 3; }
+}
+@media (max-width: 599px) {
+  .hm-badges, .hm-paths, .hm-flow, .hm-process { grid-template-columns: 1fr; }
+  .hm-form-card { padding: 16px; }
+  .hm-warranty { padding: 18px; }
+  .hm-warranty-arrow { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-paths a, .hm-go, .hm-warranty { transition: none; }
+}

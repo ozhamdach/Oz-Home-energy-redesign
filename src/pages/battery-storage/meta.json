@@ -13,7 +13,7 @@
     }
   ],
   "extraSchemaFile": "schema-service.html",
-  "extraHead": "<link rel=\"stylesheet\" href=\"/css/battery-storage.css\">",
+  "extraHead": "<link rel=\"stylesheet\" href=\"/css/uipro.css\">\n<link rel=\"stylesheet\" href=\"/css/battery-storage.css\">",
   "extraScripts": [
     "/js/battery-storage.js"
   ]

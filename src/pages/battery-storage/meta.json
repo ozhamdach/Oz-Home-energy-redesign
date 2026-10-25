@@ -3,8 +3,18 @@
   "description": "New battery installations and retrofits to existing solar. We check inverter and switchboard compatibility before recommending a battery.",
   "canonical": "/battery-storage/",
   "breadcrumbs": [
-    { "name": "Home", "url": "/" },
-    { "name": "Battery Storage", "url": "/battery-storage/" }
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Battery Storage",
+      "url": "/battery-storage/"
+    }
   ],
-  "extraSchemaFile": "schema-service.html"
+  "extraSchemaFile": "schema-service.html",
+  "extraHead": "<link rel=\"stylesheet\" href=\"/css/battery-storage.css\">",
+  "extraScripts": [
+    "/js/battery-storage.js"
+  ]
 }

@@ -15,6 +15,9 @@
     sa: document.getElementById('bx-sa'), sb: document.getElementById('bx-sb'), sc: document.getElementById('bx-sc')
   };
   var sizes = sec.querySelectorAll('.bx-size');
+  var box = document.getElementById('bx-blocks');
+  var blocks = [];
+  for (var i = 0; i < cap; i++) { blocks.push(box.appendChild(document.createElement('span'))); }
   var round1 = function (n) { return String(Math.round(n * 100) / 100); };
 
   var update = function (kwh) {
@@ -26,6 +29,10 @@
     out.textContent = kwh + ' kWh';
     cells.a.textContent = a; cells.b.textContent = b; cells.c.textContent = c;
     cells.sa.textContent = round1(sa); cells.sb.textContent = round1(sb); cells.sc.textContent = round1(sc);
+    blocks.forEach(function (el, idx) {
+      var n = idx + 1;
+      el.className = n > kwh ? '' : n <= t1 ? 'b1' : n <= t2 ? 'b2' : 'b3';
+    });
     sizes.forEach(function (btn) {
       btn.setAttribute('aria-pressed', +btn.dataset.kwh === kwh ? 'true' : 'false');
     });

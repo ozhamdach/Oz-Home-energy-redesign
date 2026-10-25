@@ -397,3 +397,8 @@ html:not(.tb-js) .tb-acc-body { position: static; opacity: 1; visibility: visibl
 @media (prefers-reduced-motion: reduce) {
   .tb-link, .tb-btn, .tb-action, .tb-area, .tb-circuits li, .tb-switch::after, .tb-acc li, .tb-faq-list details, .tb-plus::before, .tb-plus::after, .tb-plan-photo img { transition: none; }
 }
+
+/* Standalone links get a 44px touch target. */
+#main .tb-more a, #main .tb-faq-side a, #main .tb-facts a, #main .tb-call, #main .tb-area-sub { display: inline-flex; align-items: center; min-height: 44px; }
+#main .tb-faq-side p a { display: inline; min-height: 0; }
+#main .tb-faq-side p:first-of-type a { display: inline-flex; min-height: 44px; }

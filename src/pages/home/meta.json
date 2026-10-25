@@ -2,7 +2,16 @@
   "title": "Solar, Battery & EV Charging Sydney | Oz Home Energy",
   "description": "Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.",
   "canonical": "/",
-  "breadcrumbs": [{ "name": "Home", "url": "/" }],
-  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"],
-  "extraSchemaFile": "schema-faq.html"
+  "breadcrumbs": [
+    {
+      "name": "Home",
+      "url": "/"
+    }
+  ],
+  "extraScripts": [
+    "https://link.ozhomeenergy.com.au/js/form_embed.js",
+    "/js/home-taste.js"
+  ],
+  "extraSchemaFile": "schema-faq.html",
+  "extraHead": "<link rel=\"stylesheet\" href=\"/css/home-taste.css\">\n<script>document.documentElement.classList.add('tb-js');window.tbFallback=setTimeout(function(){document.documentElement.classList.add('tb-all-in')},3500);</script>"
 }

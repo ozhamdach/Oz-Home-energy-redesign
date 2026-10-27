@@ -30,7 +30,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Production build with analytics (27 Oct 2026, marketing council):
+      # this Pages deploy is the build that moves to ozhomeenergy.com.au at
+      # cutover, so it must carry GTM + Meta Pixel and real robots/sitemap
+      # output. The Privacy Policy (23 Oct 2026) discloses cookies, Meta and
+      # Google, which is the gate scripts/build.js asks for before enabling
+      # analytics. Production also applies the publish gates in
+      # src/data/site-status.json (Projects/Products noindex + out of nav).
       - name: Build site
+        env:
+          BUILD_TARGET: production
+          ENABLE_ANALYTICS: 'true'
         run: |
           node scripts/build.js
           node scripts/build-pages.js

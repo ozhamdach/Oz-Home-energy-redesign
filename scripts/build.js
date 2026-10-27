@@ -130,7 +130,7 @@ const PRODUCTION_ORIGIN = 'https://ozhomeenergy.com.au';
 // page, including these — a second, different lead form a paid-traffic
 // visitor could leak into without meaning to.
 const DEFAULT_MOBILE_CTA_HREF = '/assessment/';
-const DEFAULT_MOBILE_CTA_TEXT = 'Get My Free Quote';
+const DEFAULT_MOBILE_CTA_TEXT = 'Get a Free Quote';
 
 // site/ is committed to the repo so it already exists, but a throwaway
 // SITE_OUT_DIR (see above) needs creating on a fresh checkout/CI run.

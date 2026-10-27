@@ -1,13 +1,21 @@
 {
-  "title": "Start Your Free Energy Assessment | Oz Home Energy",
+  "title": "Get a Free Solar, Battery or EV Quote Sydney | Oz Home Energy",
   "description": "A short assessment of your property and electricity use — the first step toward a tailored solar, battery, EV or electrical proposal.",
   "canonical": "/assessment/",
   "landingChrome": true,
   "landingCtaHref": "#quoteForm",
-  "landingCtaText": "Start Assessment",
+  "landingCtaText": "Get a Free Quote",
   "breadcrumbs": [
-    { "name": "Home", "url": "/" },
-    { "name": "Energy Assessment", "url": "/assessment/" }
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Energy Assessment",
+      "url": "/assessment/"
+    }
   ],
-  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"]
+  "extraScripts": [
+    "https://link.ozhomeenergy.com.au/js/form_embed.js"
+  ]
 }

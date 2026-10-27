@@ -296,6 +296,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 .announcement a { color: #fff; text-decoration: underline; }
 
+/* Rebate deadline strip (27 Oct 2026, marketing council): a dated,
+   CER-sourced fact band under the hero on Home and Home batteries.
+   Figures live in src/data/rebates.json; update there and here together. */
+.rebate-strip { background: var(--bg-accent); border-top: 1px solid rgba(5, 96, 193, 0.14); border-bottom: 1px solid rgba(5, 96, 193, 0.14); }
+.rebate-strip-inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 4px 18px; padding-block: 12px; font-size: 0.92rem; line-height: 1.45; color: var(--text); text-align: center; }
+.rebate-strip strong { color: var(--brand); font-family: var(--font-heading); font-weight: 600; }
+.rebate-strip a { font-weight: 600; white-space: nowrap; }
+.rebate-strip .asof { flex-basis: 100%; font-size: 0.76rem; color: var(--text-muted); }
+
 /* ---------- Hero ---------- */
 .hero {
   position: relative; color: #fff; min-height: 640px; display: flex; align-items: flex-end;

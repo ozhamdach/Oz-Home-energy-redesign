@@ -109,7 +109,7 @@ ${gridSection}
   <div class="container container-narrow">
     <h2>Get a quote for your ${loc.name} property</h2>
     <div class="cta-row">
-      <a class="btn btn-primary" href="/assessment/">Start Your Free Energy Assessment</a>
+      <a class="btn btn-primary" href="/assessment/">Get a Free Quote</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
   </div>

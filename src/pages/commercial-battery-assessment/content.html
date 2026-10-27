@@ -2,7 +2,7 @@
   <div class="container container-narrow text-center">
     <h1 style="font-size:clamp(1.6rem, 1.2rem + 2vw, 2.3rem); margin-bottom:10px;">Check whether your NSW site may suit BESS3 or BESS4</h1>
     <p class="lede" style="margin-inline:auto;">For NSW strata and businesses considering battery storage. Two minutes to check.</p>
-    <p class="hint" style="margin-inline:auto;max-width:640px;">Preliminary only — final eligibility depends on the scheme's current requirements.</p>
+    <p class="hint" style="margin-inline:auto;max-width:640px;">Preliminary only. Final eligibility depends on the scheme's current requirements.</p>
   </div>
 </section>
 
@@ -12,11 +12,11 @@
     <div class="grid grid-2" style="gap:20px;margin-bottom:32px;">
       <div class="card">
         <h2 class="mt-0" style="font-size:1.1rem;">Apartment buildings</h2>
-        <p class="hint" style="margin-bottom:0;">Preliminary BESS3 pathway — for NSW apartment buildings (BCA Class 2) with four or more individual dwellings.</p>
+        <p class="hint" style="margin-bottom:0;">Preliminary BESS3 pathway: for NSW apartment buildings (BCA Class 2) with four or more individual dwellings.</p>
       </div>
       <div class="card">
         <h2 class="mt-0" style="font-size:1.1rem;">Business premises</h2>
-        <p class="hint" style="margin-bottom:0;">Preliminary BESS4 pathway — for NSW business sites. Excludes residential buildings and data centres.</p>
+        <p class="hint" style="margin-bottom:0;">Preliminary BESS4 pathway: for NSW business sites. Excludes residential buildings and data centres.</p>
       </div>
     </div>
 
@@ -43,11 +43,11 @@
              commercial-battery-assessment.js's buildPartialPayload(). -->
         <div class="assess-step is-active" data-stage="1" id="stage1">
           <h3>Let's get started</h3>
-          <p class="hint">Just the basics first — everything else is on the next few pages.</p>
+          <p class="hint">Just the basics first. Everything else is on the next few pages.</p>
 
           <fieldset class="assess-fieldset">
             <legend>Site type</legend>
-            <p class="hint">Not sure how your building is classified? Oz Home Energy will confirm the details during review — pick the closest description.</p>
+            <p class="hint">Not sure how your building is classified? Oz Home Energy will confirm the details during review. Pick the closest description.</p>
             <div class="radio-cards radio-cards-wide">
               <div class="radio-card"><input type="radio" id="siteType1" name="siteType" value="apartment_building" required><label for="siteType1">Apartment building</label></div>
               <div class="radio-card"><input type="radio" id="siteType2" name="siteType" value="commercial_business"><label for="siteType2">Commercial / business premises</label></div>
@@ -92,7 +92,7 @@
               <input type="checkbox" id="requiredConsent" name="requiredConsent" required aria-describedby="requiredConsentError">
               <span>I consent to Oz Home Energy contacting me about this site check, including by phone, SMS and email. See our <a href="/privacy-policy/">Privacy Policy</a>.</span>
             </label>
-            <p class="error-msg" role="alert" id="requiredConsentError">Please provide consent to continue — we can't follow up without it.</p>
+            <p class="error-msg" role="alert" id="requiredConsentError">Please provide consent to continue. We can't follow up without it.</p>
           </div>
 
           <div class="assess-nav">
@@ -194,7 +194,7 @@
 
           <fieldset class="assess-fieldset">
             <legend>Has a previous NSW PDRS battery activity or discount been completed or claimed at this site?</legend>
-            <p class="hint">An existing battery alone doesn't rule a site out — this is specifically about whether a scheme discount has already been claimed here before.</p>
+            <p class="hint">An existing battery alone doesn't rule a site out. This is specifically about whether a scheme discount has already been claimed here before.</p>
             <div class="radio-cards">
               <div class="radio-card"><input type="radio" id="priorActivity1" name="priorActivity" value="yes" required><label for="priorActivity1">Yes</label></div>
               <div class="radio-card"><input type="radio" id="priorActivity2" name="priorActivity" value="no"><label for="priorActivity2">No</label></div>
@@ -212,7 +212,7 @@
               <div class="radio-card"><input type="radio" id="solarStatus4" name="solarStatus" value="within_90_days"><label for="solarStatus4">New / additional solar expected within approximately 90 days of the battery</label></div>
               <div class="radio-card"><input type="radio" id="solarStatus5" name="solarStatus" value="unsure"><label for="solarStatus5">Unsure</label></div>
             </div>
-            <p class="hint">Installing solar and a battery close together may change which incentive pathway applies — it isn't required either way.</p>
+            <p class="hint">Installing solar and a battery close together may change which incentive pathway applies. It isn't required either way.</p>
             <p class="error-msg" role="alert" id="solarStatusError">Please choose an option.</p>
           </fieldset>
 
@@ -237,7 +237,7 @@
               <div class="radio-card"><input type="radio" id="objective6" name="mainObjective" value="understand_pathway"><label for="objective6">Understand the possible BESS3 / BESS4 pathway</label></div>
               <div class="radio-card"><input type="radio" id="objective7" name="mainObjective" value="other"><label for="objective7">Other</label></div>
             </div>
-            <p class="hint">Backup capability isn't automatic — it depends on the final system design and equipment chosen during review.</p>
+            <p class="hint">Backup capability isn't automatic. It depends on the final system design and equipment chosen during review.</p>
             <p class="error-msg" role="alert" id="mainObjectiveError">Please choose an option.</p>
           </fieldset>
 
@@ -294,7 +294,7 @@
           <div class="form-field">
             <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
               <input type="checkbox" id="billRequestOk" name="billRequestOk">
-              <span>I'm happy for Oz Home Energy to request a copy of my electricity bill after this initial submission, if needed for review. <span class="hint" style="display:inline;">(No file is uploaded here — this site doesn't accept file uploads securely yet; see the note in our records.)</span></span>
+              <span>I'm happy for Oz Home Energy to request a copy of my electricity bill after this initial submission, if needed for review. <span class="hint" style="display:inline;">(No file is uploaded here. This site doesn't accept file uploads securely yet; see the note in our records.)</span></span>
             </label>
           </div>
 
@@ -307,7 +307,7 @@
         <!-- STAGE 4: Remaining contact details and marketing consent -->
         <div class="assess-step" data-stage="4" id="stage4">
           <h3>Your details</h3>
-          <p class="hint">Just a few more details to finish — your name, phone and consent from earlier are already saved.</p>
+          <p class="hint">Just a few more details to finish. Your name, phone and consent from earlier are already saved.</p>
 
           <div class="grid grid-2">
             <div class="form-field">
@@ -335,7 +335,7 @@
           <div class="form-field">
             <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;">
               <input type="checkbox" id="marketingConsent" name="marketingConsent">
-              <span>I'd also like to receive occasional updates about Oz Home Energy's commercial solar, battery and electrical services. I can unsubscribe at any time. <span class="hint" style="display:inline;">(Optional — separate from the consent given earlier.)</span></span>
+              <span>I'd also like to receive occasional updates about Oz Home Energy's commercial solar, battery and electrical services. I can unsubscribe at any time. <span class="hint" style="display:inline;">(Optional, and separate from the consent given earlier.)</span></span>
             </label>
           </div>
 
@@ -345,7 +345,7 @@
             <span></span>
           </div>
           <div id="bessFormStatus" aria-live="polite" role="status" style="margin-top:14px;"></div>
-          <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet — call us instead if you need a response now.</span></p>
+          <p class="preview-note"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 11v5m0-8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>This page is a design preview. Submitting this form won't send your details anywhere yet. Call us instead if you need a response now.</span></p>
         </div>
 
         <!-- Attribution (populated by site/js/main.js's populateAttributionFields). -->

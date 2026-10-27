@@ -876,3 +876,12 @@ Still open, deliberately left off the page rather than invented:
 - [ ] This rewrite has not been reviewed by a solicitor — same caveat
       that already applies to the warranty section (see above).
       landing pages are usually where conversion tracking matters most.
+
+### 🟡 Bird-proofing "What's involved" has no image (27 Oct 2026)
+Flagged by Oz in a copy review. Confirmed: the section has no image at
+all (not a broken one), and no bird-proofing photo has ever been
+supplied — the spec is already in `docs/asset-manifest.md` (≥ 2000×1500,
+4:3, close-up of mesh fitted at a panel edge). Oz chose to leave it for
+now. Not filled with stock imagery, per the standing rule.
+- [ ] Oz to supply a real bird-proofing/mesh photo; then place it in the
+      "What's involved" section of `src/pages/bird-proofing/content.html`.

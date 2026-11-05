@@ -34,6 +34,15 @@ copyDir(path.join(SITE, 'js'), path.join(OUT, 'js'));
 copyDir(path.join(SITE, 'img'), path.join(OUT, 'img'));
 fs.copyFileSync(path.join(SITE, 'robots.txt'), path.join(OUT, 'robots.txt'));
 fs.copyFileSync(path.join(SITE, 'sitemap.xml'), path.join(OUT, 'sitemap.xml'));
+// Custom-domain cutover (Nov 2026): carry site/CNAME into the Pages
+// artifact so each deploy keeps the custom domain (ozhomeenergy.com.au)
+// bound, instead of GitHub dropping it on the next deploy. Guarded so a
+// build without a CNAME file (e.g. the plain project-subpath preview)
+// still works.
+{
+  const cname = path.join(SITE, 'CNAME');
+  if (fs.existsSync(cname)) fs.copyFileSync(cname, path.join(OUT, 'CNAME'));
+}
 
 const ATTR_RE = /(href|src)="(\/[^"]*)"/g;
 // Legacy-route compatibility bridge pages (scripts/build.js) carry their

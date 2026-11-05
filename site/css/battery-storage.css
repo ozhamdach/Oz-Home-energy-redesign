@@ -97,7 +97,7 @@
 /* ---------- Proof ---------- */
 .bx-proof { padding-block: 40px; border-bottom: 1px solid var(--bx-border); }
 .bx-proof-h { font-size: 1rem; font-weight: 600; letter-spacing: 0; text-align: center; color: var(--bx-muted-fg) !important; margin: 0 0 24px; }
-.bx-badges { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.bx-badges { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .bx-badges li, .bx-badges li > a {
   display: flex; align-items: center; gap: 14px; min-height: 80px; padding: 14px 16px;
   border: 1px solid var(--bx-border); border-radius: var(--bx-radius);

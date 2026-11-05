@@ -78,3 +78,40 @@ attribution on these two forms as **not proven** — the BESS3/BESS4 funnel's
 own custom-built form remains the only one with confirmed, tested
 first-touch/latest-touch attribution capture end-to-end (see
 `docs/08c-v2-deliverables.md`).
+
+## Lead event via thank-you redirect (27 Oct 2026, marketing council)
+
+The gap above ("no successful-lead event fires for the HighLevel-embedded
+forms") now has a concrete, non-guessing fix that needs one HighLevel
+setting from Oz:
+
+1. This site now has `/quote-received/` (`src/pages/quote-received/`),
+   `noindex`, landing chrome, reached only by redirect. On load it pushes
+   `{ event: 'lead_submitted', lead_source: 'highlevel_form_redirect' }`
+   to `dataLayer` and, when the production analytics partials are present,
+   fires the Meta Pixel standard `Lead` event.
+2. **Oz, in HighLevel:** open each of the two forms (`2TfIfhVospnHx74eNcAP`
+   "Google/Meta ads Request a Quote" on `/assessment/` and `/request-a-quote/`,
+   and `ILAJCu9qJyVzX582GAtX` "Quick Free Quote" on the homepage) → form
+   settings → *On submit* → **Redirect to URL** →
+   `https://ozhomeenergy.com.au/quote-received/`. Until the domain is cut
+   over, test with the GitHub Pages URL
+   `https://ozhamdach.github.io/Oz-Home-energy-redesign/quote-received/`.
+3. **In GTM:** add a trigger on Custom Event `lead_submitted` and attach the
+   GA4 `generate_lead` event tag and the Google Ads conversion tag to it.
+   Nothing else on the site should be used as a lead conversion.
+4. **Server-side backup (recommended):** in the HighLevel workflow that
+   runs on these form submissions, add the *Facebook Conversions API*
+   action with the `Lead` event so Meta also receives the conversion when
+   the browser pixel is blocked. Verify the action name in the account; it
+   has not been checked from this repo.
+
+Known limitation: the pixel `Lead` fires on every load of `/quote-received/`,
+including a refresh. Meta de-duplicates browser + CAPI events only when
+both carry the same `event_id`, which the HighLevel side would need to
+supply; treat the browser event as the primary signal until then.
+
+The GitHub Pages deploy workflow now builds with `BUILD_TARGET=production`
+and `ENABLE_ANALYTICS=true`, so the deployed site carries GTM
+`GTM-KTGM7X5H` and the Meta Pixel. The committed `site/` directory remains
+a preview build (no analytics, noindex).

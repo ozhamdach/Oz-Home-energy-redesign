@@ -885,3 +885,18 @@ supplied — the spec is already in `docs/asset-manifest.md` (≥ 2000×1500,
 now. Not filled with stock imagery, per the standing rule.
 - [ ] Oz to supply a real bird-proofing/mesh photo; then place it in the
       "What's involved" section of `src/pages/bird-proofing/content.html`.
+
+### 🟡 HighLevel form redirect to `/quote-received/` (27 Oct 2026, marketing council)
+The site can only count a lead once HighLevel sends submitters to the new
+thank-you page. Needed from Oz, in the HighLevel account:
+- [ ] Form `2TfIfhVospnHx74eNcAP` ("Google/Meta ads Request a Quote"):
+      On submit → Redirect to URL → `https://ozhomeenergy.com.au/quote-received/`
+- [ ] Form `ILAJCu9qJyVzX582GAtX` ("Quick Free Quote", homepage widget):
+      same redirect
+- [ ] In GTM: trigger on custom event `lead_submitted`; attach GA4
+      `generate_lead` and the Google Ads conversion tag
+- [ ] In the HighLevel workflow for these forms: add the Facebook
+      Conversions API action (`Lead`)
+- [ ] Confirm which parent-page parameters (utm_*, gclid, fbclid) the
+      embed passes into the form, so attribution can be fixed properly
+See docs/analytics-integration.md, "Lead event via thank-you redirect".

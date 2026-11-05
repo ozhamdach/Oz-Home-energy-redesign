@@ -1,0 +1,42 @@
+<!-- QUOTE RECEIVED (thank-you) — added 27 Oct 2026 (marketing council,
+     measurement seat). This page exists so the site can finally record a
+     lead: the two HighLevel iframe forms (/assessment/ and the homepage
+     quick-quote widget) submit cross-origin, so this site never sees the
+     submit itself (see docs/analytics-integration.md). Once Oz sets both
+     forms' "on submit" action in HighLevel to redirect here, a visit to
+     this page IS the confirmed-submission signal: the inline script below
+     pushes `lead_submitted` to the dataLayer (for GA4 / Google Ads tags
+     configured inside GTM) and fires the Meta Pixel `Lead` event when the
+     production analytics partials are present. Until that redirect is
+     configured in HighLevel, nothing sends visitors here and the page is
+     inert. noindex (meta.noindex) so it never ranks or gets landed on cold.
+     Same pattern and wording discipline as
+     /commercial-battery-assessment/thanks/: no response-time promise
+     beyond what /assessment/ already states. -->
+<section class="section-tight" style="padding-block:clamp(40px, 8vw, 96px);">
+  <div class="container container-narrow text-center">
+    <div class="icon-circle" style="width:64px;height:64px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 13 4 4L19 7" stroke="#0560C1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1>Quote request received</h1>
+    <p class="lede" style="margin-inline:auto;">Thanks. We review your answers and aim to respond within one business day. Where a site visit is needed to check your switchboard, roof or supply, we'll arrange a time that suits you. You'll then receive a tailored system design and clear written proposal.</p>
+    <p class="hint" style="margin-inline:auto;max-width:520px;">Want to add anything, or need us sooner? Call and mention you've just sent a quote request.</p>
+    <p><a class="btn btn-primary" href="tel:+61435336336">Call 0435 336 336</a></p>
+    <p class="hint" style="margin-top:24px;">In the meantime: <a href="/battery-rebate-guide/">how the federal battery rebate works</a> and <a href="/solar-payback-guide/">how solar payback is calculated</a>.</p>
+    <p class="hint" style="margin-top:16px;">See our <a href="/privacy-policy/">Privacy Policy</a>. This page confirms your request only if you were sent here after submitting a form. Reaching it directly doesn't submit anything.</p>
+  </div>
+</section>
+<script>
+  // Confirmed-lead signal (see the comment at the top of this file).
+  // dataLayer is always declared in src/layout.html's <head>; fbq only
+  // exists in a production build with ENABLE_ANALYTICS=true, hence the guard.
+  (function () {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'lead_submitted',
+      lead_source: 'highlevel_form_redirect',
+      page_referrer: document.referrer || ''
+    });
+    if (typeof window.fbq === 'function') { window.fbq('track', 'Lead'); }
+  })();
+</script>

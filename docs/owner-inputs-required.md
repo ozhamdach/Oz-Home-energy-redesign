@@ -900,3 +900,37 @@ thank-you page. Needed from Oz, in the HighLevel account:
 - [ ] Confirm which parent-page parameters (utm_*, gclid, fbclid) the
       embed passes into the form, so attribution can be fixed properly
 See docs/analytics-integration.md, "Lead event via thank-you redirect".
+
+### 🔴 Lead forms: HighLevel changes (5 Nov 2026, from the Lead Form Redesign artifact)
+The site's live lead forms are all HighLevel embeds, so their fields can
+only be changed in HighLevel's form builder. The site side is done: the
+enquiry confirmation page (`/quote-received/`) is rebuilt from the Enquiry
+Confirmation artifact, and both quote pages now show the five named stages,
+the outcome line and a "why we ask" line beside the form.
+
+**1. Redirect on submit → the enquiry confirmation page.** In each form:
+Settings → On submit → Redirect to URL →
+`https://ozhomeenergy.com.au/quote-received/` (until the domain cutover:
+`https://ozhamdach.github.io/Oz-Home-energy-redesign/quote-received/`).
+- [ ] `2TfIfhVospnHx74eNcAP` "Google/Meta ads Request a Quote" (/assessment/, /request-a-quote/)
+- [ ] `ILAJCu9qJyVzX582GAtX` "Quick Free Quote" (Home, /contact/)
+- [ ] `OmaWW64OZ3FaCGGvEIgx` "Quick Free Quote - Ev Charger" (/ev-charging/)
+- [ ] `UyzHXWGEaLtIQqI9z2kc` "commercial project" (/commercial-project-enquiry/)
+- Leave `D54fnMMf1LWTXOCNlh28` "Service Request" as is: it's for existing
+  customers with a fault, not a new enquiry.
+
+**2. Field fixes (start with `2TfIfhVospnHx74eNcAP`, the main quote form):**
+- [ ] Split the bill question into two fields: bill amount ($) and billing
+      period (Monthly / Quarterly). One combined field can't tell a $400
+      monthly bill from a $400 quarterly one.
+- [ ] Existing-solar question: add "No existing solar" and "Not sure".
+- [ ] Make the message / additional-details field optional.
+- [ ] Helper text under address: "Used to check orientation, shading and
+      what your network allows." Under bill: "We work from your real usage
+      first, not guesswork."
+
+**3. Welcome video for the confirmation page.**
+- [ ] Oz to send the video. It's added in place of the placeholder in
+      `src/pages/quote-received/content.html` and `enquiryVideo` is set to
+      published in `src/data/site-status.json`. Until then production hides
+      the video block entirely.

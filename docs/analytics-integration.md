@@ -90,10 +90,10 @@ setting from Oz:
    `{ event: 'lead_submitted', lead_source: 'highlevel_form_redirect' }`
    to `dataLayer` and, when the production analytics partials are present,
    fires the Meta Pixel standard `Lead` event.
-2. **Oz, in HighLevel:** open each of the two forms (`2TfIfhVospnHx74eNcAP`
-   "Google/Meta ads Request a Quote" on `/assessment/` and `/request-a-quote/`,
-   and `ILAJCu9qJyVzX582GAtX` "Quick Free Quote" on the homepage) → form
-   settings → *On submit* → **Redirect to URL** →
+2. **Oz, in HighLevel:** open each enquiry form (`2TfIfhVospnHx74eNcAP`,
+   `ILAJCu9qJyVzX582GAtX`, `OmaWW64OZ3FaCGGvEIgx`, `UyzHXWGEaLtIQqI9z2kc`; full
+   list with pages in docs/owner-inputs-required.md, "Lead forms: HighLevel
+   changes") → form settings → *On submit* → **Redirect to URL** →
    `https://ozhomeenergy.com.au/quote-received/`. Until the domain is cut
    over, test with the GitHub Pages URL
    `https://ozhamdach.github.io/Oz-Home-energy-redesign/quote-received/`.

@@ -29,9 +29,13 @@ jobs:
           node scripts/qa-static-checks.js --production
           rm -rf site-prod-check
 
+      # Pinned (5 Nov 2026): npm published playwright@1.65.0 without its
+      # playwright-core@1.65.0 dependency, so an unpinned install fails with
+      # ETARGET before any test runs. 1.64.1 resolves cleanly. Bump
+      # deliberately once a newer release installs.
       - name: Install Playwright + Chromium
         run: |
-          npm install --no-save playwright
+          npm install --no-save playwright@1.64.1
           npx playwright install --with-deps chromium
 
       - name: Serve the built site

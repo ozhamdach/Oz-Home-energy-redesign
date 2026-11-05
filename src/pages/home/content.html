@@ -184,6 +184,30 @@
   </div>
 </section>
 
+<!-- REVIEWS — the same genuine HighLevel review widget already used on the
+     Projects page (see site/js/reviews.js), added to the home page 5 Nov
+     2026 (marketing council: social proof was the top pre-launch gap on
+     every seat). Pulls real customer reviews from the verified HighLevel
+     reputation widget — no rating number, count or quote is invented. The
+     section self-hides if the widget is empty or blocked, so it never
+     leaves an empty box or placeholder on the page. Placed directly after
+     the credentials block so trade proof and customer proof sit together
+     near the top, where the council wanted it. -->
+<section class="section section-alt" id="reviewsSection">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Reviews</p>
+      <h2>What Sydney customers say</h2>
+    </div>
+    <div class="review-widget" id="reviewWidget" aria-live="polite">
+      <div class="review-widget-loading" id="reviewWidgetLoading">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Loading reviews…</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PATHWAY SELECTOR -->
 <section class="section">
   <div class="container">

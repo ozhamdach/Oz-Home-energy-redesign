@@ -217,6 +217,27 @@
   </div>
 </section>
 
+<!-- REVIEWS — same genuine HighLevel review widget used on Home and the
+     Projects page (see site/js/reviews.js), added 5 Nov 2026 (marketing
+     council: proof near the point of conversion). Real customer reviews
+     only; the section self-hides if the widget is empty or blocked, so no
+     empty box or placeholder is ever shown. Placed just before the final
+     call to action. -->
+<section class="section section-alt" id="reviewsSection">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Reviews</p>
+      <h2>What Sydney customers say</h2>
+    </div>
+    <div class="review-widget" id="reviewWidget" aria-live="polite">
+      <div class="review-widget-loading" id="reviewWidgetLoading">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Loading reviews…</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section final-cta">
   <div class="container container-narrow">
     <h2>Ready to see what your roof could do?</h2>

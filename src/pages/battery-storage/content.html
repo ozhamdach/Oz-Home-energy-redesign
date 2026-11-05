@@ -269,6 +269,25 @@
   </div>
 </section>
 
+<!-- REVIEWS — same genuine HighLevel review widget used on Home and the
+     Projects page (see site/js/reviews.js), added 5 Nov 2026 (marketing
+     council). Wrapped in the page's own bx-section styling so it matches
+     the rest of the battery page. Real reviews only; self-hides if empty
+     or blocked. Placed just before the final call to action. -->
+<section class="bx-section bx-section--tint" id="reviewsSection" aria-labelledby="bx-reviews-h">
+  <div class="bx-wrap">
+    <div class="bx-head">
+      <h2 id="bx-reviews-h">What Sydney customers say</h2>
+    </div>
+    <div class="review-widget" id="reviewWidget" aria-live="polite">
+      <div class="review-widget-loading" id="reviewWidgetLoading">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Loading reviews…</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="bx-cta" aria-labelledby="bx-cta-h">
   <div class="bx-wrap bx-cta-grid">
     <div>

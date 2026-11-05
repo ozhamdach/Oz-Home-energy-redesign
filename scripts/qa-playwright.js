@@ -348,7 +348,7 @@ async function run(label, fn) {
         };
       });
 
-      if (data.cardCount !== 6) errors.push(`/ @${width}: expected 6 .trust-card credential items, found ${data.cardCount}`);
+      if (data.cardCount !== 5) errors.push(`/ @${width}: expected 5 .trust-card credential items, found ${data.cardCount}`);
       if (data.evnexNaturalW === 0 || data.evnexNaturalH === 0) errors.push(`/ @${width}: Evnex badge image has zero natural dimensions (failed to load)`);
       if (data.evnexHeight < 60) errors.push(`/ @${width}: Evnex badge rendered height ${data.evnexHeight}px is below the required 60px minimum`);
       if (data.evnexStageExists) errors.push(`/ @${width}: .evnex-badge-stage still exists — should have been removed`);

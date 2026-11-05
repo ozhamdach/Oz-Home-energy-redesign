@@ -1,6 +1,6 @@
 {
-  "title": "Quote Request Received | Oz Home Energy",
-  "description": "Your quote request has been received. Oz Home Energy will review it and be in touch.",
+  "title": "Enquiry Received | Oz Home Energy",
+  "description": "Your enquiry has been received. Here's what happens next.",
   "canonical": "/quote-received/",
   "noindex": true,
   "landingChrome": true,
@@ -9,8 +9,17 @@
   "mobileCtaHref": "/",
   "mobileCtaText": "Back to Home",
   "breadcrumbs": [
-    { "name": "Home", "url": "/" },
-    { "name": "Get a Free Quote", "url": "/assessment/" },
-    { "name": "Request Received", "url": "/quote-received/" }
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Get a Free Quote",
+      "url": "/assessment/"
+    },
+    {
+      "name": "Enquiry received",
+      "url": "/quote-received/"
+    }
   ]
 }

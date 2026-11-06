@@ -15,8 +15,12 @@
   <div class="hero-overlay"></div>
   <div class="container hero-inner">
     <p class="eyebrow">Electrician-led. Backed for 10 years.</p>
-    <h1>Sydney Solar and Battery Storage — Lower Bills Start Here.</h1>
-    <p class="lede">Solar, battery storage and EV charging for your Sydney home.</p>
+    <!-- Shorter, bigger headline (6 Nov 2026, template comparison: the
+         single cheapest "premium" lever). Keeps service + Sydney for SEO;
+         "done properly" is the site's existing positioning line, and the
+         lower-bills benefit moves to the lede. -->
+    <h1>Sydney solar and batteries, done properly.</h1>
+    <p class="lede">Lower bills from solar, batteries and EV charging designed around your home and your bill.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/assessment/">Get a Free Quote</a>
       <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
@@ -490,8 +494,14 @@
         <span class="spinner"></span>
         <span>Loading form…</span>
       </div>
+      <!-- Deferred (6 Nov 2026): data-ohe-src, not src. site/js/main.js sets
+           src once this form is within ~1000px of the screen. Loading it on
+           every page view pulled ~6.8 MB of Cloudflare bot-check traffic and
+           all of the page's console errors, for a form at the very bottom.
+           (Native loading="lazy" can't be used: HighLevel's form_embed.js
+           hides the iframe until it loads, so it would never load.) -->
       <iframe
-        src="https://link.ozhomeenergy.com.au/widget/form/ILAJCu9qJyVzX582GAtX"
+        data-ohe-src="https://link.ozhomeenergy.com.au/widget/form/ILAJCu9qJyVzX582GAtX"
         style="width:100%;height:701px;border:none;border-radius:8px;position:relative;z-index:1;background:#fff;"
         id="inline-ILAJCu9qJyVzX582GAtX"
         data-layout="{'id':'INLINE'}"

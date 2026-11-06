@@ -21,6 +21,26 @@
 
   var started = false;
 
+  // Auto-height (6 Nov 2026). HighLevel's review widget posts
+  // ["lc.setHeight", { height }] to its parent once it has rendered (found
+  // in its own main.js). Without listening for it the iframe sat at a fixed
+  // 420px and cut reviews off mid-sentence, on desktop and mobile. Only
+  // messages from the widget's own origin and this iframe are honoured, and
+  // the height is clamped to a sane range.
+  var WIDGET_ORIGIN = 'https://link.ozhomeenergy.com.au';
+  window.addEventListener('message', function (e) {
+    if (e.origin !== WIDGET_ORIGIN) return;
+    var frame = container.querySelector('iframe');
+    if (!frame || e.source !== frame.contentWindow) return;
+    var d = e.data;
+    if (!Array.isArray(d) || d[0] !== 'lc.setHeight' || !d[1]) return;
+    var h = Number(d[1].height);
+    if (!isFinite(h) || h < 120) return;
+    h = Math.min(Math.round(h), 4000);
+    frame.style.height = h + 'px';
+    container.style.minHeight = h + 'px';
+  });
+
   function fail() {
     // Clean, silent failure: hide the whole section, never an empty
     // loading spinner or a blocked/blank iframe left visible.

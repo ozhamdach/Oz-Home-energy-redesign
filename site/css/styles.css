@@ -46,7 +46,7 @@
 
   /* Scale */
   --step-1: clamp(1.6rem, 1.4rem + 1.2vw, 2.25rem);
-  --step-2: clamp(2rem, 1.6rem + 2vw, 3.25rem);
+  --step-2: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
   --step-3: clamp(2.5rem, 1.9rem + 3vw, 4.5rem);
 
   /* Layout */
@@ -99,8 +99,8 @@ h1, h2, h3, h4 {
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
-h1 { font-size: var(--step-3); letter-spacing: -0.03em; }
-h2 { font-size: var(--step-2); letter-spacing: -0.025em; }
+h1 { font-size: var(--step-3); letter-spacing: -0.035em; line-height: 1.04; }
+h2 { font-size: var(--step-2); letter-spacing: -0.03em; line-height: 1.06; }
 h3 { font-size: var(--step-1); letter-spacing: -0.015em; }
 h4 { font-size: 1.25rem; letter-spacing: -0.01em; }
 p { margin: 0 0 1em; color: var(--text); }
@@ -142,7 +142,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    sections). Full opacity only where that specific combination needs
    it; every other background keeps the 0.9 look unchanged. */
 .section-accent .eyebrow, .split-panel.home .eyebrow { opacity: 1; }
-.section-head { max-width: 720px; margin-bottom: 44px; }
+.section-head { max-width: 720px; margin-bottom: 56px; }
 .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
 .section-head h2 { margin-bottom: 14px; }
 
@@ -346,10 +346,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(105deg, rgba(10,12,20,0.92) 0%, rgba(10,12,20,0.72) 45%, rgba(10,12,20,0.28) 100%);
 }
-.hero-inner { position: relative; z-index: 2; padding-block: 80px 72px; max-width: 680px; text-align: left; }
+.hero-inner { position: relative; z-index: 2; padding-block: 104px 84px; max-width: 780px; text-align: left; }
 .hero .eyebrow { color: #bcd0ff; }
-.hero h1 { color: #fff; font-size: var(--step-3); margin-bottom: 20px; }
-.hero .lede { color: #eceaf9; font-size: 1.2rem; max-width: 52ch; }
+/* Type pass (6 Nov 2026): larger, tighter hero headline, the biggest single
+   lever behind the more premium feel of the template we compared against. */
+.hero h1 { color: #fff; font-size: clamp(2.75rem, 1.6rem + 4.8vw, 5.5rem); letter-spacing: -0.045em; line-height: 1; margin-bottom: 22px; text-wrap: balance; }
+.hero .lede { color: #eceaf9; font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem); max-width: 46ch; }
 .hero-ctas { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 14px; margin-top: 28px; }
 .hero-trust { margin-top: 32px; font-size: 0.88rem; color: #d8ddf5; display: flex; align-items: center; justify-content: flex-start; gap: 10px; flex-wrap: wrap; }
 .hero-trust .dot { width: 4px; height: 4px; border-radius: 50%; background: #7c8ab8; }
@@ -1200,8 +1202,8 @@ table.data-table tr:last-child td { border-bottom: none; }
 .process-item .step-no {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
-  color: var(--brand);
-  opacity: 0.7;
+  color: var(--brand); /* full brand blue: 0.7 opacity measured 3.1:1 on the
+                          light-blue section, under the 4.5:1 minimum */
   margin-bottom: 10px;
 }
 .process-item h3 { font-size: 1.1rem; }

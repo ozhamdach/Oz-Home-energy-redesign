@@ -934,3 +934,13 @@ Settings → On submit → Redirect to URL →
       `src/pages/quote-received/content.html` and `enquiryVideo` is set to
       published in `src/data/site-status.json`. Until then production hides
       the video block entirely.
+
+### 🟡 Battery "day on your home" slider: real install figures (6 Nov 2026)
+The interactive on /battery-storage/ runs on a clearly captioned
+illustrative model (6.6 kW solar, 10 kWh battery, ~20 kWh/day, clear spring
+day; site/js/battery-day.js). It makes no dollar or percentage-saved claim.
+To make it a real example instead:
+- [ ] One real install Oz is happy to feature: system size, battery model
+      and usable kWh, and a day of monitoring data (hourly solar, home use,
+      battery %) from the app, plus the customer's OK.
+Swap the profiles in battery-day.js and the caption together.

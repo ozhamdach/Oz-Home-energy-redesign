@@ -935,12 +935,12 @@ Settings → On submit → Redirect to URL →
       published in `src/data/site-status.json`. Until then production hides
       the video block entirely.
 
-### 🟡 Battery "day on your home" slider: real install figures (6 Nov 2026)
-The interactive on /battery-storage/ runs on a clearly captioned
-illustrative model (6.6 kW solar, 10 kWh battery, ~20 kWh/day, clear spring
-day; site/js/battery-day.js). It makes no dollar or percentage-saved claim.
-To make it a real example instead:
-- [ ] One real install Oz is happy to feature: system size, battery model
-      and usable kWh, and a day of monitoring data (hourly solar, home use,
-      battery %) from the app, plus the customer's OK.
-Swap the profiles in battery-day.js and the caption together.
+### 🟡 Battery "day on your home" slider: owner OK for the real data (7 Nov 2026)
+The interactive on /battery-storage/ now shows a REAL day: 6 November 2026
+on an Oz install with 13.3 kW of solar, a FoxESS H3-10.0-Smart 9.9 kW hybrid
+inverter and 41.94 kWh of FoxESS EQ4800 batteries (data Oz supplied from the
+FoxESS app, 7 Nov). Method and day totals are in site/js/battery-day.js. No
+customer name, suburb or address is shown.
+- [ ] Confirm the system owner is happy for this data to be featured (or
+      that it's Oz's own system). Needed before PR #82 is merged.
+- [ ] Optional: the suburb, to add "in <suburb>" to the caption.

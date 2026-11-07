@@ -82,18 +82,19 @@
   <div class="bx-wrap">
     <div class="bx-head">
       <h2 id="bx-how-h">How a home battery saves you money</h2>
-      <p>Savings happen automatically once the battery is configured. Drag through a day to see where the power comes from. Backup during a blackout is a separate design choice.</p>
+      <p>Savings happen automatically once the battery is configured. Drag through a real day on one of our installs to see where the power comes from. Backup during a blackout is a separate design choice.</p>
     </div>
     <!-- BATTERY DAY (6 Nov 2026, idea taken from the Solstice template
          comparison, rebuilt from scratch in this page's own design: a light
-         2D SVG, not a 3D engine, so it costs phones almost nothing). Every
-         value comes from one illustrative energy model in
-         site/js/battery-day.js, clearly captioned as an example. No dollar,
-         percentage-saved or rebate claim is made. TODO-OZ: swap the model
-         for one real install (system size, battery, a day's data) when
-         supplied. The HTML below is the 12 pm state, so it reads correctly
-         before the script runs. It replaces the static Generate / Store /
-         Use list; the four phase cards now carry that story. -->
+         2D SVG, not a 3D engine, so it costs phones almost nothing). Since
+         7 Nov 2026 every value is a REAL day (6 Nov 2026) on an Oz install:
+         13.3 kW solar, FoxESS H3-10.0-Smart, 41.94 kWh FoxESS EQ4800. Data
+         and method are documented in site/js/battery-day.js. No dollar,
+         percentage-saved or rebate claim is made. TODO-OZ: confirm the
+         system owner is happy for this data to be featured. The HTML below
+         is the 1 pm state, so it reads correctly before the script runs. It
+         replaces the static Generate / Store / Use list; the four phase
+         cards now carry that story. -->
     <div class="bxd" id="bxd" data-bxd-root>
       <div class="bxd-scene">
       <svg viewBox="0 0 640 360" role="img" aria-labelledby="bxdSceneTitle" preserveAspectRatio="xMidYMid slice">
@@ -164,25 +165,25 @@
         <path class="bxd-flow bxd-flow--grid" data-flow="gridIn" d="M544 158 Q 486 190 418 200 L 372 236"/>
         <path class="bxd-flow bxd-flow--solar" data-flow="gridOut" d="M372 236 L 418 200 Q 486 190 544 158"/>
       </svg>
-        <span class="bxd-chip" style="left:49%;top:31%"><i class="bxd-dot bxd-dot--solar"></i><span data-bxd="chipSolar">4.5 kW</span></span>
-        <span class="bxd-chip" style="left:30%;top:86%"><i class="bxd-dot bxd-dot--home"></i><span data-bxd="chipHome">0.8 kW</span></span>
-        <span class="bxd-chip" style="left:70%;top:86%"><i class="bxd-dot bxd-dot--batt"></i><span data-bxd="chipBatt">96%</span></span>
+        <span class="bxd-chip" style="left:49%;top:31%"><i class="bxd-dot bxd-dot--solar"></i><span data-bxd="chipSolar">8.1 kW</span></span>
+        <span class="bxd-chip" style="left:30%;top:86%"><i class="bxd-dot bxd-dot--home"></i><span data-bxd="chipHome">1.7 kW</span></span>
+        <span class="bxd-chip" style="left:70%;top:86%"><i class="bxd-dot bxd-dot--batt"></i><span data-bxd="chipBatt">100%</span></span>
         <span class="bxd-chip" style="left:88%;top:31%"><i class="bxd-dot bxd-dot--grid"></i><span data-bxd="chipGrid">Exporting</span></span>
       </div>
       <div class="bxd-panel">
-        <div class="bxd-clock"><span class="bxd-time" data-bxd="time">12:00 pm</span><span class="bxd-phase" data-bxd="phase">Midday</span></div>
+        <div class="bxd-clock"><span class="bxd-time" data-bxd="time">1:00 pm</span><span class="bxd-phase" data-bxd="phase">Midday</span></div>
         <dl class="bxd-stats">
-          <div><dt><i class="bxd-dot bxd-dot--solar"></i>Solar making</dt><dd data-bxd="solar">4.5 kW</dd></div>
-          <div><dt><i class="bxd-dot bxd-dot--home"></i>Home using</dt><dd data-bxd="home">0.8 kW</dd></div>
-          <div><dt><i class="bxd-dot bxd-dot--batt"></i>Battery</dt><dd><span data-bxd="soc">96%</span><span class="bxd-sub" data-bxd="battState">Charging 1.9 kW</span></dd></div>
-          <div><dt><i class="bxd-dot bxd-dot--grid"></i>Grid</dt><dd data-bxd="grid">Exporting 1.9 kW</dd></div>
+          <div><dt><i class="bxd-dot bxd-dot--solar"></i>Solar making</dt><dd data-bxd="solar">8.1 kW</dd></div>
+          <div><dt><i class="bxd-dot bxd-dot--home"></i>Home using</dt><dd data-bxd="home">1.7 kW</dd></div>
+          <div><dt><i class="bxd-dot bxd-dot--batt"></i>Battery</dt><dd><span data-bxd="soc">100%</span><span class="bxd-sub" data-bxd="battState">Full</span></dd></div>
+          <div><dt><i class="bxd-dot bxd-dot--grid"></i>Grid</dt><dd data-bxd="grid">Exporting 6.4 kW</dd></div>
         </dl>
-        <div class="bxd-soc" aria-hidden="true"><span data-bxd="socBar" style="width:96%"></span></div>
+        <div class="bxd-soc" aria-hidden="true"><span data-bxd="socBar" style="width:100%"></span></div>
         <div class="bxd-controls">
           <button type="button" class="bxd-play" data-bxd="play" aria-label="Play through the day" aria-pressed="false"><svg class="bxd-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg><svg class="bxd-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg></button>
           <div class="bxd-range">
             <label class="bx-sr" for="bxdTime">Time of day</label>
-            <input type="range" id="bxdTime" min="0" max="95" step="1" value="48" aria-valuetext="12:00 pm">
+            <input type="range" id="bxdTime" min="0" max="95" step="1" value="52" aria-valuetext="1:00 pm">
             <div class="bxd-ticks" aria-hidden="true"><span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>12am</span></div>
           </div>
         </div>
@@ -192,25 +193,25 @@
         <button type="button" class="bxd-card" data-time="28" aria-pressed="false">
           <span class="bxd-card-time">7 am</span>
           <span class="bxd-card-name">Morning</span>
-          <span class="bxd-card-text">Panels start producing and the house uses that power first. The battery is low after the night, so the grid covers the gap until the sun is up properly.</span>
+          <span class="bxd-card-text">The battery is still running the house, including a big early-morning load, while the panels start up.</span>
         </button>
-        <button type="button" class="bxd-card" data-time="48" aria-pressed="true">
-          <span class="bxd-card-time">12 pm</span>
+        <button type="button" class="bxd-card" data-time="52" aria-pressed="true">
+          <span class="bxd-card-time">1 pm</span>
           <span class="bxd-card-name">Midday</span>
-          <span class="bxd-card-text">Spare solar charges the battery. Once it's full, the rest is exported to the grid.</span>
+          <span class="bxd-card-text">Solar refilled the battery from half to full by about noon. From then on, the spare is exported.</span>
         </button>
         <button type="button" class="bxd-card" data-time="76" aria-pressed="false">
           <span class="bxd-card-time">7 pm</span>
           <span class="bxd-card-name">Evening</span>
-          <span class="bxd-card-text">The sun has gone, so the battery runs the house through the evening, when the home uses the most.</span>
+          <span class="bxd-card-text">The sun is going down, so the battery takes over again for the evening.</span>
         </button>
         <button type="button" class="bxd-card" data-time="8" aria-pressed="false">
           <span class="bxd-card-time">2 am</span>
           <span class="bxd-card-name">Overnight</span>
-          <span class="bxd-card-text">The battery has done its job for the day, so the grid supplies the small overnight load.</span>
+          <span class="bxd-card-text">The battery runs the house right through the night. The grid isn't needed.</span>
         </button>
     </div>
-    <p class="bxd-caption">Illustrative example, not a quote: a clear spring day for a home with a 6.6&nbsp;kW solar system and a 10&nbsp;kWh battery, using about 20&nbsp;kWh a day. Real results depend on your roof, usage, battery and tariff. We size your system from your own bill.</p>
+    <p class="bxd-caption">Real data from an Oz Home Energy install on 6&nbsp;November 2026: 13.3&nbsp;kW of solar, a FoxESS 9.9&nbsp;kW hybrid inverter and 41.9&nbsp;kWh of FoxESS batteries. Solar, home use and battery level are read from the home's monitoring app in 15-minute steps; battery and grid flows follow from them. Every home is different, so we size your system from your own bill.</p>
     <div class="bx-callout">
       <span class="bx-icon bx-icon--warm"><svg aria-hidden="true"><use href="#i-lightning"/></svg></span>
       <div>

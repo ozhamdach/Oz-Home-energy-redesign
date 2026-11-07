@@ -586,6 +586,10 @@ confirmed" framing for these specific items.
   `address` object exists in the sitewide schema.
 
 ### 🔴 Still unresolved
+- **Privacy contact email — resolved, 6 Nov 2026:** owner confirmed
+  `info@ozhomeenergy.com.au` for privacy requests; shown in section 11 of
+  `/privacy-policy/` only. Whether it should also appear sitewide (footer,
+  JSON-LD, Terms, Complaints, About) is still an owner decision.
 - **Contact email addresses**: neither `admin@ozhomeenergy.com.au` nor
   `support@ozhomeenergy.com.au` has been owner-confirmed as a real,
   monitored inbox. **Removed from all rendered output** (footer, JSON-LD
@@ -863,7 +867,7 @@ while keeping everything already owner-confirmed exactly as it was:
   section ("the tools you said you use").
 
 Still open, deliberately left off the page rather than invented:
-- [ ] A confirmed contact email — neither `admin@` nor
+- [x] A confirmed contact email — **resolved 6 Nov 2026**: `info@ozhomeenergy.com.au` added to section 11. Previously: neither `admin@` nor
       `support@ozhomeenergy.com.au` is owner-confirmed as monitored (see
       the "Contact email addresses" entry above). The rewritten policy
       uses phone + `/service-request/` instead, same pattern as

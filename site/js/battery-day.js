@@ -10,7 +10,8 @@
    export only once the battery is full. Flow direction agrees with the real
    battery % at 95 of 96 steps (the other is the 7:45 am turning point).
    Day totals: solar 63 kWh, home 33 kWh, export 26 kWh, grid import 0.
-   No money or percentage-saved figure is produced. */
+   No money or percentage-saved figure is produced. The system owner has
+   agreed to it being featured (confirmed by Oz, 7 Nov 2026). */
 (function () {
   'use strict';
   var root = document.querySelector('[data-bxd-root]');

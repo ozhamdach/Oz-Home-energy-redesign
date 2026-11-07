@@ -940,7 +940,7 @@ The interactive on /battery-storage/ now shows a REAL day: 6 November 2026
 on an Oz install with 13.3 kW of solar, a FoxESS H3-10.0-Smart 9.9 kW hybrid
 inverter and 41.94 kWh of FoxESS EQ4800 batteries (data Oz supplied from the
 FoxESS app, 7 Nov). Method and day totals are in site/js/battery-day.js. No
-customer name, suburb or address is shown.
+customer name or address is shown; the suburb (Woolooware) is.
 - [ ] Confirm the system owner is happy for this data to be featured (or
       that it's Oz's own system). Needed before PR #82 is merged.
-- [ ] Optional: the suburb, to add "in <suburb>" to the caption.
+- [x] Suburb: Woolooware (supplied by Oz 7 Nov), linked to /locations/sutherland-shire/.

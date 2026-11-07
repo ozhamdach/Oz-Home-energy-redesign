@@ -1,5 +1,6 @@
 /* Battery day — drives the "day on your home" scene on /battery-storage/.
-   REAL DATA (7 Nov 2026): 6 November 2026 on an Oz Home Energy install with
+   REAL DATA (7 Nov 2026): 6 November 2026 on an Oz Home Energy install in
+   Woolooware (Sutherland Shire) with
    13.3 kW of solar, a FoxESS H3-10.0-Smart 9.9 kW hybrid inverter and
    41.94 kWh of battery (9 x FoxESS EQ4800). Solar ("Gen Load"), home use
    and battery % were read off the home's FoxESS app chart into 15-minute

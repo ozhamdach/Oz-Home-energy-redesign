@@ -16,6 +16,7 @@
   "extraHead": "<link rel=\"stylesheet\" href=\"/css/battery-storage.css\">",
   "extraScripts": [
     "/js/battery-storage.js",
-    "/js/reviews.js"
+    "/js/reviews.js",
+    "/js/battery-day.js"
   ]
 }

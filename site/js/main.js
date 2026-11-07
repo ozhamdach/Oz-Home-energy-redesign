@@ -302,6 +302,42 @@
       loadingEl.style.display = 'none';
     }
     iframe.addEventListener('load', hideLoading);
-    setTimeout(hideLoading, FORM_EMBED_TIMEOUT_MS);
+    // Deferred embeds (data-ohe-src, below) start the spinner timeout when
+    // they actually begin loading, not at page load.
+    if (iframe.hasAttribute('data-ohe-src') && !iframe.getAttribute('src')) {
+      iframe.addEventListener('ohe:embedstart', function () { setTimeout(hideLoading, FORM_EMBED_TIMEOUT_MS); });
+    } else {
+      setTimeout(hideLoading, FORM_EMBED_TIMEOUT_MS);
+    }
+  });
+})();
+
+// Deferred embeds (6 Nov 2026). An <iframe data-ohe-src="..."> only gets its
+// src once its wrapper is within ~1000px of the viewport. Used for the
+// HighLevel quick-quote form at the bottom of the home page: its Cloudflare
+// bot check was ~6.8 MB and every console error on the page. Native
+// loading="lazy" doesn't work here because HighLevel's form_embed.js hides
+// the iframe until it loads, so the browser never starts loading it.
+(function () {
+  'use strict';
+  var frames = document.querySelectorAll('iframe[data-ohe-src]');
+  if (!frames.length) return;
+  function load(f) {
+    if (f.getAttribute('src')) return;
+    f.setAttribute('src', f.getAttribute('data-ohe-src'));
+    try { f.dispatchEvent(new Event('ohe:embedstart')); } catch (e) { /* old browsers: spinner just stays until load */ }
+  }
+  if (!('IntersectionObserver' in window)) { Array.prototype.forEach.call(frames, load); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      load(e.target.__oheFrame);
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '1000px 0px' });
+  Array.prototype.forEach.call(frames, function (f) {
+    var wrap = (f.closest && f.closest('.form-embed-wrap')) || f.parentElement;
+    wrap.__oheFrame = f;
+    io.observe(wrap);
   });
 })();

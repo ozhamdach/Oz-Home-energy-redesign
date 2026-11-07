@@ -277,3 +277,69 @@
 @media (prefers-reduced-motion: reduce) {
   .bx-btn, .bx-link, .bx-link .bx-i, .bx-size, .bx-blocks span, .bx-chev, .bx-faq details, .bx-hero-chip, .bx-badges li > a { transition: none; }
 }
+
+/* ── Battery day (6 Nov 2026) ─────────────────────────────────────────────
+   Interactive "day on your home". Light 2D SVG driven by site/js/battery-day.js.
+   Motion: flow dashes are the only looping animation (explanatory, paused
+   off-screen and under reduced motion); everything else is direct
+   manipulation, so it never lags the slider. */
+.bxd { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 20px; align-items: stretch; }
+@media (max-width: 860px) { .bxd { grid-template-columns: 1fr; } }
+.bxd-scene { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--bx-border); background: #dbe9fb; aspect-ratio: 16 / 9; max-width: 100%; box-shadow: 0 1px 2px rgba(16,35,63,0.04), 0 18px 40px -18px rgba(16,35,63,0.25); }
+.bxd-scene svg { display: block; width: 100%; height: 100%; }
+.bxd-tracks path { fill: none; stroke: #c3d1e6; stroke-width: 2; stroke-dasharray: 3 6; opacity: 0.75; }
+.bxd-flow { fill: none; stroke-linecap: round; stroke-dasharray: 1 11; opacity: 0; animation: bxd-flow 0.9s linear infinite; transition: opacity 200ms ease, stroke-width 200ms ease; }
+.bxd-flow--solar { stroke: #f2a516; }
+.bxd-flow--batt { stroke: #1f9d55; }
+.bxd-flow--grid { stroke: #5f6f88; }
+@keyframes bxd-flow { to { stroke-dashoffset: -12; } }
+.bxd-offscreen .bxd-flow { animation-play-state: paused; }
+.bxd-chip { position: absolute; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,0.94); color: var(--bx-fg); font: 600 0.75rem/1 var(--font-body); font-variant-numeric: tabular-nums; white-space: nowrap; box-shadow: 0 2px 10px rgba(16,35,63,0.14); pointer-events: none; }
+@media (max-width: 560px) { .bxd-chip { display: none; } }
+/* Phones: a taller frame, cropped in on the house (viewBox set in battery-day.js). */
+@media (max-width: 560px) { .bxd-scene { aspect-ratio: 4 / 3; } }
+.bxd-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; display: inline-block; }
+.bxd-dot--solar { background: #f2a516; }
+.bxd-dot--home { background: var(--bx-primary); }
+.bxd-dot--batt { background: #1f9d55; }
+.bxd-dot--grid { background: #5f6f88; }
+
+.bxd-panel { background: var(--bx-bg); border: 1px solid var(--bx-border); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.bxd-clock { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.bxd-time { font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.9rem, 1.5rem + 1.4vw, 2.5rem); letter-spacing: -0.03em; line-height: 1; color: var(--bx-fg); font-variant-numeric: tabular-nums; }
+.bxd-phase { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bx-primary); background: var(--bx-tint-2); border-radius: 999px; padding: 4px 10px; }
+.bxd-stats { margin: 0; display: grid; gap: 2px; }
+.bxd-stats > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--bx-tint-2); }
+.bxd-stats > div:last-child { border-bottom: 0; }
+.bxd-stats dt { display: flex; align-items: center; gap: 8px; font-size: 0.9375rem; color: var(--bx-muted-fg); }
+.bxd-stats dd { margin: 0; text-align: right; font-weight: 700; color: var(--bx-fg); font-variant-numeric: tabular-nums; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.bxd-sub { font-size: 0.8rem; font-weight: 500; color: var(--bx-muted-fg); }
+.bxd-soc { height: 8px; border-radius: 999px; background: var(--bx-tint-2); overflow: hidden; }
+.bxd-soc span { display: block; height: 100%; border-radius: 999px; background: #1f9d55; }
+.bxd-controls { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+.bxd-play { flex: none; width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--bx-primary); color: var(--bx-on-primary); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 160ms var(--bx-ease), background-color 160ms ease; }
+.bxd-play svg { width: 20px; height: 20px; }
+.bxd-play .bxd-ico-pause, .bxd-play[aria-pressed="true"] .bxd-ico-play { display: none; }
+.bxd-play[aria-pressed="true"] .bxd-ico-pause { display: block; }
+.bxd-play:active { transform: scale(0.95); }
+.bxd-play:focus-visible, .bxd-card:focus-visible { outline: 3px solid var(--bx-primary); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .bxd-play:hover { background: var(--bx-primary-hover); } }
+.bxd-range { flex: 1; min-width: 0; }
+.bxd-range input { width: 100%; margin: 0; accent-color: var(--bx-primary); height: 28px; cursor: pointer; }
+.bxd-ticks { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--bx-muted-fg); margin-top: 2px; }
+
+.bxd-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+@media (max-width: 860px) { .bxd-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .bxd-cards { grid-template-columns: 1fr; } }
+.bxd-card { text-align: left; font: inherit; color: var(--bx-fg); background: var(--bx-bg); border: 1.5px solid var(--bx-border); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: transform 160ms var(--bx-ease), border-color 160ms ease, background-color 160ms ease; }
+.bxd-card:active { transform: scale(0.98); }
+@media (hover: hover) and (pointer: fine) { .bxd-card:hover { border-color: var(--bx-primary); } }
+.bxd-card[aria-pressed="true"] { border-color: var(--bx-primary); background: var(--bx-tint); }
+.bxd-card-time { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bx-primary); }
+.bxd-card-name { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
+.bxd-card-text { font-size: 0.875rem; line-height: 1.5; color: var(--bx-muted-fg); }
+#main .bxd-caption { margin: 14px 0 0; font-size: 0.8125rem; line-height: 1.55; color: var(--bx-muted-fg); max-width: 80ch; }
+@media (prefers-reduced-motion: reduce) {
+  .bxd-flow { animation: none; stroke-dasharray: none; }
+  .bxd-play, .bxd-card { transition: none; }
+}

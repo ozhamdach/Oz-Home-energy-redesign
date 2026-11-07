@@ -324,13 +324,126 @@
   <div class="bx-wrap">
     <div class="bx-head">
       <h2 id="bx-how-h">How a home battery saves you money</h2>
-      <p>Savings happen automatically once the battery is configured. Backup during a blackout is a separate design choice.</p>
+      <p>Savings happen automatically once the battery is configured. Drag through a real day on one of our installs to see where the power comes from. Backup during a blackout is a separate design choice.</p>
     </div>
-    <ol class="bx-flow">
-      <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-sun"/></svg></span><h3>Generate</h3><p>Your panels make more than the house uses. Without a battery, the surplus is exported for little value.</p></li>
-      <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-battery-charging"/></svg></span><h3>Store</h3><p>The battery charges from that surplus instead of sending it to the grid.</p></li>
-      <li><span class="bx-icon"><svg aria-hidden="true"><use href="#i-moon-stars"/></svg></span><h3>Use</h3><p>Cooking, lights and appliances run from storage instead of buying grid power.</p></li>
-    </ol>
+
+    <div class="bxd" id="bxd" data-bxd-root>
+      <div class="bxd-scene">
+      <svg viewBox="0 0 640 360" role="img" aria-labelledby="bxdSceneTitle" preserveAspectRatio="xMidYMid slice">
+        <title id="bxdSceneTitle">A house with rooftop solar panels, a wall battery and a grid connection, showing where power flows at the selected time</title>
+        <defs>
+          <linearGradient id="bxdSkyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9d7fb"/><stop offset="1" stop-color="#eef5ff"/></linearGradient>
+          <linearGradient id="bxdDuskG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffcf9a" stop-opacity="0"/><stop offset="1" stop-color="#ffb36b"/></linearGradient>
+          <radialGradient id="bxdSunG"><stop offset="0" stop-color="#fff3c4"/><stop offset="0.45" stop-color="#ffd25e"/><stop offset="1" stop-color="#ffd25e" stop-opacity="0"/></radialGradient>
+          <linearGradient id="bxdPanelG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c4f8c"/><stop offset="1" stop-color="#16305e"/></linearGradient>
+        </defs>
+        <rect width="640" height="290" fill="url(#bxdSkyG)"/>
+        <rect id="bxdDusk" width="640" height="290" fill="url(#bxdDuskG)" opacity="0"/>
+        <g id="bxdSun" transform="translate(320 62)"><circle r="46" fill="url(#bxdSunG)"/><circle r="17" fill="#ffd25e"/></g>
+        <path d="M0 262 Q 90 236 190 254 T 420 248 T 640 256 V 290 H 0 Z" fill="#cfdcc4" opacity="0.7"/>
+        <rect y="286" width="640" height="74" fill="#dfe8d4"/>
+        <rect y="286" width="640" height="3" fill="#c6d3b8"/>
+
+        <rect x="557" y="146" width="6" height="142" rx="2" fill="#6d7380"/>
+        <rect x="538" y="156" width="44" height="5" rx="2" fill="#6d7380"/>
+        <circle cx="544" cy="155" r="3" fill="#9aa3b2"/><circle cx="576" cy="155" r="3" fill="#9aa3b2"/>
+        <path d="M544 158 Q 486 190 418 200" fill="none" stroke="#5b6170" stroke-width="1.6"/>
+
+        <rect x="180" y="196" width="220" height="92" fill="#f6f2ea" stroke="#d6cdbd"/>
+        <polygon points="162,200 214,132 366,132 418,200" fill="#3d4757"/>
+        <polygon points="162,200 418,200 412,206 168,206" fill="#2c3441"/>
+        <g fill="url(#bxdPanelG)" stroke="#8fb5ec" stroke-width="0.6">
+          <polygon points="218.3,144 239.7,144 228.5,166 201.5,166"/>
+          <polygon points="242.7,144 264.1,144 258.5,166 231.5,166"/>
+          <polygon points="267.1,144 288.5,144 288.5,166 261.5,166"/>
+          <polygon points="291.5,144 312.9,144 318.5,166 291.5,166"/>
+          <polygon points="315.9,144 337.3,144 348.5,166 321.5,166"/>
+          <polygon points="340.3,144 361.7,144 378.5,166 351.5,166"/>
+          <polygon points="198.4,170 226.5,170 214.7,193 180.9,193"/>
+          <polygon points="229.5,170 257.5,170 251.6,193 217.7,193"/>
+          <polygon points="260.5,170 288.5,170 288.5,193 254.6,193"/>
+          <polygon points="291.5,170 319.5,170 325.4,193 291.5,193"/>
+          <polygon points="322.5,170 350.5,170 362.3,193 328.4,193"/>
+          <polygon points="353.5,170 381.6,170 399.1,193 365.3,193"/>
+        </g>
+        <rect x="200" y="220" width="50" height="38" rx="2" fill="#cfe1f3" stroke="#b9ab95"/>
+        <rect x="330" y="220" width="50" height="38" rx="2" fill="#cfe1f3" stroke="#b9ab95"/>
+        <rect x="271" y="232" width="30" height="56" rx="2" fill="#8a6a4f"/>
+        <circle cx="295" cy="262" r="1.8" fill="#e9d8b5"/>
+
+        <rect x="424" y="220" width="30" height="66" rx="6" fill="#f4f6fa" stroke="#aebbd0"/>
+
+        <rect id="bxdNight" width="640" height="360" fill="#0b1630" opacity="0"/>
+        <g id="bxdStars" opacity="0" fill="#ffffff"><circle cx="70" cy="40" r="1.4"/><circle cx="150" cy="78" r="1"/><circle cx="240" cy="30" r="1.2"/><circle cx="410" cy="52" r="1"/><circle cx="470" cy="26" r="1.4"/><circle cx="610" cy="88" r="1"/><circle cx="330" cy="96" r="0.9"/></g>
+        <g id="bxdMoon" opacity="0" transform="translate(560 60)"><circle r="15" fill="#eef2fb"/><circle cx="-4" cy="-3" r="3" fill="#d9e0ef"/><circle cx="5" cy="5" r="2" fill="#d9e0ef"/></g>
+
+        <rect class="bxd-glow" x="200" y="220" width="50" height="38" rx="2" fill="#ffd77a" opacity="0"/>
+        <rect class="bxd-glow" x="330" y="220" width="50" height="38" rx="2" fill="#ffd77a" opacity="0"/>
+
+        <rect x="429" y="229" width="20" height="51" rx="3" fill="#dfe6f1"/>
+        <rect id="bxdLevel" x="429" y="231" width="20" height="49" rx="3" fill="#22a061"/>
+        <circle id="bxdLed" cx="439" cy="225" r="2" fill="#22a061"/>
+
+        <g class="bxd-tracks">
+          <path d="M290 194 L290 236"/>
+          <path d="M362 186 C 420 186 439 194 439 216"/>
+          <path d="M424 262 L318 262"/>
+          <path d="M544 158 Q 486 190 418 200 L 372 236"/>
+        </g>
+
+        <path class="bxd-flow bxd-flow--solar" data-flow="solarHome" d="M290 194 L290 236"/>
+        <path class="bxd-flow bxd-flow--solar" data-flow="solarBatt" d="M362 186 C 420 186 439 194 439 216"/>
+        <path class="bxd-flow bxd-flow--batt" data-flow="battHome" d="M424 262 L318 262"/>
+        <path class="bxd-flow bxd-flow--grid" data-flow="gridIn" d="M544 158 Q 486 190 418 200 L 372 236"/>
+        <path class="bxd-flow bxd-flow--solar" data-flow="gridOut" d="M372 236 L 418 200 Q 486 190 544 158"/>
+      </svg>
+        <span class="bxd-chip" style="left:49%;top:31%"><i class="bxd-dot bxd-dot--solar"></i><span data-bxd="chipSolar">8.1 kW</span></span>
+        <span class="bxd-chip" style="left:30%;top:86%"><i class="bxd-dot bxd-dot--home"></i><span data-bxd="chipHome">1.7 kW</span></span>
+        <span class="bxd-chip" style="left:70%;top:86%"><i class="bxd-dot bxd-dot--batt"></i><span data-bxd="chipBatt">100%</span></span>
+        <span class="bxd-chip" style="left:88%;top:31%"><i class="bxd-dot bxd-dot--grid"></i><span data-bxd="chipGrid">Exporting</span></span>
+      </div>
+      <div class="bxd-panel">
+        <div class="bxd-clock"><span class="bxd-time" data-bxd="time">1:00 pm</span><span class="bxd-phase" data-bxd="phase">Midday</span></div>
+        <dl class="bxd-stats">
+          <div><dt><i class="bxd-dot bxd-dot--solar"></i>Solar making</dt><dd data-bxd="solar">8.1 kW</dd></div>
+          <div><dt><i class="bxd-dot bxd-dot--home"></i>Home using</dt><dd data-bxd="home">1.7 kW</dd></div>
+          <div><dt><i class="bxd-dot bxd-dot--batt"></i>Battery</dt><dd><span data-bxd="soc">100%</span><span class="bxd-sub" data-bxd="battState">Full</span></dd></div>
+          <div><dt><i class="bxd-dot bxd-dot--grid"></i>Grid</dt><dd data-bxd="grid">Exporting 6.4 kW</dd></div>
+        </dl>
+        <div class="bxd-soc" aria-hidden="true"><span data-bxd="socBar" style="width:100%"></span></div>
+        <div class="bxd-controls">
+          <button type="button" class="bxd-play" data-bxd="play" aria-label="Play through the day" aria-pressed="false"><svg class="bxd-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg><svg class="bxd-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg></button>
+          <div class="bxd-range">
+            <label class="bx-sr" for="bxdTime">Time of day</label>
+            <input type="range" id="bxdTime" min="0" max="95" step="1" value="52" aria-valuetext="1:00 pm">
+            <div class="bxd-ticks" aria-hidden="true"><span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>12am</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bxd-cards">
+        <button type="button" class="bxd-card" data-time="28" aria-pressed="false">
+          <span class="bxd-card-time">7 am</span>
+          <span class="bxd-card-name">Morning</span>
+          <span class="bxd-card-text">The battery is still running the house, including a big early-morning load, while the panels start up.</span>
+        </button>
+        <button type="button" class="bxd-card" data-time="52" aria-pressed="true">
+          <span class="bxd-card-time">1 pm</span>
+          <span class="bxd-card-name">Midday</span>
+          <span class="bxd-card-text">Solar refilled the battery from half to full by about noon. From then on, the spare is exported.</span>
+        </button>
+        <button type="button" class="bxd-card" data-time="76" aria-pressed="false">
+          <span class="bxd-card-time">7 pm</span>
+          <span class="bxd-card-name">Evening</span>
+          <span class="bxd-card-text">The sun is going down, so the battery takes over again for the evening.</span>
+        </button>
+        <button type="button" class="bxd-card" data-time="8" aria-pressed="false">
+          <span class="bxd-card-time">2 am</span>
+          <span class="bxd-card-name">Overnight</span>
+          <span class="bxd-card-text">The battery runs the house right through the night. The grid isn't needed.</span>
+        </button>
+    </div>
+    <p class="bxd-caption">Real data from an Oz Home Energy install in <a href="/locations/sutherland-shire/">Woolooware</a> on 6&nbsp;November 2026: 13.3&nbsp;kW of solar, a FoxESS 9.9&nbsp;kW hybrid inverter and 41.9&nbsp;kWh of FoxESS batteries. Solar, home use and battery level are read from the home's monitoring app in 15-minute steps; battery and grid flows follow from them. Every home is different, so we size your system from your own bill.</p>
     <div class="bx-callout">
       <span class="bx-icon bx-icon--warm"><svg aria-hidden="true"><use href="#i-lightning"/></svg></span>
       <div>
@@ -630,5 +743,6 @@
 <script src="/js/main.js" defer></script>
 <script src="/js/battery-storage.js" defer></script>
 <script src="/js/reviews.js" defer></script>
+<script src="/js/battery-day.js" defer></script>
 </body>
 </html>

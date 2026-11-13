@@ -355,6 +355,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .hero-ctas { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 14px; margin-top: 28px; }
 .hero-trust { margin-top: 32px; font-size: 0.88rem; color: #d8ddf5; display: flex; align-items: center; justify-content: flex-start; gap: 10px; flex-wrap: wrap; }
 .hero-trust .dot { width: 4px; height: 4px; border-radius: 50%; background: #7c8ab8; }
+/* Phones: the header phone icon and the sticky bottom bar already show the
+   number, so the hero keeps one button (13 Nov 2026 hero trim). */
+@media (max-width: 760px) { .hero .hero-call { display: none; } }
 .hero-photo-credit { position: absolute; z-index: 2; bottom: 10px; right: 16px; font-size: 0.7rem; color: rgba(255,255,255,0.55); }
 
 /* Page (non-home) header banner */

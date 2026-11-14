@@ -1433,3 +1433,8 @@ table.data-table tr:last-child td { border-bottom: none; }
 @media (max-width: 480px) {
   .hero--home .hero-trust { flex-direction: column; align-items: flex-start; gap: 7px; }
 }
+/* Very small phones (320px): slightly tighter spacing keeps the small line
+   above the headline on one line. */
+@media (max-width: 340px) {
+  .hero--home .hero-kicker { letter-spacing: 0.08em; }
+}

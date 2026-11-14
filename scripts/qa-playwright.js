@@ -307,37 +307,84 @@ async function run(label, fn) {
   // the answers added to its address. The form itself is cross-origin and
   // unreachable from this sandbox, so this checks the flow, the progress
   // bar and the address the form is given, not the form's contents.
-  await run('assessment stepped quote flow passes the answers to the HighLevel form', async () => {
-    const page = await context.newPage();
-    await page.goto(BASE + '/assessment/', { waitUntil: 'load', timeout: 15000 });
-    const state = () =>
-      page.evaluate(() => ({
+  // The same three-step flow runs on /assessment/ and on the ad landing page
+  // /request-a-quote/ (site/js/quote-steps.js).
+  for (const [path, label] of [['/assessment/', 'assessment'], ['/request-a-quote/', 'request-a-quote']]) {
+    await run(`${path} stepped quote flow passes the answers to the HighLevel form`, async () => {
+      const page = await context.newPage();
+      // Preview builds carry no analytics, so give the page a dataLayer to
+      // write its form_step events into.
+      await page.addInitScript(() => { window.dataLayer = window.dataLayer || []; });
+      // Ad tags in the address, as an ad click would bring.
+      await page.goto(BASE + path + '?utm_source=qa&utm_campaign=qa-steps&gclid=QA', { waitUntil: 'load', timeout: 15000 });
+      const state = () =>
+        page.evaluate(() => ({
+          count: document.getElementById('qstepsCount').textContent.trim(),
+          now: document.getElementById('qstepsBar').getAttribute('aria-valuenow'),
+          visible: [...document.querySelectorAll('.qstep')].filter((s) => !s.hidden).map((s) => s.getAttribute('data-step')).join(','),
+          src: document.querySelector('#quoteSteps iframe').getAttribute('src') || '',
+          focus: document.activeElement ? document.activeElement.id : '',
+        }));
+      let st = await state();
+      if (st.count !== 'Step 1 of 3' || st.visible !== '1') errors.push(`${path}: expected to start on step 1, got "${st.count}" showing step(s) ${st.visible}`);
+      if (st.src) errors.push(`${path}: the HighLevel form should not load before step 3`);
+      const formId = await page.evaluate(() => document.querySelector('#quoteSteps iframe').getAttribute('data-form-id'));
+      if (formId !== '2TfIfhVospnHx74eNcAP') errors.push(`${path}: the steps should end in HighLevel form 2TfIfhVospnHx74eNcAP, found ${formId}`);
+      await page.click('.qopt[data-goal="Battery"]');
+      st = await state();
+      if (st.count !== 'Step 2 of 3' || st.visible !== '2' || st.now !== '2') errors.push(`${path}: choosing an option should show step 2, got "${st.count}" (bar ${st.now})`);
+      if (st.focus !== 'qstep2Title') errors.push(`${path}: focus should move to the step 2 heading`);
+      await page.check('input[name="qbill"][value="$500-$750 per quarter"]', { force: true });
+      await page.click('#qstepsNext');
+      st = await state();
+      if (st.count !== 'Step 3 of 3' || st.visible !== '3' || st.now !== '3') errors.push(`${path}: Continue should show step 3, got "${st.count}" (bar ${st.now})`);
+      if (!st.src.includes('/widget/form/2TfIfhVospnHx74eNcAP?')) errors.push(`${path}: step 3 did not point the form at its HighLevel address with answers`);
+      if (!st.src.includes('primary_goal=Battery')) errors.push(`${path}: the chosen goal was not passed to the form`);
+      if (!st.src.includes('multi_dropdown_3ea2=' + encodeURIComponent('$500-$750 per quarter'))) errors.push(`${path}: the chosen bill range was not passed to the form`);
+      if (st.src.includes('timeframe=')) errors.push(`${path}: an unanswered question should not be passed to the form`);
+      // HighLevel's form_embed.js reads the ad tags from this page's own
+      // address when the form loads, so they must still be there at step 3.
+      const search = await page.evaluate(() => window.location.search);
+      if (!search.includes('utm_source=qa') || !search.includes('gclid=QA')) errors.push(`${path}: the ad tags should still be in the page address at step 3, got "${search}"`);
+      const steps = await page.evaluate(() => window.dataLayer.filter((e) => e && e.event === 'form_step').map((e) => e.form_id + ':' + e.step).join(','));
+      if (steps !== `${label}:1,${label}:2,${label}:3`) errors.push(`${path}: expected form_step events ${label}:1,${label}:2,${label}:3, got "${steps}"`);
+      await page.click('.qstep-summary .qback');
+      st = await state();
+      const kept = await page.evaluate(() => !!document.querySelector('input[name="qbill"]:checked'));
+      if (st.visible !== '2' || !kept) errors.push(`${path}: Change should go back to step 2 with the answers kept`);
+      await page.close();
+
+      // A link with ?for=battery arrives with step 1 already answered.
+      const pre = await context.newPage();
+      await pre.goto(BASE + path + '?for=battery&utm_source=qa', { waitUntil: 'load', timeout: 15000 });
+      const preState = await pre.evaluate(() => ({
         count: document.getElementById('qstepsCount').textContent.trim(),
-        now: document.getElementById('qstepsBar').getAttribute('aria-valuenow'),
-        visible: [...document.querySelectorAll('.qstep')].filter((s) => !s.hidden).map((s) => s.getAttribute('data-step')).join(','),
-        src: document.querySelector('#quoteSteps iframe').getAttribute('src') || '',
-        focus: document.activeElement ? document.activeElement.id : '',
+        chosen: (document.querySelector('.qopt[aria-pressed="true"]') || { getAttribute: () => '' }).getAttribute('data-goal'),
       }));
-    let st = await state();
-    if (st.count !== 'Step 1 of 3' || st.visible !== '1') errors.push(`/assessment/: expected to start on step 1, got "${st.count}" showing step(s) ${st.visible}`);
-    if (st.src) errors.push('/assessment/: the HighLevel form should not load before step 3');
-    await page.click('.qopt[data-goal="Battery"]');
-    st = await state();
-    if (st.count !== 'Step 2 of 3' || st.visible !== '2' || st.now !== '2') errors.push(`/assessment/: choosing an option should show step 2, got "${st.count}" (bar ${st.now})`);
-    if (st.focus !== 'qstep2Title') errors.push('/assessment/: focus should move to the step 2 heading');
-    await page.check('input[name="qbill"][value="$500-$750 per quarter"]', { force: true });
-    await page.click('#qstepsNext');
-    st = await state();
-    if (st.count !== 'Step 3 of 3' || st.visible !== '3' || st.now !== '3') errors.push(`/assessment/: Continue should show step 3, got "${st.count}" (bar ${st.now})`);
-    if (!st.src.includes('/widget/form/2TfIfhVospnHx74eNcAP?')) errors.push('/assessment/: step 3 did not point the form at its HighLevel address with answers');
-    if (!st.src.includes('primary_goal=Battery')) errors.push('/assessment/: the chosen goal was not passed to the form');
-    if (!st.src.includes('multi_dropdown_3ea2=' + encodeURIComponent('$500-$750 per quarter'))) errors.push('/assessment/: the chosen bill range was not passed to the form');
-    if (st.src.includes('timeframe=')) errors.push('/assessment/: an unanswered question should not be passed to the form');
-    await page.click('.qstep-summary .qback');
-    st = await state();
-    const kept = await page.evaluate(() => !!document.querySelector('input[name="qbill"]:checked'));
-    if (st.visible !== '2' || !kept) errors.push('/assessment/: Change should go back to step 2 with the answers kept');
-    await page.close();
+      if (preState.count !== 'Step 2 of 3' || preState.chosen !== 'Battery') errors.push(`${path}?for=battery: expected step 2 with Battery chosen, got "${preState.count}" with "${preState.chosen}"`);
+      await pre.close();
+    });
+  }
+
+  await run('both quote pages offer the same answers, word for word', async () => {
+    // The option values are the HighLevel form's own option text. The two
+    // pages must not drift apart, or one of them sends a blank answer.
+    const read = async (path) => {
+      const page = await context.newPage();
+      await page.goto(BASE + path, { waitUntil: 'load', timeout: 15000 });
+      const v = await page.evaluate(() => JSON.stringify({
+        goals: [...document.querySelectorAll('#quoteSteps .qopt')].map((b) => b.getAttribute('data-goal')),
+        bill: [...document.querySelectorAll('#quoteSteps input[name="qbill"]')].map((i) => i.value),
+        time: [...document.querySelectorAll('#quoteSteps input[name="qtime"]')].map((i) => i.value),
+        form: document.getElementById('quoteSteps').getAttribute('data-form-src'),
+      }));
+      await page.close();
+      return v;
+    };
+    const a = await read('/assessment/');
+    const b = await read('/request-a-quote/');
+    if (a !== b) errors.push(`the quote steps on /assessment/ and /request-a-quote/ differ:\n      ${a}\n      ${b}`);
+    if (!JSON.parse(a).goals.length) errors.push('/assessment/: no quote step options found');
   });
 
   await run('homepage trust grid: six transparent credential cells, correct badge sizes, no evnex stage, matching desktop heights', async () => {

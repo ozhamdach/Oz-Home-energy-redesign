@@ -1,4 +1,5 @@
-/* Stepped quote flow on /assessment/ (14 Nov 2026).
+/* Stepped quote flow on /assessment/ and the ad landing page
+   /request-a-quote/ (14 Nov 2026).
 
    Steps 1 and 2 collect three answers as taps. Step 3 opens the existing
    HighLevel form with those answers already filled in, by adding them to the
@@ -23,6 +24,8 @@
   var summary = document.getElementById('qstepsSummary');
   var frame = root.querySelector('iframe');
   var formSrc = root.getAttribute('data-form-src');
+  // Which page's flow this is, for the form_step analytics event.
+  var formLabel = root.getAttribute('data-form-label') || 'assessment';
   var answers = { goal: '', bill: '', time: '' };
   var loadedQuery = null;
   var current = 1;
@@ -93,7 +96,7 @@
       // keyboard and screen-reader focus to it.
       if (title) { title.focus({ preventScroll: true }); var top = root.getBoundingClientRect().top; if (top < 0 || top > window.innerHeight * 0.5) root.scrollIntoView({ block: 'start' }); }
     }
-    pushEvent('form_step', { form_id: 'assessment', step: n });
+    pushEvent('form_step', { form_id: formLabel, step: n });
   }
 
   root.addEventListener('click', function (e) {
@@ -114,13 +117,14 @@
     }
   });
 
-  // A link such as /assessment/?for=battery (from a service page) arrives with
-  // step 1 already answered.
+  // A link such as /assessment/?for=battery (from a service page) or
+  // /request-a-quote/?for=battery (from a battery ad) arrives with step 1
+  // already answered.
   var map = { solar: 'Solar', 'solar-battery': 'Solar and battery', battery: 'Battery', ev: 'EV Charger' };
   var m = /[?&]for=([a-z-]+)/.exec(window.location.search);
   if (m && map[m[1]]) {
     var pre = root.querySelector('.qopt[data-goal="' + map[m[1]] + '"]');
     if (pre) { pre.setAttribute('aria-pressed', 'true'); answers.goal = map[m[1]]; go(2, false); return; }
   }
-  pushEvent('form_step', { form_id: 'assessment', step: 1 });
+  pushEvent('form_step', { form_id: formLabel, step: 1 });
 })();

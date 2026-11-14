@@ -7,7 +7,7 @@
   .rfq-hero { background: #f4f7fe; color: #10233f; border-bottom: 1px solid #dbe5f6; }
   .rfq-hero::after { display: none; }
   .rfq-hero .hero-media, .rfq-hero .hero-overlay { display: none; }
-  .rfq-hero h1 { color: #10233f; font-size: clamp(2.1rem, 1.4rem + 3vw, 3.5rem); line-height: 1.08; letter-spacing: -0.03em; }
+  .rfq-hero h1 { color: #10233f; line-height: 1.08; letter-spacing: -0.03em; }
   .rfq-hero .lede, .rfq-hero .hero-trust { color: #475569; }
   .rfq-hero .eyebrow { color: var(--brand); }
   .rfq-hero .hero-trust .dot { background: #9db0cf; }
@@ -18,13 +18,27 @@
      banner is now only as tall as its words, so the form starts on the
      first screen. */
   .rfq-hero { min-height: 0; }
-  .rfq-hero .hero-inner { padding-block: 72px 56px; }
+  /* 14 Nov 2026 (three-step quote flow). The first thing to do on this page
+     is now a tap, so step 1 has to be on the first screen. The banner is the
+     same width as the steps column below it (640px), so the headline and
+     the steps share one left edge, and the space between them is tighter:
+     on a 1440x900 screen the first option moved from 863px down to 667px,
+     with two options fully in view and a third started, instead of none. */
+  .rfq-hero .hero-inner { max-width: 640px; padding-block: 48px 40px; }
+  .rfq-hero h1 { font-size: clamp(2.1rem, 1.5rem + 2vw, 3rem); margin-bottom: 16px; }
+  .rfq-hero .lede { max-width: none; font-size: 1.1rem; line-height: 1.6; }
+  .rfq-hero .hero-trust { margin-top: 20px; }
+  #quoteForm { padding-top: 36px; }
+  /* The form at step 3 is about 1,150px tall on a phone and 1,180px on a
+     computer in this 600px column; the space is held open so the sections
+     below do not jump when it arrives. */
+  #quoteForm .qsteps .form-embed-wrap { min-height: 1200px; }
   @media (max-width: 760px) {
-    .rfq-hero .hero-inner { padding-block: 28px 30px; }
+    .rfq-hero .hero-inner { padding-block: 26px 24px; }
     .rfq-hero h1 { font-size: clamp(2rem, 1.15rem + 3.8vw, 2.4rem); line-height: 1.06; margin-bottom: 12px; }
     .rfq-hero .lede { font-size: 1.02rem; line-height: 1.55; }
-    .rfq-hero .hero-trust { margin-top: 16px; }
-    #quoteForm { padding-top: 28px; }
+    .rfq-hero .hero-trust { margin-top: 14px; }
+    #quoteForm { padding-top: 20px; }
   }
   .rfq-trust-strip {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
@@ -56,47 +70,129 @@
 <section class="section" id="quoteForm">
   <div class="container" style="max-width:640px;">
     <h2 class="visually-hidden">Request your quote</h2>
-    <!-- Outcome beside the form + "why we ask" (5 Nov 2026, Lead Form
-         Redesign artifact). Same wording as /assessment/. -->
-    <p class="hint text-center" style="margin:0 0 6px;">Free, no-obligation quote. We aim to respond within one business day.</p>
-    <p class="hint text-center" style="margin:0 0 14px;">Have a recent electricity bill handy: we size your system from your real usage first, not guesswork.</p>
-    <!-- Real HighLevel-hosted form, form ID 2TfIfhVospnHx74eNcAP, internal
-         HighLevel name "Google/Meta ads Request a Quote" — this is the
-         same form ID that was briefly (and wrongly) placed on
-         /service-request/ before being swapped out there for
-         D54fnMMf1LWTXOCNlh28 (see that page's content.html). This page is
-         its correct home. Height below is an ESTIMATE (matches the
-         similarly short "Quick Free Quote" widget on the homepage) —
-         form_embed.js resizes the iframe after load, but the real height
-         hasn't been visually confirmed against this specific form's
-         actual field list. Flagged in docs/owner-inputs-required.md to
-         check once this page is viewed live. -->
-    <div class="form-embed-wrap" style="position:relative;min-height:1100px;">
-      <div class="form-embed-loading" aria-hidden="true">
-        <span class="spinner"></span>
-        <span>Loading form…</span>
+    <!-- Outcome beside the form (5 Nov 2026, Lead Form Redesign artifact).
+         Same wording as /assessment/. -->
+    <p class="hint text-center" style="margin:0 0 14px;">Free, no-obligation quote. We aim to respond within one business day.</p>
+    <!-- STEPPED QUOTE FLOW (14 Nov 2026, asked for by Oz: "Do the ad landing
+         page too"). Same three steps, same markup and same script as
+         /assessment/ (see the long note there): steps 1 and 2 are taps, and
+         step 3 opens the same HighLevel form as before (form ID
+         2TfIfhVospnHx74eNcAP, "Google/Meta ads Request a Quote") with those
+         answers already filled in. The form, its fields and where it sends
+         leads are unchanged.
+         AD TRACKING: the campaign tags on an ad link (utm_source, gclid,
+         fbclid and so on) stay in this page's address the whole time, and
+         HighLevel's form_embed.js passes them into the form when it loads at
+         step 3, exactly as it did when the form loaded straight away.
+         Checked 14 Nov 2026 by opening this page with test tags and reading
+         what the form received; nothing was submitted.
+         A battery ad can link to /request-a-quote/?for=battery (or solar,
+         solar-battery, ev) to arrive with step 1 already answered.
+         KEEP IN STEP: the option values below must match the assessment
+         page's and the HighLevel form's own option text character for
+         character. The "bill handy" line that sat above the form is now the
+         hint inside step 3. -->
+    <div class="qsteps" id="quoteSteps" data-form-label="request-a-quote" data-form-src="https://link.ozhomeenergy.com.au/widget/form/2TfIfhVospnHx74eNcAP">
+      <div class="qsteps-head">
+        <p class="qsteps-count" id="qstepsCount" aria-live="polite">Step 1 of 3</p>
+        <div class="qsteps-bar" id="qstepsBar" role="progressbar" aria-label="Quote progress" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-valuetext="Step 1 of 3"><span></span></div>
       </div>
-      <iframe
-        src="https://link.ozhomeenergy.com.au/widget/form/2TfIfhVospnHx74eNcAP"
-        style="width:100%;height:700px;border:none;border-radius:8px;position:relative;z-index:1;background:#fff;"
-        id="inline-2TfIfhVospnHx74eNcAP"
-        data-layout="{'id':'INLINE'}"
-        data-trigger-type="alwaysShow"
-        data-trigger-value=""
-        data-activation-type="alwaysActivated"
-        data-activation-value=""
-        data-deactivation-type="neverDeactivate"
-        data-deactivation-value=""
-        data-form-name="Google/Meta ads Request a Quote"
-        data-height="700"
-        data-layout-iframe-id="inline-2TfIfhVospnHx74eNcAP"
-        data-form-id="2TfIfhVospnHx74eNcAP"
-        data-cookie-consent="true"
-        data-cookie-consent-provider="auto"
-        title="Request a Quote"
-      ></iframe>
+
+      <section class="qstep" data-step="1" aria-labelledby="qstep1Title">
+        <h2 class="qstep-title" id="qstep1Title" tabindex="-1">What would you like a quote for?</h2>
+        <div class="qopts">
+        <button type="button" class="qopt" data-goal="Solar">
+          <span class="qopt-ico"><svg class="oz-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="oz-ico-acc" cx="18" cy="5" r="2.4"/><path class="oz-ico-acc" d="M5 10h11l3 9H2z"/><circle cx="18" cy="5" r="2.4"/><path d="M5 10h11l3 9H2z"/><path d="M3.6 14.4h13.9M10.5 10v9"/></svg></span>
+          <span class="qopt-text"><strong>Solar panels</strong><span>A new system, or more panels</span></span>
+          <svg class="qopt-go" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="qopt" data-goal="Solar and battery">
+          <span class="qopt-ico"><svg class="oz-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="oz-ico-acc" d="M3.6 6h8.8l2.1 7H1.5z"/><rect class="oz-ico-acc" x="14" y="10.5" width="7.5" height="11" rx="1.8"/><path d="M3.6 6h8.8l2.1 7H1.5z"/><path d="M2.6 9.5h10.9M8 6v7"/><rect x="14" y="10.5" width="7.5" height="11" rx="1.8"/><path d="M16.7 8.6h2.1"/><path d="M18.4 13.6l-1.7 2.5h2.2l-1.7 2.5"/></svg></span>
+          <span class="qopt-text"><strong>Solar and a battery</strong><span>Both, designed together</span></span>
+          <svg class="qopt-go" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="qopt" data-goal="Battery">
+          <span class="qopt-ico"><svg class="oz-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="oz-ico-acc" x="6" y="4.5" width="12" height="16.5" rx="2.5"/><rect x="6" y="4.5" width="12" height="16.5" rx="2.5"/><path d="M10 2.5h4"/><path d="M12.9 8.6l-2.7 4.1h3.6l-2.7 4.1"/></svg></span>
+          <span class="qopt-text"><strong>A home battery</strong><span>For solar you already have</span></span>
+          <svg class="qopt-go" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="qopt" data-goal="EV Charger">
+          <span class="qopt-ico"><svg class="oz-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="oz-ico-acc" x="3.5" y="3" width="10" height="14" rx="2.5"/><rect x="3.5" y="3" width="10" height="14" rx="2.5"/><path d="M9.3 6.4l-2 3h2.6l-2 3"/><path d="M8.5 17v2.3A1.7 1.7 0 0 0 10.2 21h5.6a2.7 2.7 0 0 0 2.7-2.7V14"/><path d="M16.3 9.6v2.2a2.2 2.2 0 0 0 4.4 0V9.6M17.4 7.4v2.2M19.6 7.4v2.2"/></svg></span>
+          <span class="qopt-text"><strong>An EV charger</strong><span>At home or at work</span></span>
+          <svg class="qopt-go" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="qopt" data-goal="Other">
+          <span class="qopt-ico"><svg class="oz-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="oz-ico-acc" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/></svg></span>
+          <span class="qopt-text"><strong>Not sure yet</strong><span>We will work it out with you</span></span>
+          <svg class="qopt-go" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        </div>
+        <noscript><p class="hint" style="margin-top:14px;">This step needs JavaScript. You can <a href="https://link.ozhomeenergy.com.au/widget/form/2TfIfhVospnHx74eNcAP">open the quote form directly</a> or call <a href="tel:+61435336336">0435 336 336</a>.</p></noscript>
+      </section>
+
+      <section class="qstep" data-step="2" aria-labelledby="qstep2Title" hidden>
+        <h2 class="qstep-title" id="qstep2Title" tabindex="-1">Two quick questions</h2>
+        <p class="qstep-lede">They help us size your system from real usage. Skip either if you are not sure.</p>
+        <fieldset class="qfield">
+          <legend>Roughly, what is your quarterly power bill?</legend>
+          <div class="qchips">
+          <label class="qchip"><input type="radio" name="qbill" value="&lt;$300 per quarter"><span>Under $300</span></label>
+          <label class="qchip"><input type="radio" name="qbill" value="$300-$500 per quarter"><span>$300 to $500</span></label>
+          <label class="qchip"><input type="radio" name="qbill" value="$500-$750 per quarter"><span>$500 to $750</span></label>
+          <label class="qchip"><input type="radio" name="qbill" value="$750-$1000 per quarter"><span>$750 to $1,000</span></label>
+          <label class="qchip"><input type="radio" name="qbill" value="$1000-$1500 per quarter"><span>$1,000 to $1,500</span></label>
+          <label class="qchip"><input type="radio" name="qbill" value="Over $1500 per quarter"><span>Over $1,500</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qfield">
+          <legend>When would you like to go ahead?</legend>
+          <div class="qchips">
+          <label class="qchip"><input type="radio" name="qtime" value="I&#x27;m ready to get started now"><span>Ready now</span></label>
+          <label class="qchip"><input type="radio" name="qtime" value="Within the next 3 months"><span>Within 3 months</span></label>
+          <label class="qchip"><input type="radio" name="qtime" value="Within the next 6 months"><span>Within 6 months</span></label>
+          <label class="qchip"><input type="radio" name="qtime" value="More than 6 months from now"><span>More than 6 months away</span></label>
+          <label class="qchip"><input type="radio" name="qtime" value="I&#x27;m still exploring my options"><span>Just exploring</span></label>
+          </div>
+        </fieldset>
+        <div class="qstep-nav">
+          <button type="button" class="btn btn-primary" id="qstepsNext">Continue</button>
+          <button type="button" class="qback" data-back="1">Back</button>
+        </div>
+      </section>
+
+      <section class="qstep" data-step="3" aria-labelledby="qstep3Title" hidden>
+        <h2 class="qstep-title" id="qstep3Title" tabindex="-1">Where should we send your quote?</h2>
+        <p class="qstep-summary" id="qstepsSummary" hidden></p>
+        <p class="hint" style="margin:0 0 10px;">Your address lets us check your roof and supply. Have a recent power bill handy if you can.</p>
+        <div class="form-embed-wrap">
+          <div class="form-embed-loading" aria-hidden="true">
+            <span class="spinner"></span>
+            <span>Loading form…</span>
+          </div>
+          <iframe
+            data-ohe-src="https://link.ozhomeenergy.com.au/widget/form/2TfIfhVospnHx74eNcAP"
+            style="width:100%;height:700px;border:none;border-radius:8px;display:block;position:relative;z-index:1;background:#fff;"
+            id="inline-2TfIfhVospnHx74eNcAP"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow"
+            data-trigger-value=""
+            data-activation-type="alwaysActivated"
+            data-activation-value=""
+            data-deactivation-type="neverDeactivate"
+            data-deactivation-value=""
+            data-form-name="Google/Meta ads Request a Quote"
+            data-height="700"
+            data-layout-iframe-id="inline-2TfIfhVospnHx74eNcAP"
+            data-form-id="2TfIfhVospnHx74eNcAP"
+            data-cookie-consent="true"
+            data-cookie-consent-provider="auto"
+            title="Request a Quote">
+          </iframe>
+          <p class="hint" style="margin-top:12px;">Form not loading? Call <a href="tel:+61435336336">0435 336 336</a> instead.</p>
+        </div>
+      </section>
     </div>
-    <p class="text-center hint" style="margin-top:16px;">Form not loading? Call <a href="tel:+61435336336">0435 336 336</a> instead.</p>
+
   </div>
 </section>
 

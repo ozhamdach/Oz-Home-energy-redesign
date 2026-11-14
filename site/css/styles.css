@@ -1741,3 +1741,64 @@ main [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
   .pathway-illus .pathway-note { text-align: center; }
 }
 
+/* =====================================================
+   STEPPED QUOTE FLOW (14 Nov 2026)
+   Used on /assessment/ and on the ad landing page /request-a-quote/.
+   Markup: .qsteps#quoteSteps in each page's content.html.
+   Script: /js/quote-steps.js. These rules lived in the assessment page's
+   own <style> block until the ad landing page started using them too.
+   ===================================================== */
+.qsteps { max-width: 720px; }
+.qsteps-head { display: grid; gap: 8px; margin: 4px 0 22px; }
+.qsteps-count { margin: 0; font-family: var(--font-heading); font-weight: 600; font-size: 0.86rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brand); }
+.qsteps-bar { height: 8px; border-radius: 999px; background: var(--grey-200); overflow: hidden; }
+.qsteps-bar span { display: block; height: 100%; width: 33.34%; border-radius: 999px; background: var(--brand); transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.qsteps-bar[aria-valuenow="2"] span { width: 66.67%; }
+.qsteps-bar[aria-valuenow="3"] span { width: 100%; }
+.qstep-title { font-size: clamp(1.35rem, 1.1rem + 1.2vw, 1.8rem); letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 16px; }
+.qstep-title:focus { outline: none; }
+.qstep-lede { color: var(--text-muted); margin: -8px 0 20px; }
+.qstep:not([hidden]) { animation: qstep-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes qstep-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.qopts { display: grid; gap: 10px; }
+.qopt {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr) 20px; align-items: center; gap: 14px;
+  width: 100%; min-height: 72px; padding: 12px 16px; text-align: left; cursor: pointer;
+  background: #fff; color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  font: inherit; touch-action: manipulation;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.qopt-ico { width: 48px; height: 48px; border-radius: 12px; background: var(--bg-accent); color: var(--brand); display: grid; place-items: center; }
+.qopt-ico .oz-ico { width: 28px; height: 28px; }
+.qopt-text strong { display: block; font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.25; }
+.qopt-text span { display: block; color: var(--text-muted); font-size: 0.92rem; line-height: 1.35; }
+.qopt-go { width: 20px; height: 20px; color: var(--charcoal-300); transition: transform 0.18s ease, color 0.18s ease; }
+.qopt:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.qopt:active { transform: scale(0.99); }
+.qopt[aria-pressed="true"] { border-color: var(--brand); background: var(--bg-accent); box-shadow: inset 0 0 0 1px var(--brand); }
+@media (hover: hover) {
+  .qopt:hover { border-color: var(--brand); box-shadow: var(--shadow-md); }
+  .qopt:hover .qopt-go { color: var(--brand); transform: translateX(3px); }
+}
+.qfield { border: 0; padding: 0; margin: 0 0 22px; min-width: 0; }
+.qfield legend { padding: 0; margin-bottom: 10px; font-family: var(--font-heading); font-weight: 600; font-size: 1.02rem; }
+.qchips { display: flex; flex-wrap: wrap; gap: 8px; }
+.qchip { position: relative; }
+.qchip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.qchip span { display: inline-flex; align-items: center; min-height: 46px; padding: 8px 16px; border: 1.5px solid var(--border); border-radius: 999px; background: #fff; font-weight: 500; transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease; }
+.qchip input:checked + span { border-color: var(--brand); background: var(--brand); color: #fff; }
+.qchip input:focus-visible + span { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+@media (hover: hover) { .qchip input:not(:checked):hover + span { border-color: var(--brand); } }
+.qstep-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 4px; }
+.qstep-nav .btn { min-width: 180px; }
+.qback { background: none; border: 0; padding: 12px 6px; min-height: 44px; font: inherit; font-weight: 600; color: var(--brand); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.qback:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; border-radius: 4px; }
+.qstep-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: -6px 0 14px; padding: 10px 14px; background: var(--bg-accent); border-radius: var(--radius-md); font-size: 0.95rem; }
+.qstep-summary .qback { padding: 6px 4px; min-height: 32px; margin-left: auto; }
+@media (prefers-reduced-motion: reduce) { .qstep:not([hidden]) { animation: none; } .qsteps-bar span { transition: none; } }
+@media (max-width: 560px) { .qstep-nav .btn { width: 100%; } }
+
+/* Space for the HighLevel form is held open at step 3, so nothing below it
+   jumps when the form arrives (same heights as the assessment page). */
+.qsteps .form-embed-wrap { min-height: 960px; }
+@media (max-width: 560px) { .qsteps .form-embed-wrap { min-height: 1280px; } }

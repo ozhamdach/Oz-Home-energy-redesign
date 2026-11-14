@@ -1688,16 +1688,19 @@ main [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
 .page-banner .hint a, .page-banner .lede a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
 .page-banner .hero-trust .dot { background: #9db0cf; }
 .assess-banner h1 { max-width: none; }
+/* Compact, centred banners (the commercial battery check): no illustration, and the heading stays centred. */
+.page-banner .text-center h1 { max-width: none; margin-inline: auto; }
 
 /* Pages with no photo: the illustration sits to the right on wide screens. */
-@media (min-width: 1000px) {
-  .page-banner:not(.page-banner--photo):not(.assess-banner)::after {
+@media (min-width: 1100px) {
+  .page-banner:not(.page-banner--photo):not(.assess-banner):not(:has(> .text-center))::after {
     content: ""; position: absolute; z-index: 0; pointer-events: none;
     right: max(20px, calc(50% - var(--maxw) / 2 + 20px)); top: 50%; transform: translateY(-50%);
-    width: min(36%, 450px); aspect-ratio: 560 / 330;
+    width: min(34%, 450px); aspect-ratio: 560 / 330;
     background: url(../img/brand/illus-connected-home.svg) no-repeat center / contain;
   }
-  .page-banner:not(.page-banner--photo):not(.assess-banner) .container > * { max-width: min(100%, 660px); }
+  /* The words keep clear of the illustration at every width. */
+  .page-banner:not(.page-banner--photo):not(.assess-banner):not(:has(> .text-center)) .container > * { max-width: min(660px, 58%); }
 }
 
 /* Pages with a photo: words on the left, the photo as a card on the right

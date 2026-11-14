@@ -30,8 +30,9 @@
            the business does and where (for visitors and for search).
            "done properly" leaves the hero.
          - The lede "Lower bills, designed around your home." is removed.
-         - The trust row keeps its three facts, word for word, as ticked
-           items instead of one dotted sentence that wrapped badly.
+         - The trust row's three facts, word for word, are now ticked
+           items in a slim band under the hero; three proof numbers took
+           their place here (see the note above the numbers).
          - On phones the hero call button stays hidden (.hero-call): the
            sticky bottom bar shows the number on the same screen.
          Earlier history: 6 Nov 2026 shorter, bigger headline (template
@@ -49,13 +50,38 @@
       <a class="btn btn-primary hero-cta" href="/assessment/">Get a Free Quote <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a class="btn btn-secondary hero-call" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
-    <ul class="hero-trust hero-rise" role="list" style="--d:310ms">
-      <li>Licensed NSW Electrical Contractor</li>
-      <li>SAA Accredited</li>
-      <li>10-Year Workmanship Warranty</li>
+    <!-- PROOF NUMBERS, 14 Nov 2026. Figures supplied by Oz that day:
+         "10+ years, 6000+ installs, 5.0 rating on Google".
+         - 5.0: checked against the Google reviews widget this page embeds.
+           On 14 Nov 2026 it showed six reviews (16 Aug to 22 Sep 2026),
+           all five stars. The number links to that section, so the claim
+           sits one tap from its evidence. If a review below five stars
+           arrives, this figure must change the same day.
+         - 10+ and 6,000+ are the owner's statement; nothing on file
+           verifies them. They are worded as experience ("in the trade",
+           "career installs"), not as Oz Home Energy's own tally: the
+           company's ABN is recent and its public reviews start in August
+           2026, so "6,000+ systems installed" under this brand would read
+           as a claim about the business. Oz to confirm which is true; see
+           docs/owner-inputs-required.md. Change the label, not the
+           number, if the business itself has done them all.
+         The three trust facts that used to sit here are unchanged, word
+         for word, in the slim band directly under the hero (.hero-facts).
+         No count-up animation: the numbers should be readable at once. -->
+    <ul class="hero-stats hero-rise" role="list" style="--d:310ms">
+      <li><strong>10<span class="hs-mark">+</span></strong><span class="hs-label">Years in the trade</span></li>
+      <li><strong>6,000<span class="hs-mark">+</span></strong><span class="hs-label">Career installs</span></li>
+      <li><a href="#reviewsSection" aria-label="5.0 Google rating. See the reviews."><strong>5.0<span class="hs-mark" aria-hidden="true">&#9733;</span></strong><span class="hs-label">Google rating</span></a></li>
     </ul>
   </div>
 </section>
+<div class="hero-facts">
+  <ul class="container hero-facts-list" role="list">
+    <li>Licensed NSW Electrical Contractor</li>
+    <li>SAA Accredited</li>
+    <li>10-Year Workmanship Warranty</li>
+  </ul>
+</div>
 
 <!-- REBATE DEADLINE STRIP — added 27 Oct 2026 (marketing council: all seven
      seats agreed the one honest, time-bound reason to act this quarter was

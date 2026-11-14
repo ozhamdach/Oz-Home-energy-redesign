@@ -943,6 +943,27 @@ quarter" on every option, and it has no existing-solar question.
       published in `src/data/site-status.json`. Until then production hides
       the video block entirely.
 
+### 🟡 Home hero proof numbers: two labels need Oz's confirmation (14 Nov 2026)
+The home hero now shows three figures Oz supplied on 14 Nov 2026:
+"10+ years, 6000+ installs, 5.0 rating on Google".
+- [x] **5.0 Google rating.** Checked against the Google reviews widget the
+      home page embeds: on 14 Nov 2026 it showed six reviews (16 Aug to
+      22 Sep 2026), all five stars. The figure links to that section.
+      If any review below five stars arrives, change the figure that day.
+- [ ] **10+ years.** Shown as "Years in the trade". Oz to confirm this is
+      his own time in the trade (the company's ABN is recent, so it cannot
+      be the company's age).
+- [ ] **6,000+ installs.** Shown as "Career installs". Oz to confirm
+      whether Oz Home Energy itself has completed 6,000+ installs, or
+      whether the figure covers work done over his career, including for
+      previous employers. If the business has done them all, the label
+      can change to "Systems installed". If not, it must stay worded as
+      career experience: a tally claimed for the business that the
+      business did not do would be misleading to customers, and the six
+      public reviews dating from August 2026 would make it look wrong.
+Source and wording notes are in `src/pages/home/content.html` above the
+numbers.
+
 ### ✅ Battery "day on your home" slider: real data, owner OK (7 Nov 2026)
 The interactive on /battery-storage/ now shows a REAL day: 6 November 2026
 on an Oz install with 13.3 kW of solar, a FoxESS H3-10.0-Smart 9.9 kW hybrid

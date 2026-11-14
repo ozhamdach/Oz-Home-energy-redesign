@@ -1341,6 +1341,8 @@ table.data-table tr:last-child td { border-bottom: none; }
    - the photo is allowed to show: the old overlay hid a bright blue-sky
      shot behind 80-93% black. Desktop clears the right-hand side; phones
      show the roof and panels above the words and fade to solid below;
+   - three proof numbers under the button, with the licence, accreditation
+     and warranty facts in a slim band below the hero;
    - one short fade-up on load. Transform and opacity only, CSS only.
    ===================================================== */
 .hero--home { background: rgb(4, 8, 20); }
@@ -1378,13 +1380,36 @@ table.data-table tr:last-child td { border-bottom: none; }
 .hero--home .hero-cta svg { flex: none; transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); }
 @media (hover: hover) { .hero--home .hero-cta:hover svg { transform: translateX(4px); } }
 
-.hero--home .hero-trust {
-  list-style: none; padding: 0; margin: 30px 0 0; gap: 8px 22px;
-  font-size: 0.88rem; color: #dfe4f7;
+/* Proof numbers: three figures in a row under the button. */
+.hero--home .hero-stats {
+  list-style: none; margin: 34px 0 0; padding: 22px 0 0; max-width: 640px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  display: grid; grid-template-columns: repeat(3, auto); justify-content: start; column-gap: clamp(22px, 4.5vw, 60px);
 }
-.hero--home .hero-trust li { display: inline-flex; align-items: center; gap: 8px; }
-.hero--home .hero-trust li::before {
-  content: ""; flex: none; width: 16px; height: 16px;
+.hero--home .hero-stats strong {
+  display: block; color: #fff; font-family: var(--font-heading); font-weight: 700;
+  font-size: clamp(1.5rem, 7vw, 2.75rem); letter-spacing: -0.04em; line-height: 1;
+}
+.hero--home .hero-stats .hs-mark { color: #7db6ff; margin-left: 1px; }
+.hero--home .hero-stats .hs-label {
+  display: block; margin-top: 9px; color: #c3cbe6; font-family: var(--font-heading); font-weight: 600;
+  font-size: 0.75rem; letter-spacing: 0.08em; line-height: 1.35; text-transform: uppercase;
+}
+.hero--home .hero-stats a { display: block; color: inherit; text-decoration: none; border-radius: 6px; }
+.hero--home .hero-stats a:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
+@media (hover: hover) { .hero--home .hero-stats a:hover .hs-label { color: #fff; text-decoration: underline; text-underline-offset: 3px; } }
+#reviewsSection { scroll-margin-top: calc(var(--header-h) + 8px); }
+
+/* Slim band under the hero: the three trust facts, ticked. Same dark as
+   the hero so it reads as its footer. */
+.hero-facts { background: rgb(4, 8, 20); border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.hero-facts-list {
+  list-style: none; margin: 0 auto; padding-block: 14px;
+  display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 0.8rem; color: #c9d1ea;
+}
+.hero-facts-list li { display: inline-flex; align-items: center; gap: 7px; }
+.hero-facts-list li::before {
+  content: ""; flex: none; width: 15px; height: 15px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5' stroke='%237db6ff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
@@ -1413,7 +1438,7 @@ table.data-table tr:last-child td { border-bottom: none; }
      header and the bottom bar, with the rebate strip peeking below. */
   .hero--home {
     display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(180px, 1fr) auto; align-items: stretch;
-    min-height: 600px; min-height: clamp(540px, 78svh, 640px);
+    min-height: 600px; min-height: clamp(520px, 76svh, 628px);
   }
   .hero--home .hero-media { position: relative; inset: auto; grid-row: 1; grid-column: 1; }
   .hero--home .hero-media picture { position: absolute; inset: 0; display: block; }
@@ -1426,12 +1451,8 @@ table.data-table tr:last-child td { border-bottom: none; }
   }
   .hero--home .hero-kicker { margin-bottom: 14px; }
   .hero--home .hero-ctas { margin-top: 26px; }
-  .hero--home .hero-trust { margin-top: 22px; }
-}
-/* Narrow phones: the three trust facts stack as a short ticked list
-   instead of wrapping unevenly. */
-@media (max-width: 480px) {
-  .hero--home .hero-trust { flex-direction: column; align-items: flex-start; gap: 7px; }
+  /* Three equal columns on phones, so each label wraps the same way. */
+  .hero--home .hero-stats { margin-top: 24px; padding-top: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 14px; }
 }
 /* Very small phones (320px): slightly tighter spacing keeps the small line
    above the headline on one line. */

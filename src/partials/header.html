@@ -64,7 +64,10 @@
       </a>
       <a class="btn btn-primary desktop-cta" href="/assessment/">Get a Free Quote</a>
       <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <!-- Two icons (14 Nov 2026): the button said "Close menu" to a screen
+             reader while still showing the three lines. The cross shows
+             while the menu is open (styles.css). -->
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="nav-ico-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="nav-ico-close" d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>

@@ -156,7 +156,8 @@
       </a>
       <a class="btn btn-primary desktop-cta" href="/assessment/">Get a Free Quote</a>
       <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="nav-ico-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="nav-ico-close" d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
@@ -244,7 +245,11 @@
     <div class="photo-gallery">
       <figure class="gallery-item">
         <div class="photo-frame">
-          <img src="/img/photos/residential-solar-rooftop-1-1536.jpg" width="1536" height="1152" loading="lazy" decoding="async" alt="Solar panels installed on a residential rooftop">
+          <picture>
+            <source type="image/avif" srcset="/img/photos/residential-solar-rooftop-1-480.avif 480w, /img/photos/residential-solar-rooftop-1-800.avif 800w, /img/photos/residential-solar-rooftop-1-1536.avif 1536w" sizes="(max-width: 900px) 100vw, 33vw">
+            <source type="image/webp" srcset="/img/photos/residential-solar-rooftop-1-480.webp 480w, /img/photos/residential-solar-rooftop-1-800.webp 800w, /img/photos/residential-solar-rooftop-1-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 33vw">
+            <img src="/img/photos/residential-solar-rooftop-1-1536.jpg" width="1536" height="1152" loading="lazy" decoding="async" alt="Solar panels installed on a residential rooftop">
+          </picture>
         </div>
         <figcaption>Residential solar installation</figcaption>
       </figure>

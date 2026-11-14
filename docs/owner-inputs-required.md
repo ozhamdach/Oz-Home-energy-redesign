@@ -919,15 +919,23 @@ Settings → On submit → Redirect to URL →
 - Leave `D54fnMMf1LWTXOCNlh28` "Service Request" as is: it's for existing
   customers with a fault, not a new enquiry.
 
-**2. Field fixes (start with `2TfIfhVospnHx74eNcAP`, the main quote form):**
-- [ ] Split the bill question into two fields: bill amount ($) and billing
-      period (Monthly / Quarterly). One combined field can't tell a $400
-      monthly bill from a $400 quarterly one.
-- [ ] Existing-solar question: add "No existing solar" and "Not sure".
-- [ ] Make the message / additional-details field optional.
-- [ ] Helper text under address: "Used to check orientation, shading and
-      what your network allows." Under bill: "We work from your real usage
-      first, not guesswork."
+**2. Field fixes.** Rewritten 14 Nov 2026 after reading all three live forms
+directly in a browser (UX audit; nothing was submitted). The earlier list
+was written before the forms could be seen and was partly wrong: the main
+form's Message is already optional, its bill question already says "per
+quarter" on every option, and it has no existing-solar question.
+- [ ] All three forms (`2TfIfhVospnHx74eNcAP`, `ILAJCu9qJyVzX582GAtX`,
+      `OmaWW64OZ3FaCGGvEIgx`): the button says "Submit". Change it to
+      "Get my free quote".
+- [ ] Quick form (`ILAJCu9qJyVzX582GAtX`, Home and /contact/) and EV form
+      (`OmaWW64OZ3FaCGGvEIgx`): Message is required, so someone who only
+      wants a call back cannot send the form without typing something.
+      Make Message optional.
+- [ ] Main form (`2TfIfhVospnHx74eNcAP`): "Primary Goal" offers Solar,
+      Battery, EV Charger, Other. Add "Solar and battery".
+- [ ] Main form, minor: the "Average quarterly energy bill" dropdown shows
+      an empty box until tapped; the other two dropdowns show "Select ...".
+      Give it the same prompt.
 
 **3. Welcome video for the confirmation page.**
 - [ ] Oz to send the video. It's added in place of the placeholder in

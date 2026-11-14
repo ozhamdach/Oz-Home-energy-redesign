@@ -249,8 +249,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (min-width: 720px) { .phone-link { display: inline-flex; } }
 .phone-link svg { width: 18px; height: 18px; color: var(--brand); }
 .header-actions .btn { padding: 11px 18px; font-size: 0.88rem; }
-.mobile-call-btn { display: inline-flex; }
-@media (min-width: 720px) { .mobile-call-btn { display: none; } }
+/* The phone-only header call button (.mobile-call-btn) was removed 14 Nov
+   2026 (UX audit): below 760px the sticky bottom bar already shows the
+   number, so the header repeated it on every screen. */
 .desktop-cta { display: none; }
 @media (min-width: 860px) { .desktop-cta { display: inline-flex; } }
 
@@ -355,8 +356,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .hero-ctas { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 14px; margin-top: 28px; }
 .hero-trust { margin-top: 32px; font-size: 0.88rem; color: #d8ddf5; display: flex; align-items: center; justify-content: flex-start; gap: 10px; flex-wrap: wrap; }
 .hero-trust .dot { width: 4px; height: 4px; border-radius: 50%; background: #7c8ab8; }
-/* Phones: the header phone icon and the sticky bottom bar already show the
-   number, so the hero keeps one button (13 Nov 2026 hero trim). */
+/* Phones: the sticky bottom bar already shows the number, so the hero keeps
+   one button (13 Nov 2026 hero trim). */
 @media (max-width: 760px) { .hero .hero-call { display: none; } }
 .hero-photo-credit { position: absolute; z-index: 2; bottom: 10px; right: 16px; font-size: 0.7rem; color: rgba(255,255,255,0.55); }
 
@@ -415,6 +416,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .pathway-card .icon { width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--bg-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .pathway-card .icon svg { width: 22px; height: 22px; color: var(--brand); }
 .pathway-card strong { display: block; font-family: var(--font-heading); font-size: 0.98rem; }
+/* One-line positioning note under the cards. It replaces the separate
+   "One connected energy system" section (14 Nov 2026 UX audit). */
+.pathway-note { max-width: 62ch; margin: 28px auto 0; text-align: center; color: var(--text-muted); text-wrap: pretty; }
+.pathway-note strong { color: var(--text); }
 
 /* ---------- Energy flow diagram ---------- */
 .flow-diagram { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
@@ -627,6 +632,17 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 @media (max-width: 560px) { .photo-gallery { grid-template-columns: 1fr; } }
 .gallery-item { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); background: #fff; }
 .gallery-item .photo-frame { min-height: 0; aspect-ratio: 4/3; border-radius: 0; }
+/* Two long-standing gallery bugs fixed 14 Nov 2026 (UX audit), on every
+   page that uses .photo-gallery:
+   1. <figure> keeps the browser's default 16px 40px margin, so each photo
+      was 80px narrower than its column (270px wide on a 390px phone).
+   2. The frame's height:100% resolved against the figure once the grid
+      sized it, so the frame filled the whole figure and pushed the caption
+      out of the box, where overflow:hidden cut it off. No caption was
+      ever visible. height:auto lets the 4:3 ratio size the frame and the
+      caption sits underneath. */
+.gallery-item { margin: 0; }
+.gallery-item .photo-frame { height: auto; }
 .gallery-item figcaption { padding: 12px 14px 16px; font-size: 0.86rem; color: var(--text-muted); }
 
 /* ---------- Why us ---------- */
@@ -862,6 +878,9 @@ fieldset.assess-fieldset.is-invalid .radio-cards { outline: 2px solid #c0322b; o
    this override the "Check Site Eligibility" CTA would vanish entirely
    between 720px and 860px — visible nowhere. */
 .landing-header .desktop-cta { display: inline-flex; }
+/* ...except on phones, where the sticky bottom bar carries the same
+   button (14 Nov 2026 UX audit: the quote page showed it twice). */
+@media (max-width: 760px) { .landing-header .desktop-cta { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .assess-step.is-active { animation: none; }
   .assess-progress .fill { transition: none; }
@@ -940,7 +959,15 @@ table.data-table tr:last-child td { border-bottom: none; }
   /* Keep the bar from covering the last section's content, and the footer
      itself, on pages short enough for the footer to reach the bottom. */
   #main { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
-  .site-footer { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  /* 88px, up from 64px (14 Nov 2026 UX audit): the bar is 65px tall, so
+     the last footer link sat 1-2px above it. This leaves about 24px. */
+  .site-footer { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  /* A shorter header on phones (76px to 64px). With the bottom bar the two
+     fixed strips took 141px of every screen; this and the removed header
+     call button bring it to 129px. Everything that offsets by the header
+     height reads --header-h, so it follows. */
+  :root { --header-h: 64px; }
+  .brand-logo-img { height: 44px; }
 }
 
 /* ---------- Scroll-reveal ---------- */
@@ -1156,6 +1183,20 @@ table.data-table tr:last-child td { border-bottom: none; }
 .gallery-item figcaption {
   padding: 10px 4px 0;
   font-style: italic;
+}
+/* Home page only: on phones the three photos sit in one swipeable row
+   instead of a tall stack (14 Nov 2026 UX audit). The next photo peeks in
+   from the right so the row reads as swipeable. Only the row scrolls
+   sideways, never the page. */
+@media (max-width: 560px) {
+  .photo-gallery--swipe {
+    display: flex; gap: 12px; overflow-x: auto;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin-inline: -20px; padding: 4px 20px 24px; scroll-padding-inline: 20px;
+    scrollbar-width: none;
+  }
+  .photo-gallery--swipe::-webkit-scrollbar { display: none; }
+  .photo-gallery--swipe .gallery-item { flex: 0 0 78%; scroll-snap-align: start; }
 }
 
 /* ── Pathway cards — stronger hover, tighter icon ─────────────────────── */

@@ -5,6 +5,7 @@
   "landingChrome": true,
   "landingCtaHref": "#quoteForm",
   "landingCtaText": "Get a Free Quote",
+  "mobileCtaHref": "#quoteForm",
   "breadcrumbs": [
     {
       "name": "Home",

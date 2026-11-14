@@ -310,6 +310,68 @@
       setTimeout(hideLoading, FORM_EMBED_TIMEOUT_MS);
     }
   });
+
+  // Blocked-form fallback (14 Nov 2026, UX review). Tracker blockers,
+  // privacy browsers and patchy mobile data can stop the HighLevel form
+  // from loading. Before this, the spinner hid after 8s and left a blank
+  // 700px box with a small "Form not loading?" line under it, at the exact
+  // moment someone had decided to enquire. Same detection as reviews.js:
+  // a blocked iframe still fires `load` (with empty content), but a no-cors
+  // fetch of the same URL is rejected by the same block rule. On a network
+  // failure the iframe is replaced by a card with full-size call / retry
+  // buttons. If the check is merely slow, the card only appears if the
+  // iframe itself hasn't loaded after FORM_FAIL_GRACE_MS.
+  var FORM_PRECHECK_TIMEOUT_MS = 6000;
+  var FORM_FAIL_GRACE_MS = 15000;
+  function showFormFallback(wrap, iframe) {
+    if (wrap.classList.contains('is-form-failed')) return;
+    wrap.classList.add('is-form-failed');
+    iframe.setAttribute('aria-hidden', 'true');
+    iframe.setAttribute('tabindex', '-1');
+    var card = document.createElement('div');
+    card.className = 'form-embed-fallback';
+    card.setAttribute('role', 'status');
+    card.innerHTML =
+      '<p class="form-embed-fallback-title">The form didn’t load</p>' +
+      '<p>Something on this connection or browser blocked it. Call us and we’ll take your details over the phone.</p>' +
+      '<div class="form-embed-fallback-actions">' +
+        '<a class="btn btn-primary" href="tel:+61435336336">Call 0435 336 336</a>' +
+        '<button type="button" class="btn btn-secondary">Try again</button>' +
+      '</div>';
+    card.querySelector('button').addEventListener('click', function () { window.location.reload(); });
+    wrap.insertBefore(card, wrap.firstChild);
+    // Some pages keep the small "Form not loading?" line just after the
+    // wrapper; the card now says the same thing, so hide the repeat.
+    var next = wrap.nextElementSibling;
+    if (next && next.classList.contains('hint')) next.hidden = true;
+  }
+  function watchForm(wrap, iframe) {
+    var src = iframe.getAttribute('src');
+    if (!src || !/^https:\/\//.test(src)) return;
+    var loaded = false;
+    iframe.addEventListener('load', function () { loaded = true; });
+    setTimeout(function () { if (!loaded) showFormFallback(wrap, iframe); }, FORM_FAIL_GRACE_MS);
+    if (!('fetch' in window)) return;
+    var controller = 'AbortController' in window ? new AbortController() : null;
+    var timedOut = false;
+    var timer = setTimeout(function () { timedOut = true; if (controller) controller.abort(); }, FORM_PRECHECK_TIMEOUT_MS);
+    fetch(src, { mode: 'no-cors', method: 'GET', cache: 'no-store', signal: controller ? controller.signal : undefined })
+      .then(function () { clearTimeout(timer); })
+      .catch(function () {
+        clearTimeout(timer);
+        // Slow is not blocked: leave a slow check to the grace timer above.
+        if (!timedOut) showFormFallback(wrap, iframe);
+      });
+  }
+  document.querySelectorAll('.form-embed-wrap').forEach(function (wrap) {
+    var iframe = wrap.querySelector('iframe');
+    if (!iframe) return;
+    if (iframe.hasAttribute('data-ohe-src') && !iframe.getAttribute('src')) {
+      iframe.addEventListener('ohe:embedstart', function () { watchForm(wrap, iframe); });
+    } else {
+      watchForm(wrap, iframe);
+    }
+  });
 })();
 
 // Deferred embeds (6 Nov 2026). An <iframe data-ohe-src="..."> only gets its

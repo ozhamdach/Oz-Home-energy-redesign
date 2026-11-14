@@ -6,5 +6,9 @@
     { "name": "Home", "url": "/" },
     { "name": "For Business", "url": "/commercial-solar/" },
     { "name": "Project Enquiry", "url": "/commercial-project-enquiry/" }
-  ]
+  ],
+  "headerCtaHref": "#enquiryForm",
+  "headerCtaText": "Commercial Enquiry",
+  "mobileCtaHref": "#enquiryForm",
+  "mobileCtaText": "Start Enquiry"
 }

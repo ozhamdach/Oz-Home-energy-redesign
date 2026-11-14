@@ -6,5 +6,7 @@
     { "name": "Home", "url": "/" },
     { "name": "Service Request", "url": "/service-request/" }
   ],
-  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"]
+  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"],
+  "mobileCtaHref": "#serviceForm",
+  "mobileCtaText": "Request Service"
 }

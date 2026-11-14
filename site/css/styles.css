@@ -610,7 +610,7 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 .warranty-strip-text strong { font-family: var(--font-heading); font-weight: 600; font-size: 1rem; color: var(--text); }
 .warranty-strip-text span { font-size: 0.86rem; color: var(--text-muted); line-height: 1.4; }
 
-#warranty { scroll-margin-top: calc(var(--header-h) + 16px); }
+#warranty, #enquiryForm, #serviceForm { scroll-margin-top: calc(var(--header-h) + 16px); }
 
 /* Warranty feature (About page) — restrained, not styled as an award or
    manufacturer certification: a fine top border and soft shadow only. */
@@ -741,6 +741,19 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
   border-top-color: var(--brand); animation: review-spin 0.8s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) { .form-embed-loading .spinner { animation: none; } }
+/* Blocked-form fallback (main.js adds .is-form-failed): the blank iframe,
+   spinner and small "Form not loading?" line give way to one clear card. */
+.form-embed-wrap.is-form-failed iframe,
+.form-embed-wrap.is-form-failed .form-embed-loading,
+.form-embed-wrap.is-form-failed > .hint { display: none !important; }
+.form-embed-fallback {
+  background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: clamp(20px, 4vw, 32px); text-align: left;
+}
+.form-embed-fallback-title { font-family: var(--font-heading); font-weight: 700; font-size: 1.2rem; color: var(--text); margin: 0 0 6px; }
+.form-embed-fallback p { margin: 0 0 16px; color: var(--text); }
+.form-embed-fallback-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 480px) { .form-embed-fallback-actions .btn { flex: 1 1 100%; } }
 
 /* ---------- Audience split ---------- */
 .split { display: grid; grid-template-columns: 1fr 1fr; }

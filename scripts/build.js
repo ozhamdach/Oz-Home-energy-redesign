@@ -149,6 +149,11 @@ const PRODUCTION_ORIGIN = 'https://ozhomeenergy.com.au';
 const DEFAULT_MOBILE_CTA_HREF = '/assessment/';
 const DEFAULT_MOBILE_CTA_TEXT = 'Get a Free Quote';
 
+// Header's primary button (desktop header + mobile menu), per page via
+// meta.headerCtaHref/meta.headerCtaText (UX review, 14 Nov 2026). Commercial
+// pages point it at the commercial enquiry instead of the home-owner quote
+// form. Falls back to the mobile-bar override, then the sitewide default.
+
 // site/ is committed to the repo so it already exists, but a throwaway
 // SITE_OUT_DIR (see above) needs creating on a fresh checkout/CI run.
 fs.mkdirSync(SITE_DIR, { recursive: true });
@@ -277,7 +282,10 @@ for (const dir of pageDirs) {
     EXTRA_HEAD: meta.extraHead || '',
     ANALYTICS_HEAD: ANALYTICS_ENABLED ? analyticsHead : '',
     ANALYTICS_BODY: ANALYTICS_ENABLED ? analyticsBody : '',
-    HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeaderFilled : header,
+    HEADER: meta.landingChromeStrict ? conversionHeader : meta.landingChrome ? landingHeaderFilled : fill(header, {
+      HEADER_CTA_HREF: meta.headerCtaHref || DEFAULT_MOBILE_CTA_HREF,
+      HEADER_CTA_TEXT: meta.headerCtaText || DEFAULT_MOBILE_CTA_TEXT,
+    }),
     BODY: body,
     FOOTER: meta.landingChromeStrict ? conversionFooter : meta.landingChrome ? landingFooter : footer,
     EXTRA_SCRIPT: extraScript,
@@ -335,7 +343,7 @@ for (const route of legacyRoutes) {
     EXTRA_HEAD: `<meta http-equiv="refresh" content="0; url=${route.to}">`,
     ANALYTICS_HEAD: ANALYTICS_ENABLED ? analyticsHead : '',
     ANALYTICS_BODY: ANALYTICS_ENABLED ? analyticsBody : '',
-    HEADER: header,
+    HEADER: fill(header, { HEADER_CTA_HREF: DEFAULT_MOBILE_CTA_HREF, HEADER_CTA_TEXT: DEFAULT_MOBILE_CTA_TEXT }),
     BODY: body,
     FOOTER: footer,
     EXTRA_SCRIPT: '',

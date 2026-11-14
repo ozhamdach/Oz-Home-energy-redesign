@@ -339,7 +339,7 @@
 .bxd-card-time { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bx-primary); }
 .bxd-card-name { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
 .bxd-card-text { font-size: 0.875rem; line-height: 1.5; color: var(--bx-muted-fg); }
-#main .bxd-caption { margin: 14px 0 0; font-size: 0.8125rem; line-height: 1.55; color: var(--bx-muted-fg); max-width: 80ch; }
+#main .bxd-caption { margin: 14px 0 0; font-size: 0.8125rem; line-height: 1.55; color: var(--bx-muted-fg); max-width: 40rem; }
 @media (prefers-reduced-motion: reduce) {
   .bxd-flow { animation: none; stroke-dasharray: none; }
   .bxd-play, .bxd-card { transition: none; }
@@ -350,5 +350,5 @@
    home page and every other page banner. Breadcrumb link gets a tap-sized
    height. */
 @media (max-width: 760px) { .bx-hero-copy .bx-actions a[href^="tel:"] { display: none; } }
-.bx-crumbs a { display: inline-block; padding-block: 6px; }
+.bx-crumbs a { display: inline-block; padding: 13px 6px; margin: -13px -6px; }
 

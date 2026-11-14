@@ -4,7 +4,7 @@
      typical Sydney residential job this business targets. No location,
      capacity, customer or date is stated or implied by the new photo —
      alt text describes only what's visibly true. -->
-<section class="hero">
+<section class="hero hero--home">
   <div class="hero-media">
     <picture>
       <source type="image/avif" srcset="/img/photos/hero-solar-residential-complex-640.avif 640w, /img/photos/hero-solar-residential-complex-1200.avif 1200w, /img/photos/hero-solar-residential-complex-1600.avif 1600w" sizes="100vw">
@@ -14,34 +14,39 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="container hero-inner">
-    <!-- Shorter, bigger headline (6 Nov 2026, template comparison: the
-         single cheapest "premium" lever). Keeps service + Sydney for SEO;
-         "done properly" is the site's existing positioning line.
-         Hero trimmed 13 Nov 2026 (Oz: "too much words"), about 56 words
-         down to about 30:
-         - eyebrow "Electrician-led. Backed for 10 years." removed: it
-           repeated the licence and 10-year warranty in the trust row below;
-         - lede cut to the benefit only, since the headline already names
-           solar and batteries;
-         - "Every quote starts with a free energy assessment. No obligation."
-           removed: the button already says free, and the assessment-led
-           process is set out in "How it works" further down;
-         - on phones the hero call button is hidden (.hero-call), because
-           the sticky bottom bar already shows the number on the same
-           screen. (14 Nov 2026: the header phone icon went too.) -->
-    <h1>Sydney solar and batteries, done properly.</h1>
-    <p class="lede">Lower bills, designed around your home.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="/assessment/">Get a Free Quote</a>
+    <!-- Hero, 14 Nov 2026 (Oz): headline is now his own line, "Your Home.
+         Your Energy." It carries the business name (Oz HOME ENERGY), so
+         those two words take the accent colour. Fewer words again: about
+         30 down to 23 on a phone (56 before the 13 Nov trim).
+         - "Sydney solar and batteries" stays inside the <h1> as the small
+           line above the headline, so the page's one h1 still says what
+           the business does and where (for visitors and for search).
+           "done properly" leaves the hero.
+         - The lede "Lower bills, designed around your home." is removed.
+         - The trust row keeps its three facts, word for word, as ticked
+           items instead of one dotted sentence that wrapped badly.
+         - On phones the hero call button stays hidden (.hero-call): the
+           sticky bottom bar shows the number on the same screen.
+         Earlier history: 6 Nov 2026 shorter, bigger headline (template
+         comparison); 13 Nov 2026 trim removed the eyebrow "Electrician-led.
+         Backed for 10 years." and the "Every quote starts with a free
+         energy assessment. No obligation." line.
+         The .hero-rise items fade up once on load (CSS only, so nothing
+         stays hidden if a script fails; off under reduced motion). -->
+    <h1 class="hero-title">
+      <span class="hero-kicker hero-rise">Sydney solar and batteries</span>
+      <span class="hero-line hero-rise" style="--d:70ms">Your <span class="hero-hl">Home</span>.</span>
+      <span class="hero-line hero-rise" style="--d:140ms">Your <span class="hero-hl">Energy</span>.</span>
+    </h1>
+    <div class="hero-ctas hero-rise" style="--d:230ms">
+      <a class="btn btn-primary hero-cta" href="/assessment/">Get a Free Quote <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a class="btn btn-secondary hero-call" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
-    <p class="hero-trust">
-      Licensed NSW Electrical Contractor
-      <span class="dot"></span>
-      SAA Accredited
-      <span class="dot"></span>
-      10-Year Workmanship Warranty
-    </p>
+    <ul class="hero-trust hero-rise" role="list" style="--d:310ms">
+      <li>Licensed NSW Electrical Contractor</li>
+      <li>SAA Accredited</li>
+      <li>10-Year Workmanship Warranty</li>
+    </ul>
   </div>
 </section>
 

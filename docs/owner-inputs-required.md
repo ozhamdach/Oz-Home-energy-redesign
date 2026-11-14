@@ -919,21 +919,51 @@ Settings → On submit → Redirect to URL →
 - Leave `D54fnMMf1LWTXOCNlh28` "Service Request" as is: it's for existing
   customers with a fault, not a new enquiry.
 
-**2. Field fixes (start with `2TfIfhVospnHx74eNcAP`, the main quote form):**
-- [ ] Split the bill question into two fields: bill amount ($) and billing
-      period (Monthly / Quarterly). One combined field can't tell a $400
-      monthly bill from a $400 quarterly one.
-- [ ] Existing-solar question: add "No existing solar" and "Not sure".
-- [ ] Make the message / additional-details field optional.
-- [ ] Helper text under address: "Used to check orientation, shading and
-      what your network allows." Under bill: "We work from your real usage
-      first, not guesswork."
+**2. Field fixes.** Rewritten 14 Nov 2026 after reading all three live forms
+directly in a browser (UX audit; nothing was submitted). The earlier list
+was written before the forms could be seen and was partly wrong: the main
+form's Message is already optional, its bill question already says "per
+quarter" on every option, and it has no existing-solar question.
+- [ ] All three forms (`2TfIfhVospnHx74eNcAP`, `ILAJCu9qJyVzX582GAtX`,
+      `OmaWW64OZ3FaCGGvEIgx`): the button says "Submit". Change it to
+      "Get my free quote".
+- [ ] Quick form (`ILAJCu9qJyVzX582GAtX`, Home and /contact/) and EV form
+      (`OmaWW64OZ3FaCGGvEIgx`): Message is required, so someone who only
+      wants a call back cannot send the form without typing something.
+      Make Message optional.
+- [ ] Main form (`2TfIfhVospnHx74eNcAP`): "Primary Goal" offers Solar,
+      Battery, EV Charger, Other. Add "Solar and battery".
+- [ ] Main form, minor: the "Average quarterly energy bill" dropdown shows
+      an empty box until tapped; the other two dropdowns show "Select ...".
+      Give it the same prompt.
 
 **3. Welcome video for the confirmation page.**
 - [ ] Oz to send the video. It's added in place of the placeholder in
       `src/pages/quote-received/content.html` and `enquiryVideo` is set to
       published in `src/data/site-status.json`. Until then production hides
       the video block entirely.
+
+### 🟡 Home hero proof numbers (14 Nov 2026)
+The home hero shows three figures supplied by Oz on 14 Nov 2026.
+- [x] **5.0 Google rating.** Checked against the Google reviews widget the
+      home page embeds: on 14 Nov 2026 it showed six reviews (16 Aug to
+      22 Sep 2026), all five stars. The figure links to that section.
+      If any review below five stars arrives, change the figure that day.
+- [x] **9,000+ "Team career installs".** Oz's statement, 14 Nov 2026
+      ("~9000+ installs team experience"), replacing his first figure of
+      6,000+. It is the combined installs that Oz and his current workers
+      have worked on over their careers, including before Oz Home Energy.
+      It is not the company's own job count, so the label must not become
+      "Systems installed". Nothing on file verifies it. Keep it true:
+      current team only; jobs each person actually worked on; a job two of
+      them shared counts once; reduce it if someone who accounts for a
+      large share leaves. "+" means at least 9,000; if the tally is only
+      roughly 9,000, use a number Oz is sure of.
+- [ ] **10+ "Years in the trade".** Oz to confirm this is his own time in
+      the trade (the company's ABN is recent, so it cannot be the
+      company's age).
+Source and wording notes are in `src/pages/home/content.html` above the
+numbers.
 
 ### ✅ Battery "day on your home" slider: real data, owner OK (7 Nov 2026)
 The interactive on /battery-storage/ now shows a REAL day: 6 November 2026

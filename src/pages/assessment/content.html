@@ -6,12 +6,22 @@
       Energy Assessment
     </p>
 
+    <!-- Intro shortened 14 Nov 2026 (UX audit, approved by Oz): a phone
+         visitor read about 80 words before the first field. Now about 55,
+         in one fewer paragraph, and the form starts higher.
+         - Heading: 11 words to 8; "tailored" dropped (the VSL brief lists
+           it among claims buyers have heard 100 times); "Sydney" moves to
+           the line below.
+         - The old lede ("Tell us about your property and how you use
+           electricity") described the form the visitor can already see.
+           The lede now carries the no-obligation and one-business-day
+           reassurance instead, word for word from the hint it replaces. -->
     <h1 style="font-size:clamp(1.5rem, 1.2rem + 1.6vw, 2.1rem); margin-bottom:6px;">
-      Get a tailored solar, battery or EV quote for your Sydney home
+      Get your free solar, battery or EV quote
     </h1>
 
     <p class="lede" style="font-size:0.95rem; margin-bottom:0;">
-      Tell us about your property and how you use electricity.
+      For Sydney homes. No obligation. We aim to respond within one business day.
     </p>
   </div>
 </section>
@@ -37,16 +47,23 @@
            already covers the phone fallback; this adds the same short
            line directly under the form itself too, for anyone who
            doesn't scroll to the sidebar. -->
+      <!-- .assess-main (14 Nov 2026): the intro lines and the form now share
+           one grid cell. They used to be separate grid children, so the
+           two-column desktop layout depended on exactly how many intro
+           lines there were (removing one pushed the form into the sidebar
+           column), and on phones each line was followed by a 30px grid
+           gap before the form. -->
+      <div class="assess-main">
       <p class="assess-trust-strip">Licensed NSW Electrical Contractor &middot; SAA Accredited &middot; 10-Year Workmanship Warranty</p>
       <!-- Council (27 Oct 2026): the reassurance lived in the sidebar, which
-           stacks BELOW the form on phones. One line above the form instead,
-           reusing wording already published on this page. -->
-      <p class="hint" style="margin:0 0 10px;">Every quote starts with this free energy assessment. No obligation. We aim to respond within one business day.</p>
+           stacks BELOW the form on phones, so one line went above the form.
+           14 Nov 2026: that line moved up into the lede under the heading
+           (same wording), so it is no longer repeated here. -->
       <!-- "Why we ask" (5 Nov 2026, Lead Form Redesign artifact): the form
            itself lives in HighLevel, so the reason for its two most
            personal questions (address, bill) is given here, reusing the
            sizing principle already published in the homepage FAQ. -->
-      <p class="hint" style="margin:0 0 10px;">Have a recent electricity bill handy: we size your system from your real usage first, not guesswork, and your address lets us check roof, shading and supply.</p>
+      <p class="hint" style="margin:0 0 10px;">Have a recent power bill handy. We size from your real usage, and your address lets us check your roof and supply.</p>
       <div class="assess-wrap form-embed-wrap">
         <div class="form-embed-loading" aria-hidden="true">
           <span class="spinner"></span>
@@ -72,6 +89,7 @@
           title="Request a Quote">
         </iframe>
         <p class="hint" style="margin-top:12px;">Form not loading? Call <a href="tel:+61435336336">0435 336 336</a> instead.</p>
+      </div>
       </div>
 
       <!-- Right Sidebar -->
@@ -153,6 +171,8 @@
     gap: 40px;
     align-items: flex-start;
   }
+
+  .assess-main { min-width: 0; }
 
   .assess-wrap {
     width: 100%;

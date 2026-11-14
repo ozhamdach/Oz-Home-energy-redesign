@@ -249,8 +249,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (min-width: 720px) { .phone-link { display: inline-flex; } }
 .phone-link svg { width: 18px; height: 18px; color: var(--brand); }
 .header-actions .btn { padding: 11px 18px; font-size: 0.88rem; }
-.mobile-call-btn { display: inline-flex; }
-@media (min-width: 720px) { .mobile-call-btn { display: none; } }
+/* The phone-only header call button (.mobile-call-btn) was removed 14 Nov
+   2026 (UX audit): below 760px the sticky bottom bar already shows the
+   number, so the header repeated it on every screen. */
 .desktop-cta { display: none; }
 @media (min-width: 860px) { .desktop-cta { display: inline-flex; } }
 
@@ -355,6 +356,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .hero-ctas { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 14px; margin-top: 28px; }
 .hero-trust { margin-top: 32px; font-size: 0.88rem; color: #d8ddf5; display: flex; align-items: center; justify-content: flex-start; gap: 10px; flex-wrap: wrap; }
 .hero-trust .dot { width: 4px; height: 4px; border-radius: 50%; background: #7c8ab8; }
+/* Phones: the sticky bottom bar already shows the number, so the hero keeps
+   one button (13 Nov 2026 hero trim). */
+@media (max-width: 760px) { .hero .hero-call { display: none; } }
 .hero-photo-credit { position: absolute; z-index: 2; bottom: 10px; right: 16px; font-size: 0.7rem; color: rgba(255,255,255,0.55); }
 
 /* Page (non-home) header banner */
@@ -412,6 +416,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .pathway-card .icon { width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--bg-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .pathway-card .icon svg { width: 22px; height: 22px; color: var(--brand); }
 .pathway-card strong { display: block; font-family: var(--font-heading); font-size: 0.98rem; }
+/* One-line positioning note under the cards. It replaces the separate
+   "One connected energy system" section (14 Nov 2026 UX audit). */
+.pathway-note { max-width: 62ch; margin: 28px auto 0; text-align: center; color: var(--text-muted); text-wrap: pretty; }
+.pathway-note strong { color: var(--text); }
 
 /* ---------- Energy flow diagram ---------- */
 .flow-diagram { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
@@ -624,6 +632,17 @@ a.trust-card:hover .trust-card-mark, a.trust-card:focus-visible .trust-card-mark
 @media (max-width: 560px) { .photo-gallery { grid-template-columns: 1fr; } }
 .gallery-item { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); background: #fff; }
 .gallery-item .photo-frame { min-height: 0; aspect-ratio: 4/3; border-radius: 0; }
+/* Two long-standing gallery bugs fixed 14 Nov 2026 (UX audit), on every
+   page that uses .photo-gallery:
+   1. <figure> keeps the browser's default 16px 40px margin, so each photo
+      was 80px narrower than its column (270px wide on a 390px phone).
+   2. The frame's height:100% resolved against the figure once the grid
+      sized it, so the frame filled the whole figure and pushed the caption
+      out of the box, where overflow:hidden cut it off. No caption was
+      ever visible. height:auto lets the 4:3 ratio size the frame and the
+      caption sits underneath. */
+.gallery-item { margin: 0; }
+.gallery-item .photo-frame { height: auto; }
 .gallery-item figcaption { padding: 12px 14px 16px; font-size: 0.86rem; color: var(--text-muted); }
 
 /* ---------- Why us ---------- */
@@ -859,6 +878,9 @@ fieldset.assess-fieldset.is-invalid .radio-cards { outline: 2px solid #c0322b; o
    this override the "Check Site Eligibility" CTA would vanish entirely
    between 720px and 860px — visible nowhere. */
 .landing-header .desktop-cta { display: inline-flex; }
+/* ...except on phones, where the sticky bottom bar carries the same
+   button (14 Nov 2026 UX audit: the quote page showed it twice). */
+@media (max-width: 760px) { .landing-header .desktop-cta { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .assess-step.is-active { animation: none; }
   .assess-progress .fill { transition: none; }
@@ -937,7 +959,15 @@ table.data-table tr:last-child td { border-bottom: none; }
   /* Keep the bar from covering the last section's content, and the footer
      itself, on pages short enough for the footer to reach the bottom. */
   #main { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
-  .site-footer { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  /* 88px, up from 64px (14 Nov 2026 UX audit): the bar is 65px tall, so
+     the last footer link sat 1-2px above it. This leaves about 24px. */
+  .site-footer { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  /* A shorter header on phones (76px to 64px). With the bottom bar the two
+     fixed strips took 141px of every screen; this and the removed header
+     call button bring it to 129px. Everything that offsets by the header
+     height reads --header-h, so it follows. */
+  :root { --header-h: 64px; }
+  .brand-logo-img { height: 44px; }
 }
 
 /* ---------- Scroll-reveal ---------- */
@@ -1154,6 +1184,20 @@ table.data-table tr:last-child td { border-bottom: none; }
   padding: 10px 4px 0;
   font-style: italic;
 }
+/* Home page only: on phones the three photos sit in one swipeable row
+   instead of a tall stack (14 Nov 2026 UX audit). The next photo peeks in
+   from the right so the row reads as swipeable. Only the row scrolls
+   sideways, never the page. */
+@media (max-width: 560px) {
+  .photo-gallery--swipe {
+    display: flex; gap: 12px; overflow-x: auto;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin-inline: -20px; padding: 4px 20px 24px; scroll-padding-inline: 20px;
+    scrollbar-width: none;
+  }
+  .photo-gallery--swipe::-webkit-scrollbar { display: none; }
+  .photo-gallery--swipe .gallery-item { flex: 0 0 78%; scroll-snap-align: start; }
+}
 
 /* ── Pathway cards — stronger hover, tighter icon ─────────────────────── */
 .pathway-card {
@@ -1283,4 +1327,135 @@ table.data-table tr:last-child td { border-bottom: none; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(5,96,193,0.09), 0 16px 48px rgba(0,0,0,0.10);
+}
+
+/* =====================================================
+   HOME HERO — "Your Home. Your Energy." (14 Nov 2026)
+   Scoped to .hero--home: .hero is also used by the commercial load
+   review page. Sits at the end of the file so it wins over the earlier
+   hero rules and the Oct 2026 overlay without touching them.
+   What makes it carry four words:
+   - the headline is two short lines at a much larger size;
+   - "Your" is an italic serif, "Home" and "Energy" (the business name)
+     are heavy white sans, so the contrast is in the type;
+   - the photo is allowed to show: the old overlay hid a bright blue-sky
+     shot behind 80-93% black. Desktop clears the right-hand side; phones
+     show the roof and panels above the words and fade to solid below;
+   - three proof numbers under the button, with the licence, accreditation
+     and warranty facts in a slim band below the hero;
+   - one short fade-up on load. Transform and opacity only, CSS only.
+   ===================================================== */
+.hero--home { background: rgb(4, 8, 20); }
+/* width:100% so the block fills the standard page container and the words
+   start at its left edge, in line with the sections below. As a flex item
+   it used to shrink to its text and sit centred over the photo. */
+.hero--home .hero-inner { padding-block: 96px 72px; max-width: var(--maxw); width: 100%; }
+.hero--home .hero-overlay {
+  background: linear-gradient(100deg, rgba(4,8,20,0.94) 0%, rgba(4,8,20,0.84) 40%, rgba(4,8,20,0.34) 72%, rgba(4,8,20,0.14) 100%);
+}
+
+.hero--home .hero-title { margin: 0; font-size: inherit; letter-spacing: normal; line-height: 1; text-wrap: initial; }
+.hero--home .hero-kicker {
+  display: block; margin-bottom: 18px;
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; line-height: 1.4;
+  text-transform: uppercase; color: #bcd0ff;
+}
+.hero--home .hero-line {
+  display: block; white-space: nowrap; color: #fff;
+  font-size: clamp(2.75rem, 15.6vw, 7.25rem); font-weight: 700;
+  letter-spacing: -0.05em; line-height: 0.96;
+  text-shadow: 0 2px 28px rgba(4, 8, 20, 0.45);
+}
+/* "Your" in an italic serif against the heavy sans of "Home." and
+   "Energy.". Weight 400 is set explicitly: the face has one weight, and
+   inheriting the h1's 700 would make the browser fake a bold. Georgia
+   italic is the stand-in until the four-letter font file arrives. */
+.hero--home .hero-your {
+  font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
+  font-style: italic; font-weight: 400; letter-spacing: -0.02em;
+}
+
+.hero--home .hero-ctas { margin-top: 34px; }
+.hero--home .hero-cta { min-height: 54px; padding: 16px 26px 16px 28px; font-size: 1rem; }
+.hero--home .hero-cta svg { flex: none; transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); }
+@media (hover: hover) { .hero--home .hero-cta:hover svg { transform: translateX(4px); } }
+
+/* Proof numbers: three figures in a row under the button. */
+.hero--home .hero-stats {
+  list-style: none; margin: 34px 0 0; padding: 22px 0 0; max-width: 640px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  display: grid; grid-template-columns: repeat(3, auto); justify-content: start; column-gap: clamp(22px, 4.5vw, 60px);
+}
+.hero--home .hero-stats strong {
+  display: block; color: #fff; font-family: var(--font-heading); font-weight: 700;
+  font-size: clamp(1.5rem, 7vw, 2.75rem); letter-spacing: -0.04em; line-height: 1;
+}
+.hero--home .hero-stats .hs-mark { color: #7db6ff; margin-left: 1px; }
+.hero--home .hero-stats .hs-label {
+  display: block; margin-top: 9px; color: #c3cbe6; font-family: var(--font-heading); font-weight: 600;
+  font-size: 0.75rem; letter-spacing: 0.08em; line-height: 1.35; text-transform: uppercase;
+}
+.hero--home .hero-stats a { display: block; color: inherit; text-decoration: none; border-radius: 6px; }
+.hero--home .hero-stats a:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
+@media (hover: hover) { .hero--home .hero-stats a:hover .hs-label { color: #fff; text-decoration: underline; text-underline-offset: 3px; } }
+#reviewsSection { scroll-margin-top: calc(var(--header-h) + 8px); }
+
+/* Slim band under the hero: the three trust facts, ticked. Same dark as
+   the hero so it reads as its footer. */
+.hero-facts { background: rgb(4, 8, 20); border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.hero-facts-list {
+  list-style: none; margin: 0 auto; padding-block: 14px;
+  display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 0.8rem; color: #c9d1ea;
+}
+.hero-facts-list li { display: inline-flex; align-items: center; gap: 7px; }
+.hero-facts-list li::before {
+  content: ""; flex: none; width: 15px; height: 15px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5' stroke='%237db6ff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Entrance: each .hero-rise item fades up once, staggered by its --d. */
+@keyframes hero-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes hero-settle { from { transform: scale(1.05); } to { transform: none; } }
+.hero--home .hero-rise { animation: hero-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d, 0ms); }
+.hero--home .hero-media img { animation: hero-settle 1.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero--home .hero-rise, .hero--home .hero-media img { animation: none; }
+}
+
+/* Tablets and small laptops: the headline reaches most of the way across,
+   so the overlay stays darker for longer. */
+@media (min-width: 761px) and (max-width: 1180px) {
+  .hero--home .hero-overlay {
+    background: linear-gradient(100deg, rgba(4,8,20,0.94) 0%, rgba(4,8,20,0.86) 60%, rgba(4,8,20,0.52) 100%);
+  }
+}
+@media (max-width: 760px) {
+  /* Phones: the photo sits ABOVE the words instead of behind them, so the
+     house and its panels are actually seen. Two rows: the photo takes
+     whatever height is left over, the words take what they need. That
+     keeps the roofline clear of the text at every phone height, which a
+     fixed-percentage split did not. The hero fits one screen between the
+     header and the bottom bar, with the rebate strip peeking below. */
+  .hero--home {
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(180px, 1fr) auto; align-items: stretch;
+    min-height: 600px; min-height: clamp(520px, 76svh, 628px);
+  }
+  .hero--home .hero-media { position: relative; inset: auto; grid-row: 1; grid-column: 1; }
+  .hero--home .hero-media picture { position: absolute; inset: 0; display: block; }
+  .hero--home .hero-overlay { background: linear-gradient(180deg, rgba(4,8,20,0.16) 0%, rgba(4,8,20,0.06) 45%); }
+  .hero--home .hero-inner { grid-row: 2; grid-column: 1; margin-inline: 0; background: rgb(4, 8, 20); padding-block: 0 44px; }
+  /* Soft fade from the photo into the solid panel the words sit on. */
+  .hero--home .hero-inner::before {
+    content: ""; position: absolute; left: 0; right: 0; bottom: calc(100% - 1px); height: 150px; pointer-events: none;
+    background: linear-gradient(180deg, rgba(4,8,20,0) 0%, rgba(4,8,20,0.30) 42%, rgba(4,8,20,0.78) 76%, rgb(4,8,20) 100%);
+  }
+  .hero--home .hero-kicker { margin-bottom: 14px; }
+  .hero--home .hero-ctas { margin-top: 26px; }
+  /* Three equal columns on phones, so each label wraps the same way. */
+  .hero--home .hero-stats { margin-top: 24px; padding-top: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 14px; }
+}
+/* Very small phones (320px): slightly tighter spacing keeps the small line
+   above the headline on one line. */
+@media (max-width: 340px) {
+  .hero--home .hero-kicker { letter-spacing: 0.08em; }
 }

@@ -4,7 +4,7 @@
      typical Sydney residential job this business targets. No location,
      capacity, customer or date is stated or implied by the new photo —
      alt text describes only what's visibly true. -->
-<section class="hero">
+<section class="hero hero--home">
   <div class="hero-media">
     <picture>
       <source type="image/avif" srcset="/img/photos/hero-solar-residential-complex-640.avif 640w, /img/photos/hero-solar-residential-complex-1200.avif 1200w, /img/photos/hero-solar-residential-complex-1600.avif 1600w" sizes="100vw">
@@ -14,30 +14,79 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="container hero-inner">
-    <p class="eyebrow">Electrician-led. Backed for 10 years.</p>
-    <!-- Shorter, bigger headline (6 Nov 2026, template comparison: the
-         single cheapest "premium" lever). Keeps service + Sydney for SEO;
-         "done properly" is the site's existing positioning line, and the
-         lower-bills benefit moves to the lede. -->
-    <h1>Sydney solar and batteries, done properly.</h1>
-    <p class="lede">Lower bills from solar, batteries and EV charging designed around your home and your bill.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="/assessment/">Get a Free Quote</a>
-      <a class="btn btn-secondary" href="tel:+61435336336">Call 0435 336 336</a>
+    <!-- Hero, 14 Nov 2026 (Oz): headline is now his own line, "Your Home.
+         Your Energy." It carries the business name (Oz HOME ENERGY).
+         Those two words are the heavy white ones; "Your" is set in an
+         italic serif (.hero-your) so the contrast is in the type, not in
+         colour. Oz's call, same day: a first version coloured "Home" and
+         "Energy" light blue instead. The serif is DM Serif Display, the
+         display companion to the site's body font (DM Sans); only its
+         four letters Y-o-u-r are requested, on this page only (see
+         extraHead in meta.json). Fewer words again: about 30 down to 23
+         on a phone (56 before the 13 Nov trim).
+         - "Sydney solar and energy systems" (Oz's wording, 14 Nov; first
+           written as "Sydney solar and batteries") sits inside the <h1> as the small
+           line above the headline, so the page's one h1 still says what
+           the business does and where (for visitors and for search).
+           "done properly" leaves the hero.
+         - The lede "Lower bills, designed around your home." is removed.
+         - The trust row's three facts, word for word, are now ticked
+           items in a slim band under the hero; three proof numbers took
+           their place here (see the note above the numbers).
+         - On phones the hero call button stays hidden (.hero-call): the
+           sticky bottom bar shows the number on the same screen.
+         Earlier history: 6 Nov 2026 shorter, bigger headline (template
+         comparison); 13 Nov 2026 trim removed the eyebrow "Electrician-led.
+         Backed for 10 years." and the "Every quote starts with a free
+         energy assessment. No obligation." line.
+         The .hero-rise items fade up once on load (CSS only, so nothing
+         stays hidden if a script fails; off under reduced motion). -->
+    <h1 class="hero-title">
+      <span class="hero-kicker hero-rise">Sydney solar and energy systems</span>
+      <span class="hero-line hero-rise" style="--d:70ms"><span class="hero-your">Your</span> Home.</span>
+      <span class="hero-line hero-rise" style="--d:140ms"><span class="hero-your">Your</span> Energy.</span>
+    </h1>
+    <div class="hero-ctas hero-rise" style="--d:230ms">
+      <a class="btn btn-primary hero-cta" href="/assessment/">Get a Free Quote <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn btn-secondary hero-call" href="tel:+61435336336">Call 0435 336 336</a>
     </div>
-    <!-- Council ruling on "quote" vs "assessment" (27 Oct 2026): the button
-         says what buyers search for; this line keeps the brand's
-         assessment-led process visible beneath it. -->
-    <p class="hint" style="margin-top:14px;">Every quote starts with a free energy assessment. No obligation.</p>
-    <p class="hero-trust">
-      Licensed NSW Electrical Contractor
-      <span class="dot"></span>
-      SAA Accredited
-      <span class="dot"></span>
-      10-Year Workmanship Warranty
-    </p>
+    <!-- PROOF NUMBERS, 14 Nov 2026. Figures supplied by Oz that day.
+         - 5.0: checked against the Google reviews widget this page embeds.
+           On 14 Nov 2026 it showed six reviews (16 Aug to 22 Sep 2026),
+           all five stars. The number links to that section, so the claim
+           sits one tap from its evidence. If a review below five stars
+           arrives, this figure must change the same day.
+         - 9,000+ "team career installs": Oz's statement ("~9000+ installs
+           team experience"), replacing his first figure of 6,000+. It is
+           the combined number of installs that Oz and his current workers
+           have worked on over their careers, including before Oz Home
+           Energy. It is NOT the company's own job count and must never be
+           relabelled "systems installed": the ABN is recent and the public
+           reviews start in August 2026. Conditions Oz was given: current
+           team only, jobs each person actually worked on, a shared job
+           counted once, and the figure comes down if someone who accounts
+           for a large share leaves. "+" means at least 9,000.
+         - 10+ "years in the trade": Oz's statement, worded as his own
+           time in the trade, not the company's age.
+         Nothing on file verifies the 9,000+ or the 10+; see
+         docs/owner-inputs-required.md.
+         The three trust facts that used to sit here are unchanged, word
+         for word, in the slim band directly under the hero (.hero-facts).
+         No count-up animation: the numbers should be readable at once. -->
+    <ul class="hero-stats hero-rise" role="list" style="--d:310ms">
+      <li><strong>10<span class="hs-mark">+</span></strong><span class="hs-label">Years in the trade</span></li>
+      <li><strong>9,000<span class="hs-mark">+</span></strong><span class="hs-label">Team career installs</span></li>
+      <li><a href="#reviewsSection" aria-label="5.0 Google rating. See the reviews."><strong>5.0<span class="hs-mark" aria-hidden="true">&#9733;</span></strong><span class="hs-label">Google rating</span></a></li>
+    </ul>
   </div>
 </section>
+<div class="hero-facts">
+  <ul class="container hero-facts-list" role="list">
+    <li>Licensed NSW Electrical Contractor</li>
+    <li>SAA Accredited</li>
+    <li>10-Year Workmanship Warranty</li>
+  </ul>
+</div>
 
 <!-- REBATE DEADLINE STRIP — added 27 Oct 2026 (marketing council: all seven
      seats agreed the one honest, time-bound reason to act this quarter was
@@ -61,6 +110,58 @@
      hero-trust line, the trust-section below, and the split-panel
      section further down. Nothing here was unique; removing it condenses
      the page without losing any fact. -->
+
+<!-- PATHWAY SELECTOR
+     14 Nov 2026 (UX audit, approved by Oz): moved up from fifth section to
+     directly under the rebate strip. On a phone it sat five screens down,
+     below the badges and two screens of reviews, although it is the block
+     that tells a visitor where to go.
+     It also absorbs two later sections that listed the same services
+     again, so the list appears once:
+     - "One connected energy system, not four separate purchases" (four
+       Generate / Store / Charge / Control cards). Its headline and its
+       one-sentence explanation are kept, word for word, as the note under
+       the cards.
+     - the "For Homes" / "For Business" split panels. Their eight bullets
+       repeated the six cards here; both of their buttons (free quote,
+       project enquiry) remain in the header, the menu and the footer.
+     Together that removes about two phone screens. -->
+<section class="section">
+  <div class="container">
+    <div class="section-head center reveal">
+      <p class="eyebrow">Where to start</p>
+      <h2>What would you like your energy system to do?</h2>
+      <p class="lede" style="margin-inline:auto;">Choose what's closest to your situation.</p>
+    </div>
+    <div class="pathway-grid">
+      <a class="pathway-card reveal" href="/assessment/">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+        <span><strong>Lower my electricity bills</strong> See where your usage goes and what's worth changing</span>
+      </a>
+      <a class="pathway-card reveal" href="/residential-solar/">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#0560C1" stroke-width="1.6"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 1.4 1.4-1.4M5.6 18.4l-1.4 1.4m15.6-1.4 1.4 1.4" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span><strong>Install new solar, with or without a battery</strong> Sized around your roof, usage and goals</span>
+      </a>
+      <a class="pathway-card reveal" href="/battery-storage/">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0560C1" stroke-width="1.6"/><rect x="10" y="1" width="4" height="3" rx="1" fill="#0560C1"/><rect x="9" y="12" width="6" height="6" rx="1" fill="#0560C1"/></svg></span>
+        <span><strong>Add a battery to existing solar</strong> We'll check your system and switchboard support it</span>
+      </a>
+      <a class="pathway-card reveal" href="/ev-charging/">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="10" height="12" rx="2" stroke="#0560C1" stroke-width="1.6"/><path d="M16 11h2.5L21 14v4h-5" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12v6m-2.5-3h5" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span><strong>Charge my EV at home</strong> What your switchboard needs and where it goes</span>
+      </a>
+      <a class="pathway-card reveal" href="/residential-electrical/">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="#0560C1" stroke-width="1.6"/><path d="M9 8h6M9 12h6M9 16h3" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span><strong>Upgrade my electrical system</strong> Ageing switchboards and safety issues sorted properly</span>
+      </a>
+      <a class="pathway-card reveal" href="/commercial-solar/">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V9l6-4 6 4v12" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 21v-8l6 3v5" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+        <span><strong>Plan a commercial project</strong> Solar, storage, EV or electrical for your business</span>
+      </a>
+    </div>
+    <p class="pathway-note"><strong>One connected energy system, not four separate purchases.</strong> Solar, batteries, EV charging and your electrical infrastructure work best planned together, even if you're only adding one today.</p>
+  </div>
+</section>
 
 <!-- TRUST SECTION: "Qualified. Approved. Accountable."
      Premium redesign, 24 Sep 2026: badges enlarged and taken out of white
@@ -208,43 +309,6 @@
   </div>
 </section>
 
-<!-- PATHWAY SELECTOR -->
-<section class="section">
-  <div class="container">
-    <div class="section-head center reveal">
-      <p class="eyebrow">Where to start</p>
-      <h2>What would you like your energy system to do?</h2>
-      <p class="lede" style="margin-inline:auto;">Choose what's closest to your situation.</p>
-    </div>
-    <div class="pathway-grid">
-      <a class="pathway-card reveal" href="/assessment/">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-        <span><strong>Lower my electricity bills</strong> See where your usage goes and what's worth changing</span>
-      </a>
-      <a class="pathway-card reveal" href="/residential-solar/">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#0560C1" stroke-width="1.6"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 1.4 1.4-1.4M5.6 18.4l-1.4 1.4m15.6-1.4 1.4 1.4" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <span><strong>Install new solar, with or without a battery</strong> Sized around your roof, usage and goals</span>
-      </a>
-      <a class="pathway-card reveal" href="/battery-storage/">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0560C1" stroke-width="1.6"/><rect x="10" y="1" width="4" height="3" rx="1" fill="#0560C1"/><rect x="9" y="12" width="6" height="6" rx="1" fill="#0560C1"/></svg></span>
-        <span><strong>Add a battery to existing solar</strong> We'll check your system and switchboard support it</span>
-      </a>
-      <a class="pathway-card reveal" href="/ev-charging/">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="10" height="12" rx="2" stroke="#0560C1" stroke-width="1.6"/><path d="M16 11h2.5L21 14v4h-5" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12v6m-2.5-3h5" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <span><strong>Charge my EV at home</strong> What your switchboard needs and where it goes</span>
-      </a>
-      <a class="pathway-card reveal" href="/residential-electrical/">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="#0560C1" stroke-width="1.6"/><path d="M9 8h6M9 12h6M9 16h3" stroke="#0560C1" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <span><strong>Upgrade my electrical system</strong> Ageing switchboards and safety issues sorted properly</span>
-      </a>
-      <a class="pathway-card reveal" href="/commercial-solar/">
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V9l6-4 6 4v12" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 21v-8l6 3v5" stroke="#0560C1" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-        <span><strong>Plan a commercial project</strong> Solar, storage, EV or electrical for your business</span>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- FOUNDER EXCERPT — moved below the pathway selector and shortened to
      the first sentence (27 Oct 2026, marketing council: CRO, customer and
      skeptic seats ruled proof and choice come before story on a phone;
@@ -283,20 +347,28 @@
      not supplied — see the Projects page itself and the private
      checklist for this pass.
      Corrected 25 Sep 2026 audit pass: the "See more recent work" link to
-     /projects/ is wrapped in a <!--NAV:projects--> marker (same mechanism
+     /projects/ is wrapped in a NAV projects marker pair (same mechanism
      build.js already uses for header/footer nav) so a production build
      strips it while siteStatus.projects.published is false — the page
      itself stays noindex and out of the sitemap/nav, but the homepage was
      still linking straight to it. Preview builds keep the link (markers
      stripped, content kept) since the page is reviewable there. The three
-     photographs themselves are unaffected either way. -->
+     photographs themselves are unaffected either way.
+     14 Nov 2026 (UX audit): that last sentence was wrong for seven weeks.
+     This note used to spell the opening marker out in full; the production
+     build read it as a real marker and deleted this whole section, photos
+     included, from the live page (29 Sep to 14 Nov 2026). The note now
+     describes the marker in words, and scripts/build.js fails the build
+     if opening and closing markers ever stop matching. On phones the
+     three photos sit in one swipeable row (.photo-gallery--swipe) so
+     restoring them adds about half a screen, not two. -->
 <section class="section">
   <div class="container">
     <div class="section-head center">
       <p class="eyebrow">Recent work</p>
       <h2>Recent installs</h2>
     </div>
-    <div class="photo-gallery">
+    <div class="photo-gallery photo-gallery--swipe">
       <figure class="gallery-item">
         <div class="photo-frame">
           <picture>
@@ -335,69 +407,6 @@
          a badge or a brand name in a sentence. See
          docs/owner-inputs-required.md. -->
     <p class="text-center hint" style="margin-top:16px;">Brands we install: Jinko Solar, JA Solar, Trina Solar (panels); FoxESS, Sungrow, Sigenergy, GoodWe (batteries and inverters); Ohme, Evnex (EV chargers).</p>
-  </div>
-</section>
-
-<!-- CONNECTED ENERGY EXPLANATION -->
-<section class="section section-accent">
-  <div class="container">
-    <div class="section-head center reveal">
-      <p class="eyebrow">How it fits together</p>
-      <h2>One connected energy system, not four separate purchases</h2>
-      <p class="lede" style="margin-inline:auto;">Solar, batteries, EV charging and your electrical infrastructure work best planned together, even if you're only adding one today.</p>
-    </div>
-    <div class="flow-diagram">
-      <div class="flow-step reveal">
-        <p class="num">01 · GENERATE</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#0560C1" stroke-width="1.8"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 1.4 1.4-1.4M5.6 18.4l-1.4 1.4m15.6-1.4 1.4 1.4" stroke="#0560C1" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-        <h3>Solar panels</h3>
-        <p>Convert sunlight into electricity you can use straight away.</p>
-      </div>
-      <div class="flow-step reveal">
-        <p class="num">02 · STORE</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0560C1" stroke-width="1.8"/><rect x="10" y="1" width="4" height="3" rx="1" fill="#0560C1"/><rect x="9" y="12" width="6" height="6" rx="1" fill="#0560C1"/></svg></span>
-        <h3>Battery storage</h3>
-        <p>Store what you don't use for later. Backup during an outage needs circuits designed for it.</p>
-      </div>
-      <div class="flow-step reveal">
-        <p class="num">03 · CHARGE</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="10" height="12" rx="2" stroke="#0560C1" stroke-width="1.8"/><path d="M16 11h2.5L21 14v4h-5" stroke="#0560C1" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
-        <h3>EV charging</h3>
-        <p>Put solar to use charging a vehicle, day or night.</p>
-      </div>
-      <div class="flow-step reveal">
-        <p class="num">04 · CONTROL</p>
-        <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="#0560C1" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h3" stroke="#0560C1" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-        <h3>Electrical infrastructure</h3>
-        <p>A switchboard and wiring built to carry it all, now and as you add to it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- RESIDENTIAL / COMMERCIAL SOLUTIONS -->
-<section class="split">
-  <div class="split-panel home">
-    <p class="eyebrow">For Homes</p>
-    <h2>Solar, batteries, EV charging and electrical upgrades</h2>
-    <ul>
-      <li>New solar, with or without a battery</li>
-      <li>Battery retrofits to existing solar</li>
-      <li>Home EV charger installation</li>
-      <li>Switchboard upgrades and general electrical work</li>
-    </ul>
-    <a class="btn btn-primary" href="/assessment/">Get a Free Quote</a>
-  </div>
-  <div class="split-panel business">
-    <p class="eyebrow">For Business</p>
-    <h2>Commercial solar, battery storage, EV infrastructure and electrical projects</h2>
-    <ul>
-      <li>Commercial-scale solar</li>
-      <li>Commercial battery storage</li>
-      <li>EV charging infrastructure for staff, fleet or customers</li>
-      <li>Commercial electrical work</li>
-    </ul>
-    <a class="btn btn-primary" href="/commercial-project-enquiry/">Start a Project Enquiry</a>
   </div>
 </section>
 

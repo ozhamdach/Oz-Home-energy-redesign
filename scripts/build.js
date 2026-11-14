@@ -77,16 +77,33 @@ const siteStatus = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'si
 // isn't published, but only for the production build — the preview build
 // always shows every marked block so it stays fully reviewable and
 // clickable during development.
-function applyNavGating(html) {
+//
+// Guard (14 Nov 2026): every opening marker must have its own closing
+// marker. A note in the home page source once spelled out an opening
+// marker inside a comment; the production build then treated that note as
+// a real opening marker and silently deleted everything from it to the
+// next closing marker — the whole "Recent installs" photo gallery was
+// missing from the live home page from 29 Sep to 14 Nov 2026, while the
+// preview build (which only strips the markers) looked fine. Failing the
+// build in BOTH modes means a preview build catches it too.
+function applyNavGating(html, label) {
+  const opens = (html.match(/<!--NAV:[\w-]+-->/g) || []).length;
+  const closes = (html.match(/<!--\/NAV:[\w-]+-->/g) || []).length;
+  if (opens !== closes) {
+    throw new Error(
+      `${label || 'template'}: ${opens} opening NAV marker(s) but ${closes} closing. ` +
+      'A marker written out inside a comment counts as a real one; describe it in words instead.'
+    );
+  }
   if (!IS_PRODUCTION) return html.replace(/<!--\/?NAV:[\w-]+-->/g, '');
   return html.replace(/<!--NAV:([\w-]+)-->([\s\S]*?)<!--\/NAV:\1-->/g, (m, key, inner) =>
     siteStatus[key] && siteStatus[key].published ? inner : ''
   );
 }
-header = applyNavGating(header);
-footer = applyNavGating(footer);
-landingHeader = applyNavGating(landingHeader);
-landingFooter = applyNavGating(landingFooter);
+header = applyNavGating(header, 'src/partials/header.html');
+footer = applyNavGating(footer, 'src/partials/footer.html');
+landingHeader = applyNavGating(landingHeader, 'src/partials/header-landing.html');
+landingFooter = applyNavGating(landingFooter, 'src/partials/footer-landing.html');
 
 function fill(tpl, vars) {
   return tpl.replace(/{{(\w+)}}/g, (m, key) => (key in vars ? vars[key] : ''));
@@ -199,7 +216,7 @@ for (const dir of pageDirs) {
     continue;
   }
   const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-  const body = applyNavGating(fs.readFileSync(contentPath, 'utf8'));
+  const body = applyNavGating(fs.readFileSync(contentPath, 'utf8'), path.relative(ROOT, contentPath));
 
   let schema = '';
   if (meta.breadcrumbs && meta.breadcrumbs.length) {

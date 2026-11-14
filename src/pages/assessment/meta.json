@@ -17,6 +17,7 @@
     }
   ],
   "extraScripts": [
-    "https://link.ozhomeenergy.com.au/js/form_embed.js"
+    "https://link.ozhomeenergy.com.au/js/form_embed.js",
+    "/js/quote-steps.js"
   ]
 }

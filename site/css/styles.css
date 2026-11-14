@@ -1539,8 +1539,9 @@ table.data-table tr:last-child td { border-bottom: none; }
 .section-inverse h1, .section-inverse h4 { color: var(--text-on-dark); }
 
 /* 2. A link inside a dark banner's intro text was brand blue on charcoal
-      (under 4.5:1 on /residential-electrical/). */
-.page-banner .lede a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+      (under 4.5:1 on /residential-electrical/). The banners are light now
+      (see "PAGE BANNERS" at the end of this file), where brand blue on the
+      tint is 5.7:1, so the link is blue and underlined there. */
 
 /* 3. In-page links (#quoteForm, #founder, #bxd ...) stopped with the heading
       hidden under the sticky header. */
@@ -1657,4 +1658,86 @@ main [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
 .nav-toggle[aria-expanded="true"] .nav-ico-open { display: none; }
 .nav-toggle[aria-expanded="true"] .nav-ico-close { display: inline; }
 @media (max-width: 760px) { .mobile-nav .mobile-cta { display: none; } }
+
+/* =====================================================
+   PAGE BANNERS: ONE STYLE ON EVERY INNER PAGE (14 Nov 2026)
+   The home and battery pages had the newer look; every other page still
+   opened with the older flat charcoal block. This brings them into line
+   with the battery page: light tint, dark type, one blue button, and
+   either the page's real install photo as a card or (on pages with no
+   photo) the site's own illustration. Markup is unchanged on all 31
+   pages; to switch the whole set to a dark scheme, change the four --pb-
+   values below.
+   ===================================================== */
+.page-banner {
+  --pb-bg: #f4f7fe; --pb-fg: #10233f; --pb-muted: #475569; --pb-line: #dbe5f6;
+  position: relative; overflow: hidden;
+  background: var(--pb-bg); color: var(--pb-fg);
+  border-bottom: 1px solid var(--pb-line);
+  padding-block: clamp(34px, 5vw, 76px) clamp(38px, 5vw, 76px);
+}
+.page-banner .container { position: relative; z-index: 1; }
+.page-banner h1 { color: var(--pb-fg); font-size: clamp(2.1rem, 1.4rem + 3vw, 3.5rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 18px; max-width: 20ch; text-wrap: balance; }
+.page-banner .lede { color: var(--pb-muted); max-width: 56ch; font-size: 1.12rem; }
+.page-banner .eyebrow { color: var(--brand); }
+.page-banner .breadcrumbs, .page-banner .breadcrumbs a { color: var(--pb-muted); }
+.page-banner .btn-secondary { color: var(--brand); border-color: var(--brand); background: transparent; }
+.page-banner .btn-secondary:hover { background: #eaf0fd; border-color: var(--brand-hover); }
+.page-banner .btn-secondary:focus-visible { outline-color: var(--focus-ring); }
+.page-banner .hint, .page-banner .hero-trust { color: var(--pb-muted); }
+.page-banner .hint a, .page-banner .lede a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+.page-banner .hero-trust .dot { background: #9db0cf; }
+.assess-banner h1 { max-width: none; }
+/* Compact, centred banners (the commercial battery check): no illustration, and the heading stays centred. */
+.page-banner .text-center h1 { max-width: none; margin-inline: auto; }
+
+/* Pages with no photo: the illustration sits to the right on wide screens. */
+@media (min-width: 1100px) {
+  .page-banner:not(.page-banner--photo):not(.assess-banner):not(:has(> .text-center))::after {
+    content: ""; position: absolute; z-index: 0; pointer-events: none;
+    right: max(20px, calc(50% - var(--maxw) / 2 + 20px)); top: 50%; transform: translateY(-50%);
+    width: min(34%, 450px); aspect-ratio: 560 / 330;
+    background: url(../img/brand/illus-connected-home.svg) no-repeat center / contain;
+  }
+  /* The words keep clear of the illustration at every width. */
+  .page-banner:not(.page-banner--photo):not(.assess-banner):not(:has(> .text-center)) .container > * { max-width: min(660px, 58%); }
+}
+
+/* Pages with a photo: words on the left, the photo as a card on the right
+   (below the words on phones), instead of words laid over a darkened photo. */
+.page-banner--photo {
+  display: grid; align-items: center; min-height: 0;
+  grid-template-columns: minmax(20px, 1fr) minmax(0, 650px) minmax(0, 550px) minmax(20px, 1fr);
+}
+.page-banner--photo > .container { grid-column: 2; grid-row: 1; max-width: none; margin: 0; padding: 0 clamp(24px, 4vw, 56px) 0 0; }
+.page-banner--photo > .page-banner-media { grid-column: 3; grid-row: 1; position: relative; inset: auto; z-index: 1; border-radius: 16px; overflow: hidden; aspect-ratio: 5 / 4; background: #eaf0fd; }
+.page-banner--photo > .page-banner-overlay, .page-banner--photo::after { display: none; }
+@media (max-width: 899px) {
+  .page-banner--photo { grid-template-columns: minmax(0, 1fr); }
+  .page-banner--photo > .container { grid-column: 1; grid-row: 1; padding: 0 20px; }
+  .page-banner--photo > .page-banner-media { grid-column: 1; grid-row: 2; margin: 26px 20px 0; aspect-ratio: 16 / 10; }
+}
+@media (max-width: 640px) {
+  .page-banner { padding-block: 24px 34px; }
+  .page-banner--photo { padding-block: 24px 28px; min-height: 0; }
+  .page-banner h1 { font-size: clamp(2rem, 1.15rem + 3.8vw, 2.4rem); line-height: 1.06; margin-bottom: 12px; }
+  .page-banner .lede { font-size: 1.02rem; line-height: 1.55; }
+}
+
+/* =====================================================
+   CUSTOM ICON SET AND ILLUSTRATION (14 Nov 2026)
+   .oz-ico: 24px grid, 1.75 stroke, with one soft filled shape behind the
+   lines (.oz-ico-acc). Used on the home chooser and the quote steps.
+   ===================================================== */
+.oz-ico-acc { fill: rgba(5, 96, 193, 0.16); stroke: none; }
+.pathway-card .icon { width: 48px; height: 48px; border-radius: 12px; }
+.pathway-card .icon svg.oz-ico { width: 28px; height: 28px; color: var(--brand); }
+.pathway-illus { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); align-items: center; gap: 12px 36px; max-width: 860px; margin: 36px auto 0; padding: 22px 28px; background: var(--blue-50); border: 1px solid rgba(5, 96, 193, 0.12); border-radius: var(--radius-lg); }
+.pathway-illus img { display: block; width: 100%; height: auto; }
+.pathway-illus .pathway-note { margin: 0; max-width: none; text-align: left; }
+@media (max-width: 700px) {
+  .pathway-illus { grid-template-columns: minmax(0, 1fr); padding: 18px 20px 22px; text-align: center; }
+  .pathway-illus img { max-width: 300px; margin-inline: auto; }
+  .pathway-illus .pathway-note { text-align: center; }
+}
 

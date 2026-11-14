@@ -935,12 +935,17 @@ quarter" on every option, and it has no existing-solar question.
 - [ ] All three forms (`2TfIfhVospnHx74eNcAP`, `ILAJCu9qJyVzX582GAtX`,
       `OmaWW64OZ3FaCGGvEIgx`): the button says "Submit". Change it to
       "Get my free quote".
+      **Main form done:** on 14 Nov 2026 `2TfIfhVospnHx74eNcAP` showed
+      "Get my free quote" (read in a browser, nothing submitted). The
+      quick and EV forms were not re-read that day.
 - [ ] Quick form (`ILAJCu9qJyVzX582GAtX`, Home and /contact/) and EV form
       (`OmaWW64OZ3FaCGGvEIgx`): Message is required, so someone who only
       wants a call back cannot send the form without typing something.
       Make Message optional.
-- [ ] Main form (`2TfIfhVospnHx74eNcAP`): "Primary Goal" offers Solar,
+- [x] Main form (`2TfIfhVospnHx74eNcAP`): "Primary Goal" offers Solar,
       Battery, EV Charger, Other. Add "Solar and battery".
+      Done by Oz: on 14 Nov 2026 the options were Solar, Solar and
+      battery, Battery, EV Charger, Other.
 - [ ] Main form, minor: the "Average quarterly energy bill" dropdown shows
       an empty box until tapped; the other two dropdowns show "Select ...".
       Give it the same prompt.
@@ -1037,4 +1042,36 @@ Added after the independent round 9 audit (78.9/100, see
       "Get my free quote" button and a stated next step. Either via
       HighLevel settings or a form built on this site that posts to
       HighLevel; Oz to choose.
+
+### ✅ Design refresh (14 Nov 2026): approved by Oz from the samples page
+Oz answered the three questions on the Design Samples page with "yes",
+"banners one of them" and "yes" (14 Nov 2026).
+- [x] **Stepped quote form on /assessment/.** Three steps with a progress
+      bar. Steps 1 and 2 are on this site; step 3 opens the existing
+      HighLevel form `2TfIfhVospnHx74eNcAP` with the answers filled in.
+- [x] **One banner style on every inner page.** Oz left the choice of the
+      two colour options open; the light one (option A, matching the
+      battery page) was used. To switch to the dark navy option later,
+      change the four `--pb-` values on `.page-banner` in
+      `site/css/styles.css`.
+- [x] **Custom icon set and illustration.** Home chooser, quote steps,
+      photo-less banners.
+
+**If you change the HighLevel form, keep the stepped form in step.** Step 3
+passes three answers to the form by name. The option text on the site must
+match HighLevel's exactly, or that answer arrives blank (the lead still
+comes through):
+| Question | HighLevel key in the form's address | Options (copied from the form, 14 Nov 2026) |
+|---|---|---|
+| Primary Goal | `primary_goal` | Solar · Solar and battery · Battery · EV Charger · Other |
+| Average quarterly energy bill | `multi_dropdown_3ea2` | <$300 per quarter · $300-$500 per quarter · $500-$750 per quarter · $750-$1000 per quarter · $1000-$1500 per quarter · Over $1500 per quarter |
+| Timeframe | `timeframe` | I'm ready to get started now · Within the next 3 months · Within the next 6 months · More than 6 months from now · I'm still exploring my options |
+The site's copies are in `src/pages/assessment/content.html` (the buttons'
+`data-goal` and the radios' `value`).
+
+Not changed, for Oz to decide later:
+- [ ] The ad landing page (/request-a-quote/) still shows the single form.
+      The stepped flow can be added there the same way.
+- [ ] The two commercial ad funnels (/commercial-load-review/,
+      /commercial-solar-battery-quote/) keep their own dark banners.
 

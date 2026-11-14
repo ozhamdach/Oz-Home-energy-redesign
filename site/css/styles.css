@@ -468,7 +468,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* ---------- Generic cards ---------- */
 .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease; }
-.card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: rgba(5,96,193,0.25); }
+/* Hover lift only on cards that are links (14 Nov 2026, sitewide UX/UI pass, item 7 at the end of this file). */
+a.card:hover, .card:has(> h3 > a):hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: rgba(5,96,193,0.25); }
 .card h3 { font-size: 1.2rem; }
 .card p { color: var(--text-muted); margin-bottom: 0; }
 .img-card { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); background: #fff; }
@@ -1594,10 +1595,9 @@ main [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
 
 /* 7. Hover. Every card lifted on hover, including the ones that are not
       links, which reads as "clickable" when it is not. Only cards that are
-      links lift now. On touch screens a hover lift sticks after a tap, so
-      it is switched off there. */
-.card:hover { box-shadow: none; transform: none; border-color: var(--border); }
-a.card:hover, .card:has(> h3 > a):hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: rgba(5,96,193,0.25); }
+      links lift now (the .card:hover rule itself was narrowed, further
+      up). On touch screens a hover lift sticks after a tap, so it is
+      switched off there. */
 @media (hover: none) { .btn:hover, a.card:hover, .card:has(> h3 > a):hover { transform: none; } }
 
 /* 8. Line length on desktop. Some notes and card paragraphs ran the full

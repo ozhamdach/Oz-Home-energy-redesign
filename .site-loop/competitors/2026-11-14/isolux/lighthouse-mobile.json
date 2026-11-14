@@ -1,0 +1,76 @@
+{
+ "note": "One Lighthouse 12.6 mobile run against the live site (simulated slow 4G, 4x CPU). Includes real network latency.",
+ "url": "https://isolux.com.au/",
+ "runtimeError": null,
+ "scores": {
+  "performance": 36,
+  "accessibility": 87,
+  "bestPractices": 61,
+  "seo": 77
+ },
+ "metrics": {
+  "LCP": "5.3 s",
+  "FCP": "5.0 s",
+  "TBT": "1,350 ms",
+  "CLS": "0",
+  "speedIndex": "16.3 s",
+  "TTI": "22.3 s"
+ },
+ "transfer": {
+  "totalKB": 3274,
+  "scriptKB": 1592,
+  "imageKB": 859,
+  "requests": 134
+ },
+ "renderBlocking": [
+  {
+   "url": "https://isolux.com.au/wp-content/themes/greenly/libraries/isotope/isotope.pkgd.min.js?ver=",
+   "wastedMs": 1593
+  },
+  {
+   "url": "https://isolux.com.au/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+   "wastedMs": 1902
+  },
+  {
+   "url": "https://isolux.com.au/wp-content/themes/greenly/js/section.min.js?ver=6.8.1",
+   "wastedMs": 974
+  },
+  {
+   "url": "https://isolux.com.au/wp-content/themes/greenly/libraries/sticky-toolkit/jquery.sticky-kit",
+   "wastedMs": 974
+  },
+  {
+   "url": "https://isolux.com.au/wp-content/litespeed/css/1ae85eea46d1bbc1bd20d809a5603e12.css?ver=06",
+   "wastedMs": 3139
+  },
+  {
+   "url": "https://isolux.com.au/wp-content/themes/greenly/libraries/magnific-popup/jquery.magnific-p",
+   "wastedMs": 1284
+  },
+  {
+   "url": "https://isolux.com.au/wp-content/themes/greenly/js/core.min.js?ver=6.8.1",
+   "wastedMs": 974
+  },
+  {
+   "url": "https://isolux.com.au/wp-content/plugins/greenly-addons/js/addon-scripts.js?ver=6.8.1",
+   "wastedMs": 974
+  }
+ ],
+ "imageAudits": {
+  "modernFormatsWasteKB": 32,
+  "responsiveWasteKB": 20,
+  "unsizedImages": 0.5
+ },
+ "errorsInConsole": 1,
+ "failedAccessibility": [
+  "button-name",
+  "color-contrast",
+  "heading-order",
+  "link-name"
+ ],
+ "failedSeo": [
+  "link-text",
+  "crawlable-anchors",
+  "robots-txt"
+ ]
+}

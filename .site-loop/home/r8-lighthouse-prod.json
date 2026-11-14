@@ -1,0 +1,804 @@
+{
+ "requestedUrl": "http://localhost:3457/",
+ "fetchTime": "2026-11-14T11:25:39.706Z",
+ "lighthouseVersion": "12.6.0",
+ "configSettings": {
+  "formFactor": "mobile",
+  "throttlingMethod": "simulate"
+ },
+ "categories": {
+  "performance": {
+   "score": 0.71
+  },
+  "accessibility": {
+   "score": 1
+  },
+  "best-practices": {
+   "score": 0.79
+  },
+  "seo": {
+   "score": 1
+  }
+ },
+ "audits": {
+  "largest-contentful-paint": {
+   "score": 0.76,
+   "displayValue": "3.1 s",
+   "numericValue": 3066.8504999999996
+  },
+  "cumulative-layout-shift": {
+   "score": 1,
+   "displayValue": "0.023",
+   "numericValue": 0.02296206843100025,
+   "details": {
+    "items": [
+     {
+      "cumulativeLayoutShiftMainFrame": 0.02296206843100025,
+      "newEngineResultDiffered": false
+     }
+    ]
+   }
+  },
+  "total-blocking-time": {
+   "score": 0.26,
+   "displayValue": "1,040 ms",
+   "numericValue": 1039
+  },
+  "first-contentful-paint": {
+   "score": 0.92,
+   "displayValue": "1.7 s",
+   "numericValue": 1700.462
+  },
+  "speed-index": {
+   "score": 1,
+   "displayValue": "1.7 s",
+   "numericValue": 1700.462
+  },
+  "interactive": {
+   "score": 0.33,
+   "displayValue": "9.1 s",
+   "numericValue": 9072.06925
+  },
+  "total-byte-weight": {
+   "score": 1,
+   "displayValue": "Total size was 1,092 KiB",
+   "numericValue": 1118291,
+   "details": {
+    "items": [
+     {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-FHKMCPSPBL&cx=c&gtm=4e6bb1",
+      "totalBytes": 181799
+     },
+     {
+      "url": "https://connect.facebook.net/signals/config/1375668011396700?v=2.9.439&r=stable&domain=localhost&im=1&hme=1f127d11ce7bba675ee077e129c6ec7e07038113ad3e920301e60f2f865dc776&ex_m=119%2C243%2C172%2C27%2C82%2C83%2C163%2C78%2C77%2C11%2C182%2C102%2C20%2C154%2C142%2C46%2C85%2C90%2C184%2C111%2C150%2C177%2C8%2C4%2C5%2C7%2C6%2C3%2C103%2C116%2C162%2C72%2C186%2C110%2C185%2C212%2C264%2C37%2C84%2C284%2C283%2C282%2C14%2C25%2C28%2C40%2C62%2C118%2C68%2C10%2C73%2C112%2C113%2C114%2C120%2C145%2C38%2C36%2C147%2C148%2C149%2C144%2C143%2C173%2C86%2C176%2C174%2C175%2C57%2C69%2C67%2C138%2C19%2C180%2C52%2C334%2C335%2C336%2C333%2C32%2C17%2C31%2C18%2C33%2C34%2C35%2C55%2C164%2C87%2C127%2C22%2C24%2C51%2C47%2C49%2C48%2C95%2C104%2C108%2C125%2C161%2C165%2C53%2C126%2C29%2C26%2C134%2C79%2C43%2C167%2C166%2C168%2C158%2C156%2C30%2C42%2C66%2C124%2C179%2C80%2C21%2C129%2C93%2C76%2C23%2C97%2C98%2C131%2C96%2C152%2C151%2C155%2C109%2C178%2C181%2C41%2C350%2C372%2C257%2C239%2C70%2C240%2C238%2C375%2C366%2C59%2C258%2C122%2C146%2C92%2C136%2C61%2C54%2C56%2C128%2C135%2C141%2C140%2C65%2C74%2C169%2C88%2C89%2C130%2C44%2C39%2C60%2C63%2C115%2C183%2C1%2C139%2C16%2C137%2C12%2C2%2C64%2C105%2C15%2C75%2C71%2C133%2C101%2C100%2C188%2C189%2C106%2C107%2C9%2C117%2C187%2C58%2C159%2C99%2C91%2C81%2C132%2C121%2C170%2C50%2C160%2C0%2C94%2C153%2C157%2C171%2C45%2C123%2C13%2C190",
+      "totalBytes": 169317
+     },
+     {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-18373785034&cx=c&gtm=4e6bb1",
+      "totalBytes": 168690
+     },
+     {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KTGM7X5H",
+      "totalBytes": 158946
+     },
+     {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "totalBytes": 101624
+     },
+     {
+      "url": "http://localhost:3457/img/photos/hero-solar-residential-complex-1200.avif",
+      "totalBytes": 57914
+     },
+     {
+      "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+      "totalBytes": 37504
+     },
+     {
+      "url": "http://localhost:3457/img/brand/trust/smart-energy-council.png",
+      "totalBytes": 35549
+     }
+    ]
+   }
+  },
+  "render-blocking-resources": {
+   "score": 0,
+   "displayValue": "Est savings of 880 ms",
+   "numericValue": 881,
+   "details": {
+    "items": [
+     {
+      "url": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap",
+      "totalBytes": 684,
+      "wastedMs": 916
+     },
+     {
+      "url": "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&display=swap&text=Your",
+      "totalBytes": 691,
+      "wastedMs": 181
+     },
+     {
+      "url": "http://localhost:3457/css/styles.css",
+      "totalBytes": 21040,
+      "wastedMs": 303
+     }
+    ]
+   }
+  },
+  "third-party-summary": {
+   "score": 0,
+   "displayValue": "Third-party code blocked the main thread for 1,180 ms",
+   "details": {
+    "items": [
+     {
+      "mainThreadTime": 1034.8640000000094,
+      "blockingTime": 800.9999999999998,
+      "transferSize": 509435,
+      "tbtImpact": 800.9999999999998,
+      "entity": "Google Tag Manager",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://www.googletagmanager.com/gtag/js?id=G-FHKMCPSPBL&cx=c&gtm=4e6bb1",
+         "mainThreadTime": 358.7200000000031,
+         "blockingTime": 300.999999999999,
+         "transferSize": 181799,
+         "tbtImpact": 300.999999999999
+        },
+        {
+         "url": "https://www.googletagmanager.com/gtag/js?id=AW-18373785034&cx=c&gtm=4e6bb1",
+         "mainThreadTime": 334.47200000000413,
+         "blockingTime": 282.00000000000057,
+         "transferSize": 168690,
+         "tbtImpact": 282.00000000000057
+        },
+        {
+         "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KTGM7X5H",
+         "mainThreadTime": 341.67200000000213,
+         "blockingTime": 218.00000000000023,
+         "transferSize": 158946,
+         "tbtImpact": 218.00000000000023
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 482.44800000000237,
+      "blockingTime": 379.00000000000057,
+      "transferSize": 271350,
+      "tbtImpact": 379.00000000000057,
+      "entity": "Facebook",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://connect.facebook.net/signals/config/1375668011396700?v=2.9.439&r=stable&domain=localhost&im=1&hme=1f127d11ce7bba675ee077e129c6ec7e07038113ad3e920301e60f2f865dc776&ex_m=119%2C243%2C172%2C27%2C82%2C83%2C163%2C78%2C77%2C11%2C182%2C102%2C20%2C154%2C142%2C46%2C85%2C90%2C184%2C111%2C150%2C177%2C8%2C4%2C5%2C7%2C6%2C3%2C103%2C116%2C162%2C72%2C186%2C110%2C185%2C212%2C264%2C37%2C84%2C284%2C283%2C282%2C14%2C25%2C28%2C40%2C62%2C118%2C68%2C10%2C73%2C112%2C113%2C114%2C120%2C145%2C38%2C36%2C147%2C148%2C149%2C144%2C143%2C173%2C86%2C176%2C174%2C175%2C57%2C69%2C67%2C138%2C19%2C180%2C52%2C334%2C335%2C336%2C333%2C32%2C17%2C31%2C18%2C33%2C34%2C35%2C55%2C164%2C87%2C127%2C22%2C24%2C51%2C47%2C49%2C48%2C95%2C104%2C108%2C125%2C161%2C165%2C53%2C126%2C29%2C26%2C134%2C79%2C43%2C167%2C166%2C168%2C158%2C156%2C30%2C42%2C66%2C124%2C179%2C80%2C21%2C129%2C93%2C76%2C23%2C97%2C98%2C131%2C96%2C152%2C151%2C155%2C109%2C178%2C181%2C41%2C350%2C372%2C257%2C239%2C70%2C240%2C238%2C375%2C366%2C59%2C258%2C122%2C146%2C92%2C136%2C61%2C54%2C56%2C128%2C135%2C141%2C140%2C65%2C74%2C169%2C88%2C89%2C130%2C44%2C39%2C60%2C63%2C115%2C183%2C1%2C139%2C16%2C137%2C12%2C2%2C64%2C105%2C15%2C75%2C71%2C133%2C101%2C100%2C188%2C189%2C106%2C107%2C9%2C117%2C187%2C58%2C159%2C99%2C91%2C81%2C132%2C121%2C170%2C50%2C160%2C0%2C94%2C153%2C157%2C171%2C45%2C123%2C13%2C190",
+         "mainThreadTime": 295.1840000000026,
+         "blockingTime": 242.00000000000006,
+         "transferSize": 169317,
+         "tbtImpact": 242.00000000000006
+        },
+        {
+         "url": "https://connect.facebook.net/en_US/fbevents.js",
+         "mainThreadTime": 187.26399999999978,
+         "blockingTime": 137.0000000000005,
+         "transferSize": 101624,
+         "tbtImpact": 137.0000000000005
+        },
+        {
+         "url": "https://www.facebook.com/tr/?id=1375668011396700&ev=PageView&dl=http%3A%2F%2Flocalhost%3A3457%2F&rl=&if=false&ts=1794655540568&iw=false&sw=412&sh=823&udwv[ph][0][v]=ba2ca65818e177d2a1cc9ac89f74da4965216009e77d4fc98b11340024bf3481&udwv[ph][0][s]=2&v=2.9.439&r=stable&ec=0&o=79902&aems=0%3B0&fbp=fb.0.1794655540554.935537529581292652&eid=ob3_plugin-set_c0713389488df3b50dd76830f1954dfcddc5d36ba157d1b9d4992ce052bab780&ler=empty&cdl=API_unavailable&pmd[title]=Solar%2C%20Battery%20%26%20EV%20Charging%20Sydney%20%7C%20Oz%20Home%20Energy&pmd[locale]=en-AU&pmd[description]=Electrician-led%20solar%2C%20battery%20storage%2C%20EV%20charging%20and%20electrical%20work%20for%20Sydney%20homes%20and%20businesses.%20Licensed%20NSW%20electrical%20contractor.&plt=484.1000000000349&iss=1&ss=%7B%22page_title%22%3A%5B%7B%22rid%22%3A%224434858540085492%22%2C%22v%22%3A%5B%22SYDNEY%20SOLAR%20AND%20ENERGY%20SYSTEMS%22%5D%7D%5D%7D&imft=1&tz=0&it=1794655540295&coo=false&chmd=moto%20g%20power%20(2022)&chpv=11.0&chfv=undefined&cf=1&expv2[0]=mr0&expv2[1]=pl1&expv2[2]=el2&expv2[3]=bc1&expv2[4]=ra2&expv2[5]=rp2&expv2[6]=im1&expv2[7]=hf1&expv2[8]=ot1&expv2[9]=hv1&expv2[10]=rh0&expv2[11]=ah0&expv2[12]=nv1&expv2[13]=oq0&rqm=GET",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 409,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 4.432,
+      "blockingTime": 0,
+      "transferSize": 87953,
+      "tbtImpact": 0,
+      "entity": "Google Fonts",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 37504,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 32373,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat-JDV30TGcrpdo4.woff2",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 15326,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.gstatic.com/l/font?kit=-nFhOHM81r4j6k0gjAW3mujVU2B2G_Vx0vrx52jD2HMLwBs&skey=9b354e2f4705b58c&v=v17",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 1375,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&display=swap&text=Your",
+         "mainThreadTime": 1.116,
+         "blockingTime": 0,
+         "transferSize": 691,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap",
+         "mainThreadTime": 3.316,
+         "blockingTime": 0,
+         "transferSize": 684,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 17.43999999999999,
+      "blockingTime": 0,
+      "transferSize": 19319,
+      "tbtImpact": 0,
+      "entity": "ozhomeenergy.com.au",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://link.ozhomeenergy.com.au/js/form_embed.js",
+         "mainThreadTime": 17.43999999999999,
+         "blockingTime": 0,
+         "transferSize": 19319,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 12.764000000000003,
+      "blockingTime": 0,
+      "transferSize": 3927,
+      "tbtImpact": 0,
+      "entity": "Google/Doubleclick Ads",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/18373785034/?random=1794655540433&cv=11&fst=1794655540433&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be6bb1v9263356994za20ozb9263027464zd9263027464xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~120213116~120385423~120412528~120420416~120469145~120469153~121191155~121246026~121246034~123785233~123988486~123988487&u_w=412&u_h=823&url=http%3A%2F%2Flocalhost%3A3457%2F&rcb=12&frm=0&tiba=Solar%2C%20Battery%20%26%20EV%20Charging%20Sydney%20%7C%20Oz%20Home%20Energy&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=850278819.1794655540&uaa=&uab=64&uafvl=Chromium%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0&uamb=1&uam=moto%20g%20power%20(2022)&uap=Android&uapv=11.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=4",
+         "mainThreadTime": 12.764000000000003,
+         "blockingTime": 0,
+         "transferSize": 3633,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://ad.doubleclick.net/ccm/s/collect?auid=850278819.1794655540&gtm=45He6bb1v9263027464za200zd9263027464xeaxf1&fmt=8",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 294,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 0,
+      "blockingTime": 0,
+      "transferSize": 736,
+      "tbtImpact": 0,
+      "entity": "Other Google APIs/SDKs",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://www.google.com/ccm/collect?rcb=13&frm=0&apvc=1&ae=g&auid=850278819.1794655540&dt=Solar%2C%20Battery%20%26%20EV%20Charging%20Sydney%20%7C%20Oz%20Home%20Energy&en=page_view&dl=http%3A%2F%2Flocalhost%3A3457%2F&scrsrc=www.googletagmanager.com&rnd=899194125.1794655540&navt=n&npa=0&ep.ads_data_redaction=0&gtm=45He6bb1v9263027464za200zd9263027464xeaxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=100940090~115616985~115938466~115938468~118897920~118897930~120385422~120412526~120420416~120469145~120469153~121191155~121246026~121246034~123988485~123988487&tft=1794655540184&tfd=425&fmt=8",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 294,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://www.google.com/rmkt/collect/18373785034/?random=1794655540433&cv=11&fst=1794655540433&fmt=8&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be6bb1v9263356994za20ozb9263027464zd9263027464xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~120213116~120385423~120412528~120420416~120469145~120469153~121191155~121246026~121246034~123785233~123988486~123988487&u_w=412&u_h=823&url=http%3A%2F%2Flocalhost%3A3457%2F&rcb=12&frm=0&tiba=Solar%2C%20Battery%20%26%20EV%20Charging%20Sydney%20%7C%20Oz%20Home%20Energy&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=850278819.1794655540&uaa=&uab=64&uafvl=Chromium%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0&uamb=1&uam=moto%20g%20power%20(2022)&uap=Android&uapv=11.0&uaw=0&data=event%3Dgtag.config&ept=68&gcp=5",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 275,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://www.google.com/pagead/1p-user-list/18373785034/?random=1794655540433&cv=11&fst=1794654000000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be6bb1v9263356994za20ozb9263027464zd9263027464xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~120213116~120385423~120412528~120420416~120469145~120469153~121191155~121246026~121246034~123785233~123988486~123988487&u_w=412&u_h=823&url=http%3A%2F%2Flocalhost%3A3457%2F&rcb=12&frm=0&tiba=Solar%2C%20Battery%20%26%20EV%20Charging%20Sydney%20%7C%20Oz%20Home%20Energy&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=850278819.1794655540&uaa=&uab=64&uafvl=Chromium%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0&uamb=1&uam=moto%20g%20power%20(2022)&uap=Android&uapv=11.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=3&is_vtc=1&cid=CAQS6wEAogo4dXAy6YKgaghdne6kiM14PcBTrBOkE5Kh5l5CQIoZ3j-lebvFQnwXJT9ks4JVZXsYSWT4gLJk3BSo0P8-H-pgbx2xEGxHq8N70jX780FOnlM7egMYvTXN4rT9gNN9vCKUpjFj6CcNKZA7a0n0wzQbDCmiTmWH6vo8yGbVnDWV3YJlnAP1qW1GltYN7cgiJ_1_0jAFdgBdV0guRoq1KoNUQcnHa0mwYuO4Fg9AIwaQ4w_keAdffWk_kQW4CYhl164Gm_k9_325dQTfadnFCerqhsH1S80BbxEKzMurekgDm8cCRxGJBNIv&random=2124638521&rmt_tld=0&ipr=y",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 118,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://www.google.com/ccm/collect?rcb=12&frm=0&apvc=0&auid=850278819.1794655540&dt=Solar%2C%20Battery%20%26%20EV%20Charging%20Sydney%20%7C%20Oz%20Home%20Energy&tid=AW-18373785034&en=page_view&dl=http%3A%2F%2Flocalhost%3A3457%2F&scrsrc=www.googletagmanager.com&rnd=899194125.1794655540&navt=n&npa=0&gtm=45be6bb1v9263356994za20ozb9263027464zd9263027464xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~120213116~120385423~120412528~120420416~120469145~120469153~121191155~121246026~121246034~123785233~123988486~123988487&tft=1794655540469&tfd=710&tids=AW-18373785034&fmt=8",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 49,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 0,
+      "blockingTime": 0,
+      "transferSize": 503,
+      "tbtImpact": 0,
+      "entity": "Google Analytics",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-FHKMCPSPBL&gtm=45je6bb1v9263044730za20ozb9263027464zd9263027464xf1&_p=1794655539780&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=48053141.1794655540&frm=0&ngs=1&pscdl=noapi&rcb=16&sr=412x823&uaa=&uab=64&uafvl=Chromium%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0&uam=moto%20g%20power%20(2022)&uamb=1&uap=Android&uapv=11.0&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938468~118897920~118897930~120213116~120385422~120412528~120420416~120469145~120469153~121246026~121246034&sid=1794655540&sct=1&seg=0&dl=http%3A%2F%2Flocalhost%2F&dt=Solar%2C%20Battery%20%26%20EV%20Charging%20Sydney%20%7C%20Oz%20Home%20Energy&en=page_view&_fv=1&_nsi=1&_ss=1&tfd=626",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 503,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 0,
+      "blockingTime": 0,
+      "transferSize": 217,
+      "tbtImpact": 0,
+      "entity": "on.aws",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://8b-ffbbe167ddcc42afb5f860276d91024e.ecs.us-west-2.on.aws/events?cee=no",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 217,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "largest-contentful-paint-element": {
+   "score": 0,
+   "displayValue": "3,070 ms",
+   "details": {
+    "items": [
+     {
+      "type": "table",
+      "headings": [
+       {
+        "key": "node",
+        "valueType": "node",
+        "label": "Element"
+       }
+      ],
+      "items": [
+       {
+        "node": {
+         "type": "node",
+         "lhId": "page-0-IMG",
+         "path": "1,HTML,1,BODY,4,MAIN,0,SECTION,0,DIV,0,PICTURE,2,IMG",
+         "selector": "section.hero > div.hero-media > picture > img",
+         "boundingRect": {
+          "top": 64,
+          "bottom": 293,
+          "left": 0,
+          "right": 412,
+          "width": 412,
+          "height": 229
+         },
+         "snippet": "<img src=\"http://localhost:3457/img/photos/hero-solar-residential-complex-1200.avif\" width=\"1600\" height=\"1200\" fetchpriority=\"high\" alt=\"Solar panels installed across the roofs of adjoining residential homes\">",
+         "nodeLabel": "Solar panels installed across the roofs of adjoining residential homes"
+        }
+       }
+      ]
+     },
+     {
+      "type": "table",
+      "headings": [
+       {
+        "key": "phase",
+        "valueType": "text",
+        "label": "Phase"
+       },
+       {
+        "key": "percent",
+        "valueType": "text",
+        "label": "% of LCP"
+       },
+       {
+        "key": "timing",
+        "valueType": "ms",
+        "label": "Timing"
+       }
+      ],
+      "items": [
+       {
+        "phase": "TTFB",
+        "timing": 453.1365,
+        "percent": "15%"
+       },
+       {
+        "phase": "Load Delay",
+        "timing": 0,
+        "percent": "0%"
+       },
+       {
+        "phase": "Load Time",
+        "timing": 0,
+        "percent": "0%"
+       },
+       {
+        "phase": "Render Delay",
+        "timing": 2613.7139999999995,
+        "percent": "85%"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "errors-in-console": {
+   "score": 1,
+   "details": {
+    "items": []
+   }
+  },
+  "modern-image-formats": {
+   "score": 0.5,
+   "displayValue": "Est savings of 82 KiB",
+   "numericValue": 0,
+   "details": {
+    "items": [
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-103-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,4,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 3109,
+        "bottom": 3197,
+        "left": 58,
+        "right": 161,
+        "width": 104,
+        "height": 88
+       },
+       "snippet": "<img src=\"/img/brand/trust/ohme-approved-installer.png\" width=\"255\" height=\"216\" loading=\"lazy\" decoding=\"async\" alt=\"Ohme Approved Installer\">",
+       "nodeLabel": "Ohme Approved Installer"
+      },
+      "url": "http://localhost:3457/img/brand/trust/ohme-approved-installer.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 29518,
+      "wastedBytes": 24519.25,
+      "wastedWebpBytes": 24068
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-100-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,1,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2588,
+        "bottom": 2668,
+        "left": 237,
+        "right": 368,
+        "width": 131,
+        "height": 80
+       },
+       "snippet": "<img src=\"/img/brand/trust/smart-energy-council.png\" width=\"320\" height=\"196\" loading=\"lazy\" decoding=\"async\" alt=\"Smart Energy Council Small Business Member\">",
+       "nodeLabel": "Smart Energy Council Small Business Member"
+      },
+      "url": "http://localhost:3457/img/brand/trust/smart-energy-council.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 35260,
+      "wastedBytes": 23145.65,
+      "wastedWebpBytes": 14746
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-99-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2627,
+        "bottom": 2669,
+        "left": 34,
+        "right": 185,
+        "width": 151,
+        "height": 41
+       },
+       "snippet": "<img src=\"/img/brand/trust/solar-accreditation-australia.png\" width=\"440\" height=\"120\" loading=\"lazy\" decoding=\"async\" alt=\"Solar Accreditation Australia\">",
+       "nodeLabel": "Solar Accreditation Australia"
+      },
+      "url": "http://localhost:3457/img/brand/trust/solar-accreditation-australia.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 32544,
+      "wastedBytes": 22274.95,
+      "wastedWebpBytes": 12362
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-102-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,3,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2848,
+        "bottom": 2932,
+        "left": 266,
+        "right": 339,
+        "width": 73,
+        "height": 84
+       },
+       "snippet": "<img src=\"/img/brand/evnex/evnex-certified-installer-dark.png\" width=\"181\" height=\"208\" loading=\"lazy\" decoding=\"async\" alt=\"Evnex Certified Installer\">",
+       "nodeLabel": "Evnex Certified Installer"
+      },
+      "url": "http://localhost:3457/img/brand/evnex/evnex-certified-installer-dark.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 18498,
+      "wastedBytes": 13939,
+      "wastedWebpBytes": 12618
+     }
+    ]
+   }
+  },
+  "uses-responsive-images": {
+   "score": 0,
+   "displayValue": "Est savings of 102 KiB",
+   "numericValue": 200,
+   "details": {
+    "items": [
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-98-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,0,SECTION,0,DIV,0,PICTURE,2,IMG",
+       "selector": "section.hero > div.hero-media > picture > img",
+       "boundingRect": {
+        "top": 64,
+        "bottom": 293,
+        "left": 0,
+        "right": 412,
+        "width": 412,
+        "height": 229
+       },
+       "snippet": "<img src=\"http://localhost:3457/img/photos/hero-solar-residential-complex-1200.avif\" width=\"1600\" height=\"1200\" fetchpriority=\"high\" alt=\"Solar panels installed across the roofs of adjoining residential homes\">",
+       "nodeLabel": "Solar panels installed across the roofs of adjoining residential homes"
+      },
+      "url": "http://localhost:3457/img/photos/hero-solar-residential-complex-1200.avif",
+      "totalBytes": 57634,
+      "wastedBytes": 42215,
+      "wastedPercent": 73.24622685185184
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-99-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2627,
+        "bottom": 2669,
+        "left": 34,
+        "right": 185,
+        "width": 151,
+        "height": 41
+       },
+       "snippet": "<img src=\"/img/brand/trust/solar-accreditation-australia.png\" width=\"440\" height=\"120\" loading=\"lazy\" decoding=\"async\" alt=\"Solar Accreditation Australia\">",
+       "nodeLabel": "Solar Accreditation Australia"
+      },
+      "url": "http://localhost:3457/img/brand/trust/solar-accreditation-australia.png",
+      "totalBytes": 32544,
+      "wastedBytes": 20858,
+      "wastedPercent": 64.0910274621212
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-100-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,1,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2588,
+        "bottom": 2668,
+        "left": 237,
+        "right": 368,
+        "width": 131,
+        "height": 80
+       },
+       "snippet": "<img src=\"/img/brand/trust/smart-energy-council.png\" width=\"320\" height=\"196\" loading=\"lazy\" decoding=\"async\" alt=\"Smart Energy Council Small Business Member\">",
+       "nodeLabel": "Smart Energy Council Small Business Member"
+      },
+      "url": "http://localhost:3457/img/brand/trust/smart-energy-council.png",
+      "totalBytes": 35260,
+      "wastedBytes": 17217,
+      "wastedPercent": 48.828125
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-103-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,4,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 3109,
+        "bottom": 3197,
+        "left": 58,
+        "right": 161,
+        "width": 104,
+        "height": 88
+       },
+       "snippet": "<img src=\"/img/brand/trust/ohme-approved-installer.png\" width=\"255\" height=\"216\" loading=\"lazy\" decoding=\"async\" alt=\"Ohme Approved Installer\">",
+       "nodeLabel": "Ohme Approved Installer"
+      },
+      "url": "http://localhost:3457/img/brand/trust/ohme-approved-installer.png",
+      "totalBytes": 29518,
+      "wastedBytes": 14497,
+      "wastedPercent": 49.114015976761074
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-102-IMG",
+       "path": "1,HTML,1,BODY,4,MAIN,4,SECTION,0,DIV,1,DIV,3,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2848,
+        "bottom": 2932,
+        "left": 266,
+        "right": 339,
+        "width": 73,
+        "height": 84
+       },
+       "snippet": "<img src=\"/img/brand/evnex/evnex-certified-installer-dark.png\" width=\"181\" height=\"208\" loading=\"lazy\" decoding=\"async\" alt=\"Evnex Certified Installer\">",
+       "nodeLabel": "Evnex Certified Installer"
+      },
+      "url": "http://localhost:3457/img/brand/evnex/evnex-certified-installer-dark.png",
+      "totalBytes": 18498,
+      "wastedBytes": 9271,
+      "wastedPercent": 50.1188642158946
+     }
+    ]
+   }
+  },
+  "mainthread-work-breakdown": {
+   "score": 0,
+   "displayValue": "3.0 s",
+   "numericValue": 3023.1799999999803,
+   "details": {
+    "items": [
+     {
+      "group": "scriptEvaluation",
+      "groupLabel": "Script Evaluation",
+      "duration": 1388.579999999985
+     },
+     {
+      "group": "other",
+      "groupLabel": "Other",
+      "duration": 717.6599999999964
+     },
+     {
+      "group": "styleLayout",
+      "groupLabel": "Style & Layout",
+      "duration": 491.0279999999994
+     },
+     {
+      "group": "scriptParseCompile",
+      "groupLabel": "Script Parsing & Compilation",
+      "duration": 181.63200000000003
+     },
+     {
+      "group": "paintCompositeRender",
+      "groupLabel": "Rendering",
+      "duration": 143.7239999999999
+     },
+     {
+      "group": "garbageCollection",
+      "groupLabel": "Garbage Collection",
+      "duration": 50.52799999999998
+     },
+     {
+      "group": "parseHTML",
+      "groupLabel": "Parse HTML & CSS",
+      "duration": 50.028000000000006
+     }
+    ]
+   }
+  },
+  "bootup-time": {
+   "score": 0,
+   "displayValue": "1.5 s",
+   "numericValue": 1526.6760000000008,
+   "details": {
+    "items": [
+     {
+      "url": "http://localhost:3457/",
+      "total": 979.2119999999993,
+      "scripting": 30.716000000000008,
+      "scriptParseCompile": 3.5840000000000005
+     },
+     {
+      "url": "Unattributable",
+      "total": 424.1880000000035,
+      "scripting": 41.04799999999999,
+      "scriptParseCompile": 0
+     },
+     {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-FHKMCPSPBL&cx=c&gtm=4e6bb1",
+      "total": 358.72000000000304,
+      "scripting": 307.10400000000305,
+      "scriptParseCompile": 37.436
+     },
+     {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KTGM7X5H",
+      "total": 341.6720000000002,
+      "scripting": 300.8520000000002,
+      "scriptParseCompile": 28.884
+     },
+     {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-18373785034&cx=c&gtm=4e6bb1",
+      "total": 334.4719999999987,
+      "scripting": 289.4959999999987,
+      "scriptParseCompile": 29.576
+     },
+     {
+      "url": "https://connect.facebook.net/signals/config/1375668011396700?v=2.9.439&r=stable&domain=localhost&im=1&hme=1f127d11ce7bba675ee077e129c6ec7e07038113ad3e920301e60f2f865dc776&ex_m=119%2C243%2C172%2C27%2C82%2C83%2C163%2C78%2C77%2C11%2C182%2C102%2C20%2C154%2C142%2C46%2C85%2C90%2C184%2C111%2C150%2C177%2C8%2C4%2C5%2C7%2C6%2C3%2C103%2C116%2C162%2C72%2C186%2C110%2C185%2C212%2C264%2C37%2C84%2C284%2C283%2C282%2C14%2C25%2C28%2C40%2C62%2C118%2C68%2C10%2C73%2C112%2C113%2C114%2C120%2C145%2C38%2C36%2C147%2C148%2C149%2C144%2C143%2C173%2C86%2C176%2C174%2C175%2C57%2C69%2C67%2C138%2C19%2C180%2C52%2C334%2C335%2C336%2C333%2C32%2C17%2C31%2C18%2C33%2C34%2C35%2C55%2C164%2C87%2C127%2C22%2C24%2C51%2C47%2C49%2C48%2C95%2C104%2C108%2C125%2C161%2C165%2C53%2C126%2C29%2C26%2C134%2C79%2C43%2C167%2C166%2C168%2C158%2C156%2C30%2C42%2C66%2C124%2C179%2C80%2C21%2C129%2C93%2C76%2C23%2C97%2C98%2C131%2C96%2C152%2C151%2C155%2C109%2C178%2C181%2C41%2C350%2C372%2C257%2C239%2C70%2C240%2C238%2C375%2C366%2C59%2C258%2C122%2C146%2C92%2C136%2C61%2C54%2C56%2C128%2C135%2C141%2C140%2C65%2C74%2C169%2C88%2C89%2C130%2C44%2C39%2C60%2C63%2C115%2C183%2C1%2C139%2C16%2C137%2C12%2C2%2C64%2C105%2C15%2C75%2C71%2C133%2C101%2C100%2C188%2C189%2C106%2C107%2C9%2C117%2C187%2C58%2C159%2C99%2C91%2C81%2C132%2C121%2C170%2C50%2C160%2C0%2C94%2C153%2C157%2C171%2C45%2C123%2C13%2C190",
+      "total": 295.18399999999906,
+      "scripting": 243.43999999999906,
+      "scriptParseCompile": 40.696000000000005
+     },
+     {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "total": 187.26399999999975,
+      "scripting": 140.75999999999976,
+      "scriptParseCompile": 33.083999999999996
+     }
+    ]
+   }
+  }
+ },
+ "allRuns": [
+  {
+   "performance": 70,
+   "lcp": "3.2 s",
+   "tbt": "1,090 ms",
+   "cls": "0"
+  },
+  {
+   "performance": 71,
+   "lcp": "3.1 s",
+   "tbt": "1,040 ms",
+   "cls": "0.023"
+  },
+  {
+   "performance": 73,
+   "lcp": "3.3 s",
+   "tbt": "770 ms",
+   "cls": "0"
+  }
+ ]
+}

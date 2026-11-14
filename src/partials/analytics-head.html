@@ -2,28 +2,58 @@
      1375668011396700, both supplied directly by the owner (see
      docs/analytics-integration.md). Only ever injected into a
      BUILD_TARGET=production build — see scripts/build.js — never into
-     the staging preview, so the preview never contacts Google or Meta. -->
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KTGM7X5H');</script>
-<!-- End Google Tag Manager -->
-<!-- Meta Pixel Code -->
+     the staging preview, so the preview never contacts Google or Meta.
+
+     WHEN THEY START (14 Nov 2026, site-loop Home round 9): both vendor
+     scripts used to be requested from the <head> during the first render.
+     On a phone they held the main thread for about 0.9 s between them (GTM
+     576 ms, Pixel 317 ms) while the page was still drawing, which put the
+     mobile Lighthouse score at 70-73, one point above the scorecard's fail
+     line. They now start once the page has finished loading and the browser
+     reports it is idle (2 s at the latest after load).
+     Nothing is lost: the dataLayer array and the fbq queue exist from the
+     first line, so the page view and any event pushed before the scripts
+     arrive are held and sent when they do. Tracking is NOT gated on the
+     visitor interacting; every visit that reaches "loaded" is still
+     counted. Gating on first interaction would lift the score further but
+     stops counting visitors who leave without touching the page, which is
+     the owner's call (docs/owner-inputs-required.md).
+     The standard vendor snippets are otherwise unchanged: same queue
+     stubs, same init and PageView calls, same script URLs. -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1375668011396700');
-fbq('track', 'PageView');
+(function (w, d) {
+  // Meta Pixel queue stub (from Meta's standard snippet, minus the loader).
+  if (!w.fbq) {
+    var n = w.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!w._fbq) w._fbq = n;
+    n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+  }
+  w.fbq('init', '1375668011396700');
+  w.fbq('track', 'PageView');
+
+  var started = false;
+  function add(src) {
+    var s = d.createElement('script');
+    s.async = true; s.src = src;
+    (d.head || d.documentElement).appendChild(s);
+  }
+  function start() {
+    if (started) return;
+    started = true;
+    // Google Tag Manager (the dataLayer array is declared in the layout).
+    w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-KTGM7X5H');
+    // Meta Pixel.
+    add('https://connect.facebook.net/en_US/fbevents.js');
+  }
+  function whenIdle() {
+    if ('requestIdleCallback' in w) w.requestIdleCallback(start, { timeout: 2000 });
+    else w.setTimeout(start, 1200);
+  }
+  if (d.readyState === 'complete') whenIdle();
+  else w.addEventListener('load', whenIdle);
+})(window, document);
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="" aria-hidden="true"
 src="https://www.facebook.com/tr?id=1375668011396700&ev=PageView&noscript=1"
 /></noscript>
-<!-- End Meta Pixel Code -->

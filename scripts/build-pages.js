@@ -32,6 +32,9 @@ function copyDir(src, dest) {
 copyDir(path.join(SITE, 'css'), path.join(OUT, 'css'));
 copyDir(path.join(SITE, 'js'), path.join(OUT, 'js'));
 copyDir(path.join(SITE, 'img'), path.join(OUT, 'img'));
+// Self-hosted web fonts (14 Nov 2026). Without this line the deployed site
+// has no /fonts folder and every page falls back to system fonts.
+copyDir(path.join(SITE, 'fonts'), path.join(OUT, 'fonts'));
 fs.copyFileSync(path.join(SITE, 'robots.txt'), path.join(OUT, 'robots.txt'));
 fs.copyFileSync(path.join(SITE, 'sitemap.xml'), path.join(OUT, 'sitemap.xml'));
 // Custom-domain cutover (Nov 2026): carry site/CNAME into the Pages
@@ -103,7 +106,7 @@ function rewriteHtml(html, prefix) {
 let count = 0;
 function collectPages(dir, relSegments) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (relSegments.length === 0 && ['css', 'js', 'img'].includes(entry.name)) continue; // top-level asset dirs, already copied above
+    if (relSegments.length === 0 && ['css', 'js', 'img', 'fonts'].includes(entry.name)) continue; // top-level asset dirs, already copied above
     if (!entry.isDirectory()) continue;
     const childRel = [...relSegments, entry.name];
     const srcFile = path.join(dir, entry.name, 'index.html');

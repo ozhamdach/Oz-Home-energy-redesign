@@ -812,7 +812,15 @@ with):
 - [ ] Confirmation the customer has agreed to be featured
 
 ### 🟡 Response-time commitment (Priority 1)
-No response time (e.g. "within one business day") has been confirmed by
+**Update 14 Nov 2026:** "We aim to respond/reply within one business day"
+has been published since 11 Oct 2026 (PR #62) and is now on /assessment/,
+/request-a-quote/, /battery-storage/ and, from this date, beside the quick
+form on the home page. No written confirmation from Oz is recorded in this
+repo, so:
+- [ ] Oz to confirm he is happy to keep promising a reply within one
+      business day. If not, change or remove it on all four pages together.
+
+Original note (9 Oct 2026): No response time (e.g. "within one business day") has been confirmed by
 Oz anywhere in this repo's history. None was added to the homepage or
 assessment page's "what happens after" copy as part of this pass — only
 the already-confirmed process description was reused. If Oz wants to
@@ -973,3 +981,60 @@ FoxESS app, 7 Nov). Method and day totals are in site/js/battery-day.js. No
 customer name or address is shown; the suburb (Woolooware) is.
 - [x] System owner is happy for this data to be featured (confirmed by Oz, 7 Nov 2026).
 - [x] Suburb: Woolooware (supplied by Oz 7 Nov), linked to /locations/sutherland-shire/.
+
+### 🟡 Home page loop, round 9 (14 Nov 2026): what changed and what needs Oz
+Changes that used facts already on file (nothing new was invented):
+- [x] **Woolooware system on the home page.** A card under "Recent installs"
+      names the suburb and system (13.3 kW solar, 41.9 kWh FoxESS batteries,
+      FoxESS 9.9 kW hybrid inverter) and repeats two sentences already
+      published on /battery-storage/. Covered by the owner OK recorded in
+      the section above (7 Nov 2026). No customer name, no dollar figure.
+- [x] **Service areas line on the home page.** Lists only the eight region
+      pages already published under /locations/.
+- [x] **"How long does an installation take?"** added to the home FAQ, built
+      from sentences already published on /residential-solar/ and /faqs/.
+- [x] **Fonts are now served from this site** (`site/fonts/`), not Google
+      Fonts. Same typefaces (Outfit, DM Sans, DM Serif Display), all under
+      the SIL Open Font License; licence text is in `site/fonts/OFL.txt`.
+- [x] **Tracking starts after the page has loaded**, not during the first
+      render. Every visit that finishes loading is still counted.
+
+Still needs Oz:
+- [ ] **May tracking wait for the visitor's first tap or scroll?** Measured
+      on a phone with tracking on, the home page scores 74-79 out of 100 for
+      speed; Google Tag Manager, GA4, the Google Ads tag and the Meta Pixel
+      account for almost all of what is left. Waiting for the first
+      interaction would lift the score to about 95+, but visitors who leave
+      without touching the page would no longer be counted, and Meta/Google
+      ad audiences would be slightly smaller. Default until Oz decides:
+      keep counting everyone (current behaviour).
+- [ ] **Suburb and system size for the three "Recent installs" photos.**
+      Captions still read "Residential solar installation" and similar.
+- [ ] **Price ranges** (for example 6.6 kW, 10 kW, 13 kW solar; a typical
+      battery) so the page can show cost and payback. Not invented.
+- [ ] **What happens on install day**, in Oz's words (arrival time, how long
+      the power is off, who is on site, clean-up, handover). The page now
+      says how long an install takes, but not what the day looks like.
+- [ ] **HighLevel:** quick-form button still says "Submit"; redirect to
+      /quote-received/ not yet confirmed (see the Lead forms section above).
+
+Added after the independent round 9 audit (78.9/100, see
+`.site-loop/home/round-9-audit.md` and `round-9-next.md`):
+- [ ] **Confirm "We aim to respond within one business day."** Now also
+      beside the home page's quick form (see the Response-time section).
+- [ ] **Which person in the founder photo is Oz?** The audit marked the
+      photo down as "two unlabelled people". A caption needs the answer.
+      Also 2-3 more sentences of Oz's story for the home page, or approval
+      to reuse the About page's.
+- [ ] **Google Business Profile link**, so the review count can sit beside
+      the 5.0 rating and stay current.
+- [ ] **Quick form errors (hard gate 8).** HighLevel's bot check logs
+      background error messages inside the form's own frame once it loads.
+      Visitors never see them and this site's code logs none. Either accept
+      that (recommended), or make the quick form open on a tap.
+- [ ] **Stepped quick form.** The audit's biggest single gain (about 5
+      points): a short form in 3 steps or fewer with a progress bar, a
+      "Get my free quote" button and a stated next step. Either via
+      HighLevel settings or a form built on this site that posts to
+      HighLevel; Oz to choose.
+

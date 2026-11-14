@@ -1,0 +1,208 @@
+{
+ "url": "https://1komma5.com/au/",
+ "collectedAt": "2026-11-14T11:45:49.261Z",
+ "status": 200,
+ "finalUrl": "https://1komma5.com/au/",
+ "mobile375": {
+  "fold": {
+   "overflowX": false,
+   "h1": [
+    "The Heartbeat of New Energy Australia's #1 Battery"
+   ],
+   "buttonsFirstScreen": [
+    "Close announcement",
+    "Request Pricing",
+    "Discover New Energy",
+    "Call Us At 1300 976 040"
+   ],
+   "telLinksFirstScreen": 0,
+   "bottomFixedBar": [],
+   "wordsFirstScreen": 38
+  },
+  "page": {
+   "title": "🏠☀️1KOMMA5° Australia | New Energy Solutions",
+   "metaDescription": "One-Stop-Shop: Solar, Battery Storage, Heat Pumps, EV Charging, HVAC & Support from a single source. ",
+   "h1": [
+    "The Heartbeat of New Energy Australia's #1 Battery Installer"
+   ],
+   "h2": [
+    "Powering over 80,000 systems across Australia",
+    "Optimise Your Energy",
+    "Smarter Storage That Grows With You",
+    "Smart, Reliable Energy Conversion",
+    "Full-Black Double Glass Solar Panel",
+    "Convenient and efficient charging",
+    "Stay Cool and Comfortable with Minimal Energy Use",
+    "Hot Water Heat Pump",
+    "Your New Energy partner for life",
+    "1K5° Care",
+    "1K5° Life",
+    "1KOMMA5° is Adelaide United's Official Sustainability Partner",
+    "Your next steps towards a climate-neutral life:",
+    "\"Having solar is the most sensible thing you can do to save money.\"",
+    "Partners & Accreditations"
+   ],
+   "schemaTypes": [
+    "Product",
+    "Brand",
+    "AggregateRating",
+    "Review",
+    "Person",
+    "Rating",
+    "FAQPage",
+    "Question",
+    "Answer"
+   ],
+   "schemaHasLicence": false,
+   "schemaHasAreaServed": false,
+   "schemaHasFAQ": true,
+   "schemaHasAggregateRating": true,
+   "screens": 21.8,
+   "words": 1443,
+   "images": {
+    "visible": 57,
+    "missingAlt": 0,
+    "emptyAlt": 5,
+    "ext": {
+     "com/_": 33,
+     "": 22,
+     "com/": 1,
+     "com/a": 1
+    }
+   },
+   "regionMentions": [],
+   "sydneyMentions": 0,
+   "reviewSignals": {
+    "googleWord": 1,
+    "starsText": [
+     "4.5\n"
+    ],
+    "reviewCountText": [],
+    "productReview": false,
+    "solarQuotes": false,
+    "trustpilot": false
+   },
+   "proofNumbers": [
+    "80,000 systems across Australia"
+   ],
+   "licenceText": [],
+   "accreditationText": [],
+   "warrantyText": [
+    "an IP65 rating for outdoor durability and a solid 10-year warranty, it’s built to last.",
+    "rful, stylish, and sustainably made – backed by a 30-year product and performance warranty.",
+    "products or not, our 1K5° Care program includes a 30-Year Workmanship Guarantee and Fast Australian Support that is u"
+   ],
+   "dollarClaims": [
+    "Electrify Your Summer! Get a $1,000 Gift Card when you purchase an eligible",
+    "battery payback for homeowners by up to $1,500 annually"
+   ],
+   "percentClaims": [],
+   "asOfOrSource": [],
+   "faqLike": [
+    "Australia's One-Stop-Shop",
+    "New Energy Now",
+    "Heartbeat AI",
+    "1K5° Care and 1K5° Life",
+    "Top-End to the Barossa",
+    "Finance Options"
+   ],
+   "installTimeText": [],
+   "processSteps": [
+    "1KOMMA5° is Australia's Heartbeat of New Energy. Ou",
+    "1KOMMA5° Smart EV Charger",
+    "1K5° Care and 1K5° Life",
+    "1K5° Care",
+    "1K5° Life",
+    "1KOMMA5° is Adelaide United's Official Sustainabili"
+   ],
+   "forms": [
+    {
+     "fields": 1,
+     "submit": null,
+     "screensDown": 19.2
+    },
+    {
+     "fields": 1,
+     "submit": null,
+     "screensDown": 19.2
+    },
+    {
+     "fields": 1,
+     "submit": null,
+     "screensDown": 19.2
+    },
+    {
+     "fields": 1,
+     "submit": null,
+     "screensDown": 19.2
+    }
+   ],
+   "iframes": [],
+   "telLinks": [],
+   "footerText": "New Energy Solutions New Energy Bundle™ Heartbeat AI Solar Battery Storage 1K5° Electrification EV Charging Air Conditioning Hot Water Systems Commercial About Us Who we are Purpose Media FAQs 1K5° Care and 1K5° Life Support Centre Contact us Locations & Showrooms Queensland New South Wales Australian Capital Territory Victoria South Australia New To Solar? Blog Instagram Facebook Twitter LinkedIn YouTube Australia Privacy Policy Terms Human Rights Legal Information Cookie settings Third-Party Notices v2.53.0-production © 2026 AU"
+  },
+  "consoleErrors": 1,
+  "consoleErrorSample": [
+   "Invalid 'X-Frame-Options' header encountered when loading 'https://1komma5.com/': 'allow-from https://app.storyblok.com/"
+  ],
+  "axe": [
+   {
+    "id": "button-name",
+    "impact": "critical",
+    "nodes": 4
+   },
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "nodes": 3
+   },
+   {
+    "id": "empty-heading",
+    "impact": "minor",
+    "nodes": 1
+   },
+   {
+    "id": "heading-order",
+    "impact": "moderate",
+    "nodes": 1
+   },
+   {
+    "id": "html-lang-valid",
+    "impact": "serious",
+    "nodes": 1
+   },
+   {
+    "id": "image-alt",
+    "impact": "critical",
+    "nodes": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "nodes": 2
+   }
+  ]
+ },
+ "desktop1440": {
+  "fold": {
+   "overflowX": false,
+   "h1": [
+    "The Heartbeat of New Energy Australia's #1 Battery"
+   ],
+   "buttonsFirstScreen": [
+    "Close announcement",
+    "Request Pricing",
+    "Discover New Energy",
+    "Call Us At 1300 976 040"
+   ],
+   "telLinksFirstScreen": 0,
+   "bottomFixedBar": [],
+   "wordsFirstScreen": 46
+  },
+  "consoleErrors": 1,
+  "consoleErrorSample": [
+   "Invalid 'X-Frame-Options' header encountered when loading 'https://1komma5.com/': 'allow-from https://app.storyblok.com/"
+  ],
+  "axe": null
+ }
+}

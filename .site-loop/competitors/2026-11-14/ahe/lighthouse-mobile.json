@@ -1,0 +1,65 @@
+{
+ "note": "One Lighthouse 12.6 mobile run against the live site (simulated slow 4G, 4x CPU). Includes real network latency.",
+ "url": "https://ahegroup.com.au/",
+ "runtimeError": null,
+ "scores": {
+  "performance": 55,
+  "accessibility": 68,
+  "bestPractices": 100,
+  "seo": 85
+ },
+ "metrics": {
+  "LCP": "15.1 s",
+  "FCP": "4.6 s",
+  "TBT": "190 ms",
+  "CLS": "0",
+  "speedIndex": "10.1 s",
+  "TTI": "15.4 s"
+ },
+ "transfer": {
+  "totalKB": 2591,
+  "scriptKB": 225,
+  "imageKB": 2177,
+  "requests": 48
+ },
+ "renderBlocking": [
+  {
+   "url": "https://ahegroup.com.au/wp-content/themes/ahe/style.css?ver=7.1.4",
+   "wastedMs": 1057
+  },
+  {
+   "url": "https://ahegroup.com.au/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+   "wastedMs": 1057
+  },
+  {
+   "url": "https://fonts.googleapis.com/css?family=Montserrat:400,500,700",
+   "wastedMs": 178
+  },
+  {
+   "url": "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css",
+   "wastedMs": 906
+  },
+  {
+   "url": "https://fonts.googleapis.com/css?family=Libre+Franklin%3A300%2C300i%2C400%2C400i%2C600%2C6",
+   "wastedMs": 909
+  }
+ ],
+ "imageAudits": {
+  "modernFormatsWasteKB": 1732,
+  "responsiveWasteKB": 301,
+  "unsizedImages": 0.5
+ },
+ "errorsInConsole": 1,
+ "failedAccessibility": [
+  "button-name",
+  "color-contrast",
+  "image-alt",
+  "link-name",
+  "listitem",
+  "meta-viewport"
+ ],
+ "failedSeo": [
+  "crawlable-anchors",
+  "image-alt"
+ ]
+}

@@ -153,7 +153,7 @@ const DEFAULT_MOBILE_CTA_TEXT = 'Get a Free Quote';
 // SITE_OUT_DIR (see above) needs creating on a fresh checkout/CI run.
 fs.mkdirSync(SITE_DIR, { recursive: true });
 
-// css/js/img are committed directly under site/ (this build only ever
+// css/js/img/fonts are committed directly under site/ (this build only ever
 // generates HTML, never those assets) — fine for the default SITE_DIR,
 // but a throwaway SITE_OUT_DIR starts empty and would otherwise build HTML
 // that references /img/... paths nothing on disk backs, tripping the
@@ -171,7 +171,7 @@ function copyDir(src, dest) {
 }
 const CANONICAL_SITE_DIR = path.join(ROOT, 'site');
 if (path.resolve(SITE_DIR) !== path.resolve(CANONICAL_SITE_DIR)) {
-  for (const dir of ['css', 'js', 'img']) {
+  for (const dir of ['css', 'js', 'img', 'fonts']) {
     copyDir(path.join(CANONICAL_SITE_DIR, dir), path.join(SITE_DIR, dir));
   }
 }

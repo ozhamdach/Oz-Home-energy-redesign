@@ -1,0 +1,210 @@
+{
+ "url": "https://isolux.com.au/",
+ "collectedAt": "2026-11-14T11:47:01.794Z",
+ "status": 200,
+ "finalUrl": "https://isolux.com.au/",
+ "mobile375": {
+  "fold": {
+   "overflowX": false,
+   "h1": [
+    "Solar Panel Installation Company in Sydney, Austra"
+   ],
+   "buttonsFirstScreen": [],
+   "telLinksFirstScreen": 0,
+   "bottomFixedBar": [],
+   "wordsFirstScreen": 7
+  },
+  "page": {
+   "title": "Solar Panel Installation Sydney | $0 Upfront Cost Solar Company",
+   "metaDescription": "Isolux Solar is one of the top solar panel installation companies in Sydney and provides $0 upfront cost. Get a free quote now.",
+   "h1": [
+    "Solar Panel Installation Company in Sydney, Australia"
+   ],
+   "h2": [
+    "Simple & Easy to Use",
+    "Easy Payment",
+    "25-Years Warranty",
+    "Seamless Installation",
+    "$0 Upfront Cost",
+    "Why Solar?",
+    "Residential Solar System",
+    "Commercial Solar System",
+    "Take Control of Your Energy Bills - Switch to Solar.",
+    "6.6kw Solar System",
+    "10.56kw Solar System",
+    "13.2 kw Solar System",
+    "Take a Peak Inside Our Prestigious Projects",
+    "What our happy customer says",
+    "Go Green Today - Install Solar Panels on your Roof!",
+    "Why Choose Us - Solar Panel Installation Company Sydney",
+    "Our Suppliers"
+   ],
+   "schemaTypes": [
+    "WebPage",
+    "ReadAction",
+    "ImageObject",
+    "BreadcrumbList",
+    "ListItem",
+    "WebSite",
+    "SearchAction",
+    "EntryPoint",
+    "PropertyValueSpecification",
+    "Organization",
+    "LocalBusiness",
+    "PostalAddress",
+    "GeoCoordinates",
+    "OpeningHoursSpecification",
+    "Product",
+    "Brand",
+    "AggregateRating"
+   ],
+   "schemaHasLicence": false,
+   "schemaHasAreaServed": false,
+   "schemaHasFAQ": false,
+   "schemaHasAggregateRating": true,
+   "screens": 17.5,
+   "words": 1494,
+   "images": {
+    "visible": 34,
+    "missingAlt": 0,
+    "emptyAlt": 1,
+    "ext": {
+     "png": 5,
+     "webp": 23,
+     "jpg": 5,
+     "svg": 1
+    }
+   },
+   "regionMentions": [
+    "St George",
+    "Parramatta"
+   ],
+   "sydneyMentions": 8,
+   "reviewSignals": {
+    "googleWord": 0,
+    "starsText": [],
+    "reviewCountText": [
+     "108 reviews"
+    ],
+    "productReview": true,
+    "solarQuotes": false,
+    "trustpilot": false
+   },
+   "proofNumbers": [
+    "20000 \nCustomers Target by 2030",
+    "25 years of warranty of solar panels, ",
+    "10 years for warranty of inverter, fle",
+    "10 years manufacturer’s warranty on mo",
+    "25 years performance output warranty 1",
+    "10 years workmanship warranty availabl",
+    "10 years manufacturer’s warranty on mo",
+    "25 years performance output warranty 1"
+   ],
+   "licenceText": [
+    " quality electrical material Installation by SAA Accredited Licensed Solar Electrician. 10 years workmanship warranty available",
+    " quality electrical material Installation by SAA Accredited Licensed Solar Electrician. 10 years workmanship warranty available",
+    " quality electrical material Installation by SAA Accredited Licensed Solar Electrician. 10 years workmanship warranty available"
+   ],
+   "accreditationText": [
+    "nvironment. Our professional network of Solar Accreditation Australia installers and engineers allows us to combine aff",
+    "ity electrical material Installation by SAA Accredited Licensed Solar Electrician. 10 years w",
+    "ity electrical material Installation by SAA Accredited Licensed Solar Electrician. 10 years w",
+    "ity electrical material Installation by SAA Accredited Licensed Solar Electrician. 10 years w"
+   ],
+   "warrantyText": [
+    "25-Years Warranty",
+    "$0 upfront deposit, Save first and pay strategy, 25 years of warranty of solar panels, 10 years for warranty of inve",
+    " High Quality Mounting Kit 10 years manufacturer’s warranty on mounting Kit",
+    " 25 years performance output warranty 15 years manufacturer’s warranty on panel",
+    "ion by SAA Accredited Licensed Solar Electrician. 10 years workmanship warranty available",
+    " High Quality Mounting Kit 10 years manufacturer’s warranty on mounting Kit"
+   ],
+   "dollarClaims": [
+    "n companies in Sydney, NSW and provides $0 upfront cost. Specialized in installing",
+    "$0 Upfront Cost",
+    "$0 upfront deposit, Save first and pay str",
+    " Suitable for : $250-$400 bills",
+    " Suitable for : $450-$600 bills",
+    " Suitable for : $600+ bills"
+   ],
+   "percentClaims": [
+    "I 100% recommend them to you all. Th"
+   ],
+   "asOfOrSource": [],
+   "faqLike": [],
+   "installTimeText": [],
+   "processSteps": [
+    "25-Years Warranty",
+    "50000",
+    "20000",
+    "15 X 440 W Tier 1 Solar Panels with high-efficiency",
+    "5 KW Inverter Smart Technology Inverter with built i",
+    "25 years performance output warranty 15 years manuf"
+   ],
+   "forms": [],
+   "iframes": [],
+   "telLinks": [
+    "tel:1300552452"
+   ],
+   "footerText": "Useful Links Why Solar How Solar Works Why Choose Us FAQ Warranty Policy Terms and Conditions Privacy Policy Important Links About Us NSW Solar Rebate Gallery Get Free Quote Blog Contact Us Our Products Solar Panels Inverters Battery Commercial Solar System Residential Solar System Contact Us 1300 552 452 info@isolux.com.au Suite 601,Level 6, 159–175 Church St, Parramatta NSW 2150 QLD – 17 Gould Rd, Herston, QLD 4006 WA – 267 St Georges Terrace, Perth WA 6000 Popular Searches 6.6 kw solar system 10.56 kw solar system 13.2 kw solar system solar companies Sydney home solar panel system Solar Panels Brisbane commercial solar solar installers in sydney Solar Panels Perth isolux solar reviews sol"
+  },
+  "consoleErrors": 0,
+  "consoleErrorSample": [],
+  "axe": [
+   {
+    "id": "button-name",
+    "impact": "critical",
+    "nodes": 1
+   },
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "nodes": 1
+   },
+   {
+    "id": "heading-order",
+    "impact": "moderate",
+    "nodes": 6
+   },
+   {
+    "id": "landmark-complementary-is-top-level",
+    "impact": "moderate",
+    "nodes": 1
+   },
+   {
+    "id": "landmark-unique",
+    "impact": "moderate",
+    "nodes": 2
+   },
+   {
+    "id": "link-name",
+    "impact": "serious",
+    "nodes": 1
+   }
+  ]
+ },
+ "desktop1440": {
+  "fold": {
+   "overflowX": false,
+   "h1": [
+    "Solar Panel Installation Company in Sydney, Austra"
+   ],
+   "buttonsFirstScreen": [
+    "HOME",
+    "ABOUT US",
+    "PRODUCTS & SERVICES",
+    "PACKAGES",
+    "CONTACT US",
+    "GET FREE QUOTE",
+    "1300 552 452 Book a Callback",
+    "GET A FREE QUOTE"
+   ],
+   "telLinksFirstScreen": 1,
+   "bottomFixedBar": [],
+   "wordsFirstScreen": 43
+  },
+  "consoleErrors": 0,
+  "consoleErrorSample": [],
+  "axe": null
+ }
+}

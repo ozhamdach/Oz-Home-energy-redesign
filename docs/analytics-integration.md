@@ -1,11 +1,29 @@
 # Analytics Integration Plan
 
 **GTM and Meta Pixel are live.** The owner supplied both container IDs
-directly (GTM `GTM-KTGM7X5H`, Meta Pixel `1375668011396700`) — installed in
-`src/layout.html` (head snippets + the GTM `<body>` `<noscript>`). GA4 and
+directly (GTM `GTM-KTGM7X5H`, Meta Pixel `1375668011396700`) — installed via
+`src/partials/analytics-head.html` and `analytics-body.html` (head snippet + the GTM `<body>` `<noscript>`). GA4 and
 Google Ads are not separately confirmed; per the guidance below they should
 be configured as tags *inside* this GTM container, not installed a second
 time as their own scripts.
+
+## When the tracking scripts start (changed 14 Nov 2026)
+
+`src/partials/analytics-head.html` no longer requests GTM and the Meta
+Pixel from the `<head>` during the first render. The `dataLayer` array and
+the `fbq` queue exist from the first line (so `PageView` and any event
+pushed early are held), and the two vendor scripts are added once the
+`load` event has fired and the browser reports it is idle
+(`requestIdleCallback`, 2 s timeout; 1.2 s timer where that is missing).
+Tracking is **not** gated on the visitor interacting: every visit that
+reaches `load` is still counted. A visitor who leaves before the page
+finishes loading is not; the standard snippet would usually have caught
+that visit. Gating on first interaction is a separate, owner decision
+(see `docs/owner-inputs-required.md`).
+
+Measured on the home page, Lighthouse mobile, production build with
+analytics on, three runs each: before 70 / 71 / 73 (LCP 3.1-3.3 s); after,
+together with self-hosted fonts, 79 / 77 / 74 (LCP 2.4-2.5 s).
 
 ## What already exists
 

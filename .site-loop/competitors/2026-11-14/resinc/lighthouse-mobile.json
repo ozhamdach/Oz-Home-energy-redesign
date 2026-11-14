@@ -1,0 +1,66 @@
+{
+ "note": "One Lighthouse 12.6 mobile run against the live site (simulated slow 4G, 4x CPU). Includes real network latency.",
+ "url": "https://resinc.com.au/",
+ "runtimeError": null,
+ "scores": {
+  "performance": 37,
+  "accessibility": 89,
+  "bestPractices": 75,
+  "seo": 92
+ },
+ "metrics": {
+  "LCP": "5.3 s",
+  "FCP": "4.9 s",
+  "TBT": "1,340 ms",
+  "CLS": "0",
+  "speedIndex": "16.8 s",
+  "TTI": "21.1 s"
+ },
+ "transfer": {
+  "totalKB": 29084,
+  "scriptKB": 2308,
+  "imageKB": 1056,
+  "requests": 288
+ },
+ "renderBlocking": [
+  {
+   "url": "https://resinc.com.au/wp-content/plugins/ai-engine-pro/app/chatbot.js?ver=1785932179",
+   "wastedMs": 345
+  },
+  {
+   "url": "https://resinc.com.au/wp-content/plugins/youtube-embed-plus/scripts/ytprefs.min.js?ver=14.",
+   "wastedMs": 345
+  },
+  {
+   "url": "https://resinc.com.au/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1.1",
+   "wastedMs": 345
+  },
+  {
+   "url": "https://resinc.com.au/wp-content/uploads/elementor/google-fonts/css/poppins.css?ver=174531",
+   "wastedMs": 345
+  },
+  {
+   "url": "https://resinc.com.au/wp-content/uploads/elementor/css/post-352.css?ver=1794616552",
+   "wastedMs": 345
+  },
+  {
+   "url": "https://resinc.com.au/wp-content/themes/dt-the7/lib/custom-scrollbar/custom-scrollbar.min.",
+   "wastedMs": 345
+  }
+ ],
+ "imageAudits": {
+  "modernFormatsWasteKB": 532,
+  "responsiveWasteKB": 446,
+  "unsizedImages": 0.5
+ },
+ "errorsInConsole": 0,
+ "failedAccessibility": [
+  "aria-allowed-role",
+  "color-contrast",
+  "link-name",
+  "meta-viewport"
+ ],
+ "failedSeo": [
+  "link-text"
+ ]
+}

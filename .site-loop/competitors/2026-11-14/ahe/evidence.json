@@ -1,0 +1,173 @@
+{
+ "url": "https://ahegroup.com.au/",
+ "collectedAt": "2026-11-14T11:44:12.316Z",
+ "status": 200,
+ "finalUrl": "https://ahegroup.com.au/",
+ "mobile375": {
+  "fold": {
+   "overflowX": false,
+   "h1": [],
+   "buttonsFirstScreen": [
+    "CLICK HERE!"
+   ],
+   "telLinksFirstScreen": 1,
+   "bottomFixedBar": [],
+   "wordsFirstScreen": 11
+  },
+  "page": {
+   "title": "Solar Power Systems and Solar Installations - AHE Group",
+   "metaDescription": "Get Your Free Solar Power Installation Quote from Sydney's most trusted solar power and Invertor installer. AHE Group Solar",
+   "h1": [],
+   "h2": [
+    "GET A FREE SOLAR QUOTE"
+   ],
+   "schemaTypes": [
+    "LocalBusiness",
+    "PostalAddress",
+    "GeoCoordinates",
+    "AggregateRating",
+    "WebPage",
+    "ReadAction",
+    "ImageObject",
+    "BreadcrumbList",
+    "ListItem",
+    "WebSite",
+    "SearchAction",
+    "EntryPoint",
+    "PropertyValueSpecification"
+   ],
+   "schemaHasLicence": false,
+   "schemaHasAreaServed": false,
+   "schemaHasFAQ": false,
+   "schemaHasAggregateRating": true,
+   "screens": 9.8,
+   "words": 809,
+   "images": {
+    "visible": 12,
+    "missingAlt": 1,
+    "emptyAlt": 7,
+    "ext": {
+     "png": 12
+    }
+   },
+   "regionMentions": [
+    "Hills District",
+    "Northern Beaches",
+    "Penrith",
+    "Campbelltown",
+    "Castle Hill",
+    "Central Coast"
+   ],
+   "sydneyMentions": 5,
+   "reviewSignals": {
+    "googleWord": 0,
+    "starsText": [],
+    "reviewCountText": [],
+    "productReview": false,
+    "solarQuotes": false,
+    "trustpilot": false
+   },
+   "proofNumbers": [
+    "30 years. Our expert team handles ever",
+    "30 years’ experience, our team can ass",
+    "34 years of experience, AHE Group is a"
+   ],
+   "licenceText": [
+    "License & Accreditation",
+    "Electrical License: 266656C"
+   ],
+   "accreditationText": [
+    "As a New Energy Tech Approved Seller with over 30 years’ experience, o"
+   ],
+   "warrantyText": [
+    " cut bills and boost energy independence for over 30 years. Our expert team handles everything from quote to install ",
+    "As a New Energy Tech Approved Seller with over 30 years’ experience, our team can assess your home, recommend the ",
+    "With over 34 years of experience, AHE Group is a proudly family-owned Austral"
+   ],
+   "dollarClaims": [],
+   "percentClaims": [],
+   "asOfOrSource": [],
+   "faqLike": [],
+   "installTimeText": [],
+   "processSteps": [
+    "1300 243 477",
+    "2026 Solar Battery Rebates",
+    "5kW Solar System",
+    "10kW Solar System",
+    "15kW Solar System",
+    "20kW Solar System"
+   ],
+   "forms": [],
+   "iframes": [],
+   "telLinks": [
+    "tel:1300243477"
+   ],
+   "footerText": "AHE Group With over 34 years of experience, AHE Group is a proudly family-owned Australian business specializing in solar power and electrical solutions. Committed to quality, innovation, and sustainability, AHE Group ensures every project meets the highest standards of efficiency and reliability. License & Accreditation Electrical License: 266656C Solar Accreditation: S8614630 ABN: 43 156 657 215 ACN: 156 657 215 Solar Industry Accreditation Quick Links Home Products About Us FAQ Contact Enquiry Form Choose the Right Inverters Guide Understanding Solar Tesla Powerwall Certified Installers NSW Home Energy Saver Loans Driving Directions Solar Services Solar Panel Servicing Solar Panel Mainten"
+  },
+  "consoleErrors": 0,
+  "consoleErrorSample": [],
+  "axe": [
+   {
+    "id": "button-name",
+    "impact": "critical",
+    "nodes": 1
+   },
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "nodes": 2
+   },
+   {
+    "id": "image-alt",
+    "impact": "critical",
+    "nodes": 1
+   },
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "nodes": 1
+   },
+   {
+    "id": "link-name",
+    "impact": "serious",
+    "nodes": 4
+   },
+   {
+    "id": "listitem",
+    "impact": "serious",
+    "nodes": 4
+   },
+   {
+    "id": "meta-viewport",
+    "impact": "critical",
+    "nodes": 1
+   },
+   {
+    "id": "page-has-heading-one",
+    "impact": "moderate",
+    "nodes": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "nodes": 3
+   }
+  ]
+ },
+ "desktop1440": {
+  "fold": {
+   "overflowX": false,
+   "h1": [],
+   "buttonsFirstScreen": [
+    "HOME",
+    "CLICK HERE!"
+   ],
+   "telLinksFirstScreen": 1,
+   "bottomFixedBar": [],
+   "wordsFirstScreen": 71
+  },
+  "consoleErrors": 0,
+  "consoleErrorSample": [],
+  "axe": null
+ }
+}

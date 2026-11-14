@@ -1,0 +1,42 @@
+{
+ "note": "One Lighthouse 12.6 mobile run against the live site (simulated slow 4G, 4x CPU). Includes real network latency.",
+ "url": "https://1komma5.com/au/",
+ "runtimeError": null,
+ "scores": {
+  "performance": 40,
+  "accessibility": 84,
+  "bestPractices": 79,
+  "seo": 85
+ },
+ "metrics": {
+  "LCP": "5.7 s",
+  "FCP": "1.4 s",
+  "TBT": "8,440 ms",
+  "CLS": "0",
+  "speedIndex": "10.2 s",
+  "TTI": "36.0 s"
+ },
+ "transfer": {
+  "totalKB": 7682,
+  "scriptKB": 3381,
+  "imageKB": 99,
+  "requests": 199
+ },
+ "renderBlocking": [],
+ "imageAudits": {
+  "modernFormatsWasteKB": 0,
+  "responsiveWasteKB": 0,
+  "unsizedImages": 1
+ },
+ "errorsInConsole": 1,
+ "failedAccessibility": [
+  "button-name",
+  "heading-order",
+  "html-lang-valid",
+  "image-alt"
+ ],
+ "failedSeo": [
+  "link-text",
+  "image-alt"
+ ]
+}

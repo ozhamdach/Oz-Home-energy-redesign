@@ -1500,3 +1500,28 @@ table.data-table tr:last-child td { border-bottom: none; }
 .install-areas a { white-space: nowrap; }
 @media (max-width: 760px) { .install-areas { line-height: 1.95; } }
 
+/* =====================================================
+   HOME — fixes from the round 9 independent audit (14 Nov 2026)
+   ===================================================== */
+/* Credentials: five badges in a three-column grid left an empty slot at the
+   bottom right (and a lone card on the left in two columns). An incomplete
+   last row is now centred. Desktop uses six half-columns so a pair or a
+   single card can sit in the middle; card widths are unchanged. */
+@media (min-width: 901px) {
+  .trust-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .trust-grid > .trust-card { grid-column: span 2; }
+  .trust-grid > .trust-card:nth-last-child(2):nth-child(3n + 1) { grid-column: 2 / span 2; }
+  .trust-grid > .trust-card:last-child:nth-child(3n + 1) { grid-column: 3 / span 2; }
+}
+@media (max-width: 900px) {
+  .trust-grid > .trust-card:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 16px); }
+}
+@media (max-width: 560px) {
+  .trust-grid > .trust-card:last-child:nth-child(odd) { width: calc(50% - 7px); }
+}
+/* Reviews: in a frame 1100px or wider the third-party widget lays cards out
+   in four columns, so six reviews filled three and left the right-hand
+   quarter empty (cards sat left of centre). Capped at a width where it uses
+   two even columns, and centred. */
+.review-widget { max-width: 1000px; margin-inline: auto; }
+

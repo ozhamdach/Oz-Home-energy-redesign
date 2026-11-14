@@ -812,7 +812,15 @@ with):
 - [ ] Confirmation the customer has agreed to be featured
 
 ### 🟡 Response-time commitment (Priority 1)
-No response time (e.g. "within one business day") has been confirmed by
+**Update 14 Nov 2026:** "We aim to respond/reply within one business day"
+has been published since 11 Oct 2026 (PR #62) and is now on /assessment/,
+/request-a-quote/, /battery-storage/ and, from this date, beside the quick
+form on the home page. No written confirmation from Oz is recorded in this
+repo, so:
+- [ ] Oz to confirm he is happy to keep promising a reply within one
+      business day. If not, change or remove it on all four pages together.
+
+Original note (9 Oct 2026): No response time (e.g. "within one business day") has been confirmed by
 Oz anywhere in this repo's history. None was added to the homepage or
 assessment page's "what happens after" copy as part of this pass — only
 the already-confirmed process description was reused. If Oz wants to
@@ -1009,4 +1017,24 @@ Still needs Oz:
       says how long an install takes, but not what the day looks like.
 - [ ] **HighLevel:** quick-form button still says "Submit"; redirect to
       /quote-received/ not yet confirmed (see the Lead forms section above).
+
+Added after the independent round 9 audit (78.9/100, see
+`.site-loop/home/round-9-audit.md` and `round-9-next.md`):
+- [ ] **Confirm "We aim to respond within one business day."** Now also
+      beside the home page's quick form (see the Response-time section).
+- [ ] **Which person in the founder photo is Oz?** The audit marked the
+      photo down as "two unlabelled people". A caption needs the answer.
+      Also 2-3 more sentences of Oz's story for the home page, or approval
+      to reuse the About page's.
+- [ ] **Google Business Profile link**, so the review count can sit beside
+      the 5.0 rating and stay current.
+- [ ] **Quick form errors (hard gate 8).** HighLevel's bot check logs
+      background error messages inside the form's own frame once it loads.
+      Visitors never see them and this site's code logs none. Either accept
+      that (recommended), or make the quick form open on a tap.
+- [ ] **Stepped quick form.** The audit's biggest single gain (about 5
+      points): a short form in 3 steps or fewer with a progress bar, a
+      "Get my free quote" button and a stated next step. Either via
+      HighLevel settings or a form built on this site that posts to
+      HighLevel; Oz to choose.
 

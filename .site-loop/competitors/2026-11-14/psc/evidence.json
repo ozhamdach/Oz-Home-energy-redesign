@@ -1,0 +1,172 @@
+{
+ "url": "https://pscenergy.com.au/",
+ "collectedAt": "2026-11-14T11:46:26.855Z",
+ "status": 200,
+ "finalUrl": "https://www.pscenergy.com.au/",
+ "mobile375": {
+  "fold": {
+   "overflowX": false,
+   "h1": [
+    "As Reliable As The Sun"
+   ],
+   "buttonsFirstScreen": [
+    "Start Here if You’re New to Solar",
+    "Get in touch"
+   ],
+   "telLinksFirstScreen": 1,
+   "bottomFixedBar": [
+    "02 4711 4312 GET A QUOTE"
+   ],
+   "wordsFirstScreen": 29
+  },
+  "page": {
+   "title": "PSC Energy | Solar Panels Sydney | Blue Mountains Solar",
+   "metaDescription": "Awards-Winning Solar Company in Sydney. 5-Star Reviews from Thousands of Clients. Premium Solar Power Systems | Book Your FREE Inspection Today!",
+   "h1": [
+    "As Reliable As The Sun"
+   ],
+   "h2": [
+    "Our Services",
+    "Our Products",
+    "Learning Centre",
+    "Here's what our customers are saying",
+    "Recognised for Superior Solar Service",
+    "Powered by PSC Energy",
+    "Find out how much you can save with a Solar Energy System from PSC Energy."
+   ],
+   "schemaTypes": [
+    "WPHeader",
+    "WPFooter",
+    "Corporation",
+    "ImageObject",
+    "ContactPoint",
+    "WebSite",
+    "SearchAction",
+    "BreadcrumbList",
+    "ListItem",
+    "Person",
+    "WebPage",
+    "SiteNavigationElement",
+    "Article"
+   ],
+   "schemaHasLicence": false,
+   "schemaHasAreaServed": false,
+   "schemaHasFAQ": false,
+   "schemaHasAggregateRating": false,
+   "screens": 11.3,
+   "words": 473,
+   "images": {
+    "visible": 20,
+    "missingAlt": 0,
+    "emptyAlt": 0,
+    "ext": {
+     "png": 17,
+     "jpg": 3
+    }
+   },
+   "regionMentions": [
+    "Penrith"
+   ],
+   "sydneyMentions": 0,
+   "reviewSignals": {
+    "googleWord": 1,
+    "starsText": [],
+    "reviewCountText": [],
+    "productReview": false,
+    "solarQuotes": true,
+    "trustpilot": false
+   },
+   "proofNumbers": [],
+   "licenceText": [],
+   "accreditationText": [],
+   "warrantyText": [],
+   "dollarClaims": [
+    "< $300 per quarter",
+    "$300 - $500 per quarter",
+    "$500 - $750 per quarter",
+    "$750 - $1,000 per quarter",
+    "$1,000 - $1,500 per quarter",
+    "Over $1,500 per quarter"
+   ],
+   "percentClaims": [],
+   "asOfOrSource": [],
+   "faqLike": [],
+   "installTimeText": [],
+   "processSteps": [
+    "02 4711 4312",
+    "130A Batt Street, Jamisontown NSW 2750",
+    "130A Batt Street, Jamisontown NSW 2750",
+    "130A Batt Street, Jamisontown NSW 2750",
+    "02 4711 4312"
+   ],
+   "forms": [
+    {
+     "fields": 15,
+     "submit": "Submit Form",
+     "screensDown": 7.9
+    }
+   ],
+   "iframes": [
+    ""
+   ],
+   "telLinks": [
+    "tel:0247114312 ",
+    "tel:0247114312",
+    "tel:1800202930"
+   ],
+   "footerText": null
+  },
+  "consoleErrors": 0,
+  "consoleErrorSample": [],
+  "axe": [
+   {
+    "id": "aria-command-name",
+    "impact": "serious",
+    "nodes": 1
+   },
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "nodes": 3
+   },
+   {
+    "id": "frame-title",
+    "impact": "serious",
+    "nodes": 1
+   },
+   {
+    "id": "heading-order",
+    "impact": "moderate",
+    "nodes": 3
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "nodes": 2
+   }
+  ]
+ },
+ "desktop1440": {
+  "fold": {
+   "overflowX": false,
+   "h1": [
+    "As Reliable As The Sun"
+   ],
+   "buttonsFirstScreen": [
+    "02 4711 4312",
+    "Start Here if You’re New to Solar",
+    "Get in touch",
+    "Speak To Us Now",
+    "Get a Quote"
+   ],
+   "telLinksFirstScreen": 2,
+   "bottomFixedBar": [],
+   "wordsFirstScreen": 42
+  },
+  "consoleErrors": 1,
+  "consoleErrorSample": [
+   "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+  ],
+  "axe": null
+ }
+}

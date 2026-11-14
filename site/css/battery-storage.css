@@ -343,3 +343,6 @@
   .bxd-flow { animation: none; stroke-dasharray: none; }
   .bxd-play, .bxd-card { transition: none; }
 }
+
+/* Touch screens: a 44px-tall slider is easier to grab with a thumb. */
+@media (pointer: coarse) { .bxd-range input { height: 44px; } }

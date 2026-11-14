@@ -193,7 +193,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .section-inverse .btn-secondary, .hero .btn-secondary, .page-banner .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.6); }
 .section-inverse .btn-secondary:hover, .hero .btn-secondary:hover, .page-banner .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.12); }
 .section-inverse .btn-secondary:focus-visible, .hero .btn-secondary:focus-visible, .page-banner .btn-secondary:focus-visible { outline-color: #fff; }
-.btn-ghost { background: transparent; color: var(--brand); padding: 8px 4px; min-height: auto; }
+.btn-ghost { background: transparent; color: var(--brand); padding: 8px 4px; min-height: 44px; }
 .btn-ghost:hover { text-decoration: underline; }
 .btn-block { width: 100%; }
 .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
@@ -1530,3 +1530,20 @@ table.data-table tr:last-child td { border-bottom: none; }
    two even columns, and centred. */
 .review-widget { max-width: 1000px; margin-inline: auto; }
 
+/* ---------- Touch targets (UI/UX Pro Max review, 14 Nov 2026) ----------
+   On touch screens every tappable link is at least 44px tall (Apple HIG /
+   the review's touch-target rule). Mouse layouts are unchanged: these
+   links were 21-24px tall, fine for a pointer, cramped for a thumb.
+   Footer lists drop their 10px gap because the taller links now provide
+   the spacing themselves. */
+@media (pointer: coarse) {
+  .site-footer ul { gap: 0; }
+  .site-footer ul a,
+  .footer-bottom a,
+  .card ul a,
+  .card h3 a,
+  .rebate-strip a { display: inline-flex; align-items: center; min-height: 44px; }
+  .card h3 a { display: flex; }
+  .footer-bottom .legal-links { gap: 0 18px; }
+  .footer-social a { width: 44px; height: 44px; }
+}

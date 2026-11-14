@@ -341,3 +341,30 @@
     io.observe(wrap);
   });
 })();
+
+/* Swipeable photo rows (.photo-gallery--swipe, phones only). A region that
+   scrolls sideways must be reachable from the keyboard, so while a row
+   actually overflows it gets a tab stop and a name. On wider screens it is
+   an ordinary grid and gets neither, so there is no empty tab stop. */
+(function () {
+  'use strict';
+  var rows = document.querySelectorAll('.photo-gallery--swipe');
+  if (!rows.length) return;
+  function sync() {
+    Array.prototype.forEach.call(rows, function (row) {
+      if (row.scrollWidth > row.clientWidth + 1) {
+        row.setAttribute('tabindex', '0');
+        row.setAttribute('role', 'region');
+        row.setAttribute('aria-label', 'Recent installs. Swipe or use the arrow keys for more photos.');
+      } else {
+        row.removeAttribute('tabindex');
+        row.removeAttribute('role');
+        row.removeAttribute('aria-label');
+      }
+    });
+  }
+  sync();
+  window.addEventListener('resize', sync);
+  window.addEventListener('load', sync);
+})();
+

@@ -1066,12 +1066,31 @@ comes through):
 | Primary Goal | `primary_goal` | Solar · Solar and battery · Battery · EV Charger · Other |
 | Average quarterly energy bill | `multi_dropdown_3ea2` | <$300 per quarter · $300-$500 per quarter · $500-$750 per quarter · $750-$1000 per quarter · $1000-$1500 per quarter · Over $1500 per quarter |
 | Timeframe | `timeframe` | I'm ready to get started now · Within the next 3 months · Within the next 6 months · More than 6 months from now · I'm still exploring my options |
-The site's copies are in `src/pages/assessment/content.html` (the buttons'
-`data-goal` and the radios' `value`).
+The site's copies are in `src/pages/assessment/content.html` and
+`src/pages/request-a-quote/content.html` (the buttons' `data-goal` and the
+radios' `value`). A browser test fails if the two pages ever differ.
+
+- [x] **Stepped quote form on the ad landing page (/request-a-quote/)**
+      (14 Nov 2026, Oz: "Do the ad landing page too"). Same three steps,
+      same script, same HighLevel form. The banner was tightened so step 1
+      is on the first screen.
+      - **Ad tracking is kept.** The campaign tags on an ad link
+        (`utm_source`, `utm_campaign`, `gclid`, `fbclid` and so on) stay in
+        the page's address, and HighLevel's own `form_embed.js` passes them
+        into the form when it opens at step 3. Checked by opening the page
+        with test tags and reading what the form was told: all six test
+        tags arrived, together with the three answers. Nothing was
+        submitted.
+      - **Ads can skip step 1.** A battery ad can link to
+        `/request-a-quote/?for=battery` and the visitor lands on step 2
+        with "A home battery" already chosen. Also `?for=solar`,
+        `?for=solar-battery` and `?for=ev`. Other tags can follow as usual
+        (`?for=battery&utm_source=...`).
+      - [ ] **Oz to do once:** send one test enquiry from an ad link (or a
+        link with `?utm_source=test`) and check in HighLevel that the
+        contact shows the source, the goal, the bill range and the timing.
 
 Not changed, for Oz to decide later:
-- [ ] The ad landing page (/request-a-quote/) still shows the single form.
-      The stepped flow can be added there the same way.
 - [ ] The two commercial ad funnels (/commercial-load-review/,
       /commercial-solar-battery-quote/) keep their own dark banners.
 

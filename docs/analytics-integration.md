@@ -42,7 +42,7 @@ every call a true no-op. The following events already fire:
 | `phone_click` | Any `tel:` link is clicked, anywhere on the site | `link_url` |
 | `email_click` | Any `mailto:` link is clicked (none published yet — see `docs/owner-inputs-required.md`) | `link_url` |
 | `form_start` | First focus into the assessment, service request or project enquiry form | `form_id` |
-| `form_step` | Each step of the quote flow on /assessment/ shown (step 1 on load, then 2 and 3; `site/js/quote-steps.js`, 14 Nov 2026). Step 3 is where the HighLevel form opens, so `step: 3` counts people who reached the contact form | `form_id` ("assessment"), `step` |
+| `form_step` | Each step of the quote flow shown, on /assessment/ and on the ad landing page /request-a-quote/ (step 1 on load, then 2 and 3; `site/js/quote-steps.js`, 14 Nov 2026). Step 3 is where the HighLevel form opens, so `step: 3` counts people who reached the contact form | `form_id` ("assessment" or "request-a-quote"), `step` |
 
 ## What is still deliberately NOT implemented client-side
 

@@ -6,5 +6,5 @@
   "landingChromeStrict": true,
   "mobileCtaHref": "#quoteForm",
   "mobileCtaText": "Request a Quote",
-  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js"]
+  "extraScripts": ["https://link.ozhomeenergy.com.au/js/form_embed.js", "/js/quote-steps.js"]
 }

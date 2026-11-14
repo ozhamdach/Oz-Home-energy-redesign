@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 330" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>A home with solar panels, a battery, an EV charger and a connection to the grid</title>
+  <!-- Oz Home Energy illustration: one connected energy system. Drawn for this
+       site (14 Nov 2026); not stock art. Colours are the brand palette. -->
+
+  <!-- soft ground shadow -->
+  <ellipse cx="290" cy="292" rx="246" ry="14" fill="#dfe8fa"/>
+
+  <!-- sun -->
+  <circle cx="470" cy="62" r="26" fill="#fde9b8"/>
+  <circle cx="470" cy="62" r="26" stroke="#d98a0b" stroke-width="2.25"/>
+  <path d="M470 16v10M470 98v10M424 62h10M506 62h10M437.5 29.5l7 7M495.5 87.5l7 7M437.5 94.5l7-7M495.5 36.5l7-7" stroke="#d98a0b" stroke-width="2.25"/>
+
+  <!-- grid pole and line to the house -->
+  <path d="M52 286V112" stroke="#10233f" stroke-width="2.5"/>
+  <path d="M34 126h36M40 140h24" stroke="#10233f" stroke-width="2.5"/>
+  <path d="M70 126c22 16 44 24 68 28" stroke="#0560c1" stroke-width="2" stroke-dasharray="2 7"/>
+
+  <!-- house body -->
+  <path d="M154 164h216v122H154z" fill="#ffffff"/>
+  <path d="M154 164v122h216V164" stroke="#10233f" stroke-width="2.5"/>
+
+  <!-- roof -->
+  <path d="M132 166l42-74h176l42 74z" fill="#ffffff"/>
+  <path d="M132 166l42-74h176l42 74z" stroke="#10233f" stroke-width="2.5"/>
+
+  <!-- solar array on the roof -->
+  <path d="M199 104h126l22 50H177z" fill="#cfe0fb"/>
+  <path d="M199 104h126l22 50H177z" stroke="#0560c1" stroke-width="2.25"/>
+  <path d="M188 129h148M231 104l-12 50M262 104v50M293 104l12 50" stroke="#0560c1" stroke-width="1.75"/>
+
+  <!-- windows and door -->
+  <path d="M178 190h42v34h-42z" fill="#eaf0fd"/>
+  <path d="M178 190h42v34h-42zM199 190v34M178 207h42" stroke="#10233f" stroke-width="2"/>
+  <path d="M304 190h42v34h-42z" fill="#eaf0fd"/>
+  <path d="M304 190h42v34h-42zM325 190v34M304 207h42" stroke="#10233f" stroke-width="2"/>
+  <path d="M246 286v-64h34v64" stroke="#10233f" stroke-width="2.25"/>
+  <circle cx="272" cy="256" r="2" fill="#10233f"/>
+
+  <!-- battery on the wall, left of the house -->
+  <rect x="112" y="206" width="30" height="62" rx="6" fill="#0560c1"/>
+  <path d="M129.5 222l-7.5 12h10l-7.5 12" stroke="#ffffff" stroke-width="2.25"/>
+  <path d="M142 236h12" stroke="#0560c1" stroke-width="2" stroke-dasharray="2 5"/>
+
+  <!-- EV charger on the right wall and its cable -->
+  <rect x="378" y="212" width="20" height="34" rx="5" fill="#eaf0fd"/>
+  <rect x="378" y="212" width="20" height="34" rx="5" stroke="#10233f" stroke-width="2.25"/>
+  <circle cx="388" cy="224" r="3" fill="#0560c1"/>
+  <path d="M388 246c0 20 20 22 34 12" stroke="#0560c1" stroke-width="2.25"/>
+
+  <!-- car -->
+  <path d="M414 270c0-12 6-18 17-20l11-17c4-6 9-9 16-9h30c8 0 14 3 18 10l10 16c9 2 14 8 14 20v6H414z" fill="#ffffff"/>
+  <path d="M414 270c0-12 6-18 17-20l11-17c4-6 9-9 16-9h30c8 0 14 3 18 10l10 16c9 2 14 8 14 20v6H414z" stroke="#10233f" stroke-width="2.5"/>
+  <path d="M447 249l8-12c2-3 4-4 8-4h10v16zM481 233h8c4 0 6 1 8 5l6 11h-22z" fill="#eaf0fd" stroke="#10233f" stroke-width="1.75"/>
+  <circle cx="441" cy="278" r="11" fill="#ffffff" stroke="#10233f" stroke-width="2.5"/>
+  <circle cx="441" cy="278" r="3.5" fill="#10233f"/>
+  <circle cx="503" cy="278" r="11" fill="#ffffff" stroke="#10233f" stroke-width="2.5"/>
+  <circle cx="503" cy="278" r="3.5" fill="#10233f"/>
+</svg>

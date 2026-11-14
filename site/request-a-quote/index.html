@@ -97,8 +97,14 @@
      page. Everything else (buttons, containers, trust-card look) reuses
      /css/styles.css — same pattern as commercial-load-review and
      commercial-solar-battery-quote. */
-  .rfq-hero { background: var(--charcoal); }
+  /* Same light banner as every other inner page (14 Nov 2026). */
+  .rfq-hero { background: #f4f7fe; color: #10233f; border-bottom: 1px solid #dbe5f6; }
+  .rfq-hero::after { display: none; }
   .rfq-hero .hero-media, .rfq-hero .hero-overlay { display: none; }
+  .rfq-hero h1 { color: #10233f; font-size: clamp(2.1rem, 1.4rem + 3vw, 3.5rem); line-height: 1.08; letter-spacing: -0.03em; }
+  .rfq-hero .lede, .rfq-hero .hero-trust { color: #475569; }
+  .rfq-hero .eyebrow { color: var(--brand); }
+  .rfq-hero .hero-trust .dot { background: #9db0cf; }
   /* 14 Nov 2026 (sitewide UX/UI pass). This is the ad landing page, and
      .hero's 640px minimum height (meant for the home page's photo) left a
      tall, mostly empty dark block above the form: on a phone the form

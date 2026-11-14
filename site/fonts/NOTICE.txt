@@ -6,18 +6,20 @@ carries its copyright notice and licence link in its own metadata. All are
 licensed under the SIL Open Font License, Version 1.1; the licence text is
 in OFL.txt (from https://openfontlicense.org/documents/OFL.txt).
 
-outfit-latin.woff2
-  Outfit, variable weight, Latin subset.
-  Copyright 2021 The Outfit Project Authors
-  (https://github.com/Outfitio/Outfit-Fonts)
+lexend-latin.woff2
+  Lexend, variable weight, Latin subset.
+  Copyright 2019 The Lexend Project Authors
+  (https://github.com/googlefonts/lexend)
 
-dm-sans-latin.woff2, dm-sans-italic-latin.woff2
-  DM Sans, variable weight (upright) and regular italic, Latin subset.
-  Copyright 2014 The DM Sans Project Authors
-  (https://github.com/googlefonts/dm-fonts)
+source-sans-3-latin.woff2, source-sans-3-italic-latin.woff2
+  Source Sans 3, variable weight (upright and italic), Latin subset.
+  Copyright 2010-2020 Adobe (http://www.adobe.com/), with Reserved Font
+  Name 'Source' (https://github.com/adobe-fonts/source-sans)
 
 dm-serif-display-italic-your.woff2
   DM Serif Display Italic, subset to the letters Y, o, u, r (home hero).
   Copyright notice: see the file's own metadata (name table, ID 0).
 
-Fetched from fonts.googleapis.com / fonts.gstatic.com on 14 Nov 2026.
+DM Serif Display fetched from fonts.googleapis.com / fonts.gstatic.com on
+14 Nov 2026. Lexend and Source Sans 3 copied from the @fontsource-variable
+npm packages (the same Google Fonts files) on 14 Nov 2026.

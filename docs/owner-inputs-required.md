@@ -1086,6 +1086,13 @@ radios' `value`). A browser test fails if the two pages ever differ.
         with "A home battery" already chosen. Also `?for=solar`,
         `?for=solar-battery` and `?for=ev`. Other tags can follow as usual
         (`?for=battery&utm_source=...`).
+      - **Intro shortened** (14 Nov 2026, Oz: "shorten the intro"), from
+        45 words to 22: "Tell us what you need in three quick steps. We'll
+        design a system for your property and send you a clear written
+        proposal." The site visit, design and proposal are still described
+        in "What happens next" on the same page. On a 390px phone the
+        first option moved from 639px down to 563px, with two options
+        fully on the first screen instead of one.
       - [ ] **Oz to do once:** send one test enquiry from an ad link (or a
         link with `?utm_source=test`) and check in HighLevel that the
         contact shows the source, the goal, the bill range and the timing.

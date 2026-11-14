@@ -1621,7 +1621,7 @@ main [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
   p.hint, .card > p.hint, .container-narrow > p.hint { max-width: 36rem; }
   .text-center.hint, .text-center > .hint, .container-narrow.text-center > p { margin-inline: auto; }
   .install-areas { max-width: 680px; }
-  .process-note { max-width: 52rem; }
+  .process-note { max-width: 44rem; }
 }
 
 /* 9. Smallest text. Step labels and status chips were under 12px. */

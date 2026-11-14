@@ -468,7 +468,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* ---------- Generic cards ---------- */
 .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease; }
-.card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: rgba(5,96,193,0.25); }
+/* Hover lift only on cards that are links (14 Nov 2026, sitewide UX/UI pass, item 7 at the end of this file). */
+a.card:hover, .card:has(> h3 > a):hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: rgba(5,96,193,0.25); }
 .card h3 { font-size: 1.2rem; }
 .card p { color: var(--text-muted); margin-bottom: 0; }
 .img-card { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); background: #fff; }
@@ -1524,4 +1525,136 @@ table.data-table tr:last-child td { border-bottom: none; }
    quarter empty (cards sat left of centre). Capped at a width where it uses
    two even columns, and centred. */
 .review-widget { max-width: 1000px; margin-inline: auto; }
+
+/* =====================================================
+   SITEWIDE UX/UI PASS (14 Nov 2026)
+   All 43 published pages were measured at 375px and 1440px: tap targets,
+   text sizes, line lengths, contrast, layout shift and what the first
+   screen shows. Each rule below fixes something the measurements or the
+   screenshots found. Nothing here changes a fact, a price or a claim.
+   ===================================================== */
+
+/* 1. Dark sections. h1 and h4 had no colour of their own, so the "Page not
+      found" heading was dark text on the dark background: invisible. */
+.section-inverse h1, .section-inverse h4 { color: var(--text-on-dark); }
+
+/* 2. A link inside a dark banner's intro text was brand blue on charcoal
+      (under 4.5:1 on /residential-electrical/). */
+.page-banner .lede a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+/* 3. In-page links (#quoteForm, #founder, #bxd ...) stopped with the heading
+      hidden under the sticky header. */
+main [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+/* 4. Embedded forms. The quote page's form area had no reserved height: on a
+      phone it started 21px tall and grew to about 1,400px when the form
+      arrived, pushing everything below it down (layout shift 0.8; "poor"
+      starts at 0.25). The space is now reserved up front, and the loading
+      spinner sits near the top of that space where it can be seen. */
+.form-embed-loading { justify-content: flex-start; padding-top: 64px; }
+.assess-wrap.form-embed-wrap { min-height: 960px; }
+@media (max-width: 560px) { .assess-wrap.form-embed-wrap { min-height: 1280px; } }
+
+/* 5. Inner-page banners on phones. Headline, intro and two buttons filled
+      the whole first screen, with the main button at the very bottom or
+      behind the sticky bar. Tighter spacing, a smaller headline and intro,
+      and one button (the sticky bar already carries the phone number, the
+      same decision as the home page hero). Photo banners get a darker top
+      so the breadcrumb and label are readable over sky. */
+@media (max-width: 640px) {
+  .page-banner { padding-block: 26px 36px; }
+  .page-banner--photo { padding-block: 34px 36px; min-height: 300px; }
+  .page-banner h1 { font-size: clamp(2rem, 1.15rem + 3.8vw, 2.4rem); line-height: 1.06; margin-bottom: 12px; }
+  .page-banner .lede { font-size: 1.02rem; line-height: 1.55; }
+  .page-banner .hero-ctas { margin-top: 22px; }
+  .page-banner--photo .page-banner-overlay { background: linear-gradient(180deg, rgba(4,8,20,0.82) 0%, rgba(4,8,20,0.72) 40%, rgba(4,8,20,0.95) 100%); }
+}
+@media (max-width: 760px) {
+  .page-banner .hero-ctas a.btn[href^="tel:"], .page-banner .cta-row a.btn[href^="tel:"] { display: none; }
+}
+
+/* 6. Tap targets. Measured under 44px (many under 24px) on phones. */
+/* 44px tall tap area with no change to how the line looks: the padding is
+   cancelled by an equal negative margin. */
+.breadcrumbs a { display: inline-block; padding: 13px 6px; margin: -13px -6px; }
+.btn-ghost { min-height: 44px; }
+.link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.link-list a { display: inline-block; padding-block: 11px; }
+.notfound-call { display: inline-block; padding-block: 11px; color: #d8ddf5; }
+.more-link { display: inline-block; padding-block: 11px; }
+.form-field input[type="checkbox"] { width: 22px; height: 22px; flex: 0 0 22px; margin: 1px 0 0; accent-color: var(--brand); }
+@media (max-width: 760px) {
+  .rebate-strip-inner { padding-block: 8px; }
+  .rebate-strip a { display: inline-flex; align-items: center; min-height: 44px; }
+  .site-footer ul { gap: 0; }
+  .site-footer ul a { display: block; padding-block: 12px; line-height: 1.35; min-height: 44px; }
+  .footer-bottom .legal-links a { display: inline-block; min-width: 44px; }
+  .site-footer h3 { margin-bottom: 4px; }
+  .footer-bottom .legal-links { gap: 0 20px; }
+  .footer-bottom a[href^="tel:"] { display: inline-block; padding-block: 11px; }
+}
+/* Phone footer in two columns. With tap-sized links in one column the footer
+   ran to about 1,900px on a phone (it was about 1,560px before, with 20px
+   links). Two columns keep the 44px links and make it shorter than it was. */
+@media (max-width: 560px) {
+  .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+/* A card whose heading is its only link: the whole card is the target. */
+.card:has(> h3 > a):not(:has(p a, li a, .btn)) { position: relative; }
+.card:has(> h3 > a):not(:has(p a, li a, .btn)) > h3 > a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+
+/* 7. Hover. Every card lifted on hover, including the ones that are not
+      links, which reads as "clickable" when it is not. Only cards that are
+      links lift now (the .card:hover rule itself was narrowed, further
+      up). On touch screens a hover lift sticks after a tap, so it is
+      switched off there. */
+@media (hover: none) { .btn:hover, a.card:hover, .card:has(> h3 > a):hover { transform: none; } }
+
+/* 8. Line length on desktop. Some notes and card paragraphs ran the full
+      1,200px container: up to 160 characters a line (comfortable reading
+      is about 60 to 85). */
+@media (min-width: 900px) {
+  /* rem, not ch: this typeface's "0" is wide, so 72ch came out at 790px. */
+  .container-narrow > p, .container-narrow > ul > li, .container-narrow > ol > li { max-width: 43rem; }
+  .container > .card > p { max-width: 43rem; }
+  p.hint, .card > p.hint, .container-narrow > p.hint { max-width: 36rem; }
+  .text-center.hint, .text-center > .hint, .container-narrow.text-center > p { margin-inline: auto; }
+  .install-areas { max-width: 680px; }
+  .process-note { max-width: 44rem; }
+}
+
+/* 9. Smallest text. Step labels and status chips were under 12px. */
+.process-item .step-no { font-size: 0.82rem; }
+.ohe-step-next { font-size: 0.75rem; }
+.footer-bottom { font-size: 0.84rem; }
+/* About page: the big "01, 02, 03" numerals were 22% blue on white (about
+   1.4:1). A mid blue reads as the same soft numeral and clears 3:1, the
+   minimum for large bold text. */
+.why-item .index { color: #5c8fd3; }
+
+/* 10. Trust line under a banner: on a narrow phone the separator dot was
+       left hanging at the end of the first line. */
+@media (max-width: 480px) {
+  .hero-trust { flex-direction: column; align-items: flex-start; gap: 2px; }
+  /* Zero-sized, not display:none: with the dot removed entirely the two
+     pieces of text become one flex item and run together on one line. */
+  .hero-trust .dot { width: 0; height: 0; }
+}
+
+/* 11. "Page not found": somewhere useful to go. */
+.notfound-h2 { font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: #9db4ff; margin: 36px 0 14px; }
+.notfound-links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.notfound-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px; border: 1px solid rgba(255,255,255,0.28); border-radius: 999px; color: #fff; text-decoration: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; }
+.notfound-links a:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+.notfound-links a:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+/* 12. Phone menu. The button now shows a cross while the menu is open. The
+       two buttons at the bottom of the menu repeated the sticky bar that
+       stays on screen right below them, so on phones the menu is links
+       only (above 760px there is no sticky bar and they stay). */
+.nav-ico-close { display: none; }
+.nav-toggle[aria-expanded="true"] .nav-ico-open { display: none; }
+.nav-toggle[aria-expanded="true"] .nav-ico-close { display: inline; }
+@media (max-width: 760px) { .mobile-nav .mobile-cta { display: none; } }
 

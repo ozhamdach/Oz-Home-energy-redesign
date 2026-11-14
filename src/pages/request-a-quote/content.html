@@ -5,6 +5,21 @@
      commercial-solar-battery-quote. */
   .rfq-hero { background: var(--charcoal); }
   .rfq-hero .hero-media, .rfq-hero .hero-overlay { display: none; }
+  /* 14 Nov 2026 (sitewide UX/UI pass). This is the ad landing page, and
+     .hero's 640px minimum height (meant for the home page's photo) left a
+     tall, mostly empty dark block above the form: on a phone the form
+     started 880px down, a full screen below where the visitor lands. The
+     banner is now only as tall as its words, so the form starts on the
+     first screen. */
+  .rfq-hero { min-height: 0; }
+  .rfq-hero .hero-inner { padding-block: 72px 56px; }
+  @media (max-width: 760px) {
+    .rfq-hero .hero-inner { padding-block: 28px 30px; }
+    .rfq-hero h1 { font-size: clamp(2rem, 1.15rem + 3.8vw, 2.4rem); line-height: 1.06; margin-bottom: 12px; }
+    .rfq-hero .lede { font-size: 1.02rem; line-height: 1.55; }
+    .rfq-hero .hero-trust { margin-top: 16px; }
+    #quoteForm { padding-top: 28px; }
+  }
   .rfq-trust-strip {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
     max-width: 880px; margin: 0 auto;
@@ -50,7 +65,7 @@
          hasn't been visually confirmed against this specific form's
          actual field list. Flagged in docs/owner-inputs-required.md to
          check once this page is viewed live. -->
-    <div class="form-embed-wrap" style="position:relative;min-height:200px;">
+    <div class="form-embed-wrap" style="position:relative;min-height:1100px;">
       <div class="form-embed-loading" aria-hidden="true">
         <span class="spinner"></span>
         <span>Loading form…</span>

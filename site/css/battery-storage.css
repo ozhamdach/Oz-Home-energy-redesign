@@ -134,7 +134,7 @@
   background: var(--bx-warm-bg); border-radius: var(--bx-radius);
 }
 .bx-callout h3 { font-size: 1.2rem; margin: 0 0 8px; }
-.bx-callout p { margin: 0; line-height: 1.6; max-width: 80ch; }
+.bx-callout p { margin: 0; line-height: 1.6; max-width: 43rem; }
 
 /* ---------- What's included ---------- */
 .bx-split { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: clamp(32px, 5vw, 64px); align-items: start; }
@@ -185,7 +185,7 @@
 .bx-table thead th { font-weight: 600; font-size: 0.8125rem; opacity: 0.9; }
 .bx-table tbody th { font-weight: 500; }
 .bx-table td:last-child, .bx-table th:last-child { text-align: right; padding-right: 0; }
-.bx-note { font-size: 0.875rem; line-height: 1.55; color: var(--bx-muted-fg) !important; max-width: 90ch; margin: 24px 0 0; }
+.bx-note { font-size: 0.875rem; line-height: 1.55; color: var(--bx-muted-fg) !important; max-width: 40rem; margin: 24px 0 0; }
 
 /* ---------- Brands ---------- */
 .bx-brands { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: stretch; }
@@ -325,7 +325,8 @@
 .bxd-play:focus-visible, .bxd-card:focus-visible { outline: 3px solid var(--bx-primary); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) { .bxd-play:hover { background: var(--bx-primary-hover); } }
 .bxd-range { flex: 1; min-width: 0; }
-.bxd-range input { width: 100%; margin: 0; accent-color: var(--bx-primary); height: 28px; cursor: pointer; }
+/* 44px tall (was 28px): the slider is the main control of this block and was hard to grab on a phone. */
+.bxd-range input { width: 100%; margin: 0; accent-color: var(--bx-primary); height: 44px; cursor: pointer; }
 .bxd-ticks { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--bx-muted-fg); margin-top: 2px; }
 
 .bxd-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
@@ -338,8 +339,16 @@
 .bxd-card-time { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bx-primary); }
 .bxd-card-name { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
 .bxd-card-text { font-size: 0.875rem; line-height: 1.5; color: var(--bx-muted-fg); }
-#main .bxd-caption { margin: 14px 0 0; font-size: 0.8125rem; line-height: 1.55; color: var(--bx-muted-fg); max-width: 80ch; }
+#main .bxd-caption { margin: 14px 0 0; font-size: 0.8125rem; line-height: 1.55; color: var(--bx-muted-fg); max-width: 34rem; }
 @media (prefers-reduced-motion: reduce) {
   .bxd-flow { animation: none; stroke-dasharray: none; }
   .bxd-play, .bxd-card { transition: none; }
 }
+
+/* 14 Nov 2026 (sitewide UX/UI pass). On phones the sticky bottom bar already
+   carries the phone number, so the hero keeps one button, the same as the
+   home page and every other page banner. Breadcrumb link gets a tap-sized
+   height. */
+@media (max-width: 760px) { .bx-hero-copy .bx-actions a[href^="tel:"] { display: none; } }
+.bx-crumbs a { display: inline-block; padding: 13px 6px; margin: -13px -6px; }
+

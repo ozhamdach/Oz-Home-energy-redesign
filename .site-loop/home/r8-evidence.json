@@ -1,0 +1,554 @@
+{
+ "url": "http://localhost:3457/",
+ "collectedAt": "2026-11-14T11:23:22.117Z",
+ "mobile375": {
+  "fold": {
+   "overflowX": false,
+   "ctasFirstScreen": [
+    "Get a Free Quote",
+    "0435 336 336",
+    "Get a Free Quote"
+   ],
+   "stickyBar": [
+    {
+     "text": "0435 336 336",
+     "href": "tel:+61435336336"
+    },
+    {
+     "text": "Get a Free Quote",
+     "href": "/assessment/"
+    }
+   ],
+   "telLinksFirstScreen": 1
+  },
+  "page": {
+   "title": "Solar, Battery & EV Charging Sydney | Oz Home Energy",
+   "metaDescription": "Electrician-led solar, battery storage, EV charging and electrical work for Sydney homes and businesses. Licensed NSW electrical contractor.",
+   "canonical": "https://ozhomeenergy.com.au/",
+   "robots": "index, follow",
+   "lang": "en-AU",
+   "h1": [
+    "SYDNEY SOLAR AND ENERGY SYSTEMS Your Home. Your Energy."
+   ],
+   "h2": [
+    "What would you like your energy system to do?",
+    "Credentials and workmanship you can rely on",
+    "What Sydney customers say",
+    "Recent installs",
+    "From enquiry to a commissioned system",
+    "Before you get in touch",
+    "Start with your electricity bill and we'll show you the next step."
+   ],
+   "h3count": 13,
+   "schemaTypes": [
+    "Electrician",
+    "BreadcrumbList",
+    "FAQPage"
+   ],
+   "schemaHasLicence": true,
+   "schemaHasAreaServed": true,
+   "schemaHasFAQ": true,
+   "schemaHasAggregateRating": false,
+   "internalLinksUnique": 28,
+   "internalLinksInMain": [
+    "/assessment/",
+    "/battery-rebate-guide/",
+    "/residential-solar/",
+    "/battery-storage/",
+    "/ev-charging/",
+    "/residential-electrical/",
+    "/commercial-solar/",
+    "/tesla-powerwall-3/",
+    "/about/",
+    "/service-request/",
+    "/faqs/",
+    "/solar-payback-guide/"
+   ],
+   "externalLinks": [],
+   "screens": 14.9,
+   "wordsMain": 650,
+   "images": {
+    "visible": 12,
+    "missingAlt": 0,
+    "emptyAlt": 0,
+    "missingSize": 0,
+    "inPictureWithModernSource": 4,
+    "alts": [
+     "Oz Home Energy",
+     "Solar panels installed across the roofs of adjoining residential homes",
+     "Solar Accreditation Australia",
+     "Smart Energy Council Small Business Member",
+     "Tesla Energy Certified Installer",
+     "Evnex Certified Installer",
+     "Ohme Approved Installer",
+     "Oz, founder of Oz Home Energy, on site at a completed battery installation",
+     "Solar panels installed on a residential rooftop",
+     "A FoxESS battery unit installed on an exterior wall",
+     "A GoodWe home EV charger installed on a garage wall",
+     "Oz Home Energy"
+    ],
+    "currentSrcExt": {
+     "svg": 3,
+     "avif": 4,
+     "png": 4,
+     "webp": 1
+    }
+   },
+   "figcaptions": [
+    "Residential solar installation",
+    "FoxESS battery storage installation",
+    "GoodWe home EV charger installation"
+   ],
+   "regionMentionsInMain": [],
+   "sydneyMentionsInMain": 1,
+   "brandsLine": "Brands we install: Jinko Solar, JA Solar, Trina Solar (panels); FoxESS, Sungrow, Sigenergy, GoodWe (batteries and inverters); Ohme, Evnex (EV chargers).",
+   "rebateStrip": "Federal battery rebate steps down on 1 January 2027. The STC factor is 6.8 for batteries installed by 31 December 2026 and 5.7 from 1 January 2027. How the rebate works → As of 25 Sep 2026. Source: Clean Energy Regulator. Certificate value depends on the STC price and your system; it is not a fixed dollar rebate.",
+   "heroStats": [
+    "10+ YEARS IN THE TRADE",
+    "9,000+ TEAM CAREER INSTALLS",
+    "5.0★ GOOGLE RATING"
+   ],
+   "heroFacts": [
+    "Licensed NSW Electrical Contractor",
+    "SAA Accredited",
+    "10-Year Workmanship Warranty"
+   ],
+   "warrantyText": "Trade credentials, manufacturer approvals, 10-year workmanship commitment.",
+   "trustCards": [
+    "Solar Accreditation Australia",
+    "Smart Energy Council Member",
+    "Tesla Energy Certified Installer",
+    "Evnex Certified Installer",
+    "Ohme Approved Installer"
+   ],
+   "founder": {
+    "quote": "\"I started Oz Home Energy because I got tired of doing great work for companies that didn't always care what happened to the customer after the sale.\"",
+    "attr": "— Oz, Founder of Oz Home Energy",
+    "photoAlt": "Oz, founder of Oz Home Energy, on site at a completed battery installation"
+   },
+   "processSteps": [
+    "Tell us about your property",
+    "We assess your bill, goals and electrical setup",
+    "You receive a tailored design and quotation",
+    "We install, commission and support the system"
+   ],
+   "processNote": "Some projects need a site inspection before a fixed quote. Grid-connected systems also need DNSP approval before installation; timeframes vary by network and are confirmed during your assessment.",
+   "faqQuestions": [
+    "What size solar system suits my home?",
+    "Can my switchboard support an EV charger or a battery?",
+    "Do I need council or strata approval for solar?"
+   ],
+   "finalCta": "GET STARTED Start with your electricity bill and we'll show you the next step. Get a Free Quote Call 0435 336 336 We review your answers, and where a site visit is needed to check your switchboard, roof or supply, we'll arrange a time that suits you. You'll then receive a tailored system design and clear written proposal. Ready now? Leave your details and we'll be in touch. Form not loading? Call 0435 336 336 instead.",
+   "pathwayCards": [
+    {
+     "text": "Lower my electricity bills See where your usage goes and what's worth changing",
+     "href": "/assessment/"
+    },
+    {
+     "text": "Install new solar, with or without a battery Sized around your roof, usage and goals",
+     "href": "/residential-solar/"
+    },
+    {
+     "text": "Add a battery to existing solar We'll check your system and switchboard support it",
+     "href": "/battery-storage/"
+    },
+    {
+     "text": "Charge my EV at home What your switchboard needs and where it goes",
+     "href": "/ev-charging/"
+    },
+    {
+     "text": "Upgrade my electrical system Ageing switchboards and safety issues sorted properly",
+     "href": "/residential-electrical/"
+    },
+    {
+     "text": "Plan a commercial project Solar, storage, EV or electrical for your business",
+     "href": "/commercial-solar/"
+    }
+   ],
+   "iframes": [
+    {
+     "src": "https://link.ozhomeenergy.com.au/reputation/widgets/review_widget/iqh8HIe7GtEKNtnlIaho?wid",
+     "title": "Oz Home Energy customer reviews",
+     "screensDown": 4.9,
+     "h": 1680
+    },
+    {
+     "src": "https://link.ozhomeenergy.com.au/widget/form/ILAJCu9qJyVzX582GAtX",
+     "title": "Quick Free Quote",
+     "screensDown": 11.7,
+     "h": 724
+    }
+   ],
+   "footerText": "Oz Home Energy is a Sydney service-area electrical and energy contractor serving homes and businesses across Sydney and Greater Sydney, NSW. Licensed NSW electrical contractor · SAA accredited RESIDENTIAL Solar Battery Storage Solar & Battery Upgrades EV Charging Electrical Work Switchboard Upgrades BUSINESS Commercial Solar Commercial Batteries Commercial EV Charging Commercial Electrical Project Enquiry SUPPORT Service Request Solar Servicing Panel Cleaning Bird-Proofing FAQs COMPANY About Learning Centre Service Areas Energy Assessment Contact Electrical Hub Pty Ltd trading as Oz Home Energy · ABN 72 665 477 556 NSW Electrical Contractor Licence 382607C · SAA accredited · Sydney, NSW Phone 0435 336 336 © 2026 Electrical Hub Pty Ltd trading as Oz Home Energy Privacy Policy Terms & Conditions Complaints",
+   "dollarClaims": [],
+   "percentClaims": [],
+   "telLinks": [
+    "tel:+61435336336"
+   ],
+   "mailto": 0
+  },
+  "frames": {
+   "reviews": {
+    "reviewsShown": 6,
+    "ratingsShown": [
+     "5",
+     "5",
+     "5",
+     "5",
+     "5",
+     "5"
+    ],
+    "newest": "Sep 22, 2026",
+    "oldest": "Aug 16, 2026",
+    "googleMarks": 6,
+    "reviewerNames": []
+   },
+   "quickForm": {
+    "lines": [
+     "Get A Free Quote",
+     "Full Name *",
+     "Phone *",
+     "Email *",
+     "Type of Service Required",
+     "Select Required Service",
+     "Message *",
+     "Submit"
+    ],
+    "inputs": [
+     {
+      "name": "full_name",
+      "type": "text",
+      "required": false,
+      "fontPx": 16
+     },
+     {
+      "name": "phone",
+      "type": "tel",
+      "required": false,
+      "fontPx": 16
+     },
+     {
+      "name": "email",
+      "type": "email",
+      "required": false,
+      "fontPx": 16
+     },
+     {
+      "name": "cu8BIQ5EtSryD36ARXCy",
+      "type": "textarea",
+      "required": false,
+      "fontPx": 16
+     }
+    ],
+    "submit": [
+     "Submit"
+    ],
+    "steps": 0
+   }
+  },
+  "consoleErrorsOnLoad": [],
+  "consoleErrorsAfterScroll": [
+   {
+    "text": "Connecting to 'data:,' violates the following Content Security Policy directive: \"connect-src 'self' https://hagen.challenges.cloudflare.com https://brunhild.ch",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "Connecting to 'data:,' violates the following Content Security Policy directive: \"connect-src 'self' https://hagen.challenges.cloudflare.com https://brunhild.ch",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "Fetch API cannot load data:,. Refused to connect because it violates the document's Content Security Policy.",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "%c%d font-size:0;color:transparent NaN",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "%c%d font-size:0;color:transparent NaN",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "%c%o font-size:0;color:transparent {}",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "%c%o font-size:0;color:transparent {}",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   }
+  ],
+  "consoleErrorsAfterScrollCount": 7,
+  "failedRequests": [
+   "https://ad.doubleclick.net/ccm/s/collect?auid=970451745.1794655403&gtm=45He6bb1v9263027464za200zd926",
+   "https://www.google.com/ccm/collect?rcb=5&frm=0&apvc=1&ae=g&auid=970451745.1794655403&dt=Solar%2C%20B",
+   "https://www.google.com/rmkt/collect/18373785034/?random=1794655402976&cv=11&fst=1794655402976&fmt=8&",
+   "https://www.google.com/ccm/collect?rcb=13&frm=0&apvc=0&auid=970451745.1794655403&dt=Solar%2C%20Batte",
+   "https://www.google-analytics.com/g/collect?v=2&tid=G-FHKMCPSPBL&gtm=45je6bb1v9263044730za20ozb926302",
+   "https://link.ozhomeenergy.com.au/reputation/widgets/review_widget/iqh8HIe7GtEKNtnlIaho?widgetId=6a98",
+   "https://challenges.cloudflare.com/turnstile/v0/api.js",
+   "https://backend.leadconnectorhq.com/forms/form-survey-event",
+   "https://backend.leadconnectorhq.com/funnels/funnel/geo-location/",
+   "https://brunhild.challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/i/a5a5a50a9c44492d/ChquTM4"
+  ],
+  "axe": {
+   "violations": [],
+   "passes": 48,
+   "colorContrastChecked": 1
+  },
+  "tabStops": [
+   {
+    "el": "A.skip-link",
+    "text": "Skip to main content",
+    "focusVisible": true
+   },
+   {
+    "el": "A.brand-logo",
+    "text": "Oz Home Energy — home",
+    "focusVisible": true
+   },
+   {
+    "el": "BUTTON.nav-toggle",
+    "text": "Open menu",
+    "focusVisible": true
+   },
+   {
+    "el": "A.btn",
+    "text": "Get a Free Quote",
+    "focusVisible": true
+   },
+   {
+    "el": "A",
+    "text": "5.0★ GOOGLE RATING",
+    "focusVisible": true
+   },
+   {
+    "el": "A",
+    "text": "How the rebate works →",
+    "focusVisible": true
+   },
+   {
+    "el": "A.pathway-card",
+    "text": "Lower my electricity bills See",
+    "focusVisible": true
+   },
+   {
+    "el": "A.pathway-card",
+    "text": "Install new solar, with or wit",
+    "focusVisible": true
+   },
+   {
+    "el": "A.pathway-card",
+    "text": "Add a battery to existing sola",
+    "focusVisible": true
+   },
+   {
+    "el": "A.pathway-card",
+    "text": "Charge my EV at home What your",
+    "focusVisible": true
+   },
+   {
+    "el": "A.pathway-card",
+    "text": "Upgrade my electrical system A",
+    "focusVisible": true
+   },
+   {
+    "el": "A.pathway-card",
+    "text": "Plan a commercial project Sola",
+    "focusVisible": true
+   }
+  ]
+ },
+ "desktop1440": {
+  "fold": {
+   "overflowX": false,
+   "ctasFirstScreen": [
+    "Get a Free Quote",
+    "Get a Free Quote",
+    "Call 0435 336 336"
+   ],
+   "stickyBar": null,
+   "telLinksFirstScreen": 2
+  },
+  "screens": 9.8,
+  "frames": {
+   "reviews": {
+    "reviewsShown": 6,
+    "ratingsShown": [
+     "5",
+     "5",
+     "5",
+     "5",
+     "5",
+     "5"
+    ],
+    "newest": "Sep 22, 2026",
+    "oldest": "Aug 16, 2026",
+    "googleMarks": 6,
+    "reviewerNames": []
+   },
+   "quickForm": {
+    "lines": [
+     "Get A Free Quote",
+     "Full Name *",
+     "Phone *",
+     "Email *",
+     "Type of Service Required",
+     "Select Required Service",
+     "Message *",
+     "Submit"
+    ],
+    "inputs": [
+     {
+      "name": "full_name",
+      "type": "text",
+      "required": false,
+      "fontPx": 16
+     },
+     {
+      "name": "phone",
+      "type": "tel",
+      "required": false,
+      "fontPx": 16
+     },
+     {
+      "name": "email",
+      "type": "email",
+      "required": false,
+      "fontPx": 16
+     },
+     {
+      "name": "cu8BIQ5EtSryD36ARXCy",
+      "type": "textarea",
+      "required": false,
+      "fontPx": 16
+     }
+    ],
+    "submit": [
+     "Submit"
+    ],
+    "steps": 0
+   }
+  },
+  "consoleErrorsOnLoad": [],
+  "consoleErrorsAfterScroll": [
+   {
+    "text": "%c%d font-size:0;color:transparent NaN",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "%c%d font-size:0;color:transparent NaN",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "%c%o font-size:0;color:transparent {}",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "%c%o font-size:0;color:transparent {}",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "Connecting to 'data:,' violates the following Content Security Policy directive: \"connect-src 'self' https://hagen.challenges.cloudflare.com https://brunhild.ch",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "Connecting to 'data:,' violates the following Content Security Policy directive: \"connect-src 'self' https://hagen.challenges.cloudflare.com https://brunhild.ch",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "Connecting to 'data:,' violates the following Content Security Policy directive: \"connect-src 'self' https://hagen.challenges.cloudflare.com https://brunhild.ch",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   },
+   {
+    "text": "Fetch API cannot load data:,. Refused to connect because it violates the document's Content Security Policy.",
+    "from": "https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/av0"
+   }
+  ],
+  "consoleErrorsAfterScrollCount": 8,
+  "failedRequests": [
+   "https://www.google.com/ccm/collect?rcb=0&frm=0&apvc=1&ae=g&auid=437917225.1794655423&dt=Solar%2C%20B",
+   "https://ad.doubleclick.net/ccm/s/collect?auid=437917225.1794655423&gtm=45He6bb1v9263027464za200zd926",
+   "https://www.google-analytics.com/g/collect?v=2&tid=G-FHKMCPSPBL&gtm=45je6bb1v9263044730za20ozb926302",
+   "https://www.google.com/rmkt/collect/18373785034/?random=1794655423002&cv=11&fst=1794655423002&fmt=8&",
+   "https://www.google.com/ccm/collect?rcb=14&frm=0&apvc=0&auid=437917225.1794655423&dt=Solar%2C%20Batte",
+   "https://link.ozhomeenergy.com.au/reputation/widgets/review_widget/iqh8HIe7GtEKNtnlIaho?widgetId=6a98",
+   "https://backend.leadconnectorhq.com/forms/form-survey-event",
+   "https://backend.leadconnectorhq.com/funnels/funnel/geo-location/",
+   "https://challenges.cloudflare.com/turnstile/v0/api.js",
+   "https://brunhild.challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/i/a5a5a57fd9d7731a/CuyF8u5"
+  ],
+  "axe": {
+   "violations": [],
+   "passes": 46,
+   "colorContrastChecked": 1
+  },
+  "tabStops": [
+   {
+    "el": "A.skip-link",
+    "text": "Skip to main content",
+    "focusVisible": true
+   },
+   {
+    "el": "A.brand-logo",
+    "text": "Oz Home Energy — home",
+    "focusVisible": true
+   },
+   {
+    "el": "BUTTON",
+    "text": "Solutions",
+    "focusVisible": true
+   },
+   {
+    "el": "BUTTON",
+    "text": "For Business",
+    "focusVisible": true
+   },
+   {
+    "el": "A",
+    "text": "Why Us",
+    "focusVisible": true
+   },
+   {
+    "el": "BUTTON",
+    "text": "Support",
+    "focusVisible": true
+   },
+   {
+    "el": "A",
+    "text": "Contact",
+    "focusVisible": true
+   },
+   {
+    "el": "A.phone-link",
+    "text": "0435 336 336",
+    "focusVisible": true
+   },
+   {
+    "el": "A.btn",
+    "text": "Get a Free Quote",
+    "focusVisible": true
+   },
+   {
+    "el": "A.btn",
+    "text": "Get a Free Quote",
+    "focusVisible": true
+   },
+   {
+    "el": "A.btn",
+    "text": "Call 0435 336 336",
+    "focusVisible": true
+   },
+   {
+    "el": "A",
+    "text": "5.0★ GOOGLE RATING",
+    "focusVisible": true
+   }
+  ]
+ },
+ "links": {
+  "checked": 31,
+  "notOk": [],
+  "anchors": 2,
+  "missingAnchors": []
+ }
+}

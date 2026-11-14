@@ -1,0 +1,614 @@
+{
+ "requestedUrl": "http://localhost:3456/",
+ "fetchTime": "2026-11-14T11:25:01.811Z",
+ "lighthouseVersion": "12.6.0",
+ "configSettings": {
+  "formFactor": "mobile",
+  "throttlingMethod": "simulate"
+ },
+ "categories": {
+  "performance": {
+   "score": 0.98
+  },
+  "accessibility": {
+   "score": 1
+  },
+  "best-practices": {
+   "score": 1
+  },
+  "seo": {
+   "score": 0.69
+  }
+ },
+ "audits": {
+  "largest-contentful-paint": {
+   "score": 0.96,
+   "displayValue": "2.1 s",
+   "numericValue": 2113.7839000000004
+  },
+  "cumulative-layout-shift": {
+   "score": 1,
+   "displayValue": "0",
+   "numericValue": 0,
+   "details": {
+    "items": [
+     {
+      "cumulativeLayoutShiftMainFrame": 0,
+      "newEngineResult": {
+       "cumulativeLayoutShift": 0,
+       "cumulativeLayoutShiftMainFrame": 0
+      },
+      "newEngineResultDiffered": false
+     }
+    ]
+   }
+  },
+  "total-blocking-time": {
+   "score": 1,
+   "displayValue": "0 ms",
+   "numericValue": 0
+  },
+  "first-contentful-paint": {
+   "score": 0.92,
+   "displayValue": "1.7 s",
+   "numericValue": 1698.9852499999997
+  },
+  "speed-index": {
+   "score": 1,
+   "displayValue": "1.7 s",
+   "numericValue": 1698.9852499999997
+  },
+  "interactive": {
+   "score": 0.99,
+   "displayValue": "2.1 s",
+   "numericValue": 2143.8536500000005
+  },
+  "total-byte-weight": {
+   "score": 1,
+   "displayValue": "Total size was 324 KiB",
+   "numericValue": 331553,
+   "details": {
+    "items": [
+     {
+      "url": "http://localhost:3456/img/photos/hero-solar-residential-complex-1200.avif",
+      "totalBytes": 57914
+     },
+     {
+      "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+      "totalBytes": 37132
+     },
+     {
+      "url": "http://localhost:3456/img/brand/trust/smart-energy-council.png",
+      "totalBytes": 35549
+     },
+     {
+      "url": "http://localhost:3456/img/brand/trust/solar-accreditation-australia.png",
+      "totalBytes": 32842
+     },
+     {
+      "url": "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2",
+      "totalBytes": 32745
+     },
+     {
+      "url": "http://localhost:3456/img/brand/trust/ohme-approved-installer.png",
+      "totalBytes": 29810
+     },
+     {
+      "url": "http://localhost:3456/css/styles.css",
+      "totalBytes": 21040
+     },
+     {
+      "url": "https://link.ozhomeenergy.com.au/js/form_embed.js",
+      "totalBytes": 19317
+     }
+    ]
+   }
+  },
+  "render-blocking-resources": {
+   "score": 0,
+   "displayValue": "Est savings of 910 ms",
+   "numericValue": 908,
+   "details": {
+    "items": [
+     {
+      "url": "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&display=swap&text=Your",
+      "totalBytes": 340,
+      "wastedMs": 181
+     },
+     {
+      "url": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap",
+      "totalBytes": 1035,
+      "wastedMs": 912
+     },
+     {
+      "url": "http://localhost:3456/css/styles.css",
+      "totalBytes": 21040,
+      "wastedMs": 305
+     }
+    ]
+   }
+  },
+  "third-party-summary": {
+   "score": 1,
+   "displayValue": "Third-party code blocked the main thread for 0 ms",
+   "details": {
+    "items": [
+     {
+      "mainThreadTime": 8.212,
+      "blockingTime": 0,
+      "transferSize": 87949,
+      "tbtImpact": 0,
+      "entity": "Google Fonts",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 37132,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 32745,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat-JDV30TGcrpdo4.woff2",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 15326,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.gstatic.com/l/font?kit=-nFhOHM81r4j6k0gjAW3mujVU2B2G_Vx0vrx52jD2HMLwBs&skey=9b354e2f4705b58c&v=v17",
+         "mainThreadTime": 0,
+         "blockingTime": 0,
+         "transferSize": 1371,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap",
+         "mainThreadTime": 4.972,
+         "blockingTime": 0,
+         "transferSize": 1035,
+         "tbtImpact": 0
+        },
+        {
+         "url": "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&display=swap&text=Your",
+         "mainThreadTime": 3.24,
+         "blockingTime": 0,
+         "transferSize": 340,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     },
+     {
+      "mainThreadTime": 13.423999999999998,
+      "blockingTime": 0,
+      "transferSize": 19317,
+      "tbtImpact": 0,
+      "entity": "ozhomeenergy.com.au",
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "url": "https://link.ozhomeenergy.com.au/js/form_embed.js",
+         "mainThreadTime": 13.423999999999998,
+         "blockingTime": 0,
+         "transferSize": 19317,
+         "tbtImpact": 0
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "largest-contentful-paint-element": {
+   "score": 1,
+   "displayValue": "2,110 ms",
+   "details": {
+    "items": [
+     {
+      "type": "table",
+      "headings": [
+       {
+        "key": "node",
+        "valueType": "node",
+        "label": "Element"
+       }
+      ],
+      "items": [
+       {
+        "node": {
+         "type": "node",
+         "lhId": "page-0-IMG",
+         "path": "1,HTML,1,BODY,3,MAIN,0,SECTION,0,DIV,0,PICTURE,2,IMG",
+         "selector": "section.hero > div.hero-media > picture > img",
+         "boundingRect": {
+          "top": 64,
+          "bottom": 293,
+          "left": 0,
+          "right": 412,
+          "width": 412,
+          "height": 229
+         },
+         "snippet": "<img src=\"http://localhost:3456/img/photos/hero-solar-residential-complex-1200.avif\" width=\"1600\" height=\"1200\" fetchpriority=\"high\" alt=\"Solar panels installed across the roofs of adjoining residential homes\">",
+         "nodeLabel": "Solar panels installed across the roofs of adjoining residential homes"
+        }
+       }
+      ]
+     },
+     {
+      "type": "table",
+      "headings": [
+       {
+        "key": "phase",
+        "valueType": "text",
+        "label": "Phase"
+       },
+       {
+        "key": "percent",
+        "valueType": "text",
+        "label": "% of LCP"
+       },
+       {
+        "key": "timing",
+        "valueType": "ms",
+        "label": "Timing"
+       }
+      ],
+      "items": [
+       {
+        "phase": "TTFB",
+        "timing": 454.79945,
+        "percent": "22%"
+       },
+       {
+        "phase": "Load Delay",
+        "timing": 0,
+        "percent": "0%"
+       },
+       {
+        "phase": "Load Time",
+        "timing": 0.9765423299730855,
+        "percent": "0%"
+       },
+       {
+        "phase": "Render Delay",
+        "timing": 1658.0079076700272,
+        "percent": "78%"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "errors-in-console": {
+   "score": 1,
+   "details": {
+    "items": []
+   }
+  },
+  "modern-image-formats": {
+   "score": 0.5,
+   "displayValue": "Est savings of 82 KiB",
+   "numericValue": 0,
+   "details": {
+    "items": [
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-108-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,4,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 3109,
+        "bottom": 3197,
+        "left": 58,
+        "right": 161,
+        "width": 104,
+        "height": 88
+       },
+       "snippet": "<img src=\"/img/brand/trust/ohme-approved-installer.png\" width=\"255\" height=\"216\" loading=\"lazy\" decoding=\"async\" alt=\"Ohme Approved Installer\">",
+       "nodeLabel": "Ohme Approved Installer"
+      },
+      "url": "http://localhost:3456/img/brand/trust/ohme-approved-installer.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 29518,
+      "wastedBytes": 24519.25,
+      "wastedWebpBytes": 24068
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-105-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,1,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2588,
+        "bottom": 2668,
+        "left": 237,
+        "right": 368,
+        "width": 131,
+        "height": 80
+       },
+       "snippet": "<img src=\"/img/brand/trust/smart-energy-council.png\" width=\"320\" height=\"196\" loading=\"lazy\" decoding=\"async\" alt=\"Smart Energy Council Small Business Member\">",
+       "nodeLabel": "Smart Energy Council Small Business Member"
+      },
+      "url": "http://localhost:3456/img/brand/trust/smart-energy-council.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 35260,
+      "wastedBytes": 23145.65,
+      "wastedWebpBytes": 14746
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-104-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2627,
+        "bottom": 2669,
+        "left": 34,
+        "right": 185,
+        "width": 151,
+        "height": 41
+       },
+       "snippet": "<img src=\"/img/brand/trust/solar-accreditation-australia.png\" width=\"440\" height=\"120\" loading=\"lazy\" decoding=\"async\" alt=\"Solar Accreditation Australia\">",
+       "nodeLabel": "Solar Accreditation Australia"
+      },
+      "url": "http://localhost:3456/img/brand/trust/solar-accreditation-australia.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 32544,
+      "wastedBytes": 22274.95,
+      "wastedWebpBytes": 12362
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-107-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,3,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2848,
+        "bottom": 2932,
+        "left": 266,
+        "right": 339,
+        "width": 73,
+        "height": 84
+       },
+       "snippet": "<img src=\"/img/brand/evnex/evnex-certified-installer-dark.png\" width=\"181\" height=\"208\" loading=\"lazy\" decoding=\"async\" alt=\"Evnex Certified Installer\">",
+       "nodeLabel": "Evnex Certified Installer"
+      },
+      "url": "http://localhost:3456/img/brand/evnex/evnex-certified-installer-dark.png",
+      "fromProtocol": true,
+      "isCrossOrigin": false,
+      "totalBytes": 18498,
+      "wastedBytes": 13939,
+      "wastedWebpBytes": 12618
+     }
+    ]
+   }
+  },
+  "uses-responsive-images": {
+   "score": 0,
+   "displayValue": "Est savings of 102 KiB",
+   "numericValue": 200,
+   "details": {
+    "items": [
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-103-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,0,SECTION,0,DIV,0,PICTURE,2,IMG",
+       "selector": "section.hero > div.hero-media > picture > img",
+       "boundingRect": {
+        "top": 64,
+        "bottom": 293,
+        "left": 0,
+        "right": 412,
+        "width": 412,
+        "height": 229
+       },
+       "snippet": "<img src=\"http://localhost:3456/img/photos/hero-solar-residential-complex-1200.avif\" width=\"1600\" height=\"1200\" fetchpriority=\"high\" alt=\"Solar panels installed across the roofs of adjoining residential homes\">",
+       "nodeLabel": "Solar panels installed across the roofs of adjoining residential homes"
+      },
+      "url": "http://localhost:3456/img/photos/hero-solar-residential-complex-1200.avif",
+      "totalBytes": 57634,
+      "wastedBytes": 42215,
+      "wastedPercent": 73.24622685185184
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-104-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2627,
+        "bottom": 2669,
+        "left": 34,
+        "right": 185,
+        "width": 151,
+        "height": 41
+       },
+       "snippet": "<img src=\"/img/brand/trust/solar-accreditation-australia.png\" width=\"440\" height=\"120\" loading=\"lazy\" decoding=\"async\" alt=\"Solar Accreditation Australia\">",
+       "nodeLabel": "Solar Accreditation Australia"
+      },
+      "url": "http://localhost:3456/img/brand/trust/solar-accreditation-australia.png",
+      "totalBytes": 32544,
+      "wastedBytes": 20858,
+      "wastedPercent": 64.0910274621212
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-105-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,1,DIV,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > div.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2588,
+        "bottom": 2668,
+        "left": 237,
+        "right": 368,
+        "width": 131,
+        "height": 80
+       },
+       "snippet": "<img src=\"/img/brand/trust/smart-energy-council.png\" width=\"320\" height=\"196\" loading=\"lazy\" decoding=\"async\" alt=\"Smart Energy Council Small Business Member\">",
+       "nodeLabel": "Smart Energy Council Small Business Member"
+      },
+      "url": "http://localhost:3456/img/brand/trust/smart-energy-council.png",
+      "totalBytes": 35260,
+      "wastedBytes": 17217,
+      "wastedPercent": 48.828125
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-108-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,4,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 3109,
+        "bottom": 3197,
+        "left": 58,
+        "right": 161,
+        "width": 104,
+        "height": 88
+       },
+       "snippet": "<img src=\"/img/brand/trust/ohme-approved-installer.png\" width=\"255\" height=\"216\" loading=\"lazy\" decoding=\"async\" alt=\"Ohme Approved Installer\">",
+       "nodeLabel": "Ohme Approved Installer"
+      },
+      "url": "http://localhost:3456/img/brand/trust/ohme-approved-installer.png",
+      "totalBytes": 29518,
+      "wastedBytes": 14497,
+      "wastedPercent": 49.114015976761074
+     },
+     {
+      "node": {
+       "type": "node",
+       "lhId": "1-107-IMG",
+       "path": "1,HTML,1,BODY,3,MAIN,4,SECTION,0,DIV,1,DIV,3,A,0,SPAN,0,IMG",
+       "selector": "div.trust-grid > a.trust-card > span.trust-card-mark > img",
+       "boundingRect": {
+        "top": 2848,
+        "bottom": 2932,
+        "left": 266,
+        "right": 339,
+        "width": 73,
+        "height": 84
+       },
+       "snippet": "<img src=\"/img/brand/evnex/evnex-certified-installer-dark.png\" width=\"181\" height=\"208\" loading=\"lazy\" decoding=\"async\" alt=\"Evnex Certified Installer\">",
+       "nodeLabel": "Evnex Certified Installer"
+      },
+      "url": "http://localhost:3456/img/brand/evnex/evnex-certified-installer-dark.png",
+      "totalBytes": 18498,
+      "wastedBytes": 9271,
+      "wastedPercent": 50.1188642158946
+     }
+    ]
+   }
+  },
+  "mainthread-work-breakdown": {
+   "score": 1,
+   "displayValue": "1.3 s",
+   "numericValue": 1336.2439999999922,
+   "details": {
+    "items": [
+     {
+      "group": "other",
+      "groupLabel": "Other",
+      "duration": 708.3439999999927
+     },
+     {
+      "group": "styleLayout",
+      "groupLabel": "Style & Layout",
+      "duration": 409.1359999999995
+     },
+     {
+      "group": "paintCompositeRender",
+      "groupLabel": "Rendering",
+      "duration": 122.14000000000027
+     },
+     {
+      "group": "scriptEvaluation",
+      "groupLabel": "Script Evaluation",
+      "duration": 44.587999999999994
+     },
+     {
+      "group": "parseHTML",
+      "groupLabel": "Parse HTML & CSS",
+      "duration": 33.511999999999986
+     },
+     {
+      "group": "garbageCollection",
+      "groupLabel": "Garbage Collection",
+      "duration": 10.019999999999984
+     },
+     {
+      "group": "scriptParseCompile",
+      "groupLabel": "Script Parsing & Compilation",
+      "duration": 8.503999999999998
+     }
+    ]
+   }
+  },
+  "bootup-time": {
+   "score": 1,
+   "displayValue": "0.0 s",
+   "numericValue": 34.76399999999998,
+   "details": {
+    "items": [
+     {
+      "url": "http://localhost:3456/",
+      "total": 556.0120000000007,
+      "scripting": 10.791999999999996,
+      "scriptParseCompile": 2.46
+     },
+     {
+      "url": "Unattributable",
+      "total": 464.7039999999993,
+      "scripting": 6.68,
+      "scriptParseCompile": 0
+     },
+     {
+      "url": "http://localhost:3456/js/main.js",
+      "total": 269.288,
+      "scripting": 13.19999999999999,
+      "scriptParseCompile": 1.6320000000000001
+     }
+    ]
+   }
+  }
+ },
+ "allRuns": [
+  {
+   "performance": 97,
+   "lcp": "2.4 s",
+   "tbt": "0 ms",
+   "cls": "0"
+  },
+  {
+   "performance": 98,
+   "lcp": "2.1 s",
+   "tbt": "0 ms",
+   "cls": "0"
+  },
+  {
+   "performance": 98,
+   "lcp": "2.0 s",
+   "tbt": "0 ms",
+   "cls": "0"
+  }
+ ]
+}

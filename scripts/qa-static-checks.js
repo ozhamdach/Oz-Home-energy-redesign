@@ -333,7 +333,7 @@ for (const file of files) {
     // the production-mode QA pass) never has them copied in, so checking
     // for them here would be checking the wrong thing. site/css, site/js
     // and site/img are version-controlled directly; nothing generates them.
-    if (/^\/(css|js|img)\//.test(href)) continue;
+    if (/^\/(css|js|img|fonts)\//.test(href)) continue;
     const cleanPath = href.split(/[?#]/)[0];
     const target = cleanPath.endsWith('/')
       ? path.join(SITE_DIR, cleanPath, 'index.html')
@@ -435,6 +435,38 @@ for (const f of findFiles(siteJsDir).filter((f) => f.endsWith('.js'))) {
   const js = fs.readFileSync(f, 'utf8');
   const rel = path.relative(ROOT, f);
   if (/ohe_pathway/.test(js)) fail(`${rel}: contains "ohe_pathway" — this sessionStorage key was removed as dead code (nothing ever read it); do not reintroduce it without a real, HighLevel-supported prefill integration`);
+}
+
+// --- self-hosted fonts: every referenced file exists where it is served ---
+// Fonts moved from Google Fonts to site/fonts on 14 Nov 2026. A font that
+// 404s does not break the page, it silently falls back to a system font,
+// so nothing else would catch a missing file or a deploy copy that leaves
+// the folder out (scripts/build-pages.js copies asset folders by name).
+{
+  const fontsDir = path.join(SITE_DIR, 'fonts');
+  const wanted = new Set();
+  const cssPath = path.join(SITE_DIR, 'css', 'styles.css');
+  if (fs.existsSync(cssPath)) {
+    const css = fs.readFileSync(cssPath, 'utf8');
+    for (const m of css.matchAll(/url\(\.\.\/fonts\/([^)'"]+)\)/g)) wanted.add(m[1]);
+    if (/fonts\.(googleapis|gstatic)\.com/.test(css)) fail('site/css/styles.css loads a font from Google; fonts are self-hosted in site/fonts');
+  }
+  for (const f of files) {
+    const html = fs.readFileSync(f, 'utf8');
+    for (const m of html.matchAll(/href="\/fonts\/([^"]+)"/g)) wanted.add(m[1]);
+    if (/fonts\.(googleapis|gstatic)\.com/.test(html)) fail(`${path.relative(SITE_DIR, f)}: loads a font from Google; fonts are self-hosted in site/fonts`);
+  }
+  if (wanted.size === 0) fail('no self-hosted font is referenced by styles.css or any page (expected site/fonts/*.woff2)');
+  for (const name of wanted) {
+    if (!fs.existsSync(path.join(fontsDir, name))) fail(`font file fonts/${name} is referenced but missing from ${path.relative(ROOT, fontsDir)}`);
+  }
+  // The deployed copy (pages-dist) must carry the same folder.
+  const pagesFonts = path.join(ROOT, 'pages-dist', 'fonts');
+  if (fs.existsSync(path.join(ROOT, 'pages-dist'))) {
+    for (const name of wanted) {
+      if (!fs.existsSync(path.join(pagesFonts, name))) fail(`font file fonts/${name} is missing from pages-dist (the deployed copy); check scripts/build-pages.js`);
+    }
+  }
 }
 
 // --- Evnex badge file actually exists in the generated deployment ---

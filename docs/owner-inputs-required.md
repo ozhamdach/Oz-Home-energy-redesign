@@ -973,3 +973,40 @@ FoxESS app, 7 Nov). Method and day totals are in site/js/battery-day.js. No
 customer name or address is shown; the suburb (Woolooware) is.
 - [x] System owner is happy for this data to be featured (confirmed by Oz, 7 Nov 2026).
 - [x] Suburb: Woolooware (supplied by Oz 7 Nov), linked to /locations/sutherland-shire/.
+
+### 🟡 Home page loop, round 9 (14 Nov 2026): what changed and what needs Oz
+Changes that used facts already on file (nothing new was invented):
+- [x] **Woolooware system on the home page.** A card under "Recent installs"
+      names the suburb and system (13.3 kW solar, 41.9 kWh FoxESS batteries,
+      FoxESS 9.9 kW hybrid inverter) and repeats two sentences already
+      published on /battery-storage/. Covered by the owner OK recorded in
+      the section above (7 Nov 2026). No customer name, no dollar figure.
+- [x] **Service areas line on the home page.** Lists only the eight region
+      pages already published under /locations/.
+- [x] **"How long does an installation take?"** added to the home FAQ, built
+      from sentences already published on /residential-solar/ and /faqs/.
+- [x] **Fonts are now served from this site** (`site/fonts/`), not Google
+      Fonts. Same typefaces (Outfit, DM Sans, DM Serif Display), all under
+      the SIL Open Font License; licence text is in `site/fonts/OFL.txt`.
+- [x] **Tracking starts after the page has loaded**, not during the first
+      render. Every visit that finishes loading is still counted.
+
+Still needs Oz:
+- [ ] **May tracking wait for the visitor's first tap or scroll?** Measured
+      on a phone with tracking on, the home page scores 74-79 out of 100 for
+      speed; Google Tag Manager, GA4, the Google Ads tag and the Meta Pixel
+      account for almost all of what is left. Waiting for the first
+      interaction would lift the score to about 95+, but visitors who leave
+      without touching the page would no longer be counted, and Meta/Google
+      ad audiences would be slightly smaller. Default until Oz decides:
+      keep counting everyone (current behaviour).
+- [ ] **Suburb and system size for the three "Recent installs" photos.**
+      Captions still read "Residential solar installation" and similar.
+- [ ] **Price ranges** (for example 6.6 kW, 10 kW, 13 kW solar; a typical
+      battery) so the page can show cost and payback. Not invented.
+- [ ] **What happens on install day**, in Oz's words (arrival time, how long
+      the power is off, who is on site, clean-up, handover). The page now
+      says how long an install takes, but not what the day looks like.
+- [ ] **HighLevel:** quick-form button still says "Submit"; redirect to
+      /quote-received/ not yet confirmed (see the Lead forms section above).
+

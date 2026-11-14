@@ -943,24 +943,25 @@ quarter" on every option, and it has no existing-solar question.
       published in `src/data/site-status.json`. Until then production hides
       the video block entirely.
 
-### 🟡 Home hero proof numbers: two labels need Oz's confirmation (14 Nov 2026)
-The home hero now shows three figures Oz supplied on 14 Nov 2026:
-"10+ years, 6000+ installs, 5.0 rating on Google".
+### 🟡 Home hero proof numbers (14 Nov 2026)
+The home hero shows three figures supplied by Oz on 14 Nov 2026.
 - [x] **5.0 Google rating.** Checked against the Google reviews widget the
       home page embeds: on 14 Nov 2026 it showed six reviews (16 Aug to
       22 Sep 2026), all five stars. The figure links to that section.
       If any review below five stars arrives, change the figure that day.
-- [ ] **10+ years.** Shown as "Years in the trade". Oz to confirm this is
-      his own time in the trade (the company's ABN is recent, so it cannot
-      be the company's age).
-- [ ] **6,000+ installs.** Shown as "Career installs". Oz to confirm
-      whether Oz Home Energy itself has completed 6,000+ installs, or
-      whether the figure covers work done over his career, including for
-      previous employers. If the business has done them all, the label
-      can change to "Systems installed". If not, it must stay worded as
-      career experience: a tally claimed for the business that the
-      business did not do would be misleading to customers, and the six
-      public reviews dating from August 2026 would make it look wrong.
+- [x] **9,000+ "Team career installs".** Oz's statement, 14 Nov 2026
+      ("~9000+ installs team experience"), replacing his first figure of
+      6,000+. It is the combined installs that Oz and his current workers
+      have worked on over their careers, including before Oz Home Energy.
+      It is not the company's own job count, so the label must not become
+      "Systems installed". Nothing on file verifies it. Keep it true:
+      current team only; jobs each person actually worked on; a job two of
+      them shared counts once; reduce it if someone who accounts for a
+      large share leaves. "+" means at least 9,000; if the tally is only
+      roughly 9,000, use a number Oz is sure of.
+- [ ] **10+ "Years in the trade".** Oz to confirm this is his own time in
+      the trade (the company's ABN is recent, so it cannot be the
+      company's age).
 Source and wording notes are in `src/pages/home/content.html` above the
 numbers.
 

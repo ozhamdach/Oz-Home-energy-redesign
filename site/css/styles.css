@@ -1336,7 +1336,8 @@ table.data-table tr:last-child td { border-bottom: none; }
    hero rules and the Oct 2026 overlay without touching them.
    What makes it carry four words:
    - the headline is two short lines at a much larger size;
-   - "Home" and "Energy" (the business name) take the accent colour;
+   - "Your" is an italic serif, "Home" and "Energy" (the business name)
+     are heavy white sans, so the contrast is in the type;
    - the photo is allowed to show: the old overlay hid a bright blue-sky
      shot behind 80-93% black. Desktop clears the right-hand side; phones
      show the roof and panels above the words and fade to solid below;
@@ -1363,7 +1364,14 @@ table.data-table tr:last-child td { border-bottom: none; }
   letter-spacing: -0.05em; line-height: 0.96;
   text-shadow: 0 2px 28px rgba(4, 8, 20, 0.45);
 }
-.hero--home .hero-hl { color: #7db6ff; }
+/* "Your" in an italic serif against the heavy sans of "Home." and
+   "Energy.". Weight 400 is set explicitly: the face has one weight, and
+   inheriting the h1's 700 would make the browser fake a bold. Georgia
+   italic is the stand-in until the four-letter font file arrives. */
+.hero--home .hero-your {
+  font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
+  font-style: italic; font-weight: 400; letter-spacing: -0.02em;
+}
 
 .hero--home .hero-ctas { margin-top: 34px; }
 .hero--home .hero-cta { min-height: 54px; padding: 16px 26px 16px 28px; font-size: 1rem; }

@@ -15,9 +15,15 @@
   <div class="hero-overlay"></div>
   <div class="container hero-inner">
     <!-- Hero, 14 Nov 2026 (Oz): headline is now his own line, "Your Home.
-         Your Energy." It carries the business name (Oz HOME ENERGY), so
-         those two words take the accent colour. Fewer words again: about
-         30 down to 23 on a phone (56 before the 13 Nov trim).
+         Your Energy." It carries the business name (Oz HOME ENERGY).
+         Those two words are the heavy white ones; "Your" is set in an
+         italic serif (.hero-your) so the contrast is in the type, not in
+         colour. Oz's call, same day: a first version coloured "Home" and
+         "Energy" light blue instead. The serif is DM Serif Display, the
+         display companion to the site's body font (DM Sans); only its
+         four letters Y-o-u-r are requested, on this page only (see
+         extraHead in meta.json). Fewer words again: about 30 down to 23
+         on a phone (56 before the 13 Nov trim).
          - "Sydney solar and batteries" stays inside the <h1> as the small
            line above the headline, so the page's one h1 still says what
            the business does and where (for visitors and for search).
@@ -35,8 +41,8 @@
          stays hidden if a script fails; off under reduced motion). -->
     <h1 class="hero-title">
       <span class="hero-kicker hero-rise">Sydney solar and batteries</span>
-      <span class="hero-line hero-rise" style="--d:70ms">Your <span class="hero-hl">Home</span>.</span>
-      <span class="hero-line hero-rise" style="--d:140ms">Your <span class="hero-hl">Energy</span>.</span>
+      <span class="hero-line hero-rise" style="--d:70ms"><span class="hero-your">Your</span> Home.</span>
+      <span class="hero-line hero-rise" style="--d:140ms"><span class="hero-your">Your</span> Energy.</span>
     </h1>
     <div class="hero-ctas hero-rise" style="--d:230ms">
       <a class="btn btn-primary hero-cta" href="/assessment/">Get a Free Quote <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>

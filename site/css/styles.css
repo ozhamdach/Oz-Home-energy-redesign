@@ -1802,3 +1802,18 @@ main [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
    jumps when the form arrives (same heights as the assessment page). */
 .qsteps .form-embed-wrap { min-height: 960px; }
 @media (max-width: 560px) { .qsteps .form-embed-wrap { min-height: 1280px; } }
+
+/* =====================================================
+   FORM LOAD NOTICE (15 Nov 2026, quote-to-lead journey audit)
+   Shown above an embedded HighLevel form when the form has not been heard
+   from in time (see "HighLevel form guard" in /js/main.js). Its own colours,
+   so it reads the same on light and dark sections.
+   ===================================================== */
+.form-embed-notice { position: relative; z-index: 2; margin: 0 0 14px; padding: 16px 18px; background: #fff8e6; border: 1px solid #f0d48a; border-radius: var(--radius-md); color: #10233f; text-align: left; }
+.form-embed-notice p { margin: 0 0 8px; color: #10233f; max-width: none; font-size: 0.95rem; line-height: 1.5; }
+.form-embed-notice .form-embed-notice-title { font-family: var(--font-heading); font-weight: 600; font-size: 1.05rem; }
+.form-embed-notice-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.form-embed-notice-actions .btn { min-height: 46px; }
+.form-embed-notice-actions .btn-secondary, .section-inverse .form-embed-notice-actions .btn-secondary { background: #fff; color: #10233f; border-color: #10233f; }
+@media (max-width: 560px) { .form-embed-notice-actions .btn { width: 100%; } }
+

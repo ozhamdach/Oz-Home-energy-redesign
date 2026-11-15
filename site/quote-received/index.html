@@ -6,16 +6,16 @@
 
 <script>window.dataLayer = window.dataLayer || [];</script>
 
-<title>Enquiry Received | Oz Home Energy</title>
-<meta name="description" content="Your enquiry has been received. Here's what happens next.">
+<title>Your Enquiry | Oz Home Energy</title>
+<meta name="description" content="Enquiry confirmation page for Oz Home Energy quote forms.">
 
 <link rel="canonical" href="https://ozhomeenergy.com.au/quote-received/">
 
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Oz Home Energy">
-<meta property="og:title" content="Enquiry Received | Oz Home Energy">
-<meta property="og:description" content="Your enquiry has been received. Here's what happens next.">
+<meta property="og:title" content="Your Enquiry | Oz Home Energy">
+<meta property="og:description" content="Enquiry confirmation page for Oz Home Energy quote forms.">
 <meta property="og:url" content="https://ozhomeenergy.com.au/quote-received/">
 <meta property="og:image" content="https://ozhomeenergy.com.au/img/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -91,7 +91,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "Enquiry received",
+      "name": "Your enquiry",
       "item": "https://ozhomeenergy.com.au/quote-received/"
     }
   ]
@@ -146,15 +146,34 @@
   .enq-contact p { margin: 0; color: var(--text-muted); }
   .enq-trust { font-size: 0.8rem; color: var(--text-muted); }
   .enq-legal { max-width: 640px; margin: 16px auto 0; text-align: center; }
+  /* Confirmed / unconfirmed states (15 Nov 2026). */
+  .enq-confirmed { display: flex; flex-direction: column; gap: 28px; }
+  .enq-confirmed[hidden], .enq-unconfirmed[hidden], .enq-badge[hidden] { display: none; }
+  .enq-unconfirmed { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+  .enq-unconfirmed p { margin: 0; color: var(--text-muted); max-width: 44ch; }
+  .enq-unconfirmed .enq-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .enq-badge--info { background: var(--bg-accent); color: var(--brand); }
 </style>
 <section class="enq">
   <div class="container">
-    <div class="enq-card">
+    <div class="enq-card" id="enqCard" data-enq-state="unconfirmed">
       <div class="enq-head">
-        <span class="enq-badge" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-        <h1>Thanks, your enquiry is in.</h1>
-        <p>Here's exactly what happens between now and your system being up and running.</p>
+        <span class="enq-badge" id="enqBadgeOk" aria-hidden="true" hidden><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span class="enq-badge enq-badge--info" id="enqBadgeInfo" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
+
+        <h1 id="enqTitle" data-confirmed-text="Thanks, your enquiry is in.">We can't confirm an enquiry from this page</h1>
+        <p id="enqLede" data-confirmed-text="Here's exactly what happens between now and your system being up and running.">This page only confirms an enquiry when you arrive here straight after sending one of our forms.</p>
       </div>
+
+      <div class="enq-unconfirmed" id="enqUnconfirmed">
+        <p>If you sent a form and are not sure it went through, call us and we will check. If you have not sent one yet, you can start a quote below.</p>
+        <div class="enq-actions">
+          <a class="btn btn-primary" href="tel:+61435336336">Call 0435 336 336</a>
+          <a class="btn btn-secondary" href="/assessment/">Go to the quote form</a>
+        </div>
+      </div>
+
+      <div class="enq-confirmed" id="enqConfirmed" hidden>
 
 
       <div class="enq-video">
@@ -226,22 +245,119 @@
         <a class="btn btn-primary" href="tel:+61435336336">Call 0435 336 336</a>
         <p class="enq-trust">Licensed NSW electrical contractor 382607C · SAA accredited · 10-year workmanship warranty</p>
       </div>
+      </div>
     </div>
     <p class="hint enq-legal">See our <a href="/privacy-policy/">Privacy Policy</a>. This page confirms your enquiry only if you were sent here after submitting a form. Reaching it directly doesn't submit anything.</p>
   </div>
 </section>
 <script>
-  // Confirmed-lead signal (see the comment at the top of this file).
-  // dataLayer is always declared in src/layout.html's <head>; fbq only
-  // exists in a production build with ENABLE_ANALYTICS=true, hence the guard.
+  // CONFIRMED-LEAD RULE (15 Nov 2026). How a real submit reaches this page
+  // (read from HighLevel's own form code on 15 Nov 2026):
+  //   1. The visitor presses the form's button inside the HighLevel iframe.
+  //   2. HighLevel's server accepts the submission.
+  //   3. Only then, the form posts a "set-sticky-contacts" message to the
+  //      page it is embedded in, and sets the top window's address to this
+  //      page (each form's "redirect on submit" setting).
+  // So there are two independent signals, and this page needs one of them:
+  //   A. PENDING MARKER. The form guard in /js/main.js saw that message,
+  //      from the form's own origin and iframe, and left a marker in
+  //      sessionStorage less than 15 minutes ago. (It keeps no contact
+  //      details; see main.js.)
+  //   B. REFERRER. The browser says this visit was started by the form
+  //      domain (document.referrer), and a form was open in this tab in the
+  //      last 2 hours. This covers a browser that blocked the message.
+  // And in both cases the visit must be a fresh navigation, not a reload or
+  // Back/Forward. Each marker is used up when it is counted, so one submit
+  // is one lead. A typed address, a bookmark, a shared link, a refresh and
+  // the Back button all count nothing.
+  // If sessionStorage is unavailable (some private modes) signal B is
+  // accepted on the referrer alone, so real leads are not lost there.
   (function () {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'lead_submitted',
-      lead_source: 'highlevel_form_redirect',
-      page_referrer: document.referrer || ''
-    });
-    if (typeof window.fbq === 'function') { window.fbq('track', 'Lead'); }
+    var FORM_ORIGIN = 'https://link.ozhomeenergy.com.au';
+    var GOALS = ['Solar', 'Solar and battery', 'Battery', 'EV Charger', 'Other'];
+
+    // Keep the address clean before any analytics reads it. HighLevel adds
+    // the form address's own tags to the redirect (the quote answers and ad
+    // tags this site put there). Anything else is dropped, so a contact
+    // detail can never ride into analytics on this page's address.
+    try {
+      var keep = /^(utm_[a-z]+|gclid|fbclid|primary_goal|multi_dropdown_3ea2|timeframe)$/;
+      var params = new URLSearchParams(window.location.search);
+      var clean = new URLSearchParams();
+      var dropped = false;
+      params.forEach(function (v, k) { if (keep.test(k)) clean.append(k, v); else dropped = true; });
+      if (dropped && window.history && window.history.replaceState) {
+        var q = clean.toString();
+        window.history.replaceState(null, '', window.location.pathname + (q ? '?' + q : '') + window.location.hash);
+      }
+    } catch (e) { /* old browser: address left as is */ }
+
+    function read(key, maxAgeMs) {
+      var d = JSON.parse(sessionStorage.getItem(key) || 'null');
+      return d && typeof d.ts === 'number' && Date.now() - d.ts < maxAgeMs && Date.now() - d.ts >= 0 ? d : null;
+    }
+
+    var navType = 'navigate';
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type) navType = nav.type;
+    } catch (e) { /* assume a normal navigation */ }
+
+    var fromForm = (document.referrer || '').indexOf(FORM_ORIGIN + '/') === 0 || document.referrer === FORM_ORIGIN;
+    var storageOk = true, pending = null, seen = null, already = false;
+    try {
+      pending = read('ohe_lead_pending', 15 * 60 * 1000);
+      seen = read('ohe_form_seen', 2 * 60 * 60 * 1000);
+      already = !!sessionStorage.getItem('ohe_lead_confirmed');
+    } catch (e) { storageOk = false; }
+
+    var source = '';
+    if (navType === 'navigate') {
+      if (pending) source = 'highlevel_submit_message';
+      else if (fromForm && (seen || !storageOk)) source = 'highlevel_form_redirect';
+    }
+
+    function showConfirmed() {
+      var card = document.getElementById('enqCard');
+      var t = document.getElementById('enqTitle');
+      var l = document.getElementById('enqLede');
+      t.textContent = t.getAttribute('data-confirmed-text');
+      l.textContent = l.getAttribute('data-confirmed-text');
+      document.getElementById('enqBadgeInfo').hidden = true;
+      document.getElementById('enqBadgeOk').hidden = false;
+      document.getElementById('enqUnconfirmed').hidden = true;
+      document.getElementById('enqConfirmed').hidden = false;
+      card.setAttribute('data-enq-state', 'confirmed');
+      document.title = 'Enquiry Received | Oz Home Energy';
+    }
+
+    if (source) {
+      var info = pending || seen || {};
+      try {
+        sessionStorage.removeItem('ohe_lead_pending');
+        sessionStorage.removeItem('ohe_form_seen');
+        sessionStorage.removeItem('ohe_quote_steps');
+        sessionStorage.setItem('ohe_lead_confirmed', String(Date.now()));
+      } catch (e) { /* nothing to clear */ }
+      showConfirmed();
+      // Non-personal detail only: which form, which page it was on, and the
+      // service chosen in step 1 (checked against the five known options).
+      var goal = '';
+      try { goal = new URLSearchParams(window.location.search).get('primary_goal') || ''; } catch (e) { goal = ''; }
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'lead_submitted',
+        lead_source: source,
+        form_id: typeof info.form === 'string' ? info.form : '',
+        form_page: typeof info.page === 'string' ? info.page : '',
+        service: GOALS.indexOf(goal) !== -1 ? goal : ''
+      });
+      // fbq only exists in a production build with ENABLE_ANALYTICS=true.
+      if (typeof window.fbq === 'function') { window.fbq('track', 'Lead'); }
+    } else if (already) {
+      // A refresh or Back after a confirmed visit: same wording, no events.
+      showConfirmed();
+    }
   })();
 </script>
 

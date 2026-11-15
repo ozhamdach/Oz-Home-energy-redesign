@@ -280,53 +280,216 @@
     });
   }
 
-  // Embedded HighLevel quote-form loading state (9 Oct 2026, competitor-
-  // informed improvement pass). Applies to any ".form-embed-wrap" — the
-  // homepage's quick-quote widget and the /assessment/ page's main form —
-  // showing a ".form-embed-loading" spinner (see styles.css) until the
-  // iframe's own load event fires, or hiding it after a timeout regardless
-  // so a slow/blocked embed never leaves a spinner stuck on screen. The
-  // static "Form not loading? Call …" line beneath each iframe (in the
-  // page's own HTML) stays visible the whole time regardless of load
-  // state — it's not gated by this script, so it still works with
-  // JavaScript disabled or if this handler never runs.
-  var FORM_EMBED_TIMEOUT_MS = 8000;
-  document.querySelectorAll('.form-embed-wrap').forEach(function (wrap) {
-    var loadingEl = wrap.querySelector('.form-embed-loading');
-    var iframe = wrap.querySelector('iframe');
-    if (!loadingEl || !iframe) return;
-    var hidden = false;
-    function hideLoading() {
-      if (hidden) return;
-      hidden = true;
-      loadingEl.style.display = 'none';
-    }
-    iframe.addEventListener('load', hideLoading);
-    // Deferred embeds (data-ohe-src, below) start the spinner timeout when
-    // they actually begin loading, not at page load.
-    if (iframe.hasAttribute('data-ohe-src') && !iframe.getAttribute('src')) {
-      iframe.addEventListener('ohe:embedstart', function () { setTimeout(hideLoading, FORM_EMBED_TIMEOUT_MS); });
-    } else {
-      setTimeout(hideLoading, FORM_EMBED_TIMEOUT_MS);
-    }
-  });
+  // The embedded-form loading state used to live here. It now lives in the
+  // "HighLevel form guard" block below, which knows whether the form really
+  // arrived instead of trusting the iframe's load event.
 })();
 
-// Deferred embeds (6 Nov 2026). An <iframe data-ohe-src="..."> only gets its
-// src once its wrapper is within ~1000px of the viewport. Used for the
-// HighLevel quick-quote form at the bottom of the home page: its Cloudflare
-// bot check was ~6.8 MB and every console error on the page. Native
-// loading="lazy" doesn't work here because HighLevel's form_embed.js hides
-// the iframe until it loads, so the browser never starts loading it.
+// =====================================================================
+// HighLevel form guard (15 Nov 2026, quote-to-lead journey audit)
+//
+// Every lead form on the site is a HighLevel iframe served from
+// https://link.ozhomeenergy.com.au. This block does four things for all of
+// them (any <iframe> inside a .form-embed-wrap):
+//
+// 1. DEFERRED LOADING (unchanged from 6 Nov 2026). <iframe data-ohe-src>
+//    only gets its src once its wrapper is within ~1000px of the screen.
+//    Native loading="lazy" does not work: HighLevel's form_embed.js hides
+//    the iframe until it loads, so the browser never starts loading it.
+//
+// 2. DID THE FORM REALLY LOAD? An iframe's load event fires for an error
+//    page too ("refused to connect"), and this page cannot look inside a
+//    cross-origin frame. What it can see is the form talking: HighLevel's
+//    form posts messages to this page as soon as it runs ("iframeLoaded",
+//    its size, "fetch-query-params"). A message whose origin is the form
+//    domain AND whose source is that iframe's own window is proof the form
+//    is running. The spinner stays until then. If nothing is heard within
+//    FORM_TIMEOUT_MS, a notice appears above the form with "Try again" and
+//    the phone number. The phone link does not depend on the form domain.
+//    The notice is not destructive: the iframe stays in place, and if the
+//    form turns up late the notice removes itself.
+//
+// 3. WAS AN ENQUIRY REALLY SENT? After HighLevel's server accepts a
+//    submission (and only then), the form posts ["set-sticky-contacts", ...]
+//    to this page and then sends the browser to /quote-received/. That
+//    message is the confirmed-submit signal. Only its first element (the
+//    message name) is read. ITS OTHER ELEMENTS HOLD THE VISITOR'S NAME,
+//    EMAIL AND PHONE AND ARE NEVER READ, STORED OR SENT ANYWHERE BY THIS
+//    SITE. All that is kept is a small marker in sessionStorage (form id,
+//    page path, time) that /quote-received/ uses to count the lead once.
+//    The same origin + source checks apply, so another site, an ad script
+//    or the page itself cannot fake it.
+//
+// 4. AD SOURCE. HighLevel's script passes the current page's address tags
+//    (utm_*, gclid, fbclid) into the form. It is only loaded on pages that
+//    have a form, so a visitor who lands on a service page from an ad and
+//    then clicks through to a form arrives with nothing for it to read.
+//    This site already keeps the first-touch tags for the session
+//    (captureAttribution above); for forms whose address this script sets,
+//    they are added to the form's address when the current page's address
+//    does not carry them. Only those seven standard tag names, never
+//    contact details.
+// =====================================================================
 (function () {
   'use strict';
-  var frames = document.querySelectorAll('iframe[data-ohe-src]');
-  if (!frames.length) return;
+  var FORM_ORIGIN = 'https://link.ozhomeenergy.com.au';
+  // Tests shorten the wait; real visitors get 12 seconds.
+  var FORM_TIMEOUT_MS = typeof window.OHE_FORM_TIMEOUT_MS === 'number' ? window.OHE_FORM_TIMEOUT_MS : 12000;
+  var AD_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+  var PHONE_HREF = 'tel:+61435336336';
+  var PHONE_TEXT = '0435 336 336';
+
+  function pushEvent(name, data) {
+    if (!window.dataLayer) return;
+    var payload = { event: name };
+    for (var k in data) if (Object.prototype.hasOwnProperty.call(data, k)) payload[k] = data[k];
+    window.dataLayer.push(payload);
+  }
+  function store(key, value) {
+    try { sessionStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage off: best effort */ }
+  }
+  function isFormUrl(url) {
+    return typeof url === 'string' && url.indexOf(FORM_ORIGIN + '/') === 0;
+  }
+
+  // Adds the session's first-touch ad tags to a form address, unless the
+  // current page's own address already has that tag (HighLevel's script
+  // passes those itself).
+  function withAttribution(url) {
+    if (!isFormUrl(url)) return url;
+    try {
+      var stored = JSON.parse(sessionStorage.getItem('ohe_attribution') || '{}');
+      var here = new URLSearchParams(window.location.search);
+      var extra = [];
+      AD_KEYS.forEach(function (k) {
+        var v = stored[k];
+        if (typeof v !== 'string' || !v || v.length > 200) return;
+        if (here.get(k)) return;
+        if (new RegExp('[?&]' + k + '=').test(url)) return;
+        extra.push(k + '=' + encodeURIComponent(v));
+      });
+      if (!extra.length) return url;
+      return url + (url.indexOf('?') === -1 ? '?' : '&') + extra.join('&');
+    } catch (e) {
+      return url;
+    }
+  }
+
+  var guards = [];
+
+  function Guard(wrap, iframe) {
+    this.wrap = wrap;
+    this.iframe = iframe;
+    this.loadingEl = wrap.querySelector('.form-embed-loading');
+    this.formId = iframe.getAttribute('data-form-id') || '';
+    this.alive = false;
+    this.timer = null;
+    this.notice = null;
+    this.failedReported = false;
+  }
+  Guard.prototype.start = function () {
+    var self = this;
+    if (self.timer) clearTimeout(self.timer);
+    self.alive = false;
+    if (self.loadingEl) self.loadingEl.style.display = '';
+    self.timer = setTimeout(function () { if (!self.alive) self.showNotice(); }, FORM_TIMEOUT_MS);
+  };
+  Guard.prototype.markAlive = function () {
+    if (this.alive) return;
+    this.alive = true;
+    if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+    if (this.loadingEl) this.loadingEl.style.display = 'none';
+    this.hideNotice();
+    this.wrap.setAttribute('data-form-state', 'ready');
+    store('ohe_form_seen', { form: this.formId, page: window.location.pathname, ts: Date.now() });
+    pushEvent('form_ready', { form_id: this.formId });
+  };
+  Guard.prototype.hideNotice = function () {
+    if (this.notice && this.notice.parentNode) this.notice.parentNode.removeChild(this.notice);
+    this.notice = null;
+  };
+  Guard.prototype.showNotice = function () {
+    var self = this;
+    if (self.notice) return;
+    if (self.loadingEl) self.loadingEl.style.display = 'none';
+    self.wrap.setAttribute('data-form-state', 'failed');
+    var box = document.createElement('div');
+    box.className = 'form-embed-notice';
+    box.setAttribute('role', 'alert');
+    var h = document.createElement('p');
+    h.className = 'form-embed-notice-title';
+    h.textContent = 'The form is taking too long to load.';
+    var p = document.createElement('p');
+    p.textContent = 'Some networks and content blockers stop it. Nothing has been sent yet, and your answers on this page are still here. Try again, or call us and we will take your details over the phone.';
+    var row = document.createElement('div');
+    row.className = 'form-embed-notice-actions';
+    var retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'btn btn-primary';
+    retry.textContent = 'Try again';
+    retry.addEventListener('click', function () { self.retry(); });
+    var call = document.createElement('a');
+    call.className = 'btn btn-secondary';
+    call.href = PHONE_HREF;
+    call.textContent = 'Call ' + PHONE_TEXT;
+    call.addEventListener('click', function () { pushEvent('phone_click', { link_url: PHONE_HREF }); });
+    row.appendChild(retry); row.appendChild(call);
+    box.appendChild(h); box.appendChild(p); box.appendChild(row);
+    self.wrap.insertBefore(box, self.wrap.firstChild);
+    self.notice = box;
+    if (!self.failedReported) {
+      self.failedReported = true;
+      pushEvent('form_load_failed', { form_id: self.formId });
+    }
+  };
+  Guard.prototype.retry = function () {
+    var src = this.iframe.getAttribute('src');
+    if (!src) return;
+    this.hideNotice();
+    this.wrap.setAttribute('data-form-state', 'loading');
+    // Re-setting src reloads the iframe. Answers chosen in the steps live on
+    // this page, not in the iframe, so they are kept.
+    this.iframe.setAttribute('src', src);
+    this.start();
+  };
+
+  document.querySelectorAll('.form-embed-wrap').forEach(function (wrap) {
+    var iframe = wrap.querySelector('iframe');
+    if (!iframe) return;
+    var g = new Guard(wrap, iframe);
+    guards.push(g);
+    // Deferred embeds start their clock when they actually begin loading.
+    iframe.addEventListener('ohe:embedstart', function () { g.start(); });
+    if (iframe.getAttribute('src')) g.start();
+  });
+
+  window.addEventListener('message', function (e) {
+    if (e.origin !== FORM_ORIGIN) return;
+    var g = null;
+    for (var i = 0; i < guards.length; i++) {
+      if (guards[i].iframe.contentWindow === e.source) { g = guards[i]; break; }
+    }
+    if (!g) return;
+    g.markAlive();
+    // Only the message name is read. See note 3 at the top of this block.
+    if (Array.isArray(e.data) && e.data[0] === 'set-sticky-contacts') {
+      store('ohe_lead_pending', { form: g.formId, page: window.location.pathname, ts: Date.now() });
+      try { sessionStorage.removeItem('ohe_quote_steps'); } catch (err) { /* best effort */ }
+    }
+  });
+
+  // Deferred loading.
   function load(f) {
     if (f.getAttribute('src')) return;
-    f.setAttribute('src', f.getAttribute('data-ohe-src'));
-    try { f.dispatchEvent(new Event('ohe:embedstart')); } catch (e) { /* old browsers: spinner just stays until load */ }
+    f.setAttribute('src', withAttribution(f.getAttribute('data-ohe-src')));
+    try { f.dispatchEvent(new Event('ohe:embedstart')); } catch (e) { /* old browsers: the notice timer simply never starts */ }
   }
+  // Used by /js/quote-steps.js, which sets the form address itself.
+  window.OHE = window.OHE || {};
+  window.OHE.formUrl = withAttribution;
+
+  var frames = document.querySelectorAll('iframe[data-ohe-src]');
+  if (!frames.length) return;
   if (!('IntersectionObserver' in window)) { Array.prototype.forEach.call(frames, load); return; }
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {

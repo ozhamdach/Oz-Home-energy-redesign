@@ -136,6 +136,9 @@
     .rfq-hero .hero-trust { margin-top: 14px; }
     #quoteForm { padding-top: 20px; }
   }
+  /* Small phones (360px wide): the headline ran to three lines. A slightly
+     smaller size keeps it on two, so step 1 starts higher. */
+  @media (max-width: 380px) { .rfq-hero h1 { font-size: 1.8rem; } }
   .rfq-trust-strip {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
     max-width: 880px; margin: 0 auto;
@@ -158,7 +161,8 @@
   <div class="container hero-inner">
     <p class="eyebrow">Request a Quote</p>
     <h1>Thinking about solar, battery or EV charging?</h1>
-    <p class="lede">Tell us a bit about your property below. We review your answers, and where a site visit is needed to check your switchboard, roof or supply, we'll arrange a time that suits you. You'll then receive a tailored system design and clear written proposal.</p>
+
+    <p class="lede">Tell us what you need in three quick steps. We'll design a system for your property and send you a clear written proposal.</p>
     <p class="hero-trust">Licensed NSW Electrical Contractor<span class="dot"></span>Sydney-based</p>
   </div>
 </section>

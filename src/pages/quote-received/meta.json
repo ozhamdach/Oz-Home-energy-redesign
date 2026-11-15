@@ -1,6 +1,6 @@
 {
-  "title": "Enquiry Received | Oz Home Energy",
-  "description": "Your enquiry has been received. Here's what happens next.",
+  "title": "Your Enquiry | Oz Home Energy",
+  "description": "Enquiry confirmation page for Oz Home Energy quote forms.",
   "canonical": "/quote-received/",
   "noindex": true,
   "landingChrome": true,
@@ -18,7 +18,7 @@
       "url": "/assessment/"
     },
     {
-      "name": "Enquiry received",
+      "name": "Your enquiry",
       "url": "/quote-received/"
     }
   ]

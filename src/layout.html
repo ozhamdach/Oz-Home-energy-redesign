@@ -11,6 +11,12 @@
      build — see scripts/build.js and src/partials/analytics-head.html —
      so the staging preview never contacts Google or Meta at all. -->
 <script>window.dataLayer = window.dataLayer || [];</script>
+<!-- Early ear for the HighLevel forms (15 Nov 2026). A form can announce
+     itself before /js/main.js (deferred) has started listening, and that
+     first message would be missed. This keeps only WHO spoke (the iframe's
+     window) and the message's NAME, never its contents, and only for
+     messages from the form domain. main.js picks them up when it starts. -->
+<script>(function(w){var h=w.__oheFormMsg={q:[],on:null};w.addEventListener('message',function(e){if(e.origin!=='https://link.ozhomeenergy.com.au')return;var m={source:e.source,name:Array.isArray(e.data)&&typeof e.data[0]==='string'?e.data[0]:''};if(h.on)h.on(m);else if(h.q.length<200)h.q.push(m);});})(window);</script>
 {{ANALYTICS_HEAD}}
 <title>{{TITLE}}</title>
 <meta name="description" content="{{DESCRIPTION}}">

@@ -46,6 +46,11 @@ every call a true no-op. The following events already fire:
 
 ## What is still deliberately NOT implemented client-side
 
+> **Superseded 15 Nov 2026.** The hook this section says is unconfirmed has
+> now been read from HighLevel's form code and is used, with origin and
+> source checks. See "Quote-to-lead journey audit" below. The text is kept
+> for history.
+
 **No "successful lead" event fires for the HighLevel-embedded forms**
 (`/assessment/`, and the homepage quick-quote widget — see
 `docs/04-highlevel-integration.md`). Both now use HighLevel's own iframe
@@ -124,10 +129,72 @@ setting from Oz:
    the browser pixel is blocked. Verify the action name in the account; it
    has not been checked from this repo.
 
-Known limitation: the pixel `Lead` fires on every load of `/quote-received/`,
-including a refresh. Meta de-duplicates browser + CAPI events only when
-both carry the same `event_id`, which the HighLevel side would need to
-supply; treat the browser event as the primary signal until then.
+~~Known limitation: the pixel `Lead` fires on every load of
+`/quote-received/`, including a refresh.~~ Fixed 15 Nov 2026, see the next
+section. Meta de-duplicates browser + CAPI events only when both carry the
+same `event_id`, which the HighLevel side would need to supply; treat the
+browser event as the primary signal until then.
+
+## Quote-to-lead journey audit (15 Nov 2026)
+
+**How a submit really reaches the confirmation page** (read from HighLevel's
+own form code and each form's published settings on 15 Nov 2026):
+
+1. The visitor presses the button inside the HighLevel iframe
+   (`https://link.ozhomeenergy.com.au/widget/form/<id>`).
+2. HighLevel's server accepts the POST.
+3. Only then, the form posts `["set-sticky-contacts", ...]` to the page it
+   is embedded in, and sets the top window's address to the form's
+   "redirect on submit" URL plus the form address's own query tags.
+4. Four forms have that redirect set to
+   `https://ozhomeenergy.com.au/quote-received/`: `2TfIfhVospnHx74eNcAP`,
+   `ILAJCu9qJyVzX582GAtX`, `OmaWW64OZ3FaCGGvEIgx`, `UyzHXWGEaLtIQqI9z2kc`.
+   `D54fnMMf1LWTXOCNlh28` (service request) has none, as intended.
+
+**What changed on the site**
+
+| Area | Before | Now |
+|---|---|---|
+| `/quote-received/` wording | "Thanks, your enquiry is in" on every visit | Only after a confirmed submit; otherwise "We can't confirm an enquiry from this page", with the phone number and the quote form |
+| `lead_submitted` + Pixel `Lead` | Every load: refresh, Back, typed address, shared link | Once per confirmed submit (rule below) |
+| Form loading | Spinner hidden on the iframe's `load` event or after 8 s, then nothing | Spinner stays until the form is heard from; after 12 s a notice with "Try again" and the phone number |
+| Quote steps | Reload returned to step 1 | Step and answers kept for the tab |
+| Ad tags | Only tags in the current page's address reached the form | First-touch `utm_*`, `gclid`, `fbclid` from earlier in the session are added to the form address when the current address lacks them |
+
+**The confirmed-lead rule** (`src/pages/quote-received/content.html`). The
+visit must be a fresh navigation (not a reload or Back/Forward) and one of:
+
+- **A, submit message:** the form guard in `site/js/main.js` received
+  `set-sticky-contacts` from origin `https://link.ozhomeenergy.com.au` and
+  from that form's own iframe window, less than 15 minutes ago.
+  `lead_source: 'highlevel_submit_message'`.
+- **B, referrer:** `document.referrer` is the form domain and a form was
+  open in this tab in the last 2 hours. Covers the case where the browser
+  left the page before the message was handled (seen in testing).
+  `lead_source: 'highlevel_form_redirect'`.
+
+Each marker is used up when counted. The message's payload holds the
+visitor's contact details and is **never read**: only the message name.
+
+**Events now pushed** (all non-personal):
+
+| Event | When | Data |
+|---|---|---|
+| `form_ready` | A form was heard from (it really loaded), once per form per page view | `form_id` |
+| `form_load_failed` | No word from the form within 12 s, once per form per page view. This is the measure of real customer-facing form outages | `form_id` |
+| `lead_submitted` | A confirmed submit, once | `lead_source`, `form_id`, `form_page`, `service` (step 1 answer, one of the five known options, or empty) |
+
+**GTM container `GTM-KTGM7X5H`, published version 3, read 15 Nov 2026:**
+
+- GA4 event tag "quote form submission" fires on *Page URL contains
+  `thank-you`*. No page on this site has that in its address
+  (`/quote-received/`), so **GA4 has not been recording quote submissions**.
+- The Google Ads conversion tag fires on `tel:` link clicks only. No Ads
+  conversion is tied to a form submission.
+- Nothing in the container listens for `lead_submitted`.
+- The Meta Pixel `Lead` is fired by the page itself, not by GTM.
+
+Owner steps are in `docs/owner-inputs-required.md`, "Quote-to-lead journey".
 
 The GitHub Pages deploy workflow now builds with `BUILD_TARGET=production`
 and `ENABLE_ANALYTICS=true`, so the deployed site carries GTM

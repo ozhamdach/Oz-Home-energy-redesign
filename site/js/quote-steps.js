@@ -62,6 +62,9 @@
     if (loadedQuery === q && frame.getAttribute('src')) return;
     loadedQuery = q;
     var url = formSrc + (q ? '?' + q : '');
+    // Adds the session's first-touch ad tags when this page's own address
+    // does not carry them (see "HighLevel form guard" in main.js).
+    if (window.OHE && typeof window.OHE.formUrl === 'function') url = window.OHE.formUrl(url);
     frame.setAttribute('data-ohe-src', url);
     frame.setAttribute('src', url);
     try { frame.dispatchEvent(new Event('ohe:embedstart')); } catch (e) { /* older browsers: the spinner clears on load */ }
@@ -83,6 +86,43 @@
     summary.hidden = false;
   }
 
+  // Progress is kept for this tab (15 Nov 2026), so a reload, a dropped
+  // connection or coming back from another page does not send the visitor
+  // back to step 1. Only the three answers and the step number are kept:
+  // no contact details ever pass through this script. The form guard in
+  // main.js clears it once an enquiry is confirmed sent.
+  var SAVE_KEY = 'ohe_quote_steps';
+  function save() {
+    try {
+      sessionStorage.setItem(SAVE_KEY, JSON.stringify({ page: window.location.pathname, step: current, goal: answers.goal, bill: answers.bill, time: answers.time, ts: Date.now() }));
+    } catch (e) { /* storage off: progress is simply not kept */ }
+  }
+  function restore() {
+    try {
+      var d = JSON.parse(sessionStorage.getItem(SAVE_KEY) || 'null');
+      if (!d || d.page !== window.location.pathname || !(Date.now() - d.ts < 2 * 60 * 60 * 1000)) return false;
+      var step = d.step === 2 || d.step === 3 ? d.step : 1;
+      var found = false;
+      var all = root.querySelectorAll('.qopt');
+      for (var i = 0; i < all.length; i++) {
+        var match = !!d.goal && all[i].getAttribute('data-goal') === d.goal;
+        all[i].setAttribute('aria-pressed', match ? 'true' : 'false');
+        if (match) found = true;
+      }
+      if (found) answers.goal = d.goal;
+      ['qbill', 'qtime'].forEach(function (name) {
+        var want = name === 'qbill' ? d.bill : d.time;
+        var radios = root.querySelectorAll('input[name="' + name + '"]');
+        for (var j = 0; j < radios.length; j++) {
+          if (want && radios[j].value === want) { radios[j].checked = true; answers[name === 'qbill' ? 'bill' : 'time'] = want; }
+        }
+      });
+      if (step === 1 && !found) return false;
+      go(step, false);
+      return true;
+    } catch (e) { return false; }
+  }
+
   function go(n, focus) {
     current = n;
     for (var i = 0; i < steps.length; i++) steps[i].hidden = Number(steps[i].getAttribute('data-step')) !== n;
@@ -97,6 +137,7 @@
       if (title) { title.focus({ preventScroll: true }); var top = root.getBoundingClientRect().top; if (top < 0 || top > window.innerHeight * 0.5) root.scrollIntoView({ block: 'start' }); }
     }
     pushEvent('form_step', { form_id: formLabel, step: n });
+    save();
   }
 
   root.addEventListener('click', function (e) {
@@ -117,6 +158,15 @@
     }
   });
 
+  // Keep step 2's answers as they are tapped, not only on Continue, so a
+  // reload on step 2 brings them back.
+  root.addEventListener('change', function (e) {
+    if (!e.target || (e.target.name !== 'qbill' && e.target.name !== 'qtime')) return;
+    answers.bill = checked('qbill');
+    answers.time = checked('qtime');
+    save();
+  });
+
   // A link such as /assessment/?for=battery (from a service page) or
   // /request-a-quote/?for=battery (from a battery ad) arrives with step 1
   // already answered.
@@ -126,5 +176,6 @@
     var pre = root.querySelector('.qopt[data-goal="' + map[m[1]] + '"]');
     if (pre) { pre.setAttribute('aria-pressed', 'true'); answers.goal = map[m[1]]; go(2, false); return; }
   }
+  if (restore()) return;
   pushEvent('form_step', { form_id: formLabel, step: 1 });
 })();

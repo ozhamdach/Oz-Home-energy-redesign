@@ -366,6 +366,258 @@ async function run(label, fn) {
     });
   }
 
+  // ===================================================================
+  // QUOTE-TO-LEAD JOURNEY (15 Nov 2026 audit). The real HighLevel form is
+  // never loaded or submitted here: every request to the form domain is
+  // answered by a stand-in page that behaves the way HighLevel's form does
+  // (read from its code on 15 Nov 2026): it posts ["iframeLoaded"] when it
+  // runs, and after an accepted submit it posts ["set-sticky-contacts", ...]
+  // (which carries contact details) and then sends the top window to the
+  // form's redirect address with the form address's own tags appended.
+  // These tests prove this site's handling. They do NOT prove that
+  // HighLevel received a lead: that needs a controlled live test.
+  // ===================================================================
+  const FORM_ORIGIN = 'https://link.ozhomeenergy.com.au';
+  const FAKE_PII = ['qa-person@example.com', '61400000000', 'QA Person'];
+  const standInForm = `<!doctype html><meta charset="utf-8"><title>stand-in form</title>
+    <style>body { margin: 0; padding: 60px 16px; } button { display: block; margin: 0 0 16px; padding: 12px; }</style>
+    <button id="invalid" type="button">Send with a required field empty</button>
+    <button id="ok" type="button">Send a valid form</button>
+    <script>
+      parent.postMessage(["iframeLoaded"], "*");
+      // A validation error: HighLevel shows its own message and nothing leaves the form.
+      document.getElementById("invalid").onclick = function () {};
+      document.getElementById("ok").onclick = function () {
+        parent.postMessage(["set-sticky-contacts", "_ud", JSON.stringify({ email: "qa-person@example.com", phone: "+61400000000", name: "QA Person" }), "loc", "fp"], "*");
+        var u = new URL(${JSON.stringify(BASE + '/quote-received/')});
+        new URLSearchParams(location.search).forEach(function (v, k) { u.searchParams.append(k, v); });
+        // HighLevel's form does more work between the message and the
+        // redirect; the gap here stands in for that. If the browser leaves
+        // before the page has handled the message, the marker is never
+        // written. That race is real, which is why /quote-received/ also
+        // accepts the form-domain referrer (tested separately below; a
+        // referrer cannot be produced here because this test runs on http).
+        setTimeout(function () { window.top.location.href = u.href; }, 250);
+      };
+    </script>`;
+  // mode: 'ok' answers with the stand-in form; 'blocked' refuses the connection.
+  const mockFormDomain = async (page, state) => {
+    await page.route(FORM_ORIGIN + '/**', (route) => {
+      const url = route.request().url();
+      if (url.includes('/js/form_embed.js')) return route.fulfill({ contentType: 'text/javascript', body: '/* stand-in */' });
+      if (state.mode === 'blocked') return route.abort('connectionrefused');
+      return route.fulfill({ contentType: 'text/html', body: standInForm });
+    });
+  };
+  const journeyInit = async (page, timeoutMs) => {
+    await page.addInitScript((ms) => {
+      window.dataLayer = window.dataLayer || [];
+      window.__fbq = [];
+      window.fbq = function () { window.__fbq.push(Array.prototype.slice.call(arguments)); };
+      if (ms) window.OHE_FORM_TIMEOUT_MS = ms;
+    }, timeoutMs || 0);
+  };
+  const leadState = (page) =>
+    page.evaluate(() => ({
+      state: (document.getElementById('enqCard') || { getAttribute: () => 'not the confirmation page' }).getAttribute('data-enq-state'),
+      h1: (document.querySelector('h1') || { textContent: '' }).textContent.trim(),
+      leads: (window.dataLayer || []).filter((e) => e && e.event === 'lead_submitted'),
+      pixelLeads: (window.__fbq || []).filter((a) => a[0] === 'track' && a[1] === 'Lead').length,
+      everything: JSON.stringify(window.dataLayer || []) + ' ' + JSON.stringify(window.__fbq || []) + ' ' + JSON.stringify(Object.assign({}, sessionStorage)) + ' ' + window.location.href,
+    }));
+  const walkToForm = async (page, path) => {
+    if (path === '/assessment/' || path === '/request-a-quote/') {
+      await page.click('.qopt[data-goal="Battery"]');
+      await page.check('input[name="qbill"][value="$500-$750 per quarter"]', { force: true });
+      await page.click('#qstepsNext');
+    }
+  };
+
+  for (const [path, viewport] of [['/assessment/', { width: 390, height: 844 }], ['/request-a-quote/', { width: 1440, height: 900 }], ['/contact/', { width: 390, height: 844 }], ['/ev-charging/', { width: 1440, height: 900 }], ['/', { width: 390, height: 844 }]]) {
+    await run(`${path} journey: form loads, a validation error counts nothing, one confirmed submit counts once`, async () => {
+      const page = await context.newPage();
+      await page.setViewportSize(viewport);
+      const state = { mode: 'ok' };
+      await mockFormDomain(page, state);
+      await journeyInit(page, 4000);
+      await page.goto(BASE + path, { waitUntil: 'load', timeout: 15000 });
+      await walkToForm(page, path);
+      // Put the form well clear of the sticky header and the phone's bottom
+      // bar: a click inside a cross-origin iframe is not hit-tested against
+      // this page, so a covered button would click whatever is on top of it.
+      const centreForm = () => page.evaluate(() => { const w = document.querySelector('.form-embed-wrap'); window.scrollTo(0, w.getBoundingClientRect().top + window.scrollY - 220); });
+      await centreForm();
+      await page.waitForFunction(() => document.querySelector('.form-embed-wrap').getAttribute('data-form-state') === 'ready', null, { timeout: 8000 });
+      const ready = await page.evaluate(() => ({
+        spinner: getComputedStyle(document.querySelector('.form-embed-wrap .form-embed-loading')).display,
+        notice: !!document.querySelector('.form-embed-notice'),
+        readyEvents: window.dataLayer.filter((e) => e.event === 'form_ready').length,
+        failed: window.dataLayer.filter((e) => e.event === 'form_load_failed').length,
+      }));
+      if (ready.spinner !== 'none') errors.push(`${path}: the loading spinner should go once the form is heard from`);
+      if (ready.notice || ready.failed) errors.push(`${path}: the "taking too long" notice must not show for a form that loaded`);
+      if (ready.readyEvents !== 1) errors.push(`${path}: expected one form_ready event, got ${ready.readyEvents}`);
+
+      // A message that only looks like the form's, sent by the page itself
+      // (wrong origin), must be ignored.
+      await page.evaluate(() => window.postMessage(['set-sticky-contacts', '_ud', '{}', 'loc', 'fp'], '*'));
+      // A validation error inside the form.
+      const frame = page.frameLocator('.form-embed-wrap iframe').first();
+      await centreForm();
+      await frame.locator('#invalid').click();
+      await page.waitForTimeout(300);
+      const afterInvalid = await page.evaluate(() => ({ pending: sessionStorage.getItem('ohe_lead_pending'), path: window.location.pathname, leads: window.dataLayer.filter((e) => e.event === 'lead_submitted').length }));
+      if (afterInvalid.pending) errors.push(`${path}: a spoofed message or a failed submit left a "lead pending" marker`);
+      if (afterInvalid.leads) errors.push(`${path}: a lead was counted without a confirmed submit`);
+      if (afterInvalid.path.indexOf('quote-received') !== -1) errors.push(`${path}: the visitor was sent to the confirmation page without a submit`);
+      if (afterInvalid.path !== new URL(BASE + path).pathname) errors.push(`${path}: test setup: the page changed to ${afterInvalid.path} before the submit`);
+
+      // A confirmed submit.
+      await Promise.all([page.waitForURL(/\/quote-received\//, { timeout: 8000 }), frame.locator('#ok').click()]);
+      await page.waitForLoadState('load');
+      let st = await leadState(page);
+      if (st.state !== 'confirmed' || st.h1 !== 'Thanks, your enquiry is in.') errors.push(`${path}: after a confirmed submit the page should say the enquiry is in, got "${st.h1}" (${st.state})`);
+      if (st.leads.length !== 1 || st.pixelLeads !== 1) errors.push(`${path}: expected exactly one lead_submitted and one Pixel Lead, got ${st.leads.length} and ${st.pixelLeads}`);
+      const lead = st.leads[0] || {};
+      if (lead.lead_source !== 'highlevel_submit_message') errors.push(`${path}: lead_source should be highlevel_submit_message, got ${lead.lead_source}`);
+      const formId = { '/assessment/': '2TfIfhVospnHx74eNcAP', '/request-a-quote/': '2TfIfhVospnHx74eNcAP', '/contact/': 'ILAJCu9qJyVzX582GAtX', '/': 'ILAJCu9qJyVzX582GAtX', '/ev-charging/': 'OmaWW64OZ3FaCGGvEIgx' }[path];
+      if (lead.form_id !== formId) errors.push(`${path}: the lead should name form ${formId}, got ${lead.form_id}`);
+      if ((path === '/assessment/' || path === '/request-a-quote/') && lead.service !== 'Battery') errors.push(`${path}: the lead should carry the chosen service "Battery", got "${lead.service}"`);
+      for (const pii of FAKE_PII) if (st.everything.includes(pii)) errors.push(`${path}: contact detail "${pii}" reached analytics, storage or the address`);
+
+      // Refresh: same wording, nothing counted again.
+      await page.reload({ waitUntil: 'load' });
+      st = await leadState(page);
+      if (st.state !== 'confirmed') errors.push(`${path}: a refresh after a confirmed submit should keep the confirmed wording`);
+      if (st.leads.length || st.pixelLeads) errors.push(`${path}: a refresh counted the lead again (${st.leads.length} dataLayer, ${st.pixelLeads} Pixel)`);
+      await page.close();
+    });
+  }
+
+  await run('confirmation page: a direct visit, a shared link and a bare referrer count nothing', async () => {
+    // Direct visit in a fresh tab, with a contact detail someone pasted into the address.
+    const direct = await context.newPage();
+    await journeyInit(direct);
+    await direct.goto(BASE + '/quote-received/?primary_goal=Battery&email=qa-person%40example.com', { waitUntil: 'load', timeout: 15000 });
+    let st = await leadState(direct);
+    if (st.state !== 'unconfirmed') errors.push('/quote-received/ direct visit: must not say the enquiry is in');
+    if (/enquiry is in/i.test(st.h1)) errors.push('/quote-received/ direct visit: heading claims the enquiry was received');
+    if (st.leads.length || st.pixelLeads) errors.push(`/quote-received/ direct visit: counted a lead (${st.leads.length} dataLayer, ${st.pixelLeads} Pixel)`);
+    const search = await direct.evaluate(() => window.location.search);
+    if (search.includes('email') || !search.includes('primary_goal=Battery')) errors.push(`/quote-received/: unknown address tags should be dropped and known ones kept, got "${search}"`);
+    const tel = await direct.locator('#enqUnconfirmed a[href="tel:+61435336336"]').count();
+    if (!tel) errors.push('/quote-received/ direct visit: the phone number should be offered');
+    await direct.close();
+
+    // The form domain as referrer, but no form was open in this tab.
+    const bare = await context.newPage();
+    await journeyInit(bare);
+    await bare.goto(BASE + '/quote-received/', { waitUntil: 'load', timeout: 15000, referer: FORM_ORIGIN + '/' });
+    st = await leadState(bare);
+    if (st.state !== 'unconfirmed' || st.leads.length || st.pixelLeads) errors.push('/quote-received/: a referrer alone, with no form opened in the tab, must not count a lead');
+    await bare.close();
+
+    // Fallback signal: a form was open in this tab and the browser says the
+    // visit came from the form domain (the message was blocked).
+    const fb = await context.newPage();
+    const state = { mode: 'ok' };
+    await mockFormDomain(fb, state);
+    await journeyInit(fb, 4000);
+    await fb.goto(BASE + '/contact/', { waitUntil: 'load', timeout: 15000 });
+    await fb.waitForFunction(() => document.querySelector('.form-embed-wrap').getAttribute('data-form-state') === 'ready', null, { timeout: 8000 });
+    await fb.goto(BASE + '/quote-received/', { waitUntil: 'load', timeout: 15000, referer: FORM_ORIGIN + '/' });
+    st = await leadState(fb);
+    const ref = await fb.evaluate(() => document.referrer);
+    if (ref.indexOf(FORM_ORIGIN) !== 0) errors.push(`fallback test setup: document.referrer was "${ref}"`);
+    if (st.state !== 'confirmed' || st.leads.length !== 1 || st.leads[0].lead_source !== 'highlevel_form_redirect') errors.push(`/quote-received/: form-domain referrer plus a form opened in the tab should count one lead by the fallback signal, got ${JSON.stringify(st.leads)} (${st.state})`);
+    // Coming back by a second fresh navigation must not count again.
+    await fb.goto(BASE + '/quote-received/', { waitUntil: 'load', timeout: 15000, referer: FORM_ORIGIN + '/' });
+    st = await leadState(fb);
+    if (st.leads.length || st.pixelLeads) errors.push('/quote-received/: the same submit was counted twice on a second visit');
+    await fb.close();
+  });
+
+  for (const [path, viewport] of [['/assessment/', { width: 390, height: 844 }], ['/contact/', { width: 1440, height: 900 }]]) {
+    await run(`${path} journey: a blocked form shows a way forward, keeps the answers and recovers on "Try again"`, async () => {
+      const page = await context.newPage();
+      await page.setViewportSize(viewport);
+      const state = { mode: 'blocked' };
+      await mockFormDomain(page, state);
+      await journeyInit(page, 1200);
+      await page.goto(BASE + path, { waitUntil: 'load', timeout: 15000 });
+      await walkToForm(page, path);
+      await page.waitForSelector('.form-embed-notice', { timeout: 8000 });
+      const blocked = await page.evaluate(() => {
+        const n = document.querySelector('.form-embed-notice');
+        const call = n.querySelector('a[href^="tel:"]');
+        const r = n.getBoundingClientRect();
+        return {
+          role: n.getAttribute('role'),
+          tel: call ? call.getAttribute('href') : '',
+          anyFormDomainLink: !!n.querySelector('a[href*="link.ozhomeenergy.com.au"]'),
+          retry: !!n.querySelector('button'),
+          visible: r.width > 0 && r.height > 0,
+          spinner: getComputedStyle(document.querySelector('.form-embed-wrap .form-embed-loading')).display,
+          claimsSent: /received|enquiry is in|thank/i.test(n.textContent),
+          failed: window.dataLayer.filter((e) => e.event === 'form_load_failed').length,
+          leads: window.dataLayer.filter((e) => e.event === 'lead_submitted').length,
+          pending: sessionStorage.getItem('ohe_lead_pending'),
+          summary: (document.getElementById('qstepsSummary') || { textContent: '' }).textContent,
+          overflowX: document.documentElement.scrollWidth > window.innerWidth + 1,
+        };
+      });
+      if (blocked.role !== 'alert' || !blocked.visible) errors.push(`${path}: the blocked-form notice should be a visible alert`);
+      if (blocked.tel !== 'tel:+61435336336') errors.push(`${path}: the blocked-form notice should offer the phone number, got "${blocked.tel}"`);
+      if (blocked.anyFormDomainLink) errors.push(`${path}: the fallback must not depend on the form domain`);
+      if (!blocked.retry) errors.push(`${path}: the blocked-form notice should offer "Try again"`);
+      if (blocked.spinner !== 'none') errors.push(`${path}: the spinner should stop once the notice shows`);
+      if (blocked.claimsSent || blocked.leads || blocked.pending) errors.push(`${path}: a blocked form must not look like, or count as, a sent enquiry`);
+      if (blocked.failed !== 1) errors.push(`${path}: expected one form_load_failed event, got ${blocked.failed}`);
+      if (blocked.overflowX) errors.push(`${path}: the notice causes sideways scroll`);
+      if (path === '/assessment/' && !/A home battery/.test(blocked.summary)) errors.push(`${path}: the chosen answers should still show while the form is blocked, got "${blocked.summary}"`);
+
+      // The form domain comes back; "Try again" recovers without a page reload.
+      state.mode = 'ok';
+      await page.click('.form-embed-notice button');
+      await page.waitForFunction(() => document.querySelector('.form-embed-wrap').getAttribute('data-form-state') === 'ready', null, { timeout: 8000 });
+      const after = await page.evaluate(() => ({
+        notice: !!document.querySelector('.form-embed-notice'),
+        bill: document.querySelector('input[name="qbill"]:checked') ? document.querySelector('input[name="qbill"]:checked').value : '',
+        src: document.querySelector('.form-embed-wrap iframe').getAttribute('src'),
+      }));
+      if (after.notice) errors.push(`${path}: the notice should go once the form loads`);
+      if (path === '/assessment/' && (after.bill !== '$500-$750 per quarter' || !after.src.includes('primary_goal=Battery'))) errors.push(`${path}: answers were lost on "Try again"`);
+      await page.close();
+    });
+  }
+
+  await run('/assessment/ journey: progress survives a reload, and ad tags from an earlier page reach the form address', async () => {
+    const page = await context.newPage();
+    const state = { mode: 'ok' };
+    await mockFormDomain(page, state);
+    await journeyInit(page, 4000);
+    // Land on a service page from an ad, then click through to the quote page.
+    await page.goto(BASE + '/battery-storage/?utm_source=qa-ad&utm_campaign=qa-campaign&gclid=QA-GCLID&email=qa-person%40example.com', { waitUntil: 'load', timeout: 15000 });
+    await page.goto(BASE + '/assessment/', { waitUntil: 'load', timeout: 15000 });
+    await page.click('.qopt[data-goal="Solar and battery"]');
+    await page.check('input[name="qtime"][value="Within the next 3 months"]', { force: true });
+    await page.reload({ waitUntil: 'load' });
+    const restored = await page.evaluate(() => ({
+      count: document.getElementById('qstepsCount').textContent.trim(),
+      goal: (document.querySelector('.qopt[aria-pressed="true"]') || { getAttribute: () => '' }).getAttribute('data-goal'),
+      time: document.querySelector('input[name="qtime"]:checked') ? document.querySelector('input[name="qtime"]:checked').value : '',
+      saved: sessionStorage.getItem('ohe_quote_steps') || '',
+    }));
+    if (restored.count !== 'Step 2 of 3' || restored.goal !== 'Solar and battery' || restored.time !== 'Within the next 3 months') errors.push(`/assessment/: a reload on step 2 should restore the step and answers, got ${JSON.stringify(restored)}`);
+    await page.click('#qstepsNext');
+    const src = await page.evaluate(() => document.querySelector('#quoteSteps iframe').getAttribute('src'));
+    for (const want of ['primary_goal=Solar%20and%20battery', 'timeframe=Within%20the%20next%203%20months', 'utm_source=qa-ad', 'utm_campaign=qa-campaign', 'gclid=QA-GCLID']) {
+      if (!src.includes(want)) errors.push(`/assessment/: the form address should carry ${want}, got ${src}`);
+    }
+    if (/email|qa-person/.test(src) || /qa-person/.test(restored.saved)) errors.push('/assessment/: a contact detail from an earlier address reached the form address or saved progress');
+    await page.close();
+  });
+
   await run('both quote pages offer the same answers, word for word', async () => {
     // The option values are the HighLevel form's own option text. The two
     // pages must not drift apart, or one of them sends a blank answer.

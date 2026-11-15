@@ -909,6 +909,39 @@ thank-you page. Needed from Oz, in the HighLevel account:
       embed passes into the form, so attribution can be fixed properly
 See docs/analytics-integration.md, "Lead event via thank-you redirect".
 
+### 🔴 Quote-to-lead journey (15 Nov 2026 audit): what only Oz can do
+Site-side work is done and tested with a stand-in form (see
+`docs/analytics-integration.md`, "Quote-to-lead journey audit"). These need
+Oz's accounts or a real submission:
+- [ ] **GTM: count form leads.** In container `GTM-KTGM7X5H`: create a
+      trigger *Custom Event*, event name `lead_submitted`. Move the GA4
+      "quote form submission" tag onto it (its current trigger, Page URL
+      contains `thank-you`, matches no page on this site, so GA4 has
+      recorded no quote submissions). If form leads should count as a
+      Google Ads conversion, add an Ads conversion tag on the same trigger;
+      today the only Ads conversion is phone-link clicks. Do **not** add a
+      Meta `Lead` tag in GTM: the page already fires it.
+- [ ] **One controlled live test, after this change is live.** From a link
+      such as `/battery-storage/?utm_source=test&utm_campaign=journey-test`
+      click through to the quote form, submit once with your own details,
+      and check: (1) the page says "Thanks, your enquiry is in."; (2) in
+      GTM preview there is exactly one `lead_submitted`, and note its
+      `lead_source`; (3) refresh: no second event; (4) the HighLevel
+      contact shows Primary Goal, bill range, timeframe and the `test`
+      source; (5) your confirmation email/SMS wording is accurate.
+- [ ] **Not verified from here:** whether HighLevel records the ad tags
+      that arrive in the form's address as the contact's source. The three
+      latest submissions read on 15 Nov were all "Direct traffic", so none
+      could show it. The live test above settles it.
+- [x] **Redirect on submit** is set to `/quote-received/` on all four
+      enquiry forms (read from each form's published settings, 15 Nov 2026).
+- [x] **Field mapping** for the quote steps: `primary_goal` → Primary Goal
+      (`tAK3uBE3A9TJ06HK38Rr`), `multi_dropdown_3ea2` → Average quarterly
+      energy bill (`3bCCxKaO7C9yAzXcXxLx`), `timeframe` → Timeframe
+      (`QqoOqRBEwbyANnEt76wV`). Confirmed against the HighLevel field list
+      and two real submissions from /assessment/ on 14 Nov 2026 that stored
+      those values. Option text on the site matches HighLevel's exactly.
+
 ### 🔴 Lead forms: HighLevel changes (5 Nov 2026, from the Lead Form Redesign artifact)
 The site's live lead forms are all HighLevel embeds, so their fields can
 only be changed in HighLevel's form builder. The site side is done: the
@@ -920,10 +953,11 @@ the outcome line and a "why we ask" line beside the form.
 Settings → On submit → Redirect to URL →
 `https://ozhomeenergy.com.au/quote-received/` (until the domain cutover:
 `https://ozhamdach.github.io/Oz-Home-energy-redesign/quote-received/`).
-- [ ] `2TfIfhVospnHx74eNcAP` "Google/Meta ads Request a Quote" (/assessment/, /request-a-quote/)
-- [ ] `ILAJCu9qJyVzX582GAtX` "Quick Free Quote" (Home, /contact/)
-- [ ] `OmaWW64OZ3FaCGGvEIgx` "Quick Free Quote - Ev Charger" (/ev-charging/)
-- [ ] `UyzHXWGEaLtIQqI9z2kc` "commercial project" (/commercial-project-enquiry/)
+- [x] `2TfIfhVospnHx74eNcAP` "Google/Meta ads Request a Quote" (/assessment/, /request-a-quote/)
+- [x] `ILAJCu9qJyVzX582GAtX` "Quick Free Quote" (Home, /contact/)
+- [x] `OmaWW64OZ3FaCGGvEIgx` "Quick Free Quote - Ev Charger" (/ev-charging/)
+- [x] `UyzHXWGEaLtIQqI9z2kc` "commercial project" (/commercial-project-enquiry/)
+  (All four read as set on 15 Nov 2026.)
 - Leave `D54fnMMf1LWTXOCNlh28` "Service Request" as is: it's for existing
   customers with a fault, not a new enquiry.
 

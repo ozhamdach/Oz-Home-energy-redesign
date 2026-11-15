@@ -463,20 +463,34 @@
     if (iframe.getAttribute('src')) g.start();
   });
 
-  window.addEventListener('message', function (e) {
-    if (e.origin !== FORM_ORIGIN) return;
+  // Messages from the form. The listener itself is the small inline script
+  // in src/layout.html's <head>, so a form that speaks before this deferred
+  // file runs is still heard; it has already checked the origin and passes
+  // on only the sender's window and the message name. If that inline script
+  // is ever missing, listen here instead.
+  function onFormMessage(m) {
     var g = null;
     for (var i = 0; i < guards.length; i++) {
-      if (guards[i].iframe.contentWindow === e.source) { g = guards[i]; break; }
+      if (guards[i].iframe.contentWindow === m.source) { g = guards[i]; break; }
     }
     if (!g) return;
     g.markAlive();
-    // Only the message name is read. See note 3 at the top of this block.
-    if (Array.isArray(e.data) && e.data[0] === 'set-sticky-contacts') {
+    // Only the message name is used. See note 3 at the top of this block.
+    if (m.name === 'set-sticky-contacts') {
       store('ohe_lead_pending', { form: g.formId, page: window.location.pathname, ts: Date.now() });
       try { sessionStorage.removeItem('ohe_quote_steps'); } catch (err) { /* best effort */ }
     }
-  });
+  }
+  var early = window.__oheFormMsg;
+  if (early && early.q) {
+    early.q.splice(0).forEach(onFormMessage);
+    early.on = onFormMessage;
+  } else {
+    window.addEventListener('message', function (e) {
+      if (e.origin !== FORM_ORIGIN) return;
+      onFormMessage({ source: e.source, name: Array.isArray(e.data) && typeof e.data[0] === 'string' ? e.data[0] : '' });
+    });
+  }
 
   // Deferred loading.
   function load(f) {
